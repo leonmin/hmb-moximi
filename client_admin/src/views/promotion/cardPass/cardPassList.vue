@@ -160,7 +160,7 @@ export default {
   methods: {
     // 启用或停用
     startAndStop(row) {
-      this.$confirm(row.status === 0 ? '是否停用' : '是否启用' + ', 是否继续?', '提示', {
+      this.$confirm(row.status === 0 ? '确认停用,是否继续?' : '确认启用,是否继续?' + ', ', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'

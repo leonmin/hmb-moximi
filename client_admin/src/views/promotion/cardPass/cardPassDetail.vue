@@ -212,7 +212,7 @@ export default {
   }
   .lineContent1{
     flex: 1;
-    background-color: rgba(242, 242, 242, 1);
+    background-color: #D9ECFF;
     font-size: 18px;
     font-weight: bold;
     min-height: 55px;
@@ -222,7 +222,7 @@ export default {
   .line{
     display: flex;
     width: 100%;
-    border: 1px solid #c2c2c2;
+    border: 1px solid #dcdcdc;
   }
   .lineBox{
     width: 100%;

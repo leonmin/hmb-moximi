@@ -1,9 +1,9 @@
 <template>
   <div v-loading="loading" class="main">
     <div class="title">合伙人列表</div>
-    <el-form :inline="true" :model="ruleForm" class="demo-form-inline" label-width="80px" style="margin-top: 30px">
+    <el-form :inline="true" :model="searchData" class="demo-form-inline" label-width="80px" style="margin-top: 30px">
       <el-form-item label="关键字" style="margin-left: 20px">
-        <el-input v-model="ruleForm.key" placeholder="用户名\手机号" />
+        <el-input v-model="searchData.key" placeholder="用户名\手机号" @input="loadList()" />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" style="margin-left: 30px" @click="loadList()">查询</el-button>
@@ -12,16 +12,20 @@
     </el-form>
     <!--表格-->
     <el-table :data="tableData" style="width: 95%;margin-left: 40px;" border :height="fullHeight-280+'px'">
-      <el-table-column prop="serialNumber" label="序号" min-width="150" show-overflow-tooltip />
-      <el-table-column prop="title" label="合伙人用户名" min-width="150" show-overflow-tooltip />
-      <el-table-column prop="name" label="合伙人手机号" min-width="180" show-overflow-tooltip />
-      <el-table-column prop="total" label="注册时间" min-width="150" show-overflow-tooltip />
-      <el-table-column prop="name" label="合伙人余额" min-width="120" show-overflow-tooltip />
-      <el-table-column prop="status" label="提成累计" min-width="120" show-overflow-tooltip />
-      <el-table-column prop="cardType" label="下级用户数" min-width="120" show-overflow-tooltip />
+      <el-table-column prop="id" label="序号" min-width="150" show-overflow-tooltip />
+      <el-table-column prop="userName" label="合伙人用户名" min-width="150" show-overflow-tooltip />
+      <el-table-column prop="mobile" label="合伙人手机号" min-width="180" show-overflow-tooltip>
+        <template slot-scope="scope">
+          <span>{{ scope.row.mobile | formatTel }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="addTime" label="注册时间" min-width="160" show-overflow-tooltip />
+      <el-table-column prop="partnerBalance" label="合伙人余额" min-width="120" show-overflow-tooltip />
+      <el-table-column prop="royaltyCount" label="提成累计" min-width="120" show-overflow-tooltip />
+      <el-table-column prop="subUser" label="下级用户数" min-width="120" show-overflow-tooltip />
       <el-table-column label="操作" show-overflow-tooltip width="150">
         <template slot-scope="scope">
-          <span style="cursor: pointer;color: #409EFF;margin-right: 15px" @click="lookDetail()">查看</span>
+          <span style="cursor: pointer;color: #409EFF;margin-right: 15px" @click="lookDetail(scope.row)">查看</span>
         </template>
       </el-table-column>
     </el-table>
@@ -40,27 +44,19 @@
 </template>
 
 <script>
+import { partnerList } from '@/api/partner'
 export default {
-  name: 'CardPassList',
+  name: 'PartnerList',
   // 存放 数据
   data: function() {
     return {
       loading: false,
       fullHeight: document.documentElement.clientHeight, // 页面高度
-      ruleForm: {
-        name: ''
-      },
-      tableData: [
-        {
-          name: '111'
-        }
-      ], // 表格数据
+      tableData: [], // 表格数据
       searchData: { // 筛选的数据
         pageNum: 1,
         pageSize: 10,
-        key: '', // 关键字
-        isExpire: '', // 是否过期
-        status: ''// 卡密名称
+        key: '' // 关键字
       },
       total: null// 总数
     }
@@ -93,17 +89,17 @@ export default {
       this.searchData = { // 筛选的数据
         pageNum: 1,
         pageSize: 10,
-        key: '', // 关键字
-        isExpire: '', // 是否过期
-        status: ''// 卡密名称
+        key: '' // 关键字
       }
       this.loadList()
     },
     // 查看
-    lookDetail() {
+    lookDetail(row) {
       this.$router.push({
         path: 'partnerDetail'
       })
+      const row2=JSON.stringify(row)
+      sessionStorage.setItem('partnerRow', row2)
     },
     // 当前页码
     handleSizeChange(val) {
@@ -116,7 +112,14 @@ export default {
       this.loadList()
     },
     loadList() {
-      this.loading = false
+      this.loading = true
+      partnerList(this.searchData).then(res => {
+        if (res.code === 0 || res.code === '0') {
+          this.total = res.data.total
+          this.tableData = res.data.records
+          this.loading = false
+        }
+      })
     }
   }
 }

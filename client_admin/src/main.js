@@ -27,6 +27,10 @@ Vue.filter('formatTel', function(value) {
   return value.substr(0, 3) + '****' + value.substr(7)
 })
 
+// 引入echarts
+import echarts from 'echarts'
+Vue.prototype.$echarts = echarts
+
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api

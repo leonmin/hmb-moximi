@@ -5,19 +5,19 @@
       <div class="lineBox">
         <div class="line">
           <div class="lineContent1">用户名</div>
-          <div class="lineContent2">王珂</div>
+          <div class="lineContent2">{{partnerRow.userName}}</div>
           <div class="lineContent1">合伙人手机号</div>
-          <div class="lineContent2">181xxxx8456</div>
+          <div class="lineContent2">{{partnerRow.mobile | formatTel}}</div>
           <div class="lineContent1">注册时间</div>
-          <div class="lineContent2">2109-10-11 12:21:31</div>
+          <div class="lineContent2">{{partnerRow.addTime}}</div>
         </div>
         <div class="line">
           <div class="lineContent1">下级用户数</div>
-          <div class="lineContent2" style="color: #3399FF;cursor: pointer" @click="toBelowList()">150人</div>
+          <div class="lineContent2" style="color: #3399FF;cursor: pointer" @click="toBelowList()">{{partnerRow.subUser===null?'':partnerRow.subUser+'人'}}</div>
           <div class="lineContent1">合伙人余额</div>
-          <div class="lineContent2">50000.00元</div>
+          <div class="lineContent2">{{partnerRow.partnerBalance===null?'':partnerRow.partnerBalance+'元'}}</div>
           <div class="lineContent1">提成累计</div>
-          <div class="lineContent2">80000.00元</div>
+          <div class="lineContent2">{{partnerRow.royaltyCount===null?'':partnerRow.royaltyCount+'元'}}</div>
         </div>
       </div>
     </el-card>
@@ -26,7 +26,7 @@
         <span style="font-weight: normal;margin-left: 10px">（总计：2322.20元）</span>
         <div style="color: red;font-size: 16px;margin-top: 10px">（注：近7日）</div>
       </div>
-      <div class="charts" />
+      <div id="myChart" class="charts" />
     </el-card>
   </div>
 </template>
@@ -39,6 +39,11 @@ export default {
     return {
       loading: false,
       fullHeight: document.documentElement.clientHeight // 页面高度
+    }
+  },
+  computed: {
+    partnerRow() {
+      return JSON.parse(sessionStorage.getItem('partnerRow'))
     }
   },
   watch: {
@@ -61,12 +66,35 @@ export default {
         that.fullHeight = window.fullHeight
       })()
     }
+    this.drawLine()
   },
   methods: {
     // 查看下级列表
     toBelowList() {
       this.$router.push({
         path: 'partnerBelowList'
+      })
+    },
+    drawLine() {
+      // 基于准备好的dom，初始化echarts实例
+      const myChart = this.$echarts.init(document.getElementById('myChart'))
+      // 绘制图表
+      myChart.setOption({
+        xAxis: {
+          type: 'category',
+          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        },
+        tooltip: {
+          trigger: 'axis'
+        },
+        color: ['#5EAAFD'],
+        yAxis: {
+          type: 'value'
+        },
+        series: [{
+          data: [820, 932, 901, 934, 1290, 1330, 1320],
+          type: 'line'
+        }]
       })
     }
   }
@@ -77,7 +105,6 @@ export default {
   .charts{
     width: 70%;
     height: 500px;
-    background: skyblue;
     margin: 0 auto;
     min-width: 800px;
   }
@@ -95,7 +122,7 @@ export default {
   }
   .lineContent1{
     flex: 1;
-    background-color: rgba(242, 242, 242, 1);
+    background-color: #D9ECFF;
     font-size: 18px;
     font-weight: bold;
     min-height: 60px;
@@ -105,7 +132,7 @@ export default {
   .line{
     display: flex;
     width: 100%;
-    border: 1px solid #c2c2c2;
+    border: 1px solid #dcdcdc;
   }
   .lineBox{
     width: 100%;
@@ -120,7 +147,7 @@ export default {
     width:calc(100% - 40px);
     margin-left: 20px;
     margin-top: 20px;
-    min-width: 1000px;
+    min-width: 800px;
   }
   .title{
     font-size: 22px;
