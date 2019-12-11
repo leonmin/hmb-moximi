@@ -1,5 +1,5 @@
 <template>
-  <div class="main" :style="{height:fullHeight-50+'px'}">
+  <div v-loading="loading" class="main" :style="{height:fullHeight-50+'px'}">
     <div class="title">添加卡密</div>
     <el-form
       ref="ruleForm"
@@ -42,7 +42,7 @@
         <el-radio v-model="ruleForm.cardType" label="2">年卡</el-radio>
       </el-form-item>
       <el-form-item label="绑定合伙人" class="form-item" style="width: 700px;">
-        <el-select v-model="ruleForm.partnerId" placeholder="请选择" clearable @change="select">
+        <el-select v-model="ruleForm.partnerName" placeholder="请选择" clearable @change="select">
           <el-option
             v-for="item in options"
             :key="item.id "
@@ -157,9 +157,11 @@ export default {
     sure(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          this.loading = true
           addExchangeCard(this.ruleForm).then(res => {
             if (res.code === 0 || res.code === '0') {
               this.$message.success('操作成功!')
+              this.loading = false
             }
           })
         }

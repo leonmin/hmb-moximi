@@ -244,6 +244,33 @@ export const asyncRoutes = [
       }
     ]
   },
+  // 运营
+  {
+    path: '/operation',
+    component: Layout,
+    redirect: '/operation/couponOperation',
+    name: 'operation',
+    meta: {
+      title: '运营',
+      icon: 'example',
+      roles: ['admin']
+    },
+    children: [
+      {
+        path: 'couponOperation',
+        name: 'couponOperation',
+        component: () => import('@/views/operation/couponOperation'),
+        meta: { title: '优惠券运营' }
+      },
+      {
+        path: 'couponOperationLook',
+        name: 'couponOperationLook',
+        component: () => import('@/views/operation/couponOperationLook'),
+        meta: { title: '查看' },
+        hidden: true
+      }
+    ]
+  },
   // {
   //   path: '/tenant',
   //   component: Layout,

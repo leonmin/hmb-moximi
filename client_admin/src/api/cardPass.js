@@ -26,3 +26,20 @@ export function listExchangeCard(data) {
   })
 }
 
+// 启用/停用
+export function startAndStopCard(data) {
+  return request({
+    url: '/admin/exchangeCard/startAndStopCard',
+    method: 'post',
+    params: data
+  })
+}
+
+// 卡密明细
+export function pageList(data) {
+  return request({
+    url: '/admin/UserExchangeCard/pageList',
+    method: 'get',
+    params: data
+  })
+}
