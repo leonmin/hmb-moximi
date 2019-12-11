@@ -94,6 +94,13 @@ export const asyncRoutes = [
             name: 'cardPassAdd',
             component: () => import('@/views/promotion/cardPass/cardPassAdd'),
             meta: { title: '卡密添加' }
+          },
+          {
+            path: 'cardPassDetail',
+            name: 'cardPassDetail',
+            component: () => import('@/views/promotion/cardPass/cardPassDetail'),
+            meta: { title: '卡密详情' },
+            hidden: true
           }
         ]
       }

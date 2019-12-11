@@ -31,7 +31,7 @@
       <el-table-column prop="name" label="适用范围" min-width="120" show-overflow-tooltip />
       <el-table-column label="操作" show-overflow-tooltip width="150">
         <template slot-scope="scope">
-          <span style="cursor: pointer;color: #409EFF;margin-right: 15px">查看</span>
+          <span style="cursor: pointer;color: #409EFF;margin-right: 15px" @click="lookDetail()">查看</span>
           <span style="cursor: pointer;color: #409EFF">启用</span>
         </template>
       </el-table-column>
@@ -117,6 +117,12 @@ export default {
     }
   },
   methods: {
+    // 查看
+    lookDetail() {
+      this.$router.push({
+        path: 'cardPassDetail'
+      })
+    },
     // 当前页码
     handleSizeChange(val) {
       this.searchData.pageSize = val

@@ -16,6 +16,11 @@ import '@/icons' // icon
 import VueClipboard from 'vue-clipboard2'
 import '@/permission' // permission control
 
+// 复制到粘贴板插件
+import Vueclipboard from 'vue-clipboard2'
+Vueclipboard.config.autoSetContainer = true
+Vue.use(Vueclipboard)
+
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
