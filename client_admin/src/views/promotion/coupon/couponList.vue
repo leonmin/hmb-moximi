@@ -154,7 +154,7 @@ export default {
     },
     // 优惠券启停
     RevStop(id, rs) {
-      console.log(rs)
+      console.log(rs,id)
       var stauts
       if (rs === 1) {
         stauts = '启用'

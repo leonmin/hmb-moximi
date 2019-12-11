@@ -159,6 +159,7 @@ export default {
         couponId: this.$route.query.id
       }
       couponDetail(params).then(res => {
+        console.log(111)
         this.couponsDetailsData = res.data
       })
     },

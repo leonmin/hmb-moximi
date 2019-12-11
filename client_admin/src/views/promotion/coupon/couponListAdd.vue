@@ -77,6 +77,7 @@ export default {
         if (valid) {
           alert('submit!')
         } else {
+          console.log(111)
           console.log('error submit!!')
           return false
         }
