@@ -1,38 +1,50 @@
 <template>
-  <div class="main">
+  <div v-loading="loading" class="main">
     <div class="title">卡密列表</div>
-    <el-form :inline="true" :model="ruleForm" class="demo-form-inline" label-width="80px" style="margin-top: 30px">
+    <el-form :inline="true" :model="searchData" class="demo-form-inline" label-width="80px" style="margin-top: 30px">
       <el-form-item label="关键字" style="margin-left: 20px">
-        <el-input v-model="ruleForm.name" placeholder="编号\优惠卷名称" />
+        <el-input v-model="searchData.title" placeholder="编号\卡密名称" @input="loadList()" />
       </el-form-item>
       <el-form-item label="是否过期">
-        <el-select v-model="ruleForm.name" placeholder="请选择" clearable>
+        <el-select v-model="searchData.isExpire" placeholder="请选择" clearable @change="loadList()">
           <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
       </el-form-item>
       <el-form-item label="状态">
-        <el-select v-model="ruleForm.name" placeholder="请选择" clearable>
+        <el-select v-model="searchData.status" placeholder="请选择" clearable @change="loadList()">
           <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" style="margin-left: 30px">查询</el-button>
-        <el-button type="info" style="margin-left: 30px">重置</el-button>
+        <el-button type="primary" style="margin-left: 30px" @click="loadList()">查询</el-button>
+        <el-button type="info" style="margin-left: 30px" @click="reset()">重置</el-button>
       </el-form-item>
     </el-form>
     <!--表格-->
     <el-table :data="tableData" style="width: 95%;margin-left: 40px;" border :height="fullHeight-280+'px'">
-      <el-table-column prop="name" label="编号" min-width="150" show-overflow-tooltip />
-      <el-table-column prop="name" label="卡密名称" min-width="150" show-overflow-tooltip />
-      <el-table-column prop="name" label="有效期" min-width="180" show-overflow-tooltip />
-      <el-table-column prop="name" label="总发行量" min-width="150" show-overflow-tooltip />
-      <el-table-column prop="name" label="是否过期" min-width="120" show-overflow-tooltip />
-      <el-table-column prop="name" label="状态" min-width="120" show-overflow-tooltip />
-      <el-table-column prop="name" label="适用范围" min-width="120" show-overflow-tooltip />
+      <el-table-column prop="serialNumber" label="编号" min-width="150" show-overflow-tooltip />
+      <el-table-column prop="title" label="卡密名称" min-width="150" show-overflow-tooltip />
+      <el-table-column prop="validity" label="有效期" min-width="180" show-overflow-tooltip />
+      <el-table-column prop="total" label="总发行量" min-width="150" show-overflow-tooltip />
+      <el-table-column prop="outTime" label="是否过期" min-width="120" show-overflow-tooltip>
+        <template slot-scope="scope">
+          <span>{{ scope.row.outTime | outTime }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="status" label="状态" min-width="120" show-overflow-tooltip>
+        <template slot-scope="scope">
+          <span>{{ scope.row.status | status }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="cardType" label="适用范围" min-width="120" show-overflow-tooltip>
+        <template slot-scope="scope">
+          <span>{{ scope.row.cardType | cardType }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" show-overflow-tooltip width="150">
         <template slot-scope="scope">
-          <span style="cursor: pointer;color: #409EFF;margin-right: 15px">查看</span>
-          <span style="cursor: pointer;color: #409EFF">启用</span>
+          <span style="cursor: pointer;color: #409EFF;margin-right: 15px" @click="lookDetail(scope.row)">查看</span>
+          <span style="cursor: pointer;color: #409EFF" @click="startAndStop(scope.row)">{{ scope.row.status===0?'停用':'启用' }}</span>
         </template>
       </el-table-column>
     </el-table>
@@ -51,33 +63,59 @@
 </template>
 
 <script>
+import { listExchangeCard, startAndStopCard } from '@/api/cardPass'
 export default {
   name: 'CardPassList',
+  filters: {
+    /* 是否过期*/
+    outTime: function(data) {
+      if (data === 0 || data === '0') {
+        return '未过期'
+      } else {
+        return '已过期'
+      }
+    },
+    /* 适用范围*/
+    cardType: function(data) {
+      if (data === 0 || data === '0') {
+        return '月卡'
+      } else if (data === 1 || data === '1') {
+        return '季卡'
+      } else {
+        return '年卡'
+      }
+    },
+    /* 状态*/
+    status: function(data) {
+      if (data === 0 || data === '0') {
+        return '已启用'
+      } else {
+        return '已停用'
+      }
+    }
+  },
   // 存放 数据
   data: function() {
     return {
       loading: false,
       fullHeight: document.documentElement.clientHeight, // 页面高度
-      ruleForm: {
-        name: ''
-      },
       options: [
         {
-          value: '1',
+          value: 0,
           label: '未过期'
         },
         {
-          value: '2',
+          value: 1,
           label: '已过期'
         }
       ],
       options2: [
         {
-          value: '1',
+          value: 0,
           label: '启用中'
         },
         {
-          value: '2',
+          value: 1,
           label: '停用中'
         }
       ],
@@ -89,10 +127,12 @@ export default {
       searchData: { // 筛选的数据
         pageNum: 1,
         pageSize: 10,
-        startTime: '',
-        endTime: ''
+        title: '', // 关键字
+        isExpire: '', // 是否过期
+        status: ''// 卡密名称
       },
-      total: null// 总数
+      total: null, // 总数
+      status: '启用'
     }
   },
   watch: {
@@ -115,8 +155,49 @@ export default {
         that.fullHeight = window.fullHeight
       })()
     }
+    this.loadList()
   },
   methods: {
+    // 启用或停用
+    startAndStop(row) {
+      this.$confirm(row.status === 0 ? '是否停用' : '是否启用' + ', 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        const data = {
+          status: row.status === 0 ? 1 : 0,
+          id: row.id
+        }
+        startAndStopCard(data).then(res => {
+          if (res.code === 0 || res.code === '0') {
+            this.$message.success('操作成功!')
+            this.loadList()
+          }
+        })
+      }).catch(() => {
+
+      })
+    },
+    // 重置
+    reset() {
+      this.searchData = { // 筛选的数据
+        pageNum: 1,
+        pageSize: 10,
+        title: '', // 关键字
+        isExpire: '', // 是否过期
+        status: ''// 卡密名称
+      }
+      this.loadList()
+    },
+    // 查看
+    lookDetail(row) {
+      this.$router.push({
+        path: 'cardPassDetail'
+      })
+      const row2 = JSON.stringify(row)
+      sessionStorage.setItem('cardPassRow', row2)
+    },
     // 当前页码
     handleSizeChange(val) {
       this.searchData.pageSize = val
@@ -128,7 +209,14 @@ export default {
       this.loadList()
     },
     loadList() {
-
+      this.loading = true
+      listExchangeCard(this.searchData).then(res => {
+        if (res.code === 0 || res.code === '0') {
+          this.total = res.data.total
+          this.tableData = res.data.records
+          this.loading = false
+        }
+      })
     }
   }
 }

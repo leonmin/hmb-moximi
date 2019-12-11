@@ -16,6 +16,17 @@ import '@/icons' // icon
 import VueClipboard from 'vue-clipboard2'
 import '@/permission' // permission control
 
+// 复制到粘贴板插件
+import Vueclipboard from 'vue-clipboard2'
+Vueclipboard.config.autoSetContainer = true
+Vue.use(Vueclipboard)
+
+Vue.filter('formatTel', function(value) {
+  if (!value) return ''
+  value = value.toString()
+  return value.substr(0, 3) + '****' + value.substr(7)
+})
+
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
