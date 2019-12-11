@@ -40,7 +40,7 @@
         <el-button type="primary" class="search-btn">查询</el-button>
       </div>
       <!--表格-->
-      <el-table :data="tableData" style="width: 99%;margin-left: 15px;margin-top: 20px" border>
+      <el-table :data="tableData" style="width: 99%;margin-left: 15px;margin-top: 20px" border :height="fullHeight-580">
         <el-table-column prop="name" label="卡密密码" min-width="180" show-overflow-tooltip />
         <el-table-column prop="name" label="使用用户" min-width="150" show-overflow-tooltip />
         <el-table-column prop="name" label="用户手机号" min-width="150" show-overflow-tooltip />

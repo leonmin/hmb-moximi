@@ -1,19 +1,9 @@
 <template>
   <div v-loading="loading" class="main">
-    <div class="title">卡密列表</div>
+    <div class="title">合伙人列表</div>
     <el-form :inline="true" :model="ruleForm" class="demo-form-inline" label-width="80px" style="margin-top: 30px">
       <el-form-item label="关键字" style="margin-left: 20px">
-        <el-input v-model="ruleForm.key" placeholder="编号\优惠卷名称" />
-      </el-form-item>
-      <el-form-item label="是否过期">
-        <el-select v-model="ruleForm.isExpire" placeholder="请选择" clearable>
-          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="状态">
-        <el-select v-model="ruleForm.name" placeholder="请选择" clearable>
-          <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value" />
-        </el-select>
+        <el-input v-model="ruleForm.key" placeholder="用户名\手机号" />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" style="margin-left: 30px" @click="loadList()">查询</el-button>
@@ -22,17 +12,16 @@
     </el-form>
     <!--表格-->
     <el-table :data="tableData" style="width: 95%;margin-left: 40px;" border :height="fullHeight-280+'px'">
-      <el-table-column prop="serialNumber" label="编号" min-width="150" show-overflow-tooltip />
-      <el-table-column prop="title" label="卡密名称" min-width="150" show-overflow-tooltip />
-      <el-table-column prop="name" label="有效期" min-width="180" show-overflow-tooltip />
-      <el-table-column prop="total" label="总发行量" min-width="150" show-overflow-tooltip />
-      <el-table-column prop="name" label="是否过期" min-width="120" show-overflow-tooltip />
-      <el-table-column prop="status" label="状态" min-width="120" show-overflow-tooltip />
-      <el-table-column prop="cardType" label="适用范围" min-width="120" show-overflow-tooltip />
+      <el-table-column prop="serialNumber" label="序号" min-width="150" show-overflow-tooltip />
+      <el-table-column prop="title" label="合伙人用户名" min-width="150" show-overflow-tooltip />
+      <el-table-column prop="name" label="合伙人手机号" min-width="180" show-overflow-tooltip />
+      <el-table-column prop="total" label="注册时间" min-width="150" show-overflow-tooltip />
+      <el-table-column prop="name" label="合伙人余额" min-width="120" show-overflow-tooltip />
+      <el-table-column prop="status" label="提成累计" min-width="120" show-overflow-tooltip />
+      <el-table-column prop="cardType" label="下级用户数" min-width="120" show-overflow-tooltip />
       <el-table-column label="操作" show-overflow-tooltip width="150">
         <template slot-scope="scope">
           <span style="cursor: pointer;color: #409EFF;margin-right: 15px" @click="lookDetail()">查看</span>
-          <span style="cursor: pointer;color: #409EFF">启用</span>
         </template>
       </el-table-column>
     </el-table>
@@ -51,7 +40,6 @@
 </template>
 
 <script>
-import { listExchangeCard } from '@/api/cardPass'
 export default {
   name: 'CardPassList',
   // 存放 数据
@@ -62,26 +50,6 @@ export default {
       ruleForm: {
         name: ''
       },
-      options: [
-        {
-          value: '1',
-          label: '未过期'
-        },
-        {
-          value: '2',
-          label: '已过期'
-        }
-      ],
-      options2: [
-        {
-          value: '1',
-          label: '启用中'
-        },
-        {
-          value: '2',
-          label: '停用中'
-        }
-      ],
       tableData: [
         {
           name: '111'
@@ -134,7 +102,7 @@ export default {
     // 查看
     lookDetail() {
       this.$router.push({
-        path: 'cardPassDetail'
+        path: 'partnerDetail'
       })
     },
     // 当前页码
@@ -148,15 +116,7 @@ export default {
       this.loadList()
     },
     loadList() {
-      this.loading = true
-      listExchangeCard(this.searchData).then(res => {
-        if (res.code === 0 || res.code === '0') {
-          console.log(res)
-          this.total = res.data.total
-          this.tableData = res.data.records
-          this.loading = false
-        }
-      })
+      this.loading = false
     }
   }
 }

@@ -53,7 +53,7 @@ export const asyncRoutes = [
   {
     path: '/promotion',
     component: Layout,
-    redirect: '/promotion/couponList',
+    redirect: '/coupon/couponList',
     name: 'promotion',
     meta: { title: '促销', icon: 'nested', roles: ['admin'] },
     children: [
@@ -80,6 +80,7 @@ export const asyncRoutes = [
       {
         path: '/cardPass',
         name: 'cardPass',
+        redirect: '/cardPass/cardPassList',
         meta: { title: '卡密' },
         component: () => import('@/views/promotion/cardPass/cardPass'),
         children: [
@@ -200,6 +201,46 @@ export const asyncRoutes = [
         name: 'pushMoney',
         component: () => import('@/views/configCentre/pushMoney'),
         meta: { title: '提成设置' }
+      }
+    ]
+  },
+  // 合伙人
+  {
+    path: '/partner',
+    component: Layout,
+    redirect: '/partner/partnerList',
+    name: 'partner',
+    meta: {
+      title: '合伙人中心',
+      icon: 'nested',
+      roles: ['admin']
+    },
+    children: [
+      {
+        path: 'partnerList',
+        name: 'partnerList',
+        component: () => import('@/views/partner/partnerList'),
+        meta: { title: '合伙人列表' }
+      },
+      {
+        path: 'addPartner',
+        name: 'addPartner',
+        component: () => import('@/views/partner/addPartner'),
+        meta: { title: '合伙人添加' }
+      },
+      {
+        path: 'partnerDetail',
+        name: 'partnerDetail',
+        component: () => import('@/views/partner/partnerDetail'),
+        meta: { title: '合伙人详情' },
+        hidden: true
+      },
+      {
+        path: 'partnerBelowList',
+        name: 'partnerBelowList',
+        component: () => import('@/views/partner/partnerBelowList'),
+        meta: { title: '合伙人下级用户明细' },
+        hidden: true
       }
     ]
   },

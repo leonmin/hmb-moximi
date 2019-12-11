@@ -1,29 +1,64 @@
 <template>
   <div class="main" :style="{height:fullHeight-50+'px'}">
     <div class="title">添加卡密</div>
-    <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="100px" class="demo-ruleForm" style="margin-top: 30px;">
-      <el-form-item label="卡密名称" prop="ticheng" class="form-item">
+    <el-form
+      ref="ruleForm"
+      :model="ruleForm"
+      :rules="rules"
+      label-width="100px"
+      class="demo-ruleForm"
+      style="margin-top: 30px;"
+    >
+      <el-form-item label="卡密名称" prop="title" class="form-item">
         <el-input v-model="ruleForm.title" placeholder="请输入" />
       </el-form-item>
-      <el-form-item label="总发行量" prop="ticheng" class="form-item">
+      <el-form-item label="总发行量" prop="total" class="form-item">
         <el-input v-model="ruleForm.total" placeholder="请输入" />
       </el-form-item>
-      <el-form-item label="有效期" prop="ticheng" class="form-item" style="width: 700px;">
-        <el-date-picker v-model="ruleForm.beginDate" type="date" placeholder="请选择日期" class="picker" />
+      <el-form-item label="有效期" prop="beginDate" class="form-item" style="width: 700px;">
+        <el-date-picker
+          v-model="ruleForm.beginDate"
+          type="datetime"
+          placeholder="请选择开始日期"
+          class="picker"
+          format="yyyy-MM-dd"
+          value-format="yyyy-MM-dd HH:mm:ss"
+          default-time="00:00:00"
+        />
         <div class="picker-font">至</div>
-        <el-date-picker v-model="ruleForm.endDate" type="date" placeholder="请选择日期" class="picker" />
+        <el-date-picker
+          v-model="ruleForm.endDate"
+          type="datetime"
+          placeholder="请选择结束日期"
+          class="picker"
+          format="yyyy-MM-dd"
+          value-format="yyyy-MM-dd HH:mm:ss"
+          default-time="23:59:59"
+        />
       </el-form-item>
-      <el-form-item label="适用范围" prop="ticheng" class="form-item" style="width: 700px;">
-        <el-radio v-model="ruleForm.radio" label="1">月卡</el-radio>
-        <el-radio v-model="ruleForm.radio" label="2">季卡</el-radio>
-        <el-radio v-model="ruleForm.radio" label="3">年卡</el-radio>
+      <el-form-item label="适用范围" prop="cardType" class="form-item" style="width: 700px;">
+        <el-radio v-model="ruleForm.cardType" label="0">月卡</el-radio>
+        <el-radio v-model="ruleForm.cardType" label="1">季卡</el-radio>
+        <el-radio v-model="ruleForm.cardType" label="2">年卡</el-radio>
       </el-form-item>
-      <el-button type="primary" class="sure">确定</el-button>
+      <el-form-item label="绑定合伙人" class="form-item" style="width: 700px;">
+        <el-select v-model="ruleForm.partnerId" placeholder="请选择" clearable @change="select">
+          <el-option
+            v-for="item in options"
+            :key="item.id "
+            :label="item.userName"
+            :value="item "
+          />
+        </el-select>
+      </el-form-item>
+      <el-button type="primary" class="sure" @click="sure('ruleForm')">确定</el-button>
     </el-form>
   </div>
 </template>
 
 <script>
+import { addExchangeCard, allPartner } from '@/api/cardPass'
+
 export default {
   name: 'CardPassAdd',
   // 存放 数据
@@ -33,14 +68,51 @@ export default {
       fullHeight: document.documentElement.clientHeight, // 页面高度
       ruleForm: {
         title: '', // 卡密名称
-        radio: '1'
+        cardType: '0',
+        beginDate: '',
+        endDate: '',
+        partnerId: '', // 合伙人id
+        partnerName: ''// 合伙人名字
       },
       rules: { // 正则
-        ticheng: [
-          { required: true, message: '请设置续费提成比例!', trigger: 'blur' },
-          { pattern: /^(?:[1-9]?\d|99)$/, message: '请输入正确提成比例!' }
+        title: [
+          { required: true, message: '请输入卡密名称', trigger: 'blur' }
+        ],
+        total: [
+          { required: true, message: '请输入总发行量', trigger: 'blur' }
+        ],
+        beginDate: [
+          { required: true, message: '请选择有效期', trigger: 'blur' }
+        ],
+        cardType: [
+          { required: true, message: '请选择适用范围', trigger: 'blur' }
         ]
-      }
+      },
+      startTimeOptions: {
+        disabledDate: time => {
+          if (this.ruleForm.endDate) {
+            return (
+              time.getTime() > Date.now() ||
+                time.getTime() > new Date(this.ruleForm.endDate).getTime()
+            )
+          } else {
+            return time.getTime() > Date.now()
+          }
+        }
+      },
+      endTimeOptions: {
+        disabledDate: time => {
+          if (this.ruleForm.beginDate) {
+            return (
+              time.getTime() > Date.now() ||
+                time.getTime() < new Date(this.ruleForm.beginDate).getTime() - 1 * 24 * 60 * 59 * 1000
+            )
+          } else {
+            return time.getTime() > Date.now()
+          }
+        }
+      },
+      options: []
     }
   },
   watch: {
@@ -63,35 +135,69 @@ export default {
         that.fullHeight = window.fullHeight
       })()
     }
+    // 获取合伙人列表
+    allPartner().then(res => {
+      if (res.code === 0 || res.code === '0') {
+        this.options = res.data
+      }
+    })
   },
-  methods: {}
+  methods: {
+    // 选择下拉框
+    select(item) {
+      if (item !== null) {
+        this.ruleForm.partnerId = item.id
+        this.ruleForm.partnerName = item.userName
+      } else {
+        this.ruleForm.partnerId = ''
+        this.ruleForm.partnerName = ''
+      }
+    },
+    // 确定
+    sure(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          addExchangeCard(this.ruleForm).then(res => {
+            if (res.code === 0 || res.code === '0') {
+              this.$message.success('操作成功!')
+            }
+          })
+        }
+      })
+    }
+  }
 }
 </script>
 
 <style scoped>
-  .sure{
+  .sure {
     margin-left: 50px;
     margin-top: 20px;
   }
-  .picker-font{
+
+  .picker-font {
     float: left;
     margin-left: 20px;
     margin-right: 20px;
   }
-  .picker{
+
+  .picker {
     float: left;
   }
-  .form-item{
+
+  .form-item {
     width: 595px;
     margin-left: 20px;
   }
-  .title{
+
+  .title {
     font-size: 22px;
     margin-top: 20px;
     margin-left: 40px;
     font-weight: bold;
   }
-  .main{
+
+  .main {
     width: 100%;
     overflow: auto;
   }
