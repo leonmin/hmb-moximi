@@ -125,3 +125,27 @@ export function FinanceStatistics(data) {
     params: data
   })
 }
+// 优惠券管理
+export function couponList(data) {
+  return request({
+    url: '/admin/coupon/couponList',
+    method: 'get',
+    params: data
+  })
+}
+// 优惠券详情
+export function couponDetail(data) {
+  return request({
+    url: '/admin/coupon/couponDetail',
+    method: 'get',
+    params: data
+  })
+}
+// 优惠券启停
+export function couponEnable(data) {
+  return request({
+    url: '/admin/coupon/couponEnable',
+    method: 'post',
+    params: data
+  })
+}

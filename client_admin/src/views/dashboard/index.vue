@@ -133,8 +133,8 @@ export default {
       const params = {
         searchKey: this.nameInput,
         isMember: this.selectValue,
-        pageNum: this.currentPage,
-        pageSize: this.pageSize
+        pageNum: this.currentPage
+        // pageSize: this.pageSize
       }
       getUserList(params).then(res => {
         this.tableData = res.data

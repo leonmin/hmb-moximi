@@ -48,35 +48,62 @@ export const constantRoutes = [
  */
 export const asyncRoutes = [
   /*
-  优惠券
+  促销
    */
   {
-    path: '/sys',
+    path: '/promotion',
     component: Layout,
-    meta: {
-      title: '促销',
-      icon: 'nested',
-      roles: ['admin']
-    },
+    redirect: '/promotion/coupon/couponList',
+    name: 'promotion',
+    meta: { title: '促销', icon: 'nested', roles: ['admin'] },
     children: [
       {
-        path: 'adminList',
-        name: 'AdminList',
-        component: () => import('@/views/sys/adminList'),
+        path: 'coupon',
+        name: 'coupon',
+        redirect: '/promotion/coupon/couponList',
         meta: { title: '优惠券' },
+        component: () => import('@/views/promotion/coupon/coupon'),
         children: [
           {
-            path: 'role1',
-            name: 'Role1',
-            component: () => import('@/views/sys/role'),
+            path: 'couponList',
+            name: 'couponList',
+            component: () => import('@/views/promotion/coupon/couponList'),
+            meta: { title: '优惠券列表' }
+          },
+          {
+            path: 'couponsDetails',
+            name: 'couponsDetails',
+            hidden: true,
+            meta: { title: '优惠券详情' },
+            component: () => import('@/views/promotion/coupon/couponsDetails')
+          },
+          {
+            path: 'couponListAdd',
+            name: 'couponListAdd',
+            component: () => import('@/views/promotion/coupon/couponListAdd'),
             meta: { title: '优惠券添加' }
-          }]
+          }
+        ]
       },
       {
-        path: 'role',
-        name: 'Role',
-        component: () => import('@/views/sys/role'),
-        meta: { title: '优惠券添加' }
+        path: '/cardPass',
+        name: 'cardPass',
+        meta: { title: '卡密' },
+        component: () => import('@/views/promotion/cardPass/cardPass'),
+        children: [
+          {
+            path: 'cardPassList',
+            name: 'cardPassList',
+            component: () => import('@/views/promotion/cardPass/cardPassList'),
+            meta: { title: '卡密列表' }
+          },
+          {
+            path: 'cardPassAdd',
+            name: 'cardPassAdd',
+            component: () => import('@/views/promotion/cardPass/cardPassAdd'),
+            meta: { title: '卡密添加' }
+          }
+        ]
       }
     ]
   },
@@ -122,124 +149,150 @@ export const asyncRoutes = [
     ]
   },
   /*
-配置中心
+数据统计
  */
+  // {
+  //   path: '/stat',
+  //   component: Layout,
+  //   meta: {
+  //     title: '数据统计',
+  //     icon: 'nested',
+  //     roles: ['admin']
+  //   },
+  //   children: [
+  //     {
+  //       path: 'platform',
+  //       name: 'platform',
+  //       component: () => import('@/views/stat/platform'),
+  //       meta: {
+  //         title: '平台数据统计'
+  //       }
+  //     },
+  //     {
+  //       path: 'financial',
+  //       name: 'financial',
+  //       component: () => import('@/views/stat/financial'),
+  //       meta: {
+  //         title: '财务数据统计'
+  //       }
+  //     }
+  //   ]
+  // },
+  /* 配置中心*/
   {
-    path: '/stat',
+    path: '/configCentre',
     component: Layout,
+    redirect: '/configCentre/memberCardRenew',
+    name: 'configCentre',
     meta: {
-      title: '数据统计',
+      title: '配置中心',
       icon: 'nested',
       roles: ['admin']
     },
     children: [
       {
-        path: 'platform',
-        name: 'platform',
-        component: () => import('@/views/stat/platform'),
-        meta: {
-          title: '平台数据统计'
-        }
+        path: 'memberCardRenew',
+        name: 'memberCardRenew',
+        component: () => import('@/views/configCentre/memberCardRenew'),
+        meta: { title: '会员卡续费配置' }
       },
       {
-        path: 'financial',
-        name: 'financial',
-        component: () => import('@/views/stat/financial'),
-        meta: {
-          title: '财务数据统计'
-        }
+        path: 'pushMoney',
+        name: 'pushMoney',
+        component: () => import('@/views/configCentre/pushMoney'),
+        meta: { title: '提成设置' }
       }
     ]
   },
-  {
-    path: '/tenant',
-    component: Layout,
-    redirect: '/tenant/list',
-    name: 'Tenant',
-    meta: {
-      title: '充值管理',
-      icon: 'nested',
-      roles: ['admin']
-    },
-    children: [{
-      path: 'list',
-      component: () => import('@/views/user/list'), // Parent router-view
-      name: 'List',
-      meta: {
-        title: '用户列表',
-        icon: 'nested',
-        roles: ['admin']
-      }
-    },
-    {
-      path: 'recharge',
-      component: () => import('@/views/user/recharge'), // Parent router-view
-      name: 'Recharge',
-      hidden: true,
-      meta: {
-        title: '充值',
-        icon: 'nested',
-        roles: ['admin']
-      }
-    },
-    {
-      path: 'rechargeDetail',
-      component: () => import('@/views/user/rechargeDetail'), // Parent router-view
-      name: 'rechargeDetail',
-      hidden: true,
-      meta: {
-        title: '充值详情',
-        roles: ['admin']
-      }
-    },
-    {
-      path: 'bill',
-      component: () => import('@/views/user/bill'), // Parent router-view
-      name: 'Nested',
-      meta: {
-        title: '充值审核',
-        icon: 'nested',
-        roles: ['admin']
-      }
-    },
-    // {
-    //   path: 'realNameAuth/:realNameAuthType',
-    //   component: () => import('@/views/user/realNameAuth'), // Parent router-view
-    //   name: 'RealNameAuth',
-    //   hidden: true,
-    //   meta: {
-    //     title: '',
-    //     icon: 'nested',
-    //     roles: ['admin']
-    //   }
-    // },
-    // {
-    //   path: 'realNameAuth/1',
-    //   meta: {
-    //     icon: 'nested',
-    //     title: '个人实名认证审核'
-    //   }
-    // },
-    // {
-    //   path: 'realNameAuth/2',
-    //   meta: {
-    //     icon: 'nested',
-    //     title: '企业实名认证审核'
-    //   }
-    // },
-    {
-      path: 'userDetails',
-      component: () => import('@/views/user/userDetails'), // Parent router-view
-      name: 'DserDetails',
-      hidden: true,
-      meta: {
-        title: '用户详情',
-        icon: 'nested',
-        roles: ['admin']
-      }
-    }
-    ]
-  },
+  // {
+  //   path: '/tenant',
+  //   component: Layout,
+  //   redirect: '/tenant/list',
+  //   name: 'Tenant',
+  //   meta: {
+  //     title: '充值管理',
+  //     icon: 'nested',
+  //     roles: ['admin']
+  //   },
+  //   children: [{
+  //     path: 'list',
+  //     component: () => import('@/views/user/list'), // Parent router-view
+  //     name: 'List',
+  //     meta: {
+  //       title: '用户列表',
+  //       icon: 'nested',
+  //       roles: ['admin']
+  //     }
+  //   },
+  //   {
+  //     path: 'recharge',
+  //     component: () => import('@/views/user/recharge'), // Parent router-view
+  //     name: 'Recharge',
+  //     hidden: true,
+  //     meta: {
+  //       title: '充值',
+  //       icon: 'nested',
+  //       roles: ['admin']
+  //     }
+  //   },
+  //   {
+  //     path: 'rechargeDetail',
+  //     component: () => import('@/views/user/rechargeDetail'), // Parent router-view
+  //     name: 'rechargeDetail',
+  //     hidden: true,
+  //     meta: {
+  //       title: '充值详情',
+  //       roles: ['admin']
+  //     }
+  //   },
+  //   {
+  //     path: 'bill',
+  //     component: () => import('@/views/user/bill'), // Parent router-view
+  //     name: 'Nested',
+  //     meta: {
+  //       title: '充值审核',
+  //       icon: 'nested',
+  //       roles: ['admin']
+  //     }
+  //   },
+  //   // {
+  //   //   path: 'realNameAuth/:realNameAuthType',
+  //   //   component: () => import('@/views/user/realNameAuth'), // Parent router-view
+  //   //   name: 'RealNameAuth',
+  //   //   hidden: true,
+  //   //   meta: {
+  //   //     title: '',
+  //   //     icon: 'nested',
+  //   //     roles: ['admin']
+  //   //   }
+  //   // },
+  //   // {
+  //   //   path: 'realNameAuth/1',
+  //   //   meta: {
+  //   //     icon: 'nested',
+  //   //     title: '个人实名认证审核'
+  //   //   }
+  //   // },
+  //   // {
+  //   //   path: 'realNameAuth/2',
+  //   //   meta: {
+  //   //     icon: 'nested',
+  //   //     title: '企业实名认证审核'
+  //   //   }
+  //   // },
+  //   {
+  //     path: 'userDetails',
+  //     component: () => import('@/views/user/userDetails'), // Parent router-view
+  //     name: 'DserDetails',
+  //     hidden: true,
+  //     meta: {
+  //       title: '用户详情',
+  //       icon: 'nested',
+  //       roles: ['admin']
+  //     }
+  //   }
+  //   ]
+  // },
 
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }

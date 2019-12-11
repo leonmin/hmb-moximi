@@ -18,15 +18,15 @@ service.interceptors.request.use(
       // let each request carry token
       // ['X-Token'] is a custom headers key
       // please modify it according to the actual situation
-      console.log('请求的token:', getToken())
+      // console.log('请求的token:', getToken())
       config.headers['X-Mxm-Token'] = getToken()
     }
     return config
   },
   error => {
     // do something with request error
-    console.log('请求的时候失败...')
-    console.log(error) // for debug
+    // console.log('请求的时候失败...')
+    // console.log(error) // for debug
     return Promise.reject(error)
   }
 )
@@ -45,7 +45,7 @@ service.interceptors.response.use(
    */
   response => {
     const res = response.data
-    console.log('request请求结果:', res)
+    // console.log('request请求结果:', res)
     // if the custom code is not 20000, it is judged as an error.
     if (res.code !== 0 && res.code !== 200) {
       Message({
@@ -73,7 +73,7 @@ service.interceptors.response.use(
     }
   },
   error => {
-    console.log('response出错:' + error) // for debug
+    // console.log('response出错:' + error) // for debug
     Message({
       message: error.message,
       type: 'error',
