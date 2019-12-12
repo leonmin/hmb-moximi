@@ -26,3 +26,12 @@ export function partnerSubUserDetails(data) {
     params: data
   })
 }
+
+// 渠道提成收益
+export function partnerDetail(data) {
+  return request({
+    url: '/admin/user/partnerDetail',
+    method: 'get',
+    params: data
+  })
+}

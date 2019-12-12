@@ -1,23 +1,23 @@
 <template>
-  <div id="main" :style="{height:fullHeight-50+'px'}" v-loading="loading">
+  <div id="main" v-loading="loading" :style="{height:fullHeight-50+'px'}">
     <el-card class="box-card" shadow="hover">
       <div class="title">合伙人详情</div>
       <div class="lineBox">
         <div class="line">
           <div class="lineContent1">用户名</div>
-          <div class="lineContent2">{{partnerRow.userName}}</div>
+          <div class="lineContent2">{{ partnerRow.userName }}</div>
           <div class="lineContent1">合伙人手机号</div>
-          <div class="lineContent2">{{partnerRow.mobile | formatTel}}</div>
+          <div class="lineContent2">{{ partnerRow.mobile | formatTel }}</div>
           <div class="lineContent1">注册时间</div>
-          <div class="lineContent2">{{partnerRow.addTime}}</div>
+          <div class="lineContent2">{{ partnerRow.addTime }}</div>
         </div>
         <div class="line">
           <div class="lineContent1">下级用户数</div>
-          <div class="lineContent2" style="color: #3399FF;cursor: pointer" @click="toBelowList()">{{partnerRow.subUser===null?'':partnerRow.subUser+'人'}}</div>
+          <div class="lineContent2" style="color: #3399FF;cursor: pointer" @click="toBelowList()">{{ partnerRow.subUser===null?'':partnerRow.subUser+'人' }}</div>
           <div class="lineContent1">合伙人余额</div>
-          <div class="lineContent2">{{partnerRow.partnerBalance===null?'':partnerRow.partnerBalance+'元'}}</div>
+          <div class="lineContent2">{{ partnerRow.partnerBalance===null?'':partnerRow.partnerBalance+'元' }}</div>
           <div class="lineContent1">提成累计</div>
-          <div class="lineContent2">{{partnerRow.royaltyCount===null?'':partnerRow.royaltyCount+'元'}}</div>
+          <div class="lineContent2">{{ partnerRow.royaltyCount===null?'':partnerRow.royaltyCount+'元' }}</div>
         </div>
       </div>
     </el-card>
@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import { partnerDetail } from '@/api/partner'
 export default {
   name: 'PartnerDetail',
   // 存放 数据
@@ -76,25 +77,37 @@ export default {
       })
     },
     drawLine() {
-      // 基于准备好的dom，初始化echarts实例
-      const myChart = this.$echarts.init(document.getElementById('myChart'))
-      // 绘制图表
-      myChart.setOption({
-        xAxis: {
-          type: 'category',
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-        },
-        tooltip: {
-          trigger: 'axis'
-        },
-        color: ['#5EAAFD'],
-        yAxis: {
-          type: 'value'
-        },
-        series: [{
-          data: [820, 932, 901, 934, 1290, 1330, 1320],
-          type: 'line'
-        }]
+      this.loading = true
+      const params = {
+        userId: this.partnerRow.id
+      }
+      partnerDetail(params).then(res => {
+        if (res.code === 0 || res.code === '0') {
+          this.loading = false
+          console.log(res)
+          const chartData = res.data
+          // 基于准备好的dom，初始化echarts实例
+          const myChart = this.$echarts.init(document.getElementById('myChart'))
+          // 绘制图表
+          myChart.setOption({
+            xAxis: {
+              type: 'category',
+              data: chartData
+            },
+            tooltip: {
+              trigger: 'axis',
+              type: 'value'
+            },
+            color: ['#5EAAFD'],
+            yAxis: {
+              type: 'value'
+            },
+            series: [{
+              data: chartData,
+              type: 'line'
+            }]
+          })
+        }
       })
     }
   }

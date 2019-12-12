@@ -26,9 +26,9 @@
             />
           </el-form-item>
           <el-form-item label="适用范围" prop="couponCardType">
-            <el-radio v-model="ruleForm.couponCardType" label="0" @change="compute()">月卡</el-radio>
-            <el-radio v-model="ruleForm.couponCardType" label="1" @change="compute()">季卡</el-radio>
-            <el-radio v-model="ruleForm.couponCardType" label="2" @change="compute()">年卡</el-radio>
+            <el-radio v-model="ruleForm.couponCardType" label="0" @change="compute(100001)">月卡</el-radio>
+            <el-radio v-model="ruleForm.couponCardType" label="1" @change="compute(100002)">季卡</el-radio>
+            <el-radio v-model="ruleForm.couponCardType" label="2" @change="compute(100003)">年卡</el-radio>
           </el-form-item>
           <el-form-item label="优惠后会员卡价格">
             <span>{{ discount===null || discount===''?null:discount+'元' }}</span>
@@ -52,7 +52,8 @@ export default {
         couponDiscount: '',
         beginTime: '',
         endTime: '',
-        couponCardType: '0'
+        couponCardType: '0',
+        cardSku: 100001
       },
       date: [],
       rules: {
@@ -73,7 +74,8 @@ export default {
   },
   methods: {
     // 计算折扣价格
-    compute() {
+    compute(ev) {
+      this.ruleForm.cardSku = ev
       if (this.ruleForm.couponDiscount === null || this.ruleForm.couponDiscount === '') {
         this.discount = null
       } else {
