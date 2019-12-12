@@ -98,7 +98,7 @@ export default {
       this.$router.push({
         path: 'partnerDetail'
       })
-      const row2=JSON.stringify(row)
+      const row2 = JSON.stringify(row)
       sessionStorage.setItem('partnerRow', row2)
     },
     // 当前页码
