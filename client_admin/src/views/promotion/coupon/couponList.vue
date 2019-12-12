@@ -5,10 +5,10 @@
       <div class="searchItem">
         <p>关键词</p>
         <el-input
-          v-model="nameInput"
-          placeholder="用户名称/用户手机号"
-          style="width: 180px"
-          clearable
+            v-model="nameInput"
+            placeholder="用户名称/用户手机号"
+            style="width: 180px"
+            clearable
         />
       </div>
       <div class="searchItem" style="margin-left: 20px">
@@ -31,42 +31,42 @@
     </div>
     <!--    表格-->
     <el-table
-      border
-      :data="couponsData"
+        border
+        :data="couponsData"
     >
       <el-table-column
-        prop="id"
-        label="编号"
+          prop="id"
+          label="编号"
       />
       <el-table-column
-        prop="couponTitle"
-        label="优惠券名称"
+          prop="couponTitle"
+          label="优惠券名称"
       />
       <el-table-column
-        prop="endTime"
-        label="有效期"
+          prop="endTime"
+          label="有效期"
       >
         <template slot-scope="scope">
           <span>{{ scope.row.addTime.split('T')[0] }}<span style="margin: 0 5px">至</span>{{ scope.row.endTime.split('T')[0] }}</span>
         </template>
       </el-table-column>
       <el-table-column
-        prop="couponDiscount"
-        label="折扣数"
-        :formatter="discountChange"
+          prop="couponDiscount"
+          label="折扣数"
+          :formatter="discountChange"
       />
       <el-table-column
-        prop="enable"
-        label="状态"
-        :formatter="enableChange"
+          prop="enable"
+          label="状态"
+          :formatter="enableChange"
       />
       <el-table-column
-        prop="cardSku"
-        label="适用范围"
-        :formatter="typeChange"
+          prop="cardSku"
+          label="适用范围"
+          :formatter="typeChange"
       />
       <el-table-column
-        label="操作"
+          label="操作"
       >
         <template slot-scope="scope">
           <span class="tableOperation" @click="checkDetails(scope.row)">查看</span>
@@ -81,25 +81,25 @@
       <div class="pageination">
         <p style="display: inline-block">共{{ totalPage }}页/{{ totalNum }}条数据</p>
         <el-pagination
-          background
-          :current-page.sync="currentPage"
-          :page-size="pageSize"
-          layout="prev, pager, next, jumper"
-          :total="totalNum"
-          style="display: inline-block"
-          @current-change="currentChange"
+            background
+            :current-page.sync="currentPage"
+            :page-size="pageSize"
+            layout="prev, pager, next, jumper"
+            :total="totalNum"
+            style="display: inline-block"
+            @current-change="currentChange"
         />
       </div>
     </div>
     <!--    穿梭框-->
     <el-dialog title="下发优惠券" :visible.sync="dialogFormVisible">
       <el-transfer
-        v-model="value"
-        style="margin-left: 20px !important;"
-        filterable
-        :filter-method="filterMethod"
-        filter-placeholder="请输入城市拼音"
-        :data="data"
+          v-model="value"
+          style="margin-left: 20px !important;"
+          filterable
+          :filter-method="filterMethod"
+          filter-placeholder="请输入城市拼音"
+          :data="data"
       />
     </el-dialog>
   </div>

@@ -141,11 +141,30 @@ export function couponDetail(data) {
     params: data
   })
 }
+
 // 优惠券启停
 export function couponEnable(data) {
   return request({
     url: '/admin/coupon/couponEnable',
     method: 'post',
     params: data
+  })
+}
+
+// 计算优惠券折扣价
+export function getDiscountPrice(data) {
+  return request({
+    url: '/admin/coupon/getDiscountPrice',
+    method: 'get',
+    params: data
+  })
+}
+
+// 添加优惠券
+export function addCoupon(data) {
+  return request({
+    url: '/admin/coupon/addCoupon',
+    method: 'post',
+    data
   })
 }
