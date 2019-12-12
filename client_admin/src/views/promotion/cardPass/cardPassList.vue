@@ -119,11 +119,7 @@ export default {
           label: '停用中'
         }
       ],
-      tableData: [
-        {
-          name: '111'
-        }
-      ], // 表格数据
+      tableData: [], // 表格数据
       searchData: { // 筛选的数据
         pageNum: 1,
         pageSize: 10,
