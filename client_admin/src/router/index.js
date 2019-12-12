@@ -53,7 +53,7 @@ export const asyncRoutes = [
   {
     path: '/promotion',
     component: Layout,
-    redirect: '/coupon/couponList',
+    redirect: '/promotion/coupon/couponList',
     name: 'promotion',
     meta: { title: '促销', icon: 'nested', roles: ['admin'] },
     children: [

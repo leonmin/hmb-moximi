@@ -1,5 +1,5 @@
 <template>
-  <div id="main" :style="{height:fullHeight-50+'px'}">
+  <div id="main" :style="{height:fullHeight-50+'px'}" v-loading="loading">
     <el-card class="box-card" shadow="hover">
       <div class="title">合伙人详情</div>
       <div class="lineBox">

@@ -112,7 +112,6 @@ export default {
       this.loading = true
       partnerSubUserDetails(this.searchData).then(res => {
         if (res.code === 0 || res.code === '0') {
-          console.log(res)
           this.total = res.data.total
           this.tableData = res.data.records
           this.loading = false
