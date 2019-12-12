@@ -71,3 +71,11 @@ export function checkCash(data) {
   })
 }
 
+// 获取下级用户列表
+export function partnerSubUserDetails(data) {
+  return request({
+    url: '/admin/user/partnerSubUserDetails',
+    method: 'get',
+    params: data
+  })
+}

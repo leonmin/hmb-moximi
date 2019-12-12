@@ -72,7 +72,9 @@
         <el-table-column
           label="操作"
         >
-          <el-button type="default" @click="lowerDetails">查看</el-button>
+          <template v-slot="scope">
+            <el-button type="default" @click="lowerDetails(scope.row)">查看</el-button>
+          </template>
         </el-table-column>
       </el-table>
     </div>
@@ -147,8 +149,13 @@ export default {
       this.initData()
     },
     // 用户下级详情
-    lowerDetails() {
-      this.$router.push('/lowerDetails')
+    lowerDetails(row) {
+      this.$router.push({
+        path: '/lowerDetails?id=',
+        query: {
+          id: row.id
+        }
+      })
     },
     // 页码改变
     handleSizeChange() {},

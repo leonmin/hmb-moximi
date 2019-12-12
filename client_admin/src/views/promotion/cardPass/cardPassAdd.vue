@@ -108,7 +108,7 @@ export default {
                 time.getTime() < new Date(this.ruleForm.beginDate).getTime() - 1 * 24 * 60 * 59 * 1000
             )
           } else {
-            return time.getTime() > Date.now()
+            return time.getTime() < Date.now()
           }
         }
       },

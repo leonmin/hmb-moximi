@@ -1,5 +1,5 @@
 <template>
-<!--  提现审核-->
+  <!--  提现审核-->
   <div class="financial">
     <!--   搜索栏-->
     <div class="search clearfix">
@@ -9,8 +9,8 @@
           v-model="nameInput"
           placeholder="订单编号/提现人/提现账号"
           style="width: 180px"
-          clearable>
-        </el-input>
+          clearable
+        />
       </div>
       <div class="searchItem" style="margin-left: 20px">
         <p>审核状态</p>
@@ -25,46 +25,48 @@
     <!--表格    -->
     <el-table
       border
-      :data='tableData'>
+      :data="tableData"
+    >
       <el-table-column
         prop="no"
-        label="提现订单编号">
-      </el-table-column>
+        label="提现订单编号"
+      />
       <el-table-column
-      prop="userName"
-      label="提现人">
-      </el-table-column>
+        prop="userName"
+        label="提现人"
+      />
       <el-table-column
-      prop="mobile"
-      label="提现人手机号"
-      :formatter="changeMobile">
-      </el-table-column>
+        prop="mobile"
+        label="提现人手机号"
+        :formatter="changeMobile"
+      />
       <el-table-column
-      prop="addTime"
-      label="提现时间">
-      </el-table-column>
+        prop="addTime"
+        label="提现时间"
+      />
       <el-table-column
-      prop="alipayAccount"
-      label="提现账号">
-      </el-table-column>
+        prop="alipayAccount"
+        label="提现账号"
+      />
       <el-table-column
-      prop="cash"
-      label="提现金额"
-      :formatter="cashChange">
-      </el-table-column>
+        prop="cash"
+        label="提现金额"
+        :formatter="cashChange"
+      />
       <el-table-column
-      prop="balance"
-      label="钱包余额">
-      </el-table-column>
+        prop="balance"
+        label="钱包余额"
+      />
       <el-table-column
-      prop="applyStatus"
-      label="审核状态"
-      :formatter="statusCheck">
-      </el-table-column>
+        prop="applyStatus"
+        label="审核状态"
+        :formatter="statusCheck"
+      />
       <el-table-column
-        label="操作">
+        label="操作"
+      >
         <template slot-scope="scope">
-            <span @click="checkDetail(scope.index,scope.row)" style="cursor: pointer;color: #1c75ff">查看详情</span>
+          <span style="cursor: pointer;color: #1c75ff" @click="checkDetail(scope.index,scope.row)">{{ scope.row.applyStatus===0?'审核':'查看详情' }}</span>
         </template>
       </el-table-column>
     </el-table>

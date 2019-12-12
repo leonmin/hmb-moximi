@@ -1,87 +1,115 @@
 <template>
-  <div class="userDetails">
+  <div v-loading="loading" class="userDetails">
     <!--    页面标题-->
-<!--    <div class="pageTitle">-->
-<!--      <p>用户列表</p>-->
-<!--      <div class="deliver"></div>-->
-<!--    </div>-->
+    <!--    <div class="pageTitle">-->
+    <!--      <p>用户列表</p>-->
+    <!--      <div class="deliver"></div>-->
+    <!--    </div>-->
     <!--   搜索栏-->
     <div class="search clearfix">
       <div class="searchItem">
         <p>关键词</p>
         <el-input
-          v-model="valueInput"
+          v-model="searchData.key"
           placeholder="用户名称/用户手机号"
           style="width: 180px"
-          clearable>
-        </el-input>
+          clearable
+          @input="loadList()"
+        />
       </div>
-      <el-button type="primary" class="searchBtn">查询</el-button>
+      <el-button type="primary" class="searchBtn" @click="loadList()">查询</el-button>
     </div>
     <!-- 表格-->
     <el-table
       :data="tableData"
       border
-      style="width: 100%;min-height: 680px">
+      style="width: 100%;min-height: 680px"
+    >
       <el-table-column
-        prop="username"
-        label="用户名称">
-      </el-table-column>
+        prop="userName"
+        label="用户名称"
+      />
       <el-table-column
         prop="mobile"
-        label="用户手机号">
+        label="用户手机号"
+      >
+        <template v-slot="scope">
+          <span>{{ scope.row.mobile | formatTel }}</span>
+        </template>
       </el-table-column>
       <el-table-column
-        prop="regTime"
-        label="注册时间">
-      </el-table-column>
+        prop="addTime"
+        label="注册时间"
+      />
       <el-table-column
-        prop="isVIP"
-        label="是否会员">
+        prop="vipMember"
+        label="是否会员"
+      >
+        <template slot-scope="scope">
+          <span>{{ scope.row.vipMember?'是':'否' }}</span>
+        </template>
       </el-table-column>
     </el-table>
     <!--    分页-->
     <div class="pageList clearfix">
-      <div class="pageination">
-        <p style="display: inline-block">共10页/100条数据</p>
-        <el-pagination
-          background
-          @size-change="handleSizeChange"
-          @current-change="currentChange"
-          :current-page.sync="currentPage"
-          :page-size="pageSize"
-          layout="prev, pager, next, jumper"
-          :total="totalNum"
-          style="display: inline-block">
-        </el-pagination>
-      </div>
+      <!--分页-->
+      <el-pagination
+        style="float: right;margin-top: 20px;margin-right: 40px"
+        :current-page="searchData.pageNum"
+        :page-sizes="[10,30,50,100,200]"
+        :page-size="searchData.pageSize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+      />
     </div>
   </div>
 </template>
 
 <script>
+import { partnerSubUserDetails } from '@/api/user'
 export default {
   name: 'UserDetails',
   data() {
     return {
       valueInput: '',
-      tableData: [
-        // {
-        //   username: '',
-        //   mobile: '',
-        //   regTime: '',
-        //   isVIP: ''
-        // }
-      ],
-      currentPage: 1, // 当前页码
-      totalNum: 0, // 总条数
-      pageSize: 10 // 每页的数据条数
+      tableData: [],
+      searchData: {
+        pageNum: 1, // 当前页码
+        pageSize: 10, // 每页的数据条数
+        key: '',
+        id: ''
+      },
+      total: null,
+      loading: false
     }
   },
+  mounted() {
+    this.searchData.id = this.$route.query.id
+    this.loadList()
+  },
   methods: {
-    handleSizeChange() {},
-    currentChange(currentPage) {
-      this.currentPage = currentPage
+    // 当前页码
+    handleSizeChange(val) {
+      this.searchData.pageSize = val
+      this.loadList()
+    },
+    // 当前页数
+    handleCurrentChange(val) {
+      this.searchData.pageNum = val
+      this.loadList()
+    },
+    loadList() {
+      this.loading = true
+      partnerSubUserDetails(this.searchData).then(res => {
+        if (res.code === 0) {
+          console.log(res)
+          this.total = res.data.total
+          this.tableData = res.data.records
+          this.loading = false
+        }
+      })
     }
   }
 }
