@@ -1,5 +1,5 @@
 <template>
-  <div class="order">
+  <div v-loading="loading" class="order">
     <!--   搜索栏-->
     <div class="search clearfix">
       <div class="searchItem">
@@ -8,77 +8,78 @@
           v-model="orderInput"
           placeholder="订单编号/用户名/手机号"
           style="width: 220px"
-          clearable>
-        </el-input>
+          clearable
+        />
       </div>
       <el-button type="primary" class="searchBtn" @click="seachList">查询</el-button>
     </div>
     <!--    表格-->
     <el-table
       :data="tableData"
-      border>
+      border
+    >
       <el-table-column
-      prop="no"
-      label="订单编号"
-      width="300">
-      </el-table-column>
+        prop="no"
+        label="订单编号"
+        width="300"
+      />
       <el-table-column
-      prop="sku"
-      label="会员卡续费种类"
-      :formatter="vipType"
-      width="100">
-      </el-table-column>
+        prop="sku"
+        label="会员卡续费种类"
+        :formatter="vipType"
+        width="100"
+      />
       <el-table-column
-      prop="price"
-      label="会员卡续费金额"
-      width="100">
-      </el-table-column>
+        prop="price"
+        label="会员卡续费金额"
+        width="100"
+      />
       <el-table-column
-      prop="addTime"
-      label="支付时间">
-      </el-table-column>
+        prop="addTime"
+        label="支付时间"
+      />
       <el-table-column
-      prop="userName"
-      label="支付用户名">
-      </el-table-column>
+        prop="userName"
+        label="支付用户名"
+      />
       <el-table-column
-      prop="mobile"
-      label="支付手机号"
-      :formatter="changeMobile">
-      </el-table-column>
+        prop="mobile"
+        label="支付手机号"
+        :formatter="changeMobile"
+      />
       <el-table-column
-      prop="couponPrice"
-      label="是否使用优惠券"
-      :formatter="isUseCoupon">
-      </el-table-column>
+        prop="couponPrice"
+        label="是否使用优惠券"
+        :formatter="isUseCoupon"
+      />
 
       <el-table-column
-      prop="couponPrice"
-      label="优惠券折扣">
-      </el-table-column>
+        prop="couponPrice"
+        label="优惠券折扣"
+      />
       <el-table-column
-      prop="payPrice"
-      label="实际支付金额">
-      </el-table-column>
+        prop="payPrice"
+        label="实际支付金额"
+      />
       <el-table-column
-      prop=""
-      label="提成金额">
-      </el-table-column>
+        prop=""
+        label="提成金额"
+      />
 
     </el-table>
     <!--    分页-->
     <div class="pageList clearfix">
       <div class="pageination">
-        <p style="display: inline-block">共{{totalPage}}页/{{totalNum}}条数据</p>
+        <p style="display: inline-block">共{{ totalPage }}页/{{ totalNum }}条数据</p>
         <el-pagination
           background
-          @current-change="currentChange"
           :current-page.sync="currentPage"
           :page-size="pageSize"
           layout="prev, pager, next, jumper"
           :total="totalNum"
-          style="display: inline-block">
-        </el-pagination>
+          style="display: inline-block"
+          @current-change="currentChange"
+        />
       </div>
     </div>
   </div>
@@ -95,7 +96,8 @@ export default {
       totalNum: 0, // 总条数
       pageSize: 10, // 每页的数据条数
       orderInput: '',
-      totalPage: 1 // 总页数
+      totalPage: 1, // 总页数
+      loading: false
     }
   },
   mounted() {
@@ -105,6 +107,7 @@ export default {
   methods: {
   //  初始化数据
     initData() {
+      this.loading = true
       const params = {
         pageNum: this.currentPage,
         orderNo: this.orderInput
@@ -114,6 +117,7 @@ export default {
         this.pageSize = res.data.size
         this.totalNum = res.data.total
         this.totalPage = res.data.pages
+        this.loading = false
       })
     },
     // 查询

@@ -1,32 +1,32 @@
 <template>
-  <div id="main" :style="{height:fullHeight-50+'px'}">
+  <div id="main" v-loading="loading" :style="{height:fullHeight-50+'px'}">
     <el-card class="box-card" shadow="hover">
       <div class="leftBox">
-        <img class="head-img">
-        <div class="username">用户名称</div>
+        <img class="head-img" :src="row.avatar">
+        <div class="username">{{ row.userName }}</div>
       </div>
       <div class="rightBox">
         <div class="line">
           <div class="lineContent1">用户名称</div>
-          <div class="lineContent2">天上人间</div>
+          <div class="lineContent2">{{ row.userName }}</div>
         </div>
         <div class="line">
           <div class="lineContent1">用户手机号</div>
-          <div class="lineContent2">181xxxx5570</div>
+          <div class="lineContent2">{{ row.mobile | formatTel }}</div>
         </div>
         <div class="line">
           <div class="lineContent1">注册时间</div>
-          <div class="lineContent2">2019-11-01  12:23:34</div>
+          <div class="lineContent2">{{ row.addTime }}</div>
         </div>
         <div class="line">
           <div class="lineContent1">是否已成会员</div>
-          <div class="lineContent2">是</div>
+          <div class="lineContent2">{{ row.vipMember?'是':'否' }}</div>
         </div>
         <div class="line">
           <div class="lineContent1" style="flex: 1">上级姓名</div>
-          <div class="lineContent2" style="flex: 1">水天一色</div>
+          <div class="lineContent2" style="flex: 1">{{ row.pusername }}</div>
           <div class="lineContent1" style="flex: 1">上级电话</div>
-          <div class="lineContent2" style="flex: 1">181xxxx8740</div>
+          <div class="lineContent2" style="flex: 1">{{ row.puserMobile | formatTel }}</div>
         </div>
       </div>
     </el-card>
@@ -34,28 +34,40 @@
       <div class="title">使用优惠卷数据列表</div>
       <div class="title" style="margin-top: 20px;font-size: 18px;overflow: hidden">
         <span>关键字</span>
-        <el-input v-model="searchData.input" placeholder="优惠卷编号\优惠卷名称" style="width:200px;margin-left: 10px;margin-right: 10px" />
+        <el-input v-model="searchData.searchKey" placeholder="优惠卷编号\优惠卷名称" style="width:200px;margin-left: 10px;margin-right: 10px" clearable @input="loadList()" />
         <span>领取方式</span>
-        <el-select v-model="searchData.type" placeholder="请选择" style="margin-left: 10px;margin-right: 10px" clearable>
+        <el-select v-model="searchData.getWay" placeholder="请选择" style="margin-left: 10px;margin-right: 10px" clearable @change="loadList()">
           <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
         <span>当前状态</span>
-        <el-select v-model="searchData.type" placeholder="请选择" style="margin-left: 10px" clearable>
-          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+        <el-select v-model="searchData.currentStatus" placeholder="请选择" style="margin-left: 10px" clearable @change="loadList()">
+          <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
-        <el-button type="primary" class="search-btn">查询</el-button>
+        <el-button type="primary" class="search-btn" @click="loadList()">查询</el-button>
       </div>
       <!--表格-->
       <el-table :data="tableData" style="width: 99%;margin-left: 15px;margin-top: 20px" border :height="fullHeight-600">
-        <el-table-column prop="name" label="优惠券编号" min-width="180" show-overflow-tooltip />
-        <el-table-column prop="name" label="优惠券名称" min-width="150" show-overflow-tooltip />
-        <el-table-column prop="name" label="优惠券折扣" min-width="150" show-overflow-tooltip />
-        <el-table-column prop="name" label="领取方式" min-width="120" show-overflow-tooltip />
-        <el-table-column prop="name" label="领取时间" min-width="180" show-overflow-tooltip />
-        <el-table-column prop="name" label="当前状态" min-width="180" show-overflow-tooltip />
-        <el-table-column prop="name" label="使用时间" min-width="180" show-overflow-tooltip />
-        <el-table-column prop="name" label="到期时间" min-width="180" show-overflow-tooltip />
-        <el-table-column prop="name" label="订单编号" min-width="180" show-overflow-tooltip />
+        <el-table-column prop="couponId" label="优惠券编号" min-width="150" show-overflow-tooltip />
+        <el-table-column prop="couponTitle" label="优惠券名称" min-width="140" show-overflow-tooltip />
+        <el-table-column prop="discount" label="优惠券折扣" min-width="100" show-overflow-tooltip>
+          <template v-slot="scope">
+            <span>{{ scope.row.discount | discount }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="getType" label="领取方式" min-width="120" show-overflow-tooltip>
+          <template v-slot="scope">
+            <span>{{ scope.row.getType | getType }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="addTime" label="领取时间" min-width="180" show-overflow-tooltip />
+        <el-table-column prop="usedStatus" label="当前状态" min-width="120" show-overflow-tooltip>
+          <template v-slot="scope">
+            <span>{{ scope.row.usedStatus | usedStatus }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="usedTime" label="使用时间" min-width="180" show-overflow-tooltip />
+        <el-table-column prop="endTime" label="到期时间" min-width="180" show-overflow-tooltip />
+        <el-table-column prop="orderNo" label="订单编号" min-width="180" show-overflow-tooltip />
       </el-table>
       <!--分页-->
       <el-pagination
@@ -73,8 +85,32 @@
 </template>
 
 <script>
+import { userCouponList } from '@/api/couponOperation'
 export default {
   name: 'CouponOperationLook',
+  filters: {
+    /* 折扣*/
+    discount: function(data) {
+      data = data.toString()
+      return data.substring(0, 1) + '.' + data.substring(1) + '折'
+    },
+    usedStatus: function(data) {
+      if (data === 0 || data === '0') {
+        return '未使用'
+      } else if (data === 1 || data === '1') {
+        return '已使用'
+      } else if (data === 2 || data === '2') {
+        return '已过期'
+      }
+    },
+    getType: function(data) {
+      if (data === 1 || data === '1') {
+        return '主动领取'
+      } else if (data === 2 || data === '2') {
+        return '后台赠送'
+      }
+    }
+  },
   // 存放 数据
   data: function() {
     return {
@@ -83,25 +119,42 @@ export default {
       searchData: { // 筛选的数据
         pageNum: 1,
         pageSize: 10,
-        input: '',
-        type: ''
+        userId: '',
+        searchKey: '',
+        getWay: '',
+        currentStatus: ''
       },
-      tableData: [
-        {
-          name: '157****1234'
-        }
-      ],
+      tableData: [],
       total: null,
       options: [
         {
           label: '主动领取',
-          value: '0'
+          value: 1
         },
         {
           label: '后台赠送',
-          value: '1'
+          value: 2
+        }
+      ],
+      options2: [
+        {
+          label: '未使用',
+          value: 0
+        },
+        {
+          label: '已使用',
+          value: 1
+        },
+        {
+          label: '已过期',
+          value: 2
         }
       ]
+    }
+  },
+  computed: {
+    row() {
+      return JSON.parse(sessionStorage.getItem('couponOperationLookRow'))
     }
   },
   watch: {
@@ -124,12 +177,11 @@ export default {
         that.fullHeight = window.fullHeight
       })()
     }
+    console.log(this.row)
+    this.searchData.userId = this.row.id
+    this.loadList()
   },
   methods: {
-    // 复制卡密
-    copy() {
-      this.$message.success('复制成功!')
-    },
     // 当前页码
     handleSizeChange(val) {
       this.searchData.pageSize = val
@@ -139,6 +191,18 @@ export default {
     handleCurrentChange(val) {
       this.searchData.pageNum = val
       this.loadList()
+    },
+    // 获取表格数据
+    loadList() {
+      this.loading = true
+      userCouponList(this.searchData).then(res => {
+        if (res.code === 0 || res.code === '0') {
+          console.log(res)
+          this.total = res.data.total
+          this.tableData = res.data.records
+          this.loading = false
+        }
+      })
     }
   }
 }
@@ -156,8 +220,7 @@ export default {
   .head-img{
     width: 350px;
     float: left;
-    height: 200px;
-    background: skyblue;
+    height: 210px;
   }
   .rightBox{
     float: left;
@@ -183,7 +246,7 @@ export default {
   }
   .lineContent1{
     flex: 1;
-    background-color: rgba(242, 242, 242, 1);
+    background-color: #D9ECFF;
     font-size: 18px;
     font-weight: bold;
     min-height: 50px;
