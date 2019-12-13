@@ -23,7 +23,7 @@
     </el-card>
     <el-card class="box-card" shadow="hover">
       <div class="title">渠道提成收益
-        <span style="font-weight: normal;margin-left: 10px">（总计：2322.20元）</span>
+        <span style="font-weight: normal;margin-left: 10px">（总计：{{ total }}元）</span>
         <div style="color: red;font-size: 16px;margin-top: 10px">（注：近7日）</div>
       </div>
       <div id="myChart" class="charts" />
@@ -39,7 +39,8 @@ export default {
   data: function() {
     return {
       loading: false,
-      fullHeight: document.documentElement.clientHeight // 页面高度
+      fullHeight: document.documentElement.clientHeight, // 页面高度
+      total: null
     }
   },
   computed: {
@@ -84,15 +85,24 @@ export default {
       partnerDetail(params).then(res => {
         if (res.code === 0 || res.code === '0') {
           this.loading = false
-          console.log(res)
-          const chartData = res.data
+          this.total = res.data.total
+          const xData = []
+          for (let i = 0; i < res.data.list.length; i++) {
+            xData.push(res.data.list[i].day)
+            xData[i] = xData[i].substring(0, 10)
+          }
+          const yData = []
+          for (let i = 0; i < res.data.list.length; i++) {
+            yData.push(res.data.list[i].profit)
+          }
+
           // 基于准备好的dom，初始化echarts实例
           const myChart = this.$echarts.init(document.getElementById('myChart'))
           // 绘制图表
           myChart.setOption({
             xAxis: {
               type: 'category',
-              data: chartData
+              data: xData
             },
             tooltip: {
               trigger: 'axis',
@@ -103,7 +113,7 @@ export default {
               type: 'value'
             },
             series: [{
-              data: chartData,
+              data: yData,
               type: 'line'
             }]
           })
@@ -116,10 +126,9 @@ export default {
 
 <style scoped>
   .charts{
-    width: 70%;
+    width:1000px;
     height: 500px;
     margin: 0 auto;
-    min-width: 800px;
   }
   .search-btn{
     margin-left: 10px;
@@ -160,7 +169,7 @@ export default {
     width:calc(100% - 40px);
     margin-left: 20px;
     margin-top: 20px;
-    min-width: 800px;
+    min-width: 1000px;
   }
   .title{
     font-size: 22px;

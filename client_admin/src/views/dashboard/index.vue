@@ -177,6 +177,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  >>>.el-table .cell:first-child {
+    height: 30px !important;
+    line-height: 30px !important;
+  }
   .dashboard {
     &-container {
       margin: 30px;
