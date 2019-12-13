@@ -67,7 +67,6 @@ export default {
       })()
     }
     this.row = JSON.parse(sessionStorage.getItem('userFeedbackRow'))
-    console.log(this.row)
     this.loadList()
   },
   methods: {

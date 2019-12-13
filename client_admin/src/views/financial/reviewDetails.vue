@@ -142,8 +142,8 @@
       <el-button type="default" @click="approved(2)">拒绝</el-button>
     </div>
     <!--    查看审核备注-->
-    <div v-if="memo!==null && memo!==''" style="overflow: hidden">
-      <div style="float: left;margin-right: 20px">备注:</div>
+    <div v-if="checkData.memo!==null && checkData.memo!==''" style="overflow: hidden">
+      <div style="float: left;margin-right: 20px;margin-bottom: 10px">备注:</div>
       <el-input v-model="memo" type="textarea" rows="4" style="float: left;width: 95%" disabled />
     </div>
     <!--    审核失败备注-->
@@ -228,7 +228,6 @@ export default {
       cashHistoryApplyList(this.searchData).then(res => {
         if (res.code === 0 || res.code === '0') {
           this.total = res.data.total
-          console.log(res)
           this.historyData = res.data.records
           this.isPaging = false
           this.loading = false
@@ -243,6 +242,7 @@ export default {
       }
       applyCashDetail(params).then(res => {
         this.checkData = res.data
+        this.memo=res.data.memo
         this.loading = false
       })
     },
