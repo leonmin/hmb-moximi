@@ -6,15 +6,14 @@
         <p>关键词</p>
         <el-input
           v-model="searchData.key"
-          placeholder="用户名称/用户手机号"
+          placeholder="编号\优惠卷名称"
           style="width: 180px"
           clearable
-          @input="getCoupons()"
         />
       </div>
       <div class="searchItem" style="margin-left: 20px">
         <p>是否已过期</p>
-        <el-select v-model="searchData.isOutime" placeholder="请选择" @change="getCoupons()" clearable>
+        <el-select v-model="searchData.isOutime" placeholder="请选择" clearable>
           <el-option :key="-1" label="全部" :value="null" />
           <el-option :key="1" label="未过期" :value="0" />
           <el-option :key="0" label="已过期" :value="1" />
@@ -22,7 +21,7 @@
       </div>
       <div class="searchItem" style="margin-left: 20px">
         <p>状态</p>
-        <el-select v-model="searchData.status" placeholder="请选择" @change="getCoupons()" clearable>
+        <el-select v-model="searchData.status" placeholder="请选择" clearable>
           <el-option :key="-1" label="全部" :value="null" />
           <el-option :key="1" label="启用中" :value="1" />
           <el-option :key="0" label="未启用" :value="0" />
@@ -146,7 +145,8 @@ export default {
         isOutime: '',
         status: ''
       },
-      loading: false
+      loading: false,
+      isPaging: false// 是否是分页
     }
   },
   mounted() {
@@ -158,9 +158,13 @@ export default {
     // 获取优惠券列表
     getCoupons() {
       this.loading = true
+      if (!this.isPaging) {
+        this.searchData.pageNum = 1
+      }
       couponList(this.searchData).then(res => {
         this.couponsData = res.data.records
         this.total = res.data.total
+        this.isPaging = false
         this.loading = false
       })
     },
@@ -170,7 +174,6 @@ export default {
     },
     // 优惠券启停
     RevStop(id, rs) {
-      console.log(rs, id)
       var stauts
       if (rs === 1) {
         stauts = '启用'
@@ -232,6 +235,7 @@ export default {
     },
     // 页码改变
     currentChange(currentPage) {
+      this.isPaging = true
       this.searchData.pageNum = currentPage
       this.getCoupons()
     },

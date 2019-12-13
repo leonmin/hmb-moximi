@@ -10,7 +10,7 @@
             <el-input v-model="ruleForm.couponTitle" placeholder="请输入优惠券名称" style="max-width: 300px" />
           </el-form-item>
           <el-form-item label="优惠券折扣数" prop="couponDiscount">
-            <el-input v-model="ruleForm.couponDiscount" placeholder="请输入优惠券折扣" style="max-width: 300px" oninput="value=value.replace(/[^\d.]/g,'')" @input="compute()" />
+            <el-input v-model="ruleForm.couponDiscount" placeholder="请输入优惠券折扣" style="max-width: 300px" oninput="this.value=this.value.replace(/\D/g,'')" @input="compute()" />
           </el-form-item>
           <el-form-item label="优惠券有效期" prop="beginTime">
             <el-date-picker
@@ -30,7 +30,7 @@
             <el-radio v-model="ruleForm.couponCardType" label="1" @change="compute(100002)">季卡</el-radio>
             <el-radio v-model="ruleForm.couponCardType" label="2" @change="compute(100003)">年卡</el-radio>
           </el-form-item>
-          <el-form-item label="优惠后会员卡价格">
+          <el-form-item label="优惠后会员卡价格" v-show="discount!==null && discount!==''">
             <span>{{ discount===null || discount===''?null:discount+'元' }}</span>
           </el-form-item>
           <el-form-item>
@@ -59,7 +59,8 @@ export default {
       rules: {
         couponTitle: [{ required: true, message: '请输入优惠券名称', trigger: 'blur' }],
         couponDiscount: [
-          { required: true, message: '请输入优惠券折扣数', trigger: 'blur' }
+          { required: true, message: '请输入优惠券折扣数', trigger: 'blur' },
+          { pattern: /^(?:[1-9]?\d|99)$/, message: '请输入正确折扣数!' }
         ],
         beginTime: [
           { required: true, message: '请选择日期', trigger: 'change' }
