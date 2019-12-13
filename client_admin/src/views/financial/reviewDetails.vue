@@ -1,5 +1,5 @@
 <template>
-  <div class="reviewDetails">
+  <div v-loading="loading" class="reviewDetails">
     <!--      审核详情-->
     <el-card class="box-card">
       <div slot="header" class="clearfix">
@@ -7,30 +7,30 @@
         <el-button style="float: right; padding: 3px 0" type="text" />
       </div>
       <el-row :gutter="20">
-        <el-form ref="form" disabled v-model="checkData" label-width="100px">
+        <el-form ref="form" v-model="checkData" disabled label-width="100px">
           <el-col :span="6">
             <el-form-item label="提现订单编号">
-              <el-input v-model="checkData.no"/>
+              <el-input v-model="checkData.no" />
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="提现人">
-              <el-input v-model="checkData.userName"/>
+              <el-input v-model="checkData.userName" />
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="手机号">
-              <el-input v-model="checkData.mobile"/>
+              <el-input v-model="checkData.mobile" />
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="提现时间">
-              <el-input v-model="checkData.addTime"/>
+              <el-input v-model="checkData.addTime" />
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="提现账号">
-              <el-input v-model="checkData.alipayAccount"/>
+              <el-input v-model="checkData.alipayAccount" />
             </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -40,12 +40,12 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="钱包余额">
-              <el-input v-model="checkData.balance"/>
+              <el-input v-model="checkData.balance" />
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="审批状态">
-              <el-input v-model="checkStatus"/>
+              <el-input v-model="checkStatus" />
             </el-form-item>
           </el-col>
         </el-form>
@@ -54,22 +54,22 @@
 
     </el-card>
     <!--      分割线-->
-    <div class="deliver"></div>
+    <div class="deliver" />
     <!--          页面标题-->
     <div class="pageTitle">
       <p>提现历史记录</p>
-      <div class="deliver"></div>
+      <div class="deliver" />
     </div>
     <!--   搜索栏-->
     <div class="search clearfix">
       <div class="searchItem">
-        <p>关键词</p>
+        <p style="margin-left: 10px">关键词</p>
         <el-input
           v-model="oderInput"
           placeholder="订单编号/提现人/提现账号"
-          style="width: 180px"
-          clearable>
-        </el-input>
+          style="width: 230px"
+          clearable
+        />
       </div>
       <div class="searchItem" style="margin-left: 20px;font-size: 16px">
         <p>审核状态</p>
@@ -79,67 +79,72 @@
           <el-option :key="2" label="审核拒绝" :value="2" />
         </el-select>
       </div>
-      <el-button type="primary" class="searchBtn" >查询</el-button>
+      <el-button type="primary" class="searchBtn">查询</el-button>
     </div>
-<!--    表格-->
+    <!--    表格-->
     <el-table
-    border
-    :data="historyData">
+      border
+      :data="historyData"
+    >
       <el-table-column
-      prop=""
-      label="提现订单编号"></el-table-column>
+        prop=""
+        label="提现订单编号"
+      />
       <el-table-column
-      prop=""
-      label="提现人"></el-table-column>
+        prop=""
+        label="提现人"
+      />
       <el-table-column
-      prop=""
-      label="手机号"></el-table-column>
+        prop=""
+        label="手机号"
+      />
       <el-table-column
-      prop=""
-      label="提现时间"></el-table-column>
+        prop=""
+        label="提现时间"
+      />
       <el-table-column
-      prop=""
-      label="提现账号"></el-table-column>
+        prop=""
+        label="提现账号"
+      />
       <el-table-column
-      prop=""
-      label="提现金额"></el-table-column>
+        prop=""
+        label="提现金额"
+      />
       <el-table-column
-      prop=""
-      label="审批状态"></el-table-column>
+        prop=""
+        label="审批状态"
+      />
     </el-table>
     <!--    分页-->
     <div class="pageList clearfix">
       <div class="pageination">
-        <p style="display: inline-block">共{{totalPage}}页/{{totalNum}}条数据</p>
+        <p style="display: inline-block">共{{ totalPage }}页/{{ totalNum }}条数据</p>
         <el-pagination
           background
           :current-page.sync="currentPage"
           :page-size="pageSize"
           layout="prev, pager, next, jumper"
           :total="totalNum"
+          style="display: inline-block"
           @current-change="currentChange"
-          style="display: inline-block">
-        </el-pagination>
+        />
       </div>
     </div>
-    <div class="deliver"></div>
-<!--    待审核按钮-->
-    <div class="checkBtn" v-if="checkData.applyStatus === 0" >
+    <div class="deliver" />
+    <!--    待审核按钮-->
+    <div v-if="checkData.applyStatus === 0" class="checkBtn">
       <el-button type="primary" @click="approved(1)">通过</el-button>
       <el-button type="default" @click="approved(2)">拒绝</el-button>
     </div>
-<!--    查看审核备注-->
-    <div class="checkMemo clearfix" v-if="checkData.applyStatus !== 0">
-      <span v-if="checkData.applyStatus === 1">审核备注:</span>
-      <span v-if="checkData.applyStatus === 2">拒绝原因:</span>
-      <div>
-        <textarea disabled v-model="checkData.memo" name="" id="" cols="60" rows="10"></textarea>
-      </div>
+    <!--    查看审核备注-->
+    <div v-if="memo!==null && memo!==''" style="overflow: hidden">
+      <div style="float: left;margin-right: 20px">备注:</div>
+      <el-input v-model="memo" type="textarea" rows="4" style="float: left;width: 95%" disabled />
     </div>
-<!--    审核失败备注-->
+    <!--    审核失败备注-->
     <el-dialog title="审核备注" :visible.sync="dialogTableVisible">
       <span style="margin: 10px 0;display: inline-block;">审核备注:</span>
-      <el-input v-model="memo" clearable></el-input>
+      <el-input v-model="memo" clearable />
       <div style="margin: 10px 0;text-align: center">
         <el-button type="primary" @click="comfirmCheck">确认</el-button>
         <el-button type="default" @click="dialogTableVisible = false">取消</el-button>
@@ -166,7 +171,8 @@ export default {
       totalPage: 1,
       currentPage: 1, // 当前页码
       totalNum: 0, // 总条数
-      pageSize: 10 // 每页的数据条数
+      pageSize: 10, // 每页的数据条数
+      loading: false
     }
   },
   computed: {
@@ -193,11 +199,13 @@ export default {
   methods: {
     // 初始化数据
     initData() {
+      this.loading = true
       const params = {
         applyId: this.id
       }
       applyCashDetail(params).then(res => {
         this.checkData = res.data
+        this.loading = false
       })
     },
     currentChange() {},
@@ -244,7 +252,7 @@ export default {
     checkApproved(status) {
       const params = {
         status: status,
-        memo: '',
+        memo: this.memo,
         applyId: this.id
       }
       checkCash(params).then(res => {
