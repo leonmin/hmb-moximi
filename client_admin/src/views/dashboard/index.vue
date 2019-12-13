@@ -73,7 +73,7 @@
           label="操作"
         >
           <template v-slot="scope">
-            <el-button type="default" @click="lowerDetails(scope.row)">查看</el-button>
+            <el-button type="default" @click="lowerDetails(scope.row)" style="margin-top: -10px">查看</el-button>
           </template>
         </el-table-column>
       </el-table>
