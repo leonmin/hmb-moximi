@@ -88,7 +88,8 @@ export default {
       // 获取row的key值
       getRowKeys(row) {
         return row.id
-      }
+      },
+      isPaging: false // 是否是分页
     }
   },
   watch: {
@@ -127,6 +128,7 @@ export default {
     },
     // 当前页数
     handleCurrentChange(val) {
+      this.isPaging = true
       this.searchData.pageNum = val
       this.loadList()
     },
@@ -181,10 +183,14 @@ export default {
     },
     loadList() {
       this.loading = true
+      if (!this.isPaging) {
+        this.searchData.pageNum = 1
+      }
       couponList(this.searchData).then(res => {
         if (res.code === 0 || res.code === '0') {
           this.total = res.data.total
           this.tableData = res.data.records
+          this.isPaging = false
           this.loading = false
         }
       })

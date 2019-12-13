@@ -102,7 +102,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        prop=""
+        prop="updateTime"
         label="提现时间"
       />
       <el-table-column
@@ -242,7 +242,7 @@ export default {
       }
       applyCashDetail(params).then(res => {
         this.checkData = res.data
-        this.memo=res.data.memo
+        this.memo = res.data.memo
         this.loading = false
       })
     },

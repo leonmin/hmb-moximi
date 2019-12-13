@@ -18,13 +18,12 @@
           <span>{{ scope.row.mobile | formatTel }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="satisfaction" label="用户满意度" min-width="150" show-overflow-tooltip />
-      <el-table-column prop="content" label="反馈详情" min-width="150" show-overflow-tooltip />
-      <el-table-column prop="voucher" label="上传凭证" min-width="150" show-overflow-tooltip>
+      <el-table-column prop="satisfaction" label="用户满意度" min-width="150" show-overflow-tooltip>
         <template v-slot="scope">
-          <span>{{ scope.row.voucher===null || scope.row.voucher===''?'':scope.row.voucher+'张' }}</span>
+          <span>{{ scope.row.satisfaction | satisfaction }}</span>
         </template>
       </el-table-column>
+      <el-table-column prop="content" label="反馈详情" min-width="150" show-overflow-tooltip />
       <el-table-column prop="addTime" label="提交时间" min-width="150" show-overflow-tooltip />
       <el-table-column label="操作" min-width="150" show-overflow-tooltip>
         <template slot-scope="scope">
@@ -51,7 +50,19 @@ import { pageList } from '@/api/userFeedback'
 export default {
   name: 'List',
   filters: {
-
+    satisfaction: function(data) {
+      if (data === 0 || data === '0') {
+        return '很不满意'
+      } else if (data === 1 || data === '1') {
+        return '不满'
+      } else if (data === 2 || data === '2') {
+        return '一般'
+      } else if (data === 3 || data === '3') {
+        return '满意'
+      } else if (data === 4 || data === 4) {
+        return '很满意'
+      }
+    }
   },
   // 存放 数据
   data: function() {

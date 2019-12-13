@@ -71,7 +71,7 @@ export default {
       total: null, // 总数
       row: null, // 行数据
       show: false,
-      isPaging: false, // 是否是分页
+      isPaging: false // 是否是分页
     }
   },
   watch: {
