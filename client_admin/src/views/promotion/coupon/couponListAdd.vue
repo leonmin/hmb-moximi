@@ -30,7 +30,7 @@
             <el-radio v-model="ruleForm.couponCardType" label="1" @change="compute(100002)">季卡</el-radio>
             <el-radio v-model="ruleForm.couponCardType" label="2" @change="compute(100003)">年卡</el-radio>
           </el-form-item>
-          <el-form-item label="优惠后会员卡价格" v-show="discount!==null && discount!==''">
+          <el-form-item v-show="discount!==null && discount!==''" label="优惠后会员卡价格">
             <span>{{ discount===null || discount===''?null:discount+'元' }}</span>
           </el-form-item>
           <el-form-item>
@@ -53,7 +53,8 @@ export default {
         beginTime: '',
         endTime: '',
         couponCardType: '0',
-        cardSku: 100001
+        cardSku: 100001,
+        enable: true
       },
       date: [],
       rules: {
@@ -104,7 +105,7 @@ export default {
           this.btnLoading = true
           addCoupon(this.ruleForm).then(res => {
             if (res.code === 0 || res.code === '0') {
-              this.$message.success('操作成功!')
+              this.$message.success('添加成功!')
               this.btnLoading = false
             }
           })

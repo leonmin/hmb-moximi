@@ -3,15 +3,15 @@
     <div class="title">卡密列表</div>
     <el-form :inline="true" :model="searchData" class="demo-form-inline" label-width="80px" style="margin-top: 30px">
       <el-form-item label="关键字" style="margin-left: 20px">
-        <el-input v-model="searchData.title" placeholder="编号\卡密名称" @input="loadList()" />
+        <el-input v-model="searchData.title" placeholder="编号\卡密名称" />
       </el-form-item>
       <el-form-item label="是否过期">
-        <el-select v-model="searchData.isExpire" placeholder="请选择" clearable @change="loadList()">
+        <el-select v-model="searchData.isExpire" placeholder="请选择" clearable>
           <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
       </el-form-item>
       <el-form-item label="状态">
-        <el-select v-model="searchData.status" placeholder="请选择" clearable @change="loadList()">
+        <el-select v-model="searchData.status" placeholder="请选择" clearable>
           <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
       </el-form-item>
@@ -128,7 +128,8 @@ export default {
         status: ''// 卡密名称
       },
       total: null, // 总数
-      status: '启用'
+      status: '启用',
+      isPaging: false// 是否是分页
     }
   },
   watch: {
@@ -201,16 +202,21 @@ export default {
     },
     // 当前页数
     handleCurrentChange(val) {
+      this.isPaging = true
       this.searchData.pageNum = val
       this.loadList()
     },
     loadList() {
       this.loading = true
+      if (!this.isPaging) {
+        this.searchData.pageNum = 1
+      }
       listExchangeCard(this.searchData).then(res => {
         if (res.code === 0 || res.code === '0') {
           this.total = res.data.total
           this.tableData = res.data.records
           this.loading = false
+          this.isPaging = false
         }
       })
     }

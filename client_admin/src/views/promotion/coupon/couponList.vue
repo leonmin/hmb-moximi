@@ -5,7 +5,7 @@
       <div class="searchItem">
         <p>关键词</p>
         <el-input
-          v-model="searchData.key"
+          v-model="searchData.searchKey"
           placeholder="编号\优惠卷名称"
           style="width: 180px"
           clearable
@@ -79,7 +79,6 @@
     <div class="pageList clearfix">
       <div class="pageination">
         <el-pagination
-          background
           :current-page.sync="searchData.pageNum"
           :page-size="10"
           layout="total,prev, pager, next, jumper"
@@ -141,7 +140,7 @@ export default {
       total: null,
       searchData: {
         pageNum: 1,
-        key: '',
+        searchKey: '',
         isOutime: '',
         status: ''
       },

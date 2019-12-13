@@ -36,7 +36,7 @@
       <div class="title">卡密明细</div>
       <div class="title" style="margin-top: 20px;font-size: 18px;overflow: hidden">
         <span>关键字</span>
-        <el-input v-model="searchData.key" placeholder="用户名称\用户手机号\订单编号" style="width:400px;margin-left: 10px" @input="loadList()" clearable/>
+        <el-input v-model="searchData.key" placeholder="用户名称\用户手机号\订单编号" style="width:400px;margin-left: 10px" clearable />
         <el-button type="primary" class="search-btn" @click="loadList()">查询</el-button>
       </div>
       <!--表格-->
@@ -136,7 +136,8 @@ export default {
         cardId: ''
       },
       tableData: [],
-      total: null
+      total: null,
+      isPaging: false// 是否是分页
     }
   },
   computed: {
@@ -179,16 +180,21 @@ export default {
     },
     // 当前页数
     handleCurrentChange(val) {
+      this.isPaging = true
       this.searchData.pageNum = val
       this.loadList()
     },
     // 获取表格数据
     loadList() {
       this.loading = true
+      if (!this.isPaging) {
+        this.searchData.pageNum = 1
+      }
       pageList(this.searchData).then(res => {
         if (res.code === 0 || res.code === '0') {
           this.total = res.data.total
           this.tableData = res.data.records
+          this.isPaging = false
           this.loading = false
         }
       })

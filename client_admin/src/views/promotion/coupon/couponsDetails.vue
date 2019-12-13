@@ -1,32 +1,32 @@
 <template>
-  <div class="couponsDetails">
+  <div v-loading="loading" class="couponsDetails">
     <!--      优惠券详情-->
     <el-card class="box-card">
       <div slot="header" class="clearfix">
         <span>优惠券详情</span>
-        <span>编号({{this.$route.query.id}})</span>
+        <span>编号({{ this.$route.query.id }})</span>
       </div>
       <div>
         <el-row :gutter="20">
-          <el-form ref="form" disabled v-model="couponsDetailsData" label-width="100px">
+          <el-form ref="form" v-model="couponsDetailsData" disabled label-width="100px">
             <el-col :span="6">
               <el-form-item label="优惠券名称">
-                <el-input v-model="couponsDetailsData.title"/>
+                <el-input v-model="couponsDetailsData.title" />
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item label="适用范围">
-                <el-input v-model="couponsDetailsData.useForSku"/>
+                <el-input v-model="couponsDetailsData.useForSku" />
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item label="折扣数">
-                <el-input v-model="discount"/>
+                <el-input v-model="discount" />
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item label="有效期">
-                <el-input v-model="isTime"/>
+                <el-input v-model="isTime" />
               </el-form-item>
             </el-col>
             <el-col :span="6">
@@ -36,22 +36,22 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="状态">
-                <el-input v-model="couponsDetailsData.balance"/>
+                <el-input v-model="couponsDetailsData.balance" />
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item label="已领取数">
-                <el-input v-model="couponsDetailsData.totalCount"/>
+                <el-input v-model="couponsDetailsData.totalCount" />
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item label="已使用数">
-                <el-input v-model="couponsDetailsData.usedCount"/>
+                <el-input v-model="couponsDetailsData.usedCount" />
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item label="未使用数">
-                <el-input v-model="couponsDetailsData.unusedCount"/>
+                <el-input v-model="couponsDetailsData.unusedCount" />
               </el-form-item>
             </el-col>
           </el-form>
@@ -59,7 +59,7 @@
         </el-row>
       </div>
     </el-card>
-<!--    优惠券使用详情-->
+    <!--    优惠券使用详情-->
     <div class="useDetail">
       <el-card class="box-card">
         <div slot="header" class="clearfix">
@@ -74,8 +74,8 @@
                 v-model="nameInput"
                 placeholder="用户名称/用户手机号/订单编号"
                 style="width: 180px"
-                clearable>
-              </el-input>
+                clearable
+              />
             </div>
             <div class="searchItem" style="margin-left: 20px">
               <p>当前状态</p>
@@ -89,29 +89,37 @@
           </div>
           <div style="margin-top: 30px">
             <el-table
-            border
-            :data="usedData">
+              border
+              :data="usedData"
+            >
               <el-table-column
-              prop=""
-              label="领取用户"></el-table-column>
+                prop=""
+                label="领取用户"
+              />
               <el-table-column
-              prop=""
-              label="用户手机号"></el-table-column>
+                prop=""
+                label="用户手机号"
+              />
               <el-table-column
-              prop=""
-              label="领取方式"></el-table-column>
+                prop=""
+                label="领取方式"
+              />
               <el-table-column
-              prop=""
-              label="领取时间"></el-table-column>
+                prop=""
+                label="领取时间"
+              />
               <el-table-column
-              prop=""
-              label="当前状态"></el-table-column>
+                prop=""
+                label="当前状态"
+              />
               <el-table-column
-              prop=""
-              label="使用时间"></el-table-column>
+                prop=""
+                label="使用时间"
+              />
               <el-table-column
-              prop=""
-              label="订单编号"></el-table-column>
+                prop=""
+                label="订单编号"
+              />
             </el-table>
           </div>
         </div>
@@ -130,7 +138,8 @@ export default {
       couponsDetailsData: '',
       nameInput: '',
       isUsed: 1,
-      usedData: []
+      usedData: [],
+      loading: false
     }
   },
   computed: {
@@ -155,11 +164,13 @@ export default {
   methods: {
     // 优惠券详情
     getDetails() {
+      this.loading = true
       const params = {
         couponId: this.$route.query.id
       }
       couponDetail(params).then(res => {
         this.couponsDetailsData = res.data
+        this.loading = false
       })
     },
     //  查询
