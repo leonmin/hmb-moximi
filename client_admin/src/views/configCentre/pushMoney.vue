@@ -11,7 +11,7 @@
                 <template slot="append">%</template>
               </el-input>
             </el-form-item>
-            <el-button type="primary" class="save" @click="submitForm('ruleForm')">确定</el-button>
+            <el-button type="primary" class="save" :loading="btnLoading" @click="submitForm('ruleForm')">确定</el-button>
           </el-form>
         </el-tab-pane>
         <el-tab-pane label="合伙人" name="second">
@@ -26,7 +26,7 @@
                 <template slot="append">%</template>
               </el-input>
             </el-form-item>
-            <el-button type="primary" class="save" @click="submitForm2('ruleForm2')">确定</el-button>
+            <el-button type="primary" class="save" :loading="btnLoading" @click="submitForm2('ruleForm2')">确定</el-button>
           </el-form>
         </el-tab-pane>
       </el-tabs>
@@ -44,6 +44,7 @@ export default {
       activeName: 'first',
       fullHeight: document.documentElement.clientHeight, // 页面高度
       loading: false,
+      btnLoading: false,
       ruleForm: {
         ticheng: ''
       },
@@ -96,9 +97,11 @@ export default {
     submitForm(formName, index) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          this.btnLoading = true
           updateTicheng(this.ruleForm).then(res => {
             if (res.code === 0 || res.code === '0') {
               this.$message.success('操作成功!')
+              this.btnLoading = false
               this.getData()
             }
           })
@@ -109,8 +112,10 @@ export default {
     submitForm2(formName, index) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          this.btnLoading = true
           updateTicheng(this.ruleForm2).then(res => {
             if (res.code === 0 || res.code === '0') {
+              this.btnLoading = false
               this.$message.success('操作成功!')
               this.getData()
             }

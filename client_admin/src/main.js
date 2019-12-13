@@ -21,6 +21,7 @@ import Vueclipboard from 'vue-clipboard2'
 Vueclipboard.config.autoSetContainer = true
 Vue.use(Vueclipboard)
 
+/* 手机号处理*/
 Vue.filter('formatTel', function(value) {
   if (!value) return ''
   value = value.toString()

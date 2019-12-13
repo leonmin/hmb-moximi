@@ -36,7 +36,7 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="状态">
-                <el-input v-model="couponsDetailsData.balance" />
+                <el-input v-model="couponsDetailsData.enable?'已启用':'未启用'" />
               </el-form-item>
             </el-col>
             <el-col :span="6">
@@ -71,7 +71,7 @@
             <div class="searchItem">
               <p>关键词</p>
               <el-input
-                v-model="nameInput"
+                v-model="searchData.searchKey"
                 placeholder="用户名称/用户手机号/订单编号"
                 style="width: 180px"
                 clearable
@@ -79,13 +79,14 @@
             </div>
             <div class="searchItem" style="margin-left: 20px">
               <p>当前状态</p>
-              <el-select v-model="isUsed" placeholder="请选择">
-                <el-option :key="-1" label="全部" :value="-1" />
-                <el-option :key="1" label="已使用" :value="1" />
-                <el-option :key="0" label="未使用" :value="0" />
+              <el-select v-model="searchData.status" placeholder="请选择">
+                <el-option :key="-1" label="全部" :value="null" />
+                <el-option :key="1" label="未使用" :value="0" />
+                <el-option :key="2" label="已使用" :value="1" />
+                <el-option :key="3" label="已过期" :value="2" />
               </el-select>
             </div>
-            <el-button type="primary" class="searchBtn" @click="seachList">查询</el-button>
+            <el-button type="primary" class="searchBtn" @click="loadList">查询</el-button>
           </div>
           <div style="margin-top: 30px">
             <el-table
@@ -93,34 +94,57 @@
               :data="usedData"
             >
               <el-table-column
-                prop=""
+                prop="userName"
                 label="领取用户"
               />
               <el-table-column
-                prop=""
+                prop="mobile"
                 label="用户手机号"
-              />
+              >
+                <template v-slot="scope">
+                  <span>{{ scope.row.mobile | formatTel }}</span>
+                </template>
+              </el-table-column>
               <el-table-column
-                prop=""
+                prop="getType"
                 label="领取方式"
-              />
+              >
+                <template v-slot="scope">
+                  <span>{{ scope.row.getType | getType }}</span>
+                </template>
+              </el-table-column>
               <el-table-column
-                prop=""
+                prop="addTime"
                 label="领取时间"
               />
               <el-table-column
-                prop=""
+                prop="usedStatus"
                 label="当前状态"
-              />
+              >
+                <template v-slot="scope">
+                  <span>{{ scope.row.usedStatus | usedStatus }}</span>
+                </template>
+              </el-table-column>
               <el-table-column
-                prop=""
+                prop="usedTime"
                 label="使用时间"
               />
               <el-table-column
-                prop=""
+                prop="orderNo"
                 label="订单编号"
               />
             </el-table>
+            <!--分页-->
+            <el-pagination
+              style="float: right;margin-top: 20px;margin-right: 40px;margin-bottom: 10px"
+              :current-page="searchData.pageNum"
+              :page-sizes="[10,30,50,100,200]"
+              :page-size="searchData.pageSize"
+              layout="total, sizes, prev, pager, next, jumper"
+              :total="total"
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+            />
           </div>
         </div>
       </el-card>
@@ -130,16 +154,43 @@
 </template>
 
 <script>
-import { couponDetail } from '@/api/userManage'
+import { couponDetail, couponUseDetails } from '@/api/userManage'
 export default {
   name: 'CouponsDetails',
+  filters: {
+    usedStatus: function(data) {
+      if (data === 0 || data === '0') {
+        return '未使用'
+      } else if (data === 1 || data === '1') {
+        return '已使用'
+      } else if (data === 2 || data === '2') {
+        return '已过期'
+      }
+    },
+    getType: function(data) {
+      if (data === 1 || data === '1') {
+        return '主动领取'
+      } else if (data === 2 || data === '2') {
+        return '后台赠送'
+      }
+    }
+  },
   data() {
     return {
       couponsDetailsData: '',
       nameInput: '',
       isUsed: 1,
       usedData: [],
-      loading: false
+      loading: false,
+      searchData: {
+        couponId: '',
+        pageNum: 1,
+        pageSize: 10,
+        searchKey: '',
+        status: ''
+      },
+      isPaging: false,
+      total: null
     }
   },
   computed: {
@@ -160,8 +211,21 @@ export default {
   mounted() {
   //  优惠券详情
     this.getDetails()
+    this.searchData.couponId = this.$route.query.id
+    this.loadList()
   },
   methods: {
+    // 当前页码
+    handleSizeChange(val) {
+      this.searchData.pageSize = val
+      this.loadList()
+    },
+    // 当前页数
+    handleCurrentChange(val) {
+      this.isPaging = true
+      this.searchData.pageNum = val
+      this.loadList()
+    },
     // 优惠券详情
     getDetails() {
       this.loading = true
@@ -173,8 +237,21 @@ export default {
         this.loading = false
       })
     },
-    //  查询
-    seachList() {}
+    // 表格数据
+    loadList() {
+      this.loading = true
+      if (!this.isPaging) {
+        this.searchData.pageNum = 1
+      }
+      couponUseDetails(this.searchData).then(res => {
+        if (res.code === 0 || res.code === '0') {
+          this.total = res.data.total
+          this.usedData = res.data.records
+          this.isPaging = false
+          this.loading = false
+        }
+      })
+    }
   }
 }
 </script>

@@ -22,7 +22,7 @@
     </el-form>
     <!--表格-->
     <el-table :data="tableData" style="width: 95%;margin-left: 40px;" border :height="fullHeight-280+'px'">
-      <el-table-column prop="serialNumber" label="编号" min-width="150" show-overflow-tooltip />
+      <el-table-column prop="id" label="编号" min-width="150" show-overflow-tooltip />
       <el-table-column prop="title" label="卡密名称" min-width="150" show-overflow-tooltip />
       <el-table-column prop="validity" label="有效期" min-width="180" show-overflow-tooltip />
       <el-table-column prop="total" label="总发行量" min-width="150" show-overflow-tooltip />

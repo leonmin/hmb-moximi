@@ -19,7 +19,7 @@
             <el-form-item label="备注:" class="form-item">
               <el-input v-model="ruleForm.cardMemo" type="textarea" placeholder="请输入备注" rows="4" />
             </el-form-item>
-            <el-button type="primary" class="save" @click="submitForm('ruleForm',index)">保存</el-button>
+            <el-button type="primary" class="save" :loading="btnLoading" @click="submitForm('ruleForm',index)">保存</el-button>
           </el-form>
         </el-tab-pane>
       </el-tabs>
@@ -37,6 +37,7 @@ export default {
       activeName: 'first',
       fullHeight: document.documentElement.clientHeight, // 页面高度
       loading: false,
+      btnLoading: false,
       ruleForm: {
         price: '', // 原价
         presentPrice: '', // 现价
@@ -100,9 +101,11 @@ export default {
     submitForm(formName, index) {
       this.$refs[formName][index].validate((valid) => {
         if (valid) {
+          this.btnLoading = true
           changeConfig(this.ruleForm).then(res => {
             if (res.code === 0 || res.code === '0') {
               this.$message.success('修改成功!')
+              this.btnLoading = false
               this.getData()
             }
           })

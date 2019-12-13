@@ -13,12 +13,12 @@
         <el-input v-model="ruleForm.userName" placeholder="请输入" />
       </el-form-item>
       <el-form-item label="合伙人电话" prop="mobile" class="form-item">
-        <el-input v-model="ruleForm.mobile" placeholder="请输入" oninput="value=value.replace(/[^\d]/g,'')" />
+        <el-input v-model="ruleForm.mobile" placeholder="请输入" oninput="value=value.replace(/[^\d]/g,'')" maxlength="11"/>
       </el-form-item>
       <el-form-item label="备注" class="form-item">
         <el-input v-model="ruleForm.memo" type="textarea" rows="4" placeholder="请输入" />
       </el-form-item>
-      <el-button type="primary" class="sure" @click="sure('ruleForm')">确定</el-button>
+      <el-button type="primary" class="sure" :loading="btnLoading" @click="sure('ruleForm')">确定</el-button>
     </el-form>
   </div>
 </template>
@@ -32,6 +32,7 @@ export default {
   data: function() {
     return {
       loading: false,
+      btnLoading: false,
       fullHeight: document.documentElement.clientHeight, // 页面高度
       ruleForm: {
         userName: '', // 名称
@@ -76,11 +77,11 @@ export default {
     sure(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.loading = true
+          this.btnLoading = true
           addPartner(this.ruleForm).then(res => {
             if (res.code === 0 || res.code === '0') {
               this.$message.success('操作成功!')
-              this.loading = false
+              this.btnLoading = false
             }
           })
         }

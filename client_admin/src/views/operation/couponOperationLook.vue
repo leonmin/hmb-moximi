@@ -149,7 +149,8 @@ export default {
           label: '已过期',
           value: 2
         }
-      ]
+      ],
+      isPaging: false // 是否是分页
     }
   },
   computed: {
@@ -189,17 +190,21 @@ export default {
     },
     // 当前页数
     handleCurrentChange(val) {
+      this.isPaging = true
       this.searchData.pageNum = val
       this.loadList()
     },
     // 获取表格数据
     loadList() {
       this.loading = true
+      if (!this.isPaging) {
+        this.searchData.pageNum = 1
+      }
       userCouponList(this.searchData).then(res => {
         if (res.code === 0 || res.code === '0') {
-          console.log(res)
           this.total = res.data.total
           this.tableData = res.data.records
+          this.isPaging = false
           this.loading = false
         }
       })

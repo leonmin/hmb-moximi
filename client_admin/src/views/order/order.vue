@@ -6,7 +6,7 @@
         <p>关键词</p>
         <el-input
           v-model="orderInput"
-          placeholder="订单编号/用户名/手机号"
+          placeholder="订单编号"
           style="width: 220px"
           clearable
         />
@@ -72,7 +72,6 @@
       <div class="pageination">
         <p style="display: inline-block">共{{ totalPage }}页/{{ totalNum }}条数据</p>
         <el-pagination
-          background
           :current-page.sync="currentPage"
           :page-size="pageSize"
           layout="prev, pager, next, jumper"
@@ -109,7 +108,7 @@ export default {
     initData() {
       this.loading = true
       const params = {
-        pageNum: this.currentPage,
+        page: this.currentPage,
         orderNo: this.orderInput
       }
       orderList(params).then(res => {
@@ -159,7 +158,9 @@ export default {
     changeMobile(row, column) {
       var changeMobile = row[column.property]
       var reg = /^(\d{3})\d{4}(\d{4})$/
-      return changeMobile.replace(reg, '$1****$2')
+      if (changeMobile !== null && changeMobile !== '') {
+        return changeMobile.replace(reg, '$1****$2')
+      }
     }
   }
 }

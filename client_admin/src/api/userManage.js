@@ -168,3 +168,12 @@ export function addCoupon(data) {
     data
   })
 }
+
+// 优惠券详情(使用明细)
+export function couponUseDetails(data) {
+  return request({
+    url: '/admin/coupon/couponUseDetails',
+    method: 'get',
+    params: data
+  })
+}

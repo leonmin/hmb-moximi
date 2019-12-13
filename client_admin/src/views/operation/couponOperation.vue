@@ -70,7 +70,8 @@ export default {
       },
       total: null, // 总数
       row: null, // 行数据
-      show: false
+      show: false,
+      isPaging: false, // 是否是分页
     }
   },
   watch: {
@@ -129,15 +130,20 @@ export default {
     },
     // 当前页数
     handleCurrentChange(val) {
+      this.isPaging = true
       this.searchData.pageNum = val
       this.loadList()
     },
     loadList() {
       this.loading = true
+      if (!this.isPaging) {
+        this.searchData.pageNum = 1
+      }
       couponOperate(this.searchData).then(res => {
         if (res.code === 0 || res.code === '0') {
           this.total = res.data.total
           this.tableData = res.data.records
+          this.isPaging = false
           this.loading = false
         }
       })

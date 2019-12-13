@@ -3,7 +3,7 @@
     <div class="title">合伙人列表</div>
     <el-form :inline="true" :model="searchData" class="demo-form-inline" label-width="80px" style="margin-top: 30px">
       <el-form-item label="关键字" style="margin-left: 20px">
-        <el-input v-model="searchData.key" placeholder="用户名\手机号" @input="loadList()" />
+        <el-input v-model="searchData.key" placeholder="用户名\手机号" />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" style="margin-left: 30px" @click="loadList()">查询</el-button>
@@ -58,7 +58,8 @@ export default {
         pageSize: 10,
         key: '' // 关键字
       },
-      total: null// 总数
+      total: null, // 总数
+      isPaging: false// 是否是分页
     }
   },
   watch: {
@@ -108,15 +109,20 @@ export default {
     },
     // 当前页数
     handleCurrentChange(val) {
+      this.isPaging = true
       this.searchData.pageNum = val
       this.loadList()
     },
     loadList() {
       this.loading = true
+      if (!this.isPaging) {
+        this.searchData.pageNum = 1
+      }
       partnerList(this.searchData).then(res => {
         if (res.code === 0 || res.code === '0') {
           this.total = res.data.total
           this.tableData = res.data.records
+          this.isPaging = false
           this.loading = false
         }
       })
