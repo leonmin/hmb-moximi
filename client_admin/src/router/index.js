@@ -279,6 +279,33 @@ export const asyncRoutes = [
       }
     ]
   },
+  // 用户反馈
+  {
+    path: '/userFeedback',
+    component: Layout,
+    redirect: '/userFeedback/userFeedbackList',
+    name: 'userFeedback',
+    meta: {
+      title: '用户反馈',
+      icon: 'nested',
+      roles: ['admin']
+    },
+    children: [
+      {
+        path: 'userFeedbackList',
+        name: 'userFeedbackList',
+        component: () => import('@/views/userFeedback/list'),
+        meta: { title: '用户反馈' }
+      },
+      {
+        path: 'userFeekbackDetails',
+        name: 'userFeekbackDetails',
+        component: () => import('@/views/userFeedback/userFeekbackDetails'),
+        meta: { title: '用户反馈详情' },
+        hidden: true
+      }
+    ]
+  },
   // {
   //   path: '/tenant',
   //   component: Layout,

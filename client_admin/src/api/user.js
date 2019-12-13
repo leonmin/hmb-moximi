@@ -79,3 +79,12 @@ export function partnerSubUserDetails(data) {
     params: data
   })
 }
+
+// 提现历史记录
+export function cashHistoryApplyList(data) {
+  return request({
+    url: '/admin/order/cashHistoryApplyList',
+    method: 'get',
+    params: data
+  })
+}

@@ -1,14 +1,9 @@
 <template>
   <div v-loading="loading" class="main">
-    <div class="title">提现审核</div>
+    <div class="title">用户反馈</div>
     <el-form :inline="true" :model="searchData" class="demo-form-inline" label-width="80px" style="margin-top: 30px">
       <el-form-item label="关键字" style="margin-left: 20px">
-        <el-input v-model="searchData.orderNo" placeholder="订单编号\提现人\提现账号" />
-      </el-form-item>
-      <el-form-item label="审核状态">
-        <el-select v-model="searchData.status" placeholder="请选择" clearable>
-          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
-        </el-select>
+        <el-input v-model="searchData.searchKey" placeholder="用户名/手机号" />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" style="margin-left: 30px" @click="loadList()">查询</el-button>
@@ -17,25 +12,23 @@
     </el-form>
     <!--表格-->
     <el-table :data="tableData" style="width: 95%;margin-left: 40px;" border :height="fullHeight-280+'px'">
-      <el-table-column prop="no" label="提现审核编号" min-width="180" show-overflow-tooltip />
-      <el-table-column prop="userName" label="提现人" min-width="150" show-overflow-tooltip />
-      <el-table-column prop="mobile" label="提现人手机号" min-width="150" show-overflow-tooltip>
+      <el-table-column prop="username" label="用户名" min-width="150" show-overflow-tooltip />
+      <el-table-column prop="mobile" label="用户手机号" min-width="150" show-overflow-tooltip>
         <template v-slot="scope">
           <span>{{ scope.row.mobile | formatTel }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="addTime" label="提现时间" min-width="150" show-overflow-tooltip />
-      <el-table-column prop="alipayAccount" label="提现账号" min-width="150" show-overflow-tooltip />
-      <el-table-column prop="cash" label="提现金额" min-width="150" show-overflow-tooltip />
-      <el-table-column prop="balance" label="钱包余额" min-width="150" show-overflow-tooltip />
-      <el-table-column prop="applyStatus" label="审核状态" min-width="150" show-overflow-tooltip>
+      <el-table-column prop="satisfaction" label="用户满意度" min-width="150" show-overflow-tooltip />
+      <el-table-column prop="content" label="反馈详情" min-width="150" show-overflow-tooltip />
+      <el-table-column prop="voucher" label="上传凭证" min-width="150" show-overflow-tooltip>
         <template v-slot="scope">
-          <span>{{ scope.row.applyStatus | applyStatus }}</span>
+          <span>{{ scope.row.voucher===null || scope.row.voucher===''?'':scope.row.voucher+'张' }}</span>
         </template>
       </el-table-column>
+      <el-table-column prop="addTime" label="提交时间" min-width="150" show-overflow-tooltip />
       <el-table-column label="操作" min-width="150" show-overflow-tooltip>
         <template slot-scope="scope">
-          <span style="cursor: pointer;color: #409EFF;" @click="lookDetail(scope.row)">{{ scope.row.applyStatus===0?'审核':'查看详情' }}</span>
+          <span style="cursor: pointer;color: #409EFF;" @click="look(scope.row)">查看详情</span>
         </template>
       </el-table-column>
     </el-table>
@@ -43,8 +36,9 @@
     <el-pagination
       style="float: right;margin-top: 20px;margin-right: 40px"
       :current-page="searchData.pageNum"
+      :page-sizes="[10,30,50,100,200]"
       :page-size="searchData.pageSize"
-      layout="total,prev, pager, next, jumper"
+      layout="total, sizes, prev, pager, next, jumper"
       :total="total"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
@@ -53,45 +47,22 @@
 </template>
 
 <script>
-import { cashApplyList } from '@/api/user'
+import { pageList } from '@/api/userFeedback'
 export default {
-  name: 'CardPassList',
+  name: 'List',
   filters: {
-    /* 是否过期*/
-    applyStatus: function(data) {
-      if (data === 0 || data === '0') {
-        return '待审核'
-      } else if (data === 1 || data === '1') {
-        return '通过审核'
-      } else if (data === 2 || data === '2') {
-        return '拒绝审核'
-      }
-    }
+
   },
   // 存放 数据
   data: function() {
     return {
       loading: false,
       fullHeight: document.documentElement.clientHeight, // 页面高度
-      options: [
-        {
-          value: 0,
-          label: '待审核'
-        },
-        {
-          value: 1,
-          label: '审核通过'
-        },
-        {
-          value: 2,
-          label: '审核拒绝'
-        }
-      ],
       tableData: [], // 表格数据
       searchData: { // 筛选的数据
         pageNum: 1,
-        orderNo: '', // 关键字
-        status: '' // 是否过期
+        pageSize: 10,
+        searchKey: '' // 关键字
       },
       total: null, // 总数
       status: '启用',
@@ -121,21 +92,26 @@ export default {
     this.loadList()
   },
   methods: {
+    // 查看详情
+    look(row) {
+      this.$router.push({
+        path: 'userFeekbackDetails',
+        query: { id: row.id }
+      })
+      const row2 = JSON.stringify(row)
+      sessionStorage.setItem('userFeedbackRow', row2)
+    },
     // 重置
     reset() {
       this.searchData = { // 筛选的数据
         pageNum: 1,
-        orderNo: '', // 关键字
-        status: '' // 是否过期
+        pageSize: 10,
+        searchKey: '' // 关键字
       }
       this.loadList()
     },
     // 查看
     lookDetail(row) {
-      this.$router.push({
-        path: 'reviewDetails',
-        query: { id: row.id, userId: row.userId }
-      })
     },
     // 当前页码
     handleSizeChange(val) {
@@ -153,10 +129,10 @@ export default {
       if (!this.isPaging) {
         this.searchData.pageNum = 1
       }
-      cashApplyList(this.searchData).then(res => {
+      pageList(this.searchData).then(res => {
         if (res.code === 0 || res.code === '0') {
-          console.log(res)
           this.total = res.data.total
+          console.log(res)
           this.tableData = res.data.records
           this.isPaging = false
           this.loading = false

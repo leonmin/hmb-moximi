@@ -65,21 +65,20 @@
       <div class="searchItem">
         <p style="margin-left: 10px">关键词</p>
         <el-input
-          v-model="oderInput"
-          placeholder="订单编号/提现人/提现账号"
+          v-model="searchData.searchKey"
+          placeholder="订单编号/提现账号"
           style="width: 230px"
           clearable
         />
       </div>
       <div class="searchItem" style="margin-left: 20px;font-size: 16px">
         <p>审核状态</p>
-        <el-select v-model="selectValue">
-          <el-option :key="0" label="待审核" :value="0" />
+        <el-select v-model="searchData.status" clearable>
           <el-option :key="1" label="审核通过" :value="1" />
           <el-option :key="2" label="审核拒绝" :value="2" />
         </el-select>
       </div>
-      <el-button type="primary" class="searchBtn">查询</el-button>
+      <el-button type="primary" class="searchBtn" @click="loadList()">查询</el-button>
     </div>
     <!--    表格-->
     <el-table
@@ -87,45 +86,51 @@
       :data="historyData"
     >
       <el-table-column
-        prop=""
+        prop="no"
         label="提现订单编号"
       />
       <el-table-column
-        prop=""
+        prop="userName"
         label="提现人"
       />
       <el-table-column
-        prop=""
+        prop="mobile"
         label="手机号"
-      />
+      >
+        <template v-slot="scope">
+          <span>{{ scope.row.mobile | formatTel }}</span>
+        </template>
+      </el-table-column>
       <el-table-column
         prop=""
         label="提现时间"
       />
       <el-table-column
-        prop=""
+        prop="alipayAccount"
         label="提现账号"
       />
       <el-table-column
-        prop=""
+        prop="cash"
         label="提现金额"
       />
       <el-table-column
-        prop=""
+        prop="applyStatus"
         label="审批状态"
-      />
+      >
+        <template v-slot="scope">
+          <span>{{ scope.row.applyStatus | applyStatus }}</span>
+        </template>
+      </el-table-column>
     </el-table>
     <!--    分页-->
     <div class="pageList clearfix">
       <div class="pageination">
-        <p style="display: inline-block">共{{ totalPage }}页/{{ totalNum }}条数据</p>
         <el-pagination
-          background
-          :current-page.sync="currentPage"
-          :page-size="pageSize"
-          layout="prev, pager, next, jumper"
-          :total="totalNum"
-          style="display: inline-block"
+          style="float: right;margin-top: 20px;margin-right: 40px"
+          :current-page="searchData.pageNum"
+          :page-size="searchData.pageSize"
+          layout="total,prev, pager, next, jumper"
+          :total="total"
           @current-change="currentChange"
         />
       </div>
@@ -154,10 +159,21 @@
 </template>
 
 <script>
-import { applyCashDetail, checkCash } from '@/api/user'
+import { applyCashDetail, checkCash, cashHistoryApplyList } from '@/api/user'
 export default {
   name: 'ReviewDetails',
   inject: ['reload'],
+  filters: {
+    applyStatus: function(data) {
+      if (data === 0 || data === '0') {
+        return '待审核'
+      } else if (data === 1 || data === '1') {
+        return '通过审核'
+      } else if (data === 2 || data === '2') {
+        return '拒绝审核'
+      }
+    }
+  },
   data() {
     return {
       checkData: [],
@@ -168,11 +184,15 @@ export default {
       dialogTableVisible: false,
       id: '',
       memo: '', // 审核备注
-      totalPage: 1,
-      currentPage: 1, // 当前页码
-      totalNum: 0, // 总条数
-      pageSize: 10, // 每页的数据条数
-      loading: false
+      loading: false,
+      searchData: {
+        pageNum: 1,
+        searchKey: '',
+        status: '',
+        userId: ''
+      },
+      total: null,
+      isPaging: false
     }
   },
   computed: {
@@ -194,9 +214,27 @@ export default {
   },
   mounted() {
     this.id = this.$route.query.id
+    this.searchData.userId = this.$route.query.userId
     this.initData()
+    this.loadList()
   },
   methods: {
+    // 历史记录
+    loadList() {
+      this.loading = true
+      if (!this.isPaging) {
+        this.searchData.pageNum = 1
+      }
+      cashHistoryApplyList(this.searchData).then(res => {
+        if (res.code === 0 || res.code === '0') {
+          this.total = res.data.total
+          console.log(res)
+          this.historyData = res.data.records
+          this.isPaging = false
+          this.loading = false
+        }
+      })
+    },
     // 初始化数据
     initData() {
       this.loading = true
@@ -208,7 +246,11 @@ export default {
         this.loading = false
       })
     },
-    currentChange() {},
+    currentChange(val) {
+      this.isPaging = true
+      this.searchData.pageNum = val
+      this.loadList()
+    },
     //  审核通过按钮
     approved(status) {
       if (status === 1) {

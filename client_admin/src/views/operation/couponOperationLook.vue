@@ -34,13 +34,13 @@
       <div class="title">使用优惠卷数据列表</div>
       <div class="title" style="margin-top: 20px;font-size: 18px;overflow: hidden">
         <span>关键字</span>
-        <el-input v-model="searchData.searchKey" placeholder="优惠卷编号\优惠卷名称" style="width:200px;margin-left: 10px;margin-right: 10px" clearable @input="loadList()" />
+        <el-input v-model="searchData.searchKey" placeholder="优惠卷编号\优惠卷名称" style="width:200px;margin-left: 10px;margin-right: 10px" clearable />
         <span>领取方式</span>
-        <el-select v-model="searchData.getWay" placeholder="请选择" style="margin-left: 10px;margin-right: 10px" clearable @change="loadList()">
+        <el-select v-model="searchData.getWay" placeholder="请选择" style="margin-left: 10px;margin-right: 10px" clearable>
           <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
         <span>当前状态</span>
-        <el-select v-model="searchData.currentStatus" placeholder="请选择" style="margin-left: 10px" clearable @change="loadList()">
+        <el-select v-model="searchData.currentStatus" placeholder="请选择" style="margin-left: 10px" clearable>
           <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
         <el-button type="primary" class="search-btn" @click="loadList()">查询</el-button>
@@ -105,9 +105,9 @@ export default {
     },
     getType: function(data) {
       if (data === 1 || data === '1') {
-        return '主动领取'
+        return '后台发放'
       } else if (data === 2 || data === '2') {
-        return '后台赠送'
+        return '邀请注册时赠送'
       }
     }
   },
@@ -128,11 +128,11 @@ export default {
       total: null,
       options: [
         {
-          label: '主动领取',
+          label: '后台发放',
           value: 1
         },
         {
-          label: '后台赠送',
+          label: '邀请注册时赠送',
           value: 2
         }
       ],
