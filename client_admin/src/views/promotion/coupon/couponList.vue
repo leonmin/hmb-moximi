@@ -85,6 +85,7 @@
       </el-table-column>
       <el-table-column
         label="操作"
+        min-width="140"
       >
         <template slot-scope="scope">
           <span class="tableOperation" @click="checkDetails(scope.row)">查看</span>
