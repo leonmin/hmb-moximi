@@ -3,7 +3,7 @@
     <el-card class="box-card" shadow="hover">
       <div class="title">
         卡密详情
-        <span class="code">编号（{{ row.id }}）</span>
+        <span class="code">编号（{{ row.serialNumber }}）</span>
       </div>
       <div class="lineBox">
         <div class="line">

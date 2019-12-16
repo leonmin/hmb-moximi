@@ -4,7 +4,7 @@
     <el-card class="box-card">
       <div slot="header" class="clearfix">
         <span>优惠券详情</span>
-        <span>编号({{ this.$route.query.id }})</span>
+        <span>编号({{ couponsDetailsData.couponNumber }})</span>
       </div>
       <div>
         <el-row :gutter="20">
