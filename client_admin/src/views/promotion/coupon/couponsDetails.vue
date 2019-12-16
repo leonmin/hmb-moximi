@@ -39,11 +39,11 @@
                 <el-input v-model="couponsDetailsData.enable?'已启用':'未启用'" />
               </el-form-item>
             </el-col>
-            <el-col :span="6">
-              <el-form-item label="已领取数">
-                <el-input v-model="couponsDetailsData.totalCount" />
-              </el-form-item>
-            </el-col>
+<!--            <el-col :span="6">-->
+<!--              <el-form-item label="已领取数">-->
+<!--                <el-input v-model="couponsDetailsData.totalCount" />-->
+<!--              </el-form-item>-->
+<!--            </el-col>-->
             <el-col :span="6">
               <el-form-item label="已使用数">
                 <el-input v-model="couponsDetailsData.usedCount" />
@@ -113,10 +113,10 @@
                   <span>{{ scope.row.getType | getType }}</span>
                 </template>
               </el-table-column>
-              <el-table-column
-                prop="addTime"
-                label="领取时间"
-              />
+<!--              <el-table-column-->
+<!--                prop="addTime"-->
+<!--                label="领取时间"-->
+<!--              />-->
               <el-table-column
                 prop="usedStatus"
                 label="当前状态"

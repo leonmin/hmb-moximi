@@ -6,7 +6,7 @@
         <p>关键词</p>
         <el-input
           v-model="searchData.searchKey"
-          placeholder="编号\优惠卷名称"
+          placeholder="优惠卷名称"
           style="width: 180px"
           clearable
         />
@@ -52,6 +52,14 @@
         :formatter="discountChange"
       />
       <el-table-column
+        prop="status"
+        label="是否过期"
+      >
+        <template v-slot="scope">
+          <span>{{ scope.row.status | status }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
         prop="enable"
         label="状态"
         :formatter="enableChange"
@@ -61,15 +69,19 @@
         </template>
       </el-table-column>
       <el-table-column
-        prop="cardSku"
+        prop="couponType"
         label="适用范围"
-      />
+      >
+        <template v-slot="scope">
+          <span>{{ scope.row.couponType | couponType }}</span>
+        </template>
+      </el-table-column>
       <el-table-column
         label="操作"
       >
         <template slot-scope="scope">
           <span class="tableOperation" @click="checkDetails(scope.row)">查看</span>
-          <!--          <span class="tableOperation" @click="Issued">下发</span>-->
+          <span class="tableOperation" @click="Issued(scope.row)">下发</span>
           <span class="tableOperation" @click="RevStop(scope.row.id,scope.row.enable ? 0: 1)">{{ scope.row.enable ? '停用': '启用' }}</span>
         </template>
 
@@ -88,17 +100,19 @@
         />
       </div>
     </div>
-    <!--    穿梭框-->
-    <el-dialog title="下发优惠券" :visible.sync="dialogFormVisible">
-      <span>xxx</span>
-    </el-dialog>
+    <!--dialog-->
+    <coupon-dialog :show.sync="show" :row="row" />
   </div>
 </template>
 
 <script>
 import { couponList, couponEnable } from '@/api/userManage'
+import couponDialog from './couponDialog'
 export default {
-  name: '',
+  name: 'CouponList',
+  components: {
+    couponDialog
+  },
   filters: {
     enable: function(data) {
       if (data === null || data === '') {
@@ -109,6 +123,22 @@ export default {
         } else {
           return '已停用'
         }
+      }
+    },
+    couponType: function(data) {
+      if (data === 0 || data === '0') {
+        return '月卡'
+      } else if (data === 1 || data === '1') {
+        return '季卡'
+      } else if (data === 2 || data === '2') {
+        return '年卡'
+      }
+    },
+    status: function(data) {
+      if (data === 0 || data === '0') {
+        return '未过期'
+      } else if (data === 1 || data === '1') {
+        return '已过期'
       }
     }
   },
@@ -145,7 +175,9 @@ export default {
         status: ''
       },
       loading: false,
-      isPaging: false// 是否是分页
+      isPaging: false, // 是否是分页
+      row: null,
+      show: false
     }
   },
   mounted() {
@@ -168,8 +200,9 @@ export default {
       })
     },
     // 下发优惠券
-    Issued() {
-      this.dialogFormVisible = true
+    Issued(row) {
+      this.row = row
+      this.show = true
     },
     // 优惠券启停
     RevStop(id, rs) {

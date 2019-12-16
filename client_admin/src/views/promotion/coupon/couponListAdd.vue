@@ -9,8 +9,10 @@
           <el-form-item label="优惠券名称" prop="couponTitle">
             <el-input v-model="ruleForm.couponTitle" placeholder="请输入优惠券名称" style="max-width: 300px" />
           </el-form-item>
-          <el-form-item label="优惠券折扣数" prop="couponDiscount">
-            <el-input v-model="ruleForm.couponDiscount" placeholder="请输入优惠券折扣" style="max-width: 300px" oninput="this.value=this.value.replace(/\D/g,'')" @input="compute()" />
+          <el-form-item label="优惠券折扣" prop="couponDiscount">
+            <el-input v-model="ruleForm.couponDiscount" placeholder="请输入优惠券折扣" style="max-width: 300px" oninput="this.value=this.value.replace(/\D/g,'')" @input="compute()">
+              <template slot="append">%</template>
+            </el-input>
           </el-form-item>
           <el-form-item label="优惠券有效期" prop="beginTime">
             <el-date-picker
@@ -117,6 +119,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+  >>>.el-input-group__append{
+    background: none;
+  }
   .couponsAdd{
     margin: 30px;
     .box-card{

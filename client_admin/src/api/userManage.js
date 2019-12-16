@@ -177,3 +177,20 @@ export function couponUseDetails(data) {
     params: data
   })
 }
+
+// 优惠券下发的用户数据
+export function listUsers() {
+  return request({
+    url: '/admin/user/listUsers',
+    method: 'get'
+  })
+}
+
+// 优惠券下发确认
+export function sendCoupons(data) {
+  return request({
+    url: '/admin/coupon/sendCoupons',
+    method: 'post',
+    data
+  })
+}
