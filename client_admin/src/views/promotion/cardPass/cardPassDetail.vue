@@ -27,8 +27,8 @@
           <div class="lineContent2">{{ row.usedCount }}</div>
           <div class="lineContent1">未使用数</div>
           <div class="lineContent2">{{ row.unUseCount }}</div>
-          <div class="lineContent1" />
-          <div class="lineContent2" />
+          <div class="lineContent1">合伙人</div>
+          <div class="lineContent2">{{ row.partnerName }}</div>
         </div>
       </div>
     </el-card>

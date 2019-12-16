@@ -150,21 +150,28 @@ export default {
     // 确定
     sure() {
       if (this.multipleSelection.length > 0) {
-        this.btnLoading = true
-        const data = {
-          couponIds: [],
-          userId: this.row.id
-        }
-        for (let i = 0; i < this.multipleSelection.length; i++) {
-          data.couponIds.push(this.multipleSelection[i].id)
-        }
-        sendCoupons(data).then(res => {
-          if (res.code === 0 || res.code === '0') {
-            this.btnLoading = false
-            this.$message.success(res.msg)
-            this.visible = false
-            this.$emit('success')
+        this.$confirm('确认赠送, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.btnLoading = true
+          const data = {
+            couponIds: [],
+            userId: this.row.id
           }
+          for (let i = 0; i < this.multipleSelection.length; i++) {
+            data.couponIds.push(this.multipleSelection[i].id)
+          }
+          sendCoupons(data).then(res => {
+            if (res.code === 0 || res.code === '0') {
+              this.btnLoading = false
+              this.$message.success(res.msg)
+              this.visible = false
+              this.$emit('success')
+            }
+          })
+        }).catch(() => {
         })
       } else {
         this.$message.error('请先选择优惠券')

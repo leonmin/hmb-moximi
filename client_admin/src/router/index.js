@@ -145,7 +145,7 @@ export const asyncRoutes = [
         path: 'applyWithdraw',
         name: 'applyWithdraw',
         component: () => import('@/views/financial/index'),
-        meta: { title: '提现申请审核' }
+        meta: { title: '提现申请' }
       },
       {
         path: 'reviewDetails',

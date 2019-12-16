@@ -3,17 +3,24 @@
     <!--   搜索栏-->
     <div class="search clearfix">
       <div class="searchItem">
-        <p>关键词</p>
+        <p>名称</p>
         <el-input
           v-model="searchData.searchKey"
           placeholder="优惠卷名称"
-          style="width: 180px"
+          style="width: 140px"
+          clearable
+        />
+        <p style="margin-left: 10px">编号</p>
+        <el-input
+          v-model="searchData.couponNumber"
+          placeholder="编号"
+          style="width: 170px"
           clearable
         />
       </div>
       <div class="searchItem" style="margin-left: 20px">
         <p>是否已过期</p>
-        <el-select v-model="searchData.isOutime" placeholder="请选择" clearable>
+        <el-select v-model="searchData.isOutime" placeholder="请选择" clearable style="width: 140px">
           <el-option :key="-1" label="全部" :value="null" />
           <el-option :key="1" label="未过期" :value="0" />
           <el-option :key="0" label="已过期" :value="1" />
@@ -21,7 +28,7 @@
       </div>
       <div class="searchItem" style="margin-left: 20px">
         <p>状态</p>
-        <el-select v-model="searchData.status" placeholder="请选择" clearable>
+        <el-select v-model="searchData.status" placeholder="请选择" clearable style="width: 140px">
           <el-option :key="-1" label="全部" :value="null" />
           <el-option :key="1" label="启用中" :value="1" />
           <el-option :key="0" label="未启用" :value="0" />
@@ -35,7 +42,7 @@
       :data="couponsData"
     >
       <el-table-column
-        prop="id"
+        prop="couponNumber"
         label="编号"
       />
       <el-table-column
@@ -69,11 +76,11 @@
         </template>
       </el-table-column>
       <el-table-column
-        prop="couponType"
+        prop="couponCardType"
         label="适用范围"
       >
         <template v-slot="scope">
-          <span>{{ scope.row.couponType | couponType }}</span>
+          <span>{{ scope.row.couponCardType | couponCardType }}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -125,7 +132,7 @@ export default {
         }
       }
     },
-    couponType: function(data) {
+    couponCardType: function(data) {
       if (data === 0 || data === '0') {
         return '月卡'
       } else if (data === 1 || data === '1') {
@@ -172,7 +179,8 @@ export default {
         pageNum: 1,
         searchKey: '',
         isOutime: '',
-        status: ''
+        status: '',
+        couponNumber: ''
       },
       loading: false,
       isPaging: false, // 是否是分页

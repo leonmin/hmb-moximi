@@ -324,7 +324,9 @@ export default {
           })
         }
         this.dialogTableVisible = false
-        this.reload()
+        this.$router.push({
+          path: 'applyWithdraw'
+        })
       })
     }
   }

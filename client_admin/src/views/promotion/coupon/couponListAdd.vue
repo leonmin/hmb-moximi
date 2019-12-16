@@ -55,7 +55,7 @@ export default {
         beginTime: '',
         endTime: '',
         couponCardType: '0',
-        cardSku: 100001,
+        cardSku: '',
         enable: true
       },
       date: [],
@@ -75,6 +75,8 @@ export default {
       discount: '',
       btnLoading: false
     }
+  },
+  mounted() {
   },
   methods: {
     // 计算折扣价格
@@ -102,6 +104,13 @@ export default {
       }
     },
     submitForm(formName) {
+      if (this.ruleForm.couponCardType === 0 || this.ruleForm.couponCardType === '0') {
+        this.ruleForm.cardSku = 100001
+      } else if (this.ruleForm.couponCardType === 1 || this.ruleForm.couponCardType === '1') {
+        this.ruleForm.cardSku = 100002
+      } else {
+        this.ruleForm.cardSku = 100003
+      }
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.btnLoading = true

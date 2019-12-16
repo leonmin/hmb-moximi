@@ -87,11 +87,18 @@ export default {
     // 确定
     sure() {
       if (this.params.userIds.length > 0) {
-        sendCoupons(this.params).then(res => {
-          if (res.code === 0 || res.code === '0') {
-            this.$message.success(res.msg)
-            this.visible = false
-          }
+        this.$confirm('确认下发, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          sendCoupons(this.params).then(res => {
+            if (res.code === 0 || res.code === '0') {
+              this.$message.success(res.msg)
+              this.visible = false
+            }
+          })
+        }).catch(() => {
         })
       } else {
         this.$message.error('请选择下发的用户')

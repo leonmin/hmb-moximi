@@ -6,7 +6,7 @@
         <p>关键词</p>
         <el-input
           v-model="orderInput"
-          placeholder="订单编号"
+          placeholder="订单编号\用户名\手机号"
           style="width: 220px"
           clearable
         />
@@ -68,7 +68,7 @@
 
     </el-table>
     <!--    分页-->
-    <div class="pageList clearfix">
+    <div class="pageList clearfix" style="margin-top: 10px">
       <div class="pageination">
         <p style="display: inline-block">共{{ totalPage }}页/{{ totalNum }}条数据</p>
         <el-pagination
@@ -109,7 +109,7 @@ export default {
       this.loading = true
       const params = {
         page: this.currentPage,
-        orderNo: this.orderInput
+        searchKey: this.orderInput
       }
       orderList(params).then(res => {
         this.tableData = res.data.records

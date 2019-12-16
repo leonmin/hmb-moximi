@@ -2,16 +2,19 @@
   <div v-loading="loading" class="main">
     <div class="title">卡密列表</div>
     <el-form :inline="true" :model="searchData" class="demo-form-inline" label-width="80px" style="margin-top: 30px">
-      <el-form-item label="关键字" style="margin-left: 20px">
-        <el-input v-model="searchData.title" placeholder="编号\卡密名称" />
+      <el-form-item label="卡密名称" style="margin-left: 30px;">
+        <el-input v-model="searchData.title" placeholder="卡密名称" style="width: 140px" />
+      </el-form-item>
+      <el-form-item label="卡密编号">
+        <el-input v-model="searchData.serialNumber" placeholder="卡密编号" style="width: 160px" />
       </el-form-item>
       <el-form-item label="是否过期">
-        <el-select v-model="searchData.isExpire" placeholder="请选择" clearable>
+        <el-select v-model="searchData.isExpire" placeholder="请选择" clearable style="width: 140px">
           <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
       </el-form-item>
       <el-form-item label="状态">
-        <el-select v-model="searchData.status" placeholder="请选择" clearable>
+        <el-select v-model="searchData.status" placeholder="请选择" clearable style="width: 140px">
           <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
       </el-form-item>
@@ -22,7 +25,7 @@
     </el-form>
     <!--表格-->
     <el-table :data="tableData" style="width: 95%;margin-left: 40px;" border :height="fullHeight-280+'px'">
-      <el-table-column prop="id" label="编号" min-width="150" show-overflow-tooltip />
+      <el-table-column prop="serialNumber" label="编号" min-width="150" show-overflow-tooltip />
       <el-table-column prop="title" label="卡密名称" min-width="150" show-overflow-tooltip />
       <el-table-column prop="validity" label="有效期" min-width="180" show-overflow-tooltip />
       <el-table-column prop="total" label="总发行量" min-width="150" show-overflow-tooltip />
@@ -31,6 +34,7 @@
           <span>{{ scope.row.outTime | outTime }}</span>
         </template>
       </el-table-column>
+      <el-table-column prop="partnerName" label="合伙人" min-width="150" show-overflow-tooltip />
       <el-table-column prop="status" label="状态" min-width="120" show-overflow-tooltip>
         <template slot-scope="scope">
           <span>{{ scope.row.status | status }}</span>
@@ -125,7 +129,8 @@ export default {
         pageSize: 10,
         title: '', // 关键字
         isExpire: '', // 是否过期
-        status: ''// 卡密名称
+        status: '', // 卡密名称
+        serialNumber: ''// 编号
       },
       total: null, // 总数
       status: '启用',
@@ -183,7 +188,8 @@ export default {
         pageSize: 10,
         title: '', // 关键字
         isExpire: '', // 是否过期
-        status: ''// 卡密名称
+        status: '', // 卡密名称
+        serialNumber: ''// 编号
       }
       this.loadList()
     },
