@@ -74,8 +74,8 @@ service.interceptors.response.use(
           path: '/merchantList'
         })
       }
-
-      return Promise.reject(new Error(res.message || 'Error'))
+      return res
+      // return Promise.reject(new Error(res.message || 'Error'))
     } else {
       return res
     }
