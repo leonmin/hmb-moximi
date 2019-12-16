@@ -27,7 +27,7 @@
       <el-table-column prop="addTime" label="提现时间" min-width="150" show-overflow-tooltip />
       <el-table-column prop="alipayAccount" label="提现账号" min-width="150" show-overflow-tooltip />
       <el-table-column prop="cash" label="提现金额" min-width="150" show-overflow-tooltip />
-      <el-table-column prop="balance" label="钱包余额" min-width="150" show-overflow-tooltip />
+<!--      <el-table-column prop="balance" label="钱包余额" min-width="150" show-overflow-tooltip />-->
       <el-table-column prop="applyStatus" label="审核状态" min-width="150" show-overflow-tooltip>
         <template v-slot="scope">
           <span>{{ scope.row.applyStatus | applyStatus }}</span>

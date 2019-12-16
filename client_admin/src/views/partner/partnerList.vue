@@ -123,8 +123,8 @@ export default {
           this.total = res.data.total
           this.tableData = res.data.records
           this.isPaging = false
-          this.loading = false
         }
+        this.loading = false
       })
     }
   }

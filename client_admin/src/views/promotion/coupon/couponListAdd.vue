@@ -117,8 +117,8 @@ export default {
           addCoupon(this.ruleForm).then(res => {
             if (res.code === 0 || res.code === '0') {
               this.$message.success('添加成功!')
-              this.btnLoading = false
             }
+            this.btnLoading = false
           })
         }
       })

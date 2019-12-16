@@ -108,9 +108,9 @@ export default {
           changeConfig(this.ruleForm).then(res => {
             if (res.code === 0 || res.code === '0') {
               this.$message.success('修改成功!')
-              this.btnLoading = false
               this.getData()
             }
+            this.btnLoading = false
           })
         }
       })

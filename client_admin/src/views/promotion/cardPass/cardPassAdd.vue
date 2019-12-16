@@ -137,8 +137,8 @@ export default {
           addExchangeCard(this.ruleForm).then(res => {
             if (res.code === 0 || res.code === '0') {
               this.$message.success('操作成功!')
-              this.loading = false
             }
+            this.loading = false
           })
         }
       })
