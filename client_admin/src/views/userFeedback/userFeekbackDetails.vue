@@ -8,27 +8,27 @@
       <el-row class="el-row">
         <el-col :span="6">
           <span class="left-font">用户名:</span>
-          <span class="right-font">{{row.username}}</span>
+          <span class="right-font">{{ row.username }}</span>
         </el-col>
         <el-col :span="6">
           <span class="left-font">用户手机号:</span>
-          <span class="right-font">{{row.mobile | formatTel}}</span>
+          <span class="right-font">{{ row.mobile | formatTel }}</span>
         </el-col>
         <el-col :span="6">
           <span class="left-font">用户满意度:</span>
-          <span class="right-font">{{row.satisfaction}}</span>
+          <span class="right-font">{{ row.satisfaction | satisfaction }}</span>
         </el-col>
         <el-col :span="6">
           <span class="left-font">提交时间:</span>
-          <span class="right-font">{{row.addTime}}</span>
+          <span class="right-font">{{ row.addTime }}</span>
         </el-col>
       </el-row>
       <el-divider />
       <div class="title2">反馈详情</div>
-      <div class="contentBox">{{row.content}}</div>
+      <div class="contentBox">{{ row.content }}</div>
       <div class="title2">上传凭证</div>
       <div class="img-box">
-        <el-image class="img" :src="item" :preview-src-list="row.attachArray" v-for="(item,index) in row.attachArray" :key="index"/>
+        <el-image v-for="(item,index) in row.attachArray" :key="index" class="img" :src="item" :preview-src-list="row.attachArray" />
       </div>
     </el-card>
   </div>
@@ -37,13 +37,28 @@
 <script>
 export default {
   name: '',
+  filters: {
+    satisfaction: function(data) {
+      if (data === 0 || data === '0') {
+        return '很不满意'
+      } else if (data === 1 || data === '1') {
+        return '不满'
+      } else if (data === 2 || data === '2') {
+        return '一般'
+      } else if (data === 3 || data === '3') {
+        return '满意'
+      } else if (data === 4 || data === '4') {
+        return '很满意'
+      }
+    }
+  },
   // 存放 数据
   data: function() {
     return {
       loading: false,
       fullHeight: document.documentElement.clientHeight, // 页面高度
       listData: {},
-      row: null
+      row: {}
     }
   },
   watch: {

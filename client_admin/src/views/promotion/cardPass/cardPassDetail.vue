@@ -40,7 +40,7 @@
         <el-button type="primary" class="search-btn" @click="loadList()">查询</el-button>
       </div>
       <!--表格-->
-      <el-table :data="tableData" style="width: 99%;margin-left: 15px;margin-top: 20px" border :height="fullHeight-560">
+      <el-table :data="tableData" style="width: 99%;margin-left: 15px;margin-top: 20px" border>
         <el-table-column prop="cardKey" label="卡密密码" min-width="180" show-overflow-tooltip>
           <template slot-scope="scope">
             <span>{{ scope.row.cardKey | cardKey }}</span>

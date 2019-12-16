@@ -46,7 +46,7 @@
         <el-button type="primary" class="search-btn" @click="loadList()">查询</el-button>
       </div>
       <!--表格-->
-      <el-table :data="tableData" style="width: 99%;margin-left: 15px;margin-top: 20px" border :height="fullHeight-600">
+      <el-table :data="tableData" style="width: 99%;margin-left: 15px;margin-top: 20px" border>
         <el-table-column prop="couponId" label="优惠券编号" min-width="150" show-overflow-tooltip />
         <el-table-column prop="couponTitle" label="优惠券名称" min-width="140" show-overflow-tooltip />
         <el-table-column prop="discount" label="优惠券折扣" min-width="100" show-overflow-tooltip>

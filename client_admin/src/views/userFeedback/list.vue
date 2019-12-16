@@ -143,7 +143,6 @@ export default {
       pageList(this.searchData).then(res => {
         if (res.code === 0 || res.code === '0') {
           this.total = res.data.total
-          console.log(res)
           this.tableData = res.data.records
           this.isPaging = false
           this.loading = false

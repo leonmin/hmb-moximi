@@ -81,60 +81,74 @@
       <el-button type="primary" class="searchBtn" @click="loadList()">查询</el-button>
     </div>
     <!--    表格-->
-    <el-table
-      border
-      :data="historyData"
-    >
-      <el-table-column
-        prop="no"
-        label="提现订单编号"
-      />
-      <el-table-column
-        prop="userName"
-        label="提现人"
-      />
-      <el-table-column
-        prop="mobile"
-        label="手机号"
+    <el-card class="box-card">
+      <el-table
+        border
+        :data="historyData"
       >
-        <template v-slot="scope">
-          <span>{{ scope.row.mobile | formatTel }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        prop="updateTime"
-        label="提现时间"
-      />
-      <el-table-column
-        prop="alipayAccount"
-        label="提现账号"
-      />
-      <el-table-column
-        prop="cash"
-        label="提现金额"
-      />
-      <el-table-column
-        prop="applyStatus"
-        label="审批状态"
-      >
-        <template v-slot="scope">
-          <span>{{ scope.row.applyStatus | applyStatus }}</span>
-        </template>
-      </el-table-column>
-    </el-table>
-    <!--    分页-->
-    <div class="pageList clearfix">
-      <div class="pageination">
-        <el-pagination
-          style="float: right;margin-top: 20px;margin-right: 40px"
-          :current-page="searchData.pageNum"
-          :page-size="searchData.pageSize"
-          layout="total,prev, pager, next, jumper"
-          :total="total"
-          @current-change="currentChange"
+        <el-table-column
+          prop="no"
+          label="提现订单编号"
+          min-width="200"
         />
+        <el-table-column
+          prop="userName"
+          label="提现人"
+          min-width="120"
+        />
+        <el-table-column
+          prop="mobile"
+          label="手机号"
+          min-width="150"
+        >
+          <template v-slot="scope">
+            <span>{{ scope.row.mobile | formatTel }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="updateTime"
+          label="提现时间"
+          show-overflow-tooltip
+          table-size="mini"
+          min-width="160"
+        />
+        <el-table-column
+          prop="alipayAccount"
+          label="提现账号"
+          show-overflow-tooltip
+          min-width="180"
+        />
+        <el-table-column
+          prop="cash"
+          label="提现金额"
+          show-overflow-tooltip
+          min-width="150"
+        />
+        <el-table-column
+          prop="applyStatus"
+          label="审批状态"
+          show-overflow-tooltip
+          min-width="100"
+        >
+          <template v-slot="scope">
+            <span>{{ scope.row.applyStatus | applyStatus }}</span>
+          </template>
+        </el-table-column>
+      </el-table>
+      <!--    分页-->
+      <div class="pageList clearfix">
+        <div class="pageination">
+          <el-pagination
+            style="float: right;margin-top: 20px;margin-right: 40px"
+            :current-page="searchData.pageNum"
+            :page-size="searchData.pageSize"
+            layout="total,prev, pager, next, jumper"
+            :total="total"
+            @current-change="currentChange"
+          />
+        </div>
       </div>
-    </div>
+    </el-card>
     <div class="deliver" />
     <!--    待审核按钮-->
     <div v-if="checkData.applyStatus === 0" class="checkBtn">
@@ -318,6 +332,9 @@ export default {
 </script>
 
 <style scoped>
+  >>>.el-table .cell{
+    white-space: nowrap !important;
+  }
 .reviewDetails{
   margin: 30px;
 }
