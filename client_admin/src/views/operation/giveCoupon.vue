@@ -12,11 +12,12 @@
     >
       <div v-loading="loading">
         <div class="bigBox">
-          <el-input v-model="searchData.searchKey" placeholder="输入优惠卷编号\名称" clearable class="input" @input="loadList()" />
+          <el-input v-model="searchData.searchKey" placeholder="优惠券名称" clearable class="input" style="float: left;width: 300px" @input="loadList()" />
+          <el-input v-model="searchData.couponList" placeholder="优惠卷编号" clearable class="input" style="float: left;width: 300px;margin-left: 20px" @input="loadList()" />
           <!--表格部分-->
           <el-table ref="multipleTable" v-loading="loading" :row-key="getRowKeys" :data="tableData" tooltip-effect="dark" class="table" :height="550" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55" :reserve-selection="true" />
-            <el-table-column prop="id" label="优惠卷编号" show-overflow-tooltip min-width="120" />
+            <el-table-column prop="couponNumber" label="优惠卷编号" show-overflow-tooltip min-width="120" />
             <el-table-column prop="couponTitle" label="优惠卷名称" show-overflow-tooltip min-width="120" />
             <el-table-column prop="couponDiscount" label="折扣数" show-overflow-tooltip min-width="120">
               <template v-slot="scope">
@@ -25,7 +26,7 @@
             </el-table-column>
             <el-table-column prop="couponType" label="适用范围" show-overflow-tooltip min-width="120">
               <template v-slot="scope">
-                <span>{{ scope.row.couponType | couponType }}</span>
+                <span>{{ scope.row.couponCardType | couponType }}</span>
               </template>
             </el-table-column>
             <el-table-column prop="validity" label="有效期" show-overflow-tooltip min-width="150" />
@@ -81,6 +82,7 @@ export default {
       searchData: { // 筛选的数据
         pageNum: 1,
         pageSize: 10,
+        couponList: '',
         searchKey: '' // 关键字
       },
       total: null,
@@ -181,6 +183,7 @@ export default {
       this.searchData = { // 筛选的数据
         pageNum: 1,
         pageSize: 10,
+        couponList: '',
         searchKey: '' // 关键字
       }
       this.loadList()

@@ -2,7 +2,7 @@
   <div v-loading="loading" class="main">
     <div class="title">用户反馈</div>
     <el-form :inline="true" :model="searchData" class="demo-form-inline" label-width="80px" style="margin-top: 30px">
-      <el-form-item label="关键字" style="margin-left: 20px">
+      <el-form-item label="关键字" style="margin-left: 15px">
         <el-input v-model="searchData.searchKey" placeholder="用户名/手机号" />
       </el-form-item>
       <el-form-item>
