@@ -40,7 +40,7 @@
         <el-select v-model="searchData.getWay" placeholder="请选择" style="margin-left: 10px;margin-right: 10px" clearable>
           <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
-        <span>当前状态</span>
+        <span>使用状态</span>
         <el-select v-model="searchData.currentStatus" placeholder="请选择" style="margin-left: 10px" clearable>
           <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
@@ -61,7 +61,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="addTime" label="领取时间" min-width="180" show-overflow-tooltip />
-        <el-table-column prop="usedStatus" label="当前状态" min-width="120" show-overflow-tooltip>
+        <el-table-column prop="usedStatus" label="使用状态" min-width="120" show-overflow-tooltip>
           <template v-slot="scope">
             <span>{{ scope.row.usedStatus | usedStatus }}</span>
           </template>
@@ -180,7 +180,6 @@ export default {
         that.fullHeight = window.fullHeight
       })()
     }
-    console.log(this.row)
     this.searchData.userId = this.row.id
     this.loadList()
   },
