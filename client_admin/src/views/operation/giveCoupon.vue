@@ -13,7 +13,7 @@
       <div v-loading="loading">
         <div class="bigBox">
           <el-input v-model="searchData.searchKey" placeholder="优惠券名称" clearable class="input" style="float: left;width: 300px" @input="loadList()" />
-          <el-input v-model="searchData.couponList" placeholder="优惠卷编号" clearable class="input" style="float: left;width: 300px;margin-left: 20px" @input="loadList()" />
+          <el-input v-model="searchData.couponNumber" placeholder="优惠卷编号" clearable class="input" style="float: left;width: 300px;margin-left: 20px" @input="loadList()" />
           <!--表格部分-->
           <el-table ref="multipleTable" v-loading="loading" :row-key="getRowKeys" :data="tableData" tooltip-effect="dark" class="table" :height="550" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55" :reserve-selection="true" />
@@ -82,7 +82,7 @@ export default {
       searchData: { // 筛选的数据
         pageNum: 1,
         pageSize: 10,
-        couponList: '',
+        couponNumber: '',
         searchKey: '' // 关键字
       },
       total: null,
@@ -183,7 +183,7 @@ export default {
       this.searchData = { // 筛选的数据
         pageNum: 1,
         pageSize: 10,
-        couponList: '',
+        couponNumber: '',
         searchKey: '' // 关键字
       }
       this.loadList()
