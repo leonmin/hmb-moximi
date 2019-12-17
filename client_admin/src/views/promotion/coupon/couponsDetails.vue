@@ -169,9 +169,9 @@ export default {
     },
     getType: function(data) {
       if (data === 1 || data === '1') {
-        return '主动领取'
+        return '后台发放'
       } else if (data === 2 || data === '2') {
-        return '后台赠送'
+        return '邀请注册时赠送'
       }
     }
   },

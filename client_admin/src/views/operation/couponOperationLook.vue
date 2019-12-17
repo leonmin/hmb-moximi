@@ -34,7 +34,8 @@
       <div class="title">使用优惠卷数据列表</div>
       <div class="title" style="margin-top: 20px;font-size: 18px;overflow: hidden">
         <span>关键字</span>
-        <el-input v-model="searchData.searchKey" placeholder="优惠卷编号\优惠卷名称" style="width:200px;margin-left: 10px;margin-right: 10px" clearable />
+        <el-input v-model="searchData.searchKey" placeholder="优惠卷名称" style="width:200px;margin-left: 10px;margin-right: 10px" clearable />
+        <el-input v-model="searchData.couponNumber" placeholder="优惠卷编号" style="width:200px;margin-right: 10px" clearable />
         <span>领取方式</span>
         <el-select v-model="searchData.getWay" placeholder="请选择" style="margin-left: 10px;margin-right: 10px" clearable>
           <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
@@ -47,7 +48,7 @@
       </div>
       <!--表格-->
       <el-table :data="tableData" style="width: 99%;margin-left: 15px;margin-top: 20px" border>
-        <el-table-column prop="couponId" label="优惠券编号" min-width="150" show-overflow-tooltip />
+        <el-table-column prop="couponNumber" label="优惠券编号" min-width="150" show-overflow-tooltip />
         <el-table-column prop="couponTitle" label="优惠券名称" min-width="140" show-overflow-tooltip />
         <el-table-column prop="discount" label="优惠券折扣" min-width="100" show-overflow-tooltip>
           <template v-slot="scope">
@@ -121,6 +122,7 @@ export default {
         pageSize: 10,
         userId: '',
         searchKey: '',
+        couponNumber: '',
         getWay: '',
         currentStatus: ''
       },
