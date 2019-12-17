@@ -23,7 +23,7 @@
         <el-select v-model="searchData.isOutime" placeholder="请选择" clearable style="width: 140px">
           <el-option :key="-1" label="全部" :value="null" />
           <el-option :key="1" label="未过期" :value="0" />
-          <el-option :key="0" label="已过期" :value="1" />
+          <el-option :key="0" label="已过期" :value="2" />
         </el-select>
       </div>
       <div class="searchItem" style="margin-left: 20px">
@@ -145,7 +145,7 @@ export default {
     status: function(data) {
       if (data === 0 || data === '0') {
         return '未过期'
-      } else if (data === 1 || data === '1') {
+      } else if (data === 2 || data === '2') {
         return '已过期'
       }
     }
