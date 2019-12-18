@@ -154,7 +154,7 @@ export default {
         }).catch(() => {
         })
       } else {
-        this.$message.error('请先选择优惠券')
+        this.$message.error('请先选择下发的用户')
       }
     },
     openDialog() {
