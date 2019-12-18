@@ -1,3 +1,4 @@
-npm run build:prod
-scp -r dist/* root@134.175.160.240:/home/p/client_ss/public/
-
+#!/usr/bin/env bash
+server="root@112.126.68.102"
+npm run build:dep
+scp -r dist/* ${server}:/home/ai_assist/ai_admin/public/
