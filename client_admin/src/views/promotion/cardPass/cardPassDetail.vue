@@ -120,7 +120,7 @@ export default {
     },
     // 卡密密码
     cardKey: function(data) {
-      return data.substr(0, 7) + '**** ****' + data.substr(8)
+      return data.substr(0, 4) + '**** ****' + data.substr(-4)
     }
   },
   // 存放 数据
@@ -203,6 +203,11 @@ export default {
 </script>
 
 <style scoped>
+  .tag{
+    width: 131px;
+    height: 40px;
+    line-height: 40px;
+  }
   .search-btn{
     margin-left: 10px;
   }
@@ -217,7 +222,7 @@ export default {
   }
   .lineContent1{
     flex: 1;
-    background-color: #D9ECFF;
+    background-color: #f7f7f7;
     font-size: 18px;
     font-weight: bold;
     min-height: 55px;

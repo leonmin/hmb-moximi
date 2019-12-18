@@ -20,8 +20,16 @@
         </template>
       </el-table-column>
       <el-table-column prop="addTime" label="注册时间" min-width="160" show-overflow-tooltip />
-      <el-table-column prop="partnerBalance" label="合伙人余额" min-width="120" show-overflow-tooltip />
-      <el-table-column prop="royaltyCount" label="提成累计" min-width="120" show-overflow-tooltip />
+      <el-table-column prop="partnerBalance" label="合伙人余额(元)" min-width="120" show-overflow-tooltip>
+        <template v-slot="scope">
+          <span>{{scope.row.partnerBalance | formatMoney}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="royaltyCount" label="提成累计(元)" min-width="120" show-overflow-tooltip>
+        <template v-slot="scope">
+          <span>{{scope.row.royaltyCount | formatMoney}}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="subUser" label="下级用户数" min-width="120" show-overflow-tooltip />
       <el-table-column label="操作" show-overflow-tooltip width="150">
         <template slot-scope="scope">

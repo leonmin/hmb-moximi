@@ -33,7 +33,11 @@
         prop="price"
         label="会员卡续费金额"
         width="100"
-      />
+      >
+        <template v-slot="scope">
+          <span>{{ scope.row.price | formatMoney }}</span>
+        </template>
+      </el-table-column>
       <el-table-column
         prop="addTime"
         label="支付时间"
@@ -55,16 +59,25 @@
 
       <el-table-column
         prop="couponPrice"
-        label="优惠券折扣"
-      />
+        label="优惠券抵扣(元)">
+        <template v-slot="scope">
+          <span>{{ scope.row.couponPrice | formatMoney}}</span>
+        </template>
+      </el-table-column>
       <el-table-column
         prop="payPrice"
-        label="实际支付金额"
-      />
+        label="实际支付金额(元)">
+        <template v-slot="scope">
+          <span>{{ scope.row.payPrice | formatMoney }}</span>
+        </template>
+      </el-table-column>
       <el-table-column
-        prop=""
-        label="提成金额"
-      />
+        prop="profit"
+        label="提成金额(元)">
+        <template v-slot="scope">
+          <span>{{scope.row.profit | formatMoney}}</span>
+        </template>
+      </el-table-column>
 
     </el-table>
     <!--    分页-->

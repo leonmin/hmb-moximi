@@ -27,6 +27,11 @@ Vue.filter('formatTel', function(value) {
   value = value.toString()
   return value.substr(0, 3) + '****' + value.substr(7)
 })
+// 分转元
+Vue.filter('formatMoney', function(number) {
+//     var number = +val.replace(/[^\d.]/g, '');
+  return isNaN(number) ? 0.00 : parseFloat((number / 100).toFixed(2))
+})
 
 // 引入echarts
 import echarts from 'echarts'

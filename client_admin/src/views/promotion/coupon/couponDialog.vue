@@ -12,10 +12,13 @@
     >
       <div v-loading="loading">
         <div class="bigBox">
-          <el-input v-model="searchData.searchKey" placeholder="用户名/用户手机号" clearable class="input" style="float: left;width: 300px" />
+          <el-input v-model="searchData.searchKey" placeholder="用户名/用户手机号" clearable class="input" style="float: left;width: 324px;margin-bottom: 10px" />
           <el-button type="primary" style="margin-left: 15px;" @click="loadList()">搜索</el-button>
           <!--表格部分-->
-          <el-table ref="multipleTable" v-loading="loading" :row-key="getRowKeys" :data="tableData" tooltip-effect="dark" class="table" :height="550" @selection-change="handleSelectionChange">
+          <div style="float: left;width: 100%" />
+          <div style="font-weight: bold;margin-bottom: 10px;">用户列表</div>
+          <div style="font-weight: bold;margin-bottom: 10px;float: right;margin-top: -30px;margin-right: 365px">已选列表</div>
+          <el-table ref="multipleTable" v-loading="loading" border :row-key="getRowKeys" :data="tableData" tooltip-effect="dark" class="table" :height="550" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55" :reserve-selection="true" />
             <el-table-column prop="userName" label="用户名" show-overflow-tooltip min-width="120" />
             <el-table-column prop="mobile" label="用户手机号" show-overflow-tooltip min-width="120">
@@ -24,19 +27,36 @@
               </template>
             </el-table-column>
           </el-table>
-          <!--分页-->
-          <el-pagination
-            style="float: right;margin-top: 20px;"
-            :current-page="searchData.pageNum"
-            :page-size="searchData.pageSize"
-            layout="total, prev, pager, next, jumper"
-            :total="total"
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-          />
+          <div class="rightNarrow" />
+          <el-table v-loading="loading" border :row-key="getRowKeys" :data="multipleSelection" tooltip-effect="dark" class="table" :height="550">
+            <el-table-column prop="userName" label="用户名" show-overflow-tooltip min-width="120" />
+            <el-table-column prop="mobile" label="用户手机号" show-overflow-tooltip min-width="120">
+              <template v-slot="scope">
+                <span>{{ scope.row.mobile | formatTel }}</span>
+              </template>
+            </el-table-column>
+<!--            <el-table-column prop="mobile" label="操作" show-overflow-tooltip min-width="60">-->
+<!--              <template v-slot="scope">-->
+<!--                <span style="color: #1c75ff;cursor: pointer" @click="del(scope.row,false)">删除</span>-->
+<!--              </template>-->
+<!--            </el-table-column>-->
+          </el-table>
+          <div style="float: right;margin-right: 10px;font-size: 14px;margin-top: 10px">共 {{ multipleSelection.length }} 位</div>
         </div>
-        <el-button type="primary" style="margin-left: 20px" :loading="btnLoading" @click="sure()">确认</el-button>
-        <el-button type="info" @click="cancel()">取消</el-button>
+        <!--分页-->
+        <el-pagination
+          style="float: right;margin-top: 10px;float: left;margin-left: 100px"
+          :current-page="searchData.pageNum"
+          :page-size="searchData.pageSize"
+          layout="total, prev, pager, next, jumper"
+          :total="total"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+        />
+        <div style="margin-left: 750px;margin-top: 40px">
+          <el-button type="primary" style="margin-left: 20px" :loading="btnLoading" @click="sure()">确认</el-button>
+          <el-button type="info" @click="cancel()">取消</el-button>
+        </div>
       </div>
     </el-dialog>
   </div>
@@ -53,10 +73,10 @@ export default {
       visible: this.show,
       loading: false,
       tableData: [],
+      tableData2: [],
       input: '',
       fullHeight: document.documentElement.clientHeight, // 页面高度
       multipleSelection: [], // 表格选中的数据
-      checkAll: false, // 底部全选
       searchData: { // 筛选的数据
         pageNum: 1,
         pageSize: 10,
@@ -97,6 +117,22 @@ export default {
     }
   },
   methods: {
+    // del(row, status) {
+    //   this.$confirm('确认删除此用户?', '提示', {
+    //     confirmButtonText: '确定',
+    //     cancelButtonText: '取消',
+    //     type: 'warning'
+    //   }).then(() => {
+    //     for (let i = 0; i < this.multipleSelection.length; i++) {
+    //       if (row.id === this.multipleSelection[i].id) {
+    //         this.$refs.multipleTable.toggleRowSelection(row)
+    //         this.multipleSelection.splice(i, 1)
+    //         this.loadList()
+    //       }
+    //     }
+    //   }).catch(() => {
+    //   })
+    // },
     // 取消
     cancel() {
       this.visible = false
@@ -112,25 +148,14 @@ export default {
       this.searchData.pageNum = val
       this.loadList()
     },
-    toggleSelection(rows) {
-      if (rows) {
-        rows.forEach(row => {
-          this.$refs.multipleTable.toggleRowSelection(row)
-        })
-      } else {
-        this.$refs.multipleTable.clearSelection()
-      }
-    },
     // 表格选中
     handleSelectionChange(val) {
-      const vlength = val.length
       this.multipleSelection = val
-      this.checkAll = vlength === this.searchData.pageSize
     },
     // 确定
     sure() {
       if (this.multipleSelection.length > 0) {
-        this.$confirm('确认下发, 是否继续?', '提示', {
+        this.$confirm('确认下发给已选择' + this.multipleSelection.length + '位用户?', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
@@ -167,6 +192,7 @@ export default {
       this.loadList()
       if (this.multipleSelection.length > 0) {
         this.$refs.multipleTable.clearSelection()
+        this.multipleSelection = []
       }
     },
     loadList() {
@@ -187,8 +213,24 @@ export default {
 }
 </script>
 <style scoped>
+  .rightNarrow{
+    float: left;
+    margin-top: 25%;
+    margin-left: 15px;
+    margin-right: 15px;
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    background:url("../../../assets/img/rightNarrow.png") no-repeat;
+    background-size: 50px 50px;
+  }
+  .table{
+    width: 45%;
+    float: left;
+  }
   .input{
     width: 50%;
+    clear: both;
   }
   .btn {
     float: left;

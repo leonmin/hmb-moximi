@@ -3,7 +3,7 @@
     <div class="title">提现审核</div>
     <el-form :inline="true" :model="searchData" class="demo-form-inline" label-width="80px" style="margin-top: 30px">
       <el-form-item label="关键字" style="margin-left: 20px">
-        <el-input v-model="searchData.orderNo" placeholder="订单编号\提现人\提现账号" />
+        <el-input v-model="searchData.orderNo" placeholder="订单编号\提现人\提现账号" style="width: 215px" clearable/>
       </el-form-item>
       <el-form-item label="审核状态">
         <el-select v-model="searchData.status" placeholder="请选择" clearable>
@@ -26,7 +26,11 @@
       </el-table-column>
       <el-table-column prop="addTime" label="提现时间" min-width="150" show-overflow-tooltip />
       <el-table-column prop="alipayAccount" label="提现账号" min-width="150" show-overflow-tooltip />
-      <el-table-column prop="cash" label="提现金额" min-width="150" show-overflow-tooltip />
+      <el-table-column prop="cash" label="提现金额" min-width="150" show-overflow-tooltip>
+        <template v-slot="scope">
+          <span>{{scope.row.cash | formatMoney}}</span>
+        </template>
+      </el-table-column>
 <!--      <el-table-column prop="balance" label="钱包余额" min-width="150" show-overflow-tooltip />-->
       <el-table-column prop="applyStatus" label="审核状态" min-width="150" show-overflow-tooltip>
         <template v-slot="scope">

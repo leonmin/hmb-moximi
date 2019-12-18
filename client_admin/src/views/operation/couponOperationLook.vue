@@ -251,7 +251,7 @@ export default {
   }
   .lineContent1{
     flex: 1;
-    background-color: #D9ECFF;
+    background-color: #f7f7f7;
     font-size: 18px;
     font-weight: bold;
     min-height: 50px;

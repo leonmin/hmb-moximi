@@ -13,7 +13,7 @@
       <div v-loading="loading">
         <div class="bigBox">
           <el-input v-model="searchData.searchKey" placeholder="优惠券名称" clearable class="input" style="float: left;width: 300px" />
-          <el-input v-model="searchData.couponNumber" placeholder="优惠卷编号" clearable class="input" style="float: left;width: 300px;margin-left: 20px"  />
+          <el-input v-model="searchData.couponNumber" placeholder="优惠卷编号" clearable class="input" style="float: left;width: 300px;margin-left: 20px" />
           <el-button type="primary" style="margin-left: 15px;" @click="loadList()">搜索</el-button>
           <!--表格部分-->
           <el-table ref="multipleTable" v-loading="loading" :row-key="getRowKeys" :data="tableData" tooltip-effect="dark" class="table" :height="550" @selection-change="handleSelectionChange">
@@ -153,7 +153,7 @@ export default {
     // 确定
     sure() {
       if (this.multipleSelection.length > 0) {
-        this.$confirm('确认赠送, 是否继续?', '提示', {
+        this.$confirm('确认赠送' + this.multipleSelection.length + '张优惠券', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'

@@ -6,57 +6,31 @@
         <span>优惠券详情</span>
         <span>编号({{ couponsDetailsData.couponNumber }})</span>
       </div>
-      <div>
-        <el-row :gutter="20">
-          <el-form ref="form" v-model="couponsDetailsData" disabled label-width="100px">
-            <el-col :span="6">
-              <el-form-item label="优惠券名称">
-                <el-input v-model="couponsDetailsData.title" />
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="适用范围">
-                <el-input v-model="couponsDetailsData.useForSku" />
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="折扣数">
-                <el-input v-model="discount" />
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="有效期">
-                <el-input v-model="isTime" />
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="是否过期">
-                <el-input v-model="isExpire" />
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="状态">
-                <el-input v-model="couponsDetailsData.enable?'已启用':'未启用'" />
-              </el-form-item>
-            </el-col>
-<!--            <el-col :span="6">-->
-<!--              <el-form-item label="已领取数">-->
-<!--                <el-input v-model="couponsDetailsData.totalCount" />-->
-<!--              </el-form-item>-->
-<!--            </el-col>-->
-            <el-col :span="6">
-              <el-form-item label="已使用数">
-                <el-input v-model="couponsDetailsData.usedCount" />
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="未使用数">
-                <el-input v-model="couponsDetailsData.unusedCount" />
-              </el-form-item>
-            </el-col>
-          </el-form>
-
-        </el-row>
+      <div class="lineBox">
+        <div class="line">
+          <div class="lineContent1">优惠券名称</div>
+          <div class="lineContent2">{{ couponsDetailsData.title }}</div>
+          <div class="lineContent1">适用范围</div>
+          <div class="lineContent2">{{ couponsDetailsData.useForSku }}</div>
+          <div class="lineContent1">折扣数</div>
+          <div class="lineContent2">{{ discount }}</div>
+        </div>
+        <div class="line">
+          <div class="lineContent1">有效期</div>
+          <div class="lineContent2">{{ isTime }}</div>
+          <div class="lineContent1">是否过期</div>
+          <div class="lineContent2">{{ isExpire }}</div>
+          <div class="lineContent1">状态</div>
+          <div class="lineContent2">{{ couponsDetailsData.enable?'已启用':'未启用' }}</div>
+        </div>
+        <div class="line">
+          <div class="lineContent1">已使用数</div>
+          <div class="lineContent2">{{ couponsDetailsData.usedCount }}</div>
+          <div class="lineContent1">未使用数</div>
+          <div class="lineContent2">{{ couponsDetailsData.unusedCount }}</div>
+          <div class="lineContent1"></div>
+          <div class="lineContent2"></div>
+        </div>
       </div>
     </el-card>
     <!--    优惠券使用详情-->
@@ -88,7 +62,7 @@
             </div>
             <el-button type="primary" class="searchBtn" @click="loadList">查询</el-button>
           </div>
-          <div style="margin-top: 30px">
+          <div>
             <el-table
               border
               :data="usedData"
@@ -113,10 +87,10 @@
                   <span>{{ scope.row.getType | getType }}</span>
                 </template>
               </el-table-column>
-<!--              <el-table-column-->
-<!--                prop="addTime"-->
-<!--                label="领取时间"-->
-<!--              />-->
+              <!--              <el-table-column-->
+              <!--                prop="addTime"-->
+              <!--                label="领取时间"-->
+              <!--              />-->
               <el-table-column
                 prop="usedStatus"
                 label="当前状态"
@@ -256,6 +230,33 @@ export default {
 </script>
 
 <style scoped lang="scss">
+  .line{
+    display: flex;
+    width: 100%;
+    border: 1px solid #dcdcdc;
+  }
+  .lineBox{
+    width: 100%;
+    margin-top: -10px;
+  }
+  .lineContent2{
+    flex: 1;
+    background-color: rgba(255,255,255,1);
+    font-size: 18px;
+    font-weight: normal;
+    min-height: 55px;
+    text-align: center;
+    padding-top: 20px;
+  }
+  .lineContent1{
+    flex: 1;
+    background-color: #f7f7f7;
+    font-size: 18px;
+    font-weight: bold;
+    min-height: 55px;
+    text-align: center;
+    padding-top: 20px;
+  }
 .couponsDetails{
   margin: 30px;
   .useDetail{

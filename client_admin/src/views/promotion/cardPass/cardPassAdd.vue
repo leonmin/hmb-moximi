@@ -1,5 +1,5 @@
 <template>
-  <div  class="main" :style="{height:fullHeight-50+'px'}">
+  <div class="main" :style="{height:fullHeight-50+'px'}">
     <div class="title">添加卡密</div>
     <el-form
       ref="ruleForm"
@@ -13,7 +13,7 @@
         <el-input v-model="ruleForm.title" placeholder="请输入" />
       </el-form-item>
       <el-form-item label="总发行量" prop="total" class="form-item">
-        <el-input v-model="ruleForm.total" placeholder="请输入" oninput="this.value=this.value.replace(/\D/g,'')"/>
+        <el-input v-model="ruleForm.total" placeholder="请输入" oninput="this.value=this.value.replace(/\D/g,'')" />
       </el-form-item>
       <el-form-item label="有效期" prop="beginDate" class="form-item" style="width: 700px;">
         <el-date-picker
@@ -43,7 +43,7 @@
           />
         </el-select>
       </el-form-item>
-      <el-button type="primary" class="sure" @click="sure('ruleForm')" :loading="loading">确定</el-button>
+      <el-button type="primary" class="sure" :loading="loading" @click="sure('ruleForm')">确定</el-button>
     </el-form>
   </div>
 </template>
@@ -137,6 +137,9 @@ export default {
           addExchangeCard(this.ruleForm).then(res => {
             if (res.code === 0 || res.code === '0') {
               this.$message.success('操作成功!')
+              this.$router.push({
+                path: 'cardPassList'
+              })
             }
             this.loading = false
           })

@@ -88,3 +88,21 @@ export function cashHistoryApplyList(data) {
     params: data
   })
 }
+
+// 设置合伙人
+export function setPartner(data) {
+  return request({
+    url: '/admin/user/setPartner',
+    method: 'post',
+    params: data
+  })
+}
+
+// 删除用户
+export function deleteUser(data) {
+  return request({
+    url: '/admin/user/deleteUser',
+    method: 'post',
+    params: data
+  })
+}

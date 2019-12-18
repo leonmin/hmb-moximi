@@ -6,52 +6,32 @@
         <span>提现审核详情</span>
         <el-button style="float: right; padding: 3px 0" type="text" />
       </div>
-      <el-row :gutter="20">
-        <el-form ref="form" v-model="checkData" disabled label-width="100px">
-          <el-col :span="6">
-            <el-form-item label="提现订单编号">
-              <el-input v-model="checkData.no" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="提现人">
-              <el-input v-model="checkData.userName" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="手机号">
-              <el-input v-model="checkData.mobile" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="提现时间">
-              <el-input v-model="checkData.addTime" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="提现账号">
-              <el-input v-model="checkData.alipayAccount" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="提现金额">
-              <el-input v-model="checkData.cash" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="钱包余额">
-              <el-input v-model="checkData.balance" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="审批状态">
-              <el-input v-model="checkStatus" />
-            </el-form-item>
-          </el-col>
-        </el-form>
-
-      </el-row>
-
+      <div class="lineBox">
+        <div class="line">
+          <div class="lineContent1">提现订单编号</div>
+          <div class="lineContent2">{{ checkData.no }}</div>
+          <div class="lineContent1">提现人</div>
+          <div class="lineContent2">{{ checkData.userName }}</div>
+          <div class="lineContent1">手机号</div>
+          <div class="lineContent2">{{ checkData.mobile }}</div>
+        </div>
+        <div class="line">
+          <div class="lineContent1">提现时间</div>
+          <div class="lineContent2">{{ checkData.addTime }}</div>
+          <div class="lineContent1">提现账号</div>
+          <div class="lineContent2">{{ checkData.alipayAccount }}</div>
+          <div class="lineContent1">提现金额</div>
+          <div class="lineContent2">{{ checkData.cash }}</div>
+        </div>
+        <div class="line">
+          <div class="lineContent1">钱包余额</div>
+          <div class="lineContent2">{{ checkData.balance |formatMoney }}</div>
+          <div class="lineContent1">审批状态</div>
+          <div class="lineContent2">{{ checkStatus }}</div>
+          <div class="lineContent1" />
+          <div class="lineContent2" />
+        </div>
+      </div>
     </el-card>
     <!--      分割线-->
     <div class="deliver" />
@@ -123,7 +103,11 @@
           label="提现金额"
           show-overflow-tooltip
           min-width="150"
-        />
+        >
+          <template v-slot="scope">
+            <span>{{ scope.row.cash | formatMoney }}</span>
+          </template>
+        </el-table-column>
         <el-table-column
           prop="applyStatus"
           label="审批状态"
@@ -256,6 +240,8 @@ export default {
       }
       applyCashDetail(params).then(res => {
         this.checkData = res.data
+        console.log(this.checkData)
+        this.checkData.cash = this.checkData.cash / 100
         this.memo = res.data.memo
         this.loading = false
       })
@@ -334,6 +320,33 @@ export default {
 </script>
 
 <style scoped>
+  .line{
+    display: flex;
+    width: 100%;
+    border: 1px solid #dcdcdc;
+  }
+  .lineBox{
+    width: 100%;
+    margin-top: -10px;
+  }
+  .lineContent2{
+    flex: 1;
+    background-color: rgba(255,255,255,1);
+    font-size: 18px;
+    font-weight: normal;
+    min-height: 55px;
+    text-align: center;
+    padding-top: 20px;
+  }
+  .lineContent1{
+    flex: 1;
+    background-color: #f7f7f7;
+    font-size: 18px;
+    font-weight: bold;
+    min-height: 55px;
+    text-align: center;
+    padding-top: 20px;
+  }
   >>>.el-table .cell{
     white-space: nowrap !important;
   }
