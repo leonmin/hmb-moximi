@@ -66,7 +66,7 @@ export function userList(data) {
   return request({
     url: '/admin/user/list',
     method: 'get',
-    data
+    params: data
   })
 }
 
@@ -178,19 +178,20 @@ export function couponUseDetails(data) {
   })
 }
 
-// 优惠券下发的用户数据
-export function listUsers() {
-  return request({
-    url: '/admin/user/listUsers',
-    method: 'get'
-  })
-}
-
 // 优惠券下发确认
 export function sendCoupons(data) {
   return request({
     url: '/admin/coupon/sendCoupons',
     method: 'post',
     data
+  })
+}
+
+/* 下发的用户列表*/
+export function usersList(data) {
+  return request({
+    url: '/admin/user/usersList',
+    method: 'get',
+    params: data
   })
 }

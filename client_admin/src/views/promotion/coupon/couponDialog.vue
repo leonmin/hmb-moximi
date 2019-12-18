@@ -2,7 +2,7 @@
   <div>
     <el-dialog
       title="下发优惠券"
-      width="1200px"
+      width="1000px"
       height="600px"
       top="50px"
       :visible.sync="visible"
@@ -12,12 +12,30 @@
     >
       <div v-loading="loading">
         <div class="bigBox">
-          <template>
-            <el-transfer v-model="value" filterable filter-placeholder="用户名/用户手机号" :data="data" :titles="['源数据','选择的数据']" @change="chooseData" />
-          </template>
+          <el-input v-model="searchData.searchKey" placeholder="用户名/用户手机号" clearable class="input" style="float: left;width: 300px" />
+          <el-button type="primary" style="margin-left: 15px;" @click="loadList()">搜索</el-button>
+          <!--表格部分-->
+          <el-table ref="multipleTable" v-loading="loading" :row-key="getRowKeys" :data="tableData" tooltip-effect="dark" class="table" :height="550" @selection-change="handleSelectionChange">
+            <el-table-column type="selection" width="55" :reserve-selection="true" />
+            <el-table-column prop="userName" label="用户名" show-overflow-tooltip min-width="120" />
+            <el-table-column prop="mobile" label="用户手机号" show-overflow-tooltip min-width="120">
+              <template v-slot="scope">
+                <span>{{ scope.row.mobile | formatTel }}</span>
+              </template>
+            </el-table-column>
+          </el-table>
+          <!--分页-->
+          <el-pagination
+            style="float: right;margin-top: 20px;"
+            :current-page="searchData.pageNum"
+            :page-size="searchData.pageSize"
+            layout="total, prev, pager, next, jumper"
+            :total="total"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+          />
         </div>
-        <el-divider />
-        <el-button type="primary" style="margin-left: 75px" :loading="btnLoading" @click="sure()">确认</el-button>
+        <el-button type="primary" style="margin-left: 20px" :loading="btnLoading" @click="sure()">确认</el-button>
         <el-button type="info" @click="cancel()">取消</el-button>
       </div>
     </el-dialog>
@@ -25,7 +43,7 @@
 </template>
 
 <script>
-import { listUsers, sendCoupons } from '@/api/userManage'
+import { usersList, sendCoupons } from '@/api/userManage'
 export default {
   filters: {
   },
@@ -35,20 +53,23 @@ export default {
       visible: this.show,
       loading: false,
       tableData: [],
+      input: '',
       fullHeight: document.documentElement.clientHeight, // 页面高度
       multipleSelection: [], // 表格选中的数据
+      checkAll: false, // 底部全选
+      searchData: { // 筛选的数据
+        pageNum: 1,
+        pageSize: 10,
+        couponNumber: '',
+        searchKey: '' // 关键字
+      },
+      total: null,
       btnLoading: false,
       // 获取row的key值
       getRowKeys(row) {
         return row.id
       },
-      isPaging: false, // 是否是分页
-      value: [],
-      data: [],
-      params: {
-        couponId: null,
-        userIds: []
-      }
+      isPaging: false // 是否是分页
     }
   },
   watch: {
@@ -76,51 +97,88 @@ export default {
     }
   },
   methods: {
-    // 选择的数据
-    chooseData(ev) {
-      this.params.userIds = ev
-    },
     // 取消
     cancel() {
       this.visible = false
     },
+    // 当前页码
+    handleSizeChange(val) {
+      this.searchData.pageSize = val
+      this.loadList()
+    },
+    // 当前页数
+    handleCurrentChange(val) {
+      this.isPaging = true
+      this.searchData.pageNum = val
+      this.loadList()
+    },
+    toggleSelection(rows) {
+      if (rows) {
+        rows.forEach(row => {
+          this.$refs.multipleTable.toggleRowSelection(row)
+        })
+      } else {
+        this.$refs.multipleTable.clearSelection()
+      }
+    },
+    // 表格选中
+    handleSelectionChange(val) {
+      const vlength = val.length
+      this.multipleSelection = val
+      this.checkAll = vlength === this.searchData.pageSize
+    },
     // 确定
     sure() {
-      if (this.params.userIds.length > 0) {
+      if (this.multipleSelection.length > 0) {
         this.$confirm('确认下发, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          sendCoupons(this.params).then(res => {
+          this.btnLoading = true
+          const data = {
+            userIds: [],
+            couponId: this.row.id
+          }
+          for (let i = 0; i < this.multipleSelection.length; i++) {
+            data.userIds.push(this.multipleSelection[i].id)
+          }
+          sendCoupons(data).then(res => {
             if (res.code === 0 || res.code === '0') {
+              this.btnLoading = false
               this.$message.success(res.msg)
               this.visible = false
+              this.$emit('success')
             }
           })
         }).catch(() => {
         })
       } else {
-        this.$message.error('请选择下发的用户')
+        this.$message.error('请先选择优惠券')
       }
     },
     openDialog() {
-      this.params.couponId = this.row.id
-      this.value = []
-      this.params.userIds = []
+      this.searchData = { // 筛选的数据
+        pageNum: 1,
+        pageSize: 10,
+        couponNumber: '',
+        searchKey: '' // 关键字
+      }
       this.loadList()
+      if (this.multipleSelection.length > 0) {
+        this.$refs.multipleTable.clearSelection()
+      }
     },
     loadList() {
       this.loading = true
-      this.data = []
-      listUsers().then(res => {
+      if (!this.isPaging) {
+        this.searchData.pageNum = 1
+      }
+      usersList(this.searchData).then(res => {
         if (res.code === 0 || res.code === '0') {
-          for (let i = 0; i < res.data.length; i++) {
-            this.data.push({
-              key: res.data[i].id,
-              label: '姓名:' + res.data[i].userName + '\xa0\xa0\xa0\xa0\xa0\xa0' + '手机:' + (res.data[i].mobile + '').substr(0, 3) + '****' + (res.data[i].mobile + '').substr(7)
-            })
-          }
+          this.total = res.data.total
+          this.tableData = res.data.records
+          this.isPaging = false
           this.loading = false
         }
       })
@@ -129,13 +187,6 @@ export default {
 }
 </script>
 <style scoped>
-  >>>.el-transfer-panel{
-    width: 400px;
-    height: 500px;
-  }
-  >>>.el-transfer-panel__list.is-filterable{
-    height: 400px;
-  }
   .input{
     width: 50%;
   }

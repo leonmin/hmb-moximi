@@ -44,23 +44,33 @@
       <el-table-column
         prop="couponNumber"
         label="编号"
+        min-width="150"
+        show-overflow-tooltip
       />
       <el-table-column
         prop="couponTitle"
         label="优惠券名称"
+        min-width="120"
+        show-overflow-tooltip
       />
       <el-table-column
         prop="validity"
         label="有效期"
+        min-width="180"
+        show-overflow-tooltip
       />
       <el-table-column
         prop="couponDiscount"
         label="折扣数"
+        min-width="100"
+        show-overflow-tooltip
         :formatter="discountChange"
       />
       <el-table-column
         prop="status"
         label="是否过期"
+        min-width="100"
+        show-overflow-tooltip
       >
         <template v-slot="scope">
           <span>{{ scope.row.status | status }}</span>
@@ -69,6 +79,8 @@
       <el-table-column
         prop="enable"
         label="状态"
+        min-width="100"
+        show-overflow-tooltip
         :formatter="enableChange"
       >
         <template v-slot="scope">
@@ -78,6 +90,8 @@
       <el-table-column
         prop="couponCardType"
         label="适用范围"
+        min-width="100"
+        show-overflow-tooltip
       >
         <template v-slot="scope">
           <span>{{ scope.row.couponCardType | couponCardType }}</span>
@@ -85,7 +99,7 @@
       </el-table-column>
       <el-table-column
         label="操作"
-        min-width="140"
+        min-width="160"
       >
         <template slot-scope="scope">
           <span class="tableOperation" @click="checkDetails(scope.row)">查看</span>
