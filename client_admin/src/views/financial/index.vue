@@ -26,7 +26,7 @@
       </el-table-column>
       <el-table-column prop="addTime" label="提现时间" min-width="150" show-overflow-tooltip />
       <el-table-column prop="alipayAccount" label="提现账号" min-width="150" show-overflow-tooltip />
-      <el-table-column prop="cash" label="提现金额" min-width="150" show-overflow-tooltip>
+      <el-table-column prop="cash" label="提现金额(元)" min-width="150" show-overflow-tooltip>
         <template v-slot="scope">
           <span>{{scope.row.cash | formatMoney}}</span>
         </template>

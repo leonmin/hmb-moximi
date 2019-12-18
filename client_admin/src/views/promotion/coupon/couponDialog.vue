@@ -155,7 +155,7 @@ export default {
     // 确定
     sure() {
       if (this.multipleSelection.length > 0) {
-        this.$confirm('确认下发给已选择' + this.multipleSelection.length + '位用户?', {
+        this.$confirm('确认下发给已选择的' + this.multipleSelection.length + '位用户?', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'

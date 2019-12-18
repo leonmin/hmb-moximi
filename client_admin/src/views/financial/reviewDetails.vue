@@ -20,11 +20,11 @@
           <div class="lineContent2">{{ checkData.addTime }}</div>
           <div class="lineContent1">提现账号</div>
           <div class="lineContent2">{{ checkData.alipayAccount }}</div>
-          <div class="lineContent1">提现金额</div>
-          <div class="lineContent2">{{ checkData.cash }}</div>
+          <div class="lineContent1">提现金额(元)</div>
+          <div class="lineContent2">{{ checkData.cash | formatMoney}}</div>
         </div>
         <div class="line">
-          <div class="lineContent1">钱包余额</div>
+          <div class="lineContent1">钱包余额(元)</div>
           <div class="lineContent2">{{ checkData.balance |formatMoney }}</div>
           <div class="lineContent1">审批状态</div>
           <div class="lineContent2">{{ checkStatus }}</div>
@@ -100,7 +100,7 @@
         />
         <el-table-column
           prop="cash"
-          label="提现金额"
+          label="提现金额(元)"
           show-overflow-tooltip
           min-width="150"
         >

@@ -14,9 +14,9 @@
         <div class="line">
           <div class="lineContent1">下级用户数</div>
           <div class="lineContent2" style="color: #3399FF;cursor: pointer" @click="toBelowList()">{{ partnerRow.subUser===null?'':partnerRow.subUser+'人' }}</div>
-          <div class="lineContent1">合伙人余额</div>
+          <div class="lineContent1">合伙人余额(元)</div>
           <div class="lineContent2">{{ partnerRow.partnerBalance===null?'':partnerRow.partnerBalance+'元' }}</div>
-          <div class="lineContent1">提成累计</div>
+          <div class="lineContent1">提成累计(元)</div>
           <div class="lineContent2">{{ partnerRow.royaltyCount===null?'':partnerRow.royaltyCount+'元' }}</div>
         </div>
       </div>

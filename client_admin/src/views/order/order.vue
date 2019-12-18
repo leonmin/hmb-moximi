@@ -21,18 +21,21 @@
       <el-table-column
         prop="no"
         label="订单编号"
-        width="300"
+        min-width="200"
+        show-overflow-tooltip
       />
       <el-table-column
         prop="sku"
         label="会员卡续费种类"
         :formatter="vipType"
-        width="100"
+        min-width="80"
+        show-overflow-tooltip
       />
       <el-table-column
         prop="price"
-        label="会员卡续费金额"
-        width="100"
+        label="会员卡续费金额(元)"
+        min-width="80"
+        show-overflow-tooltip
       >
         <template v-slot="scope">
           <span>{{ scope.row.price | formatMoney }}</span>
@@ -41,44 +44,70 @@
       <el-table-column
         prop="addTime"
         label="支付时间"
+        min-width="120"
+        show-overflow-tooltip
       />
       <el-table-column
         prop="userName"
         label="支付用户名"
+        min-width="80"
+        show-overflow-tooltip
       />
       <el-table-column
         prop="mobile"
         label="支付手机号"
+        min-width="80"
+        show-overflow-tooltip
         :formatter="changeMobile"
       />
       <el-table-column
         prop="couponPrice"
         label="是否使用优惠券"
+        min-width="60"
+        show-overflow-tooltip
         :formatter="isUseCoupon"
       />
 
       <el-table-column
         prop="couponPrice"
-        label="优惠券抵扣(元)">
+        label="优惠券抵扣(元)"
+        min-width="80"
+        show-overflow-tooltip
+      >
         <template v-slot="scope">
-          <span>{{ scope.row.couponPrice | formatMoney}}</span>
+          <span>{{ scope.row.couponPrice | formatMoney }}</span>
         </template>
       </el-table-column>
       <el-table-column
         prop="payPrice"
-        label="实际支付金额(元)">
+        label="实际支付金额(元)"
+        min-width="80"
+        show-overflow-tooltip
+      >
         <template v-slot="scope">
           <span>{{ scope.row.payPrice | formatMoney }}</span>
         </template>
       </el-table-column>
       <el-table-column
         prop="profit"
-        label="提成金额(元)">
+        label="提成金额(元)"
+        min-width="80"
+        show-overflow-tooltip
+      >
         <template v-slot="scope">
-          <span>{{scope.row.profit | formatMoney}}</span>
+          <span>{{ scope.row.profit | formatMoney }}</span>
         </template>
       </el-table-column>
-
+      <el-table-column
+        prop="orderStatus"
+        label="订单状态"
+        min-width="60"
+        show-overflow-tooltip
+      >
+        <template v-slot="scope">
+          <span>{{ scope.row.orderStatus | orderStatus }}</span>
+        </template>
+      </el-table-column>
     </el-table>
     <!--    分页-->
     <div class="pageList clearfix" style="margin-top: 10px">
@@ -101,6 +130,19 @@
 import { orderList } from '@/api/user'
 export default {
   name: 'Order',
+  filters: {
+    orderStatus: function(data) {
+      if (data === 0 || data === '0') {
+        return '等待支付'
+      } else if (data === 1 || data === '1') {
+        return '已支付'
+      } else if (data === 2 || data === '2') {
+        return '退款中'
+      } else if (data === 3 || data === '3') {
+        return '已退款'
+      }
+    }
+  },
   data() {
     return {
       tableData: [],
