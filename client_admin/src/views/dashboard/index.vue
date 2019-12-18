@@ -99,9 +99,9 @@ export default {
       if (data === 0 || data === '0') {
         return '普通用户邀请'
       } else if (data === 1 || data === '1') {
-        return '卡密邀请'
-      } else if (data === 2 || data === '2') {
         return '合伙人邀请'
+      } else if (data === 2 || data === '2') {
+        return '卡密邀请'
       }
     }
   },
