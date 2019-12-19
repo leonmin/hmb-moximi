@@ -16,7 +16,7 @@
           <el-input v-model="searchData.couponNumber" placeholder="优惠卷编号" clearable class="input" style="float: left;width: 300px;margin-left: 20px" />
           <el-button type="primary" style="margin-left: 15px;" @click="loadList()">搜索</el-button>
           <!--表格部分-->
-          <el-table ref="multipleTable" v-loading="loading" :row-key="getRowKeys" :data="tableData" tooltip-effect="dark" class="table" :height="550" @selection-change="handleSelectionChange">
+          <el-table ref="multipleTable" :row-key="getRowKeys" :data="tableData" tooltip-effect="dark" class="table" :height="550" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55" :reserve-selection="true" />
             <el-table-column prop="couponNumber" label="优惠卷编号" show-overflow-tooltip min-width="120" />
             <el-table-column prop="couponTitle" label="优惠卷名称" show-overflow-tooltip min-width="120" />
