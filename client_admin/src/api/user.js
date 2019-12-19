@@ -106,3 +106,12 @@ export function deleteUser(data) {
     params: data
   })
 }
+
+// 查看用户详情
+export function userDetail(data) {
+  return request({
+    url: '/admin/user/userDetail',
+    method: 'get',
+    params: data
+  })
+}
