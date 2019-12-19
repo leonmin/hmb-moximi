@@ -19,7 +19,7 @@
     <el-table :data="tableData" style="width: 95%;margin-left: 40px;" border :height="fullHeight-220+'px'">
       <el-table-column prop="avatar" label="头像" min-width="60" show-overflow-tooltip>
         <template v-slot="scope">
-          <div class="block"><el-avatar icon="el-icon-user-solid" :size="40" :src="scope.row.avatar"></el-avatar></div>
+          <div class="block"><el-avatar icon="el-icon-user-solid" :size="40" :src="scope.row.avatar" /></div>
         </template>
       </el-table-column>
       <el-table-column prop="id" label="ID" min-width="80" show-overflow-tooltip />

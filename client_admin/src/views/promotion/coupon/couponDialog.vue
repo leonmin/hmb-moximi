@@ -27,7 +27,7 @@
               </template>
             </el-table-column>
           </el-table>
-          <div class="rightNarrow" @click="toRight()" />
+          <div class="rightNarrow" />
           <el-table border :data="multipleSelection" tooltip-effect="dark" class="table" :height="550">
             <el-table-column prop="userName" label="用户名" show-overflow-tooltip min-width="120" />
             <el-table-column prop="mobile" label="用户手机号" show-overflow-tooltip min-width="120">
@@ -35,11 +35,11 @@
                 <span>{{ scope.row.mobile | formatTel }}</span>
               </template>
             </el-table-column>
-            <el-table-column prop="mobile" label="操作" show-overflow-tooltip min-width="60">
-              <template v-slot="scope">
-                <span style="color: #1c75ff;cursor: pointer" @click="toggleSelection([multipleSelection[scope.$index]])">删除</span>
-              </template>
-            </el-table-column>
+<!--            <el-table-column prop="mobile" label="操作" show-overflow-tooltip min-width="60">-->
+<!--              <template v-slot="scope">-->
+<!--                <span style="color: #1c75ff;cursor: pointer" @click="toggleSelection([multipleSelection[scope.$index]])">删除</span>-->
+<!--              </template>-->
+<!--            </el-table-column>-->
           </el-table>
           <div style="float: right;margin-right: 10px;font-size: 14px;margin-top: 10px">共 {{ multipleSelection.length }} 位</div>
         </div>
@@ -117,13 +117,15 @@ export default {
     }
   },
   methods: {
-    toggleSelection(rows) {
-      if (rows) {
-        rows.forEach(row => {
-          this.$refs.multipleTable.toggleRowSelection(row)
-        })
-      }
-    },
+    // toggleSelection(rows) {
+    //   this.$nextTick(() => {
+    //     if (rows) {
+    //       rows.forEach(row => {
+    //         this.$refs.multipleTable.toggleRowSelection(row)
+    //       })
+    //     }
+    //   })
+    // },
     // 取消
     cancel() {
       this.visible = false
