@@ -195,3 +195,12 @@ export function usersList(data) {
     params: data
   })
 }
+
+/* 修改密码*/
+export function updatePassword(data) {
+  return request({
+    url: '/admin/auth/updatePassword',
+    method: 'post',
+    params: data
+  })
+}
