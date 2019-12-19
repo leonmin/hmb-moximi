@@ -45,7 +45,7 @@ export default {
         ],
         mobile: [
           { required: true, message: '请输入电话!', trigger: 'blur' },
-          { pattern: /^0{0,1}(13[0-9]|15[7-9]|153|18[0-9]|199)[0-9]{8}$/, message: '手机号格式有误', trigger: 'blur' }
+          { pattern: /^[1][3,4,5,7,8,9][0-9]{9}$/, message: '手机号格式有误', trigger: 'blur' }
         ]
       },
       options: []
