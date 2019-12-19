@@ -7,9 +7,9 @@
     <div class="right-menu">
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper" style="margin-right: 30px">
-<!--          <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">-->
+          <!--          <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">-->
           <span class="spanTop">欢迎您！{{ name }}</span>
-          <i class="el-icon-caret-bottom" style="line-height: 0"/>
+          <i class="el-icon-caret-bottom" style="line-height: 0" />
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
           <router-link to="/">
@@ -18,11 +18,16 @@
             </el-dropdown-item>
           </router-link>
           <el-dropdown-item divided>
+            <span style="display:block;" @click="changPass()">修改密码</span>
+          </el-dropdown-item>
+          <el-dropdown-item divided>
             <span style="display:block;" @click="logout">退出</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
+    <!--dialog-->
+    <change-password :show.sync="show" />
   </div>
 </template>
 
@@ -30,11 +35,18 @@
 import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
+import ChangePassword from '@/layout/components/ChangePassword'
 
 export default {
   components: {
     Breadcrumb,
-    Hamburger
+    Hamburger,
+    ChangePassword
+  },
+  data() {
+    return {
+      show: false
+    }
   },
   computed: {
     ...mapGetters([
@@ -44,6 +56,9 @@ export default {
     ])
   },
   methods: {
+    changPass() {
+      this.show = true
+    },
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
     },
