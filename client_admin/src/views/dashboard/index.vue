@@ -1,6 +1,6 @@
 <template>
   <div v-loading="loading" class="main">
-<!--    <div class="title">用户列表</div>-->
+    <!--    <div class="title">用户列表</div>-->
     <el-form :inline="true" :model="searchData" class="demo-form-inline" label-width="90px" style="margin-top: 30px">
       <el-form-item label="关键字" style="margin-left: 5px">
         <el-input v-model="searchData.searchKey" placeholder="用户名称\用户手机号" />
@@ -17,6 +17,12 @@
     </el-form>
     <!--表格-->
     <el-table :data="tableData" style="width: 95%;margin-left: 40px;" border :height="fullHeight-220+'px'">
+      <el-table-column prop="avatar" label="头像" min-width="60" show-overflow-tooltip>
+        <template v-slot="scope">
+          <div class="block"><el-avatar icon="el-icon-user-solid" :size="40" :src="scope.row.avatar"></el-avatar></div>
+        </template>
+      </el-table-column>
+      <el-table-column prop="id" label="ID" min-width="80" show-overflow-tooltip />
       <el-table-column prop="userName" label="用户名称" min-width="100" show-overflow-tooltip />
       <el-table-column prop="mobile" label="用户手机号" min-width="100" show-overflow-tooltip>
         <template v-slot="scope">
@@ -28,9 +34,9 @@
           <span>{{ scope.row.isMember?'是':'否' }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="memberEndTime" label="会员到期日" min-width="120" show-overflow-tooltip />
-      <el-table-column prop="addTime" label="注册时间" min-width="120" show-overflow-tooltip />
-      <el-table-column prop="pchannel" label="渠道" min-width="80" show-overflow-tooltip>
+      <el-table-column prop="memberEndTime" label="会员到期日" min-width="160" show-overflow-tooltip />
+      <el-table-column prop="addTime" label="注册时间" min-width="160" show-overflow-tooltip />
+      <el-table-column prop="pchannel" label="渠道" min-width="120" show-overflow-tooltip>
         <template v-slot="scope">
           <span>{{ scope.row.pchannel | pchannel }}</span>
         </template>
@@ -51,9 +57,14 @@
           <span style="cursor: pointer;color: #409EFF;" @click="look(scope.row)">{{ scope.row.inviteUserCount }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="inviteUserCount" label="设置用户类型" min-width="120" show-overflow-tooltip>
+      <el-table-column prop="inviteUserCount" label="设置用户类型" min-width="110" show-overflow-tooltip>
         <template v-slot="scope">
           <span style="cursor: pointer;color: #409EFF;" @click="setPartner(scope.row)">{{ scope.row.partner===0 || scope.row.partner===null?'设置为合伙人':'取消合伙人' }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="inviteUserCount" label="查看详情" min-width="80" show-overflow-tooltip>
+        <template v-slot="scope">
+          <span style="cursor: pointer;color: #409EFF;" @click="lookData(scope.row)">查看详情</span>
         </template>
       </el-table-column>
       <el-table-column prop="inviteUserCount" label="删除用户" min-width="80" show-overflow-tooltip>
@@ -72,13 +83,19 @@
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
     />
+    <!--dialog-->
+    <look-detail :show.sync="show" :row="row" />
   </div>
 </template>
 
 <script>
 import { getUserList, setPartner, deleteUser } from '@/api/user'
+import lookDetail from './lookDetail'
 export default {
   name: 'Index',
+  components: {
+    lookDetail
+  },
   filters: {
     /* 是否过期*/
     outTime: function(data) {
@@ -128,7 +145,9 @@ export default {
         isMember: '' // 是否是会员
       },
       total: null, // 总数
-      isPaging: false// 是否是分页
+      isPaging: false, // 是否是分页
+      show: false,
+      row: {}
     }
   },
   watch: {
@@ -154,6 +173,11 @@ export default {
     this.loadList()
   },
   methods: {
+    lookData(row) {
+      this.show = true
+      Object.assign(this.row, row)
+    },
+    // 删除
     del(row) {
       this.$confirm('是否删除此用户', '提示', {
         confirmButtonText: '确定',

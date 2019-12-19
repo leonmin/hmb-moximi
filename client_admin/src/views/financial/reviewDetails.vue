@@ -337,7 +337,8 @@ export default {
     min-height: 55px;
     text-align: center;
     padding-top: 20px;
-    word-wrap:break-word
+    word-break: break-all;
+    flex-wrap:wrap;
   }
   .lineContent1{
     flex: 1;
