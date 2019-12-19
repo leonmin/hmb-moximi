@@ -23,6 +23,7 @@
           start-placeholder="开始日期"
           end-placeholder="结束日期"
           format="yyyy-MM-dd"
+          :picker-options="pickerOptionsStart"
           value-format="yyyy-MM-dd HH:mm:ss"
           :default-time="['00:00:00', '23:59:59']"
           @change="getDate"
@@ -56,6 +57,11 @@ export default {
   // 存放 数据
   data: function() {
     return {
+      pickerOptionsStart: {
+        disabledDate(time) {
+          return time.getTime() < new Date(new Date().toLocaleDateString()).getTime()
+        }
+      },
       loading: false,
       fullHeight: document.documentElement.clientHeight, // 页面高度
       ruleForm: {

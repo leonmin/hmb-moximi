@@ -18,7 +18,7 @@
           <div style="float: left;width: 100%" />
           <div style="font-weight: bold;margin-bottom: 10px;">用户列表</div>
           <div style="font-weight: bold;margin-bottom: 10px;float: right;margin-top: -30px;margin-right: 365px">已选列表</div>
-          <el-table ref="multipleTable" v-loading="loading" border :row-key="getRowKeys" :data="tableData" tooltip-effect="dark" class="table" :height="550" @selection-change="handleSelectionChange">
+          <el-table ref="multipleTable" border :row-key="getRowKeys" :data="tableData" tooltip-effect="dark" class="table" :height="550" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55" :reserve-selection="true" />
             <el-table-column prop="userName" label="用户名" show-overflow-tooltip min-width="120" />
             <el-table-column prop="mobile" label="用户手机号" show-overflow-tooltip min-width="120">
@@ -28,7 +28,7 @@
             </el-table-column>
           </el-table>
           <div class="rightNarrow" />
-          <el-table v-loading="loading" border :row-key="getRowKeys" :data="multipleSelection" tooltip-effect="dark" class="table" :height="550">
+          <el-table border :row-key="getRowKeys" :data="multipleSelection" tooltip-effect="dark" class="table" :height="550">
             <el-table-column prop="userName" label="用户名" show-overflow-tooltip min-width="120" />
             <el-table-column prop="mobile" label="用户手机号" show-overflow-tooltip min-width="120">
               <template v-slot="scope">
@@ -123,13 +123,9 @@ export default {
     //     cancelButtonText: '取消',
     //     type: 'warning'
     //   }).then(() => {
-    //     for (let i = 0; i < this.multipleSelection.length; i++) {
-    //       if (row.id === this.multipleSelection[i].id) {
-    //         this.$refs.multipleTable.toggleRowSelection(row)
-    //         this.multipleSelection.splice(i, 1)
-    //         this.loadList()
-    //       }
-    //     }
+    //     this.$refs.multipleTable.toggleRowSelection(row,false)
+    //     console.log(this.tableData2)
+    //     console.log(this.multipleSelection)
     //   }).catch(() => {
     //   })
     // },
@@ -151,6 +147,7 @@ export default {
     // 表格选中
     handleSelectionChange(val) {
       this.multipleSelection = val
+      this.tableData2 = val
     },
     // 确定
     sure() {
