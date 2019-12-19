@@ -29,6 +29,14 @@
             <el-button type="primary" class="save" :loading="btnLoading" @click="submitForm2('ruleForm2')">确定</el-button>
           </el-form>
         </el-tab-pane>
+        <el-tab-pane label="普通邀请优惠券" name="thirdly">
+          <el-form ref="ruleForm3" :model="ruleForm3" label-width="150px" :rules="rules3" style="margin-top: 10px">
+            <el-form-item label="普通邀请优惠券" class="form-item" prop="award_coupon">
+              <el-input v-model="ruleForm3.award_coupon" placeholder="请输入" />
+            </el-form-item>
+            <el-button type="primary" class="save" :loading="btnLoading" @click="submitForm3('ruleForm3')">确定</el-button>
+          </el-form>
+        </el-tab-pane>
       </el-tabs>
     </div>
   </div>
@@ -52,6 +60,9 @@ export default {
         hehuoren_first_time_ticheng: '',
         hehuoren_xufei_ticheng: ''
       },
+      ruleForm3: {
+        award_coupon: ''
+      },
       rules: { // 正则
         ticheng: [
           { required: true, message: '请设置续费提成比例!', trigger: 'blur' },
@@ -66,6 +77,11 @@ export default {
         hehuoren_xufei_ticheng: [
           { required: true, message: '请设置续费提成比例!', trigger: 'blur' },
           { pattern: /^(?:[1-9]?\d|99)$/, message: '请输入正确提成比例!' }
+        ]
+      },
+      rules3: { // 正则
+        award_coupon: [
+          { required: true, message: '请输入普通邀请优惠券!', trigger: 'blur' }
         ]
       }
     }
@@ -115,10 +131,25 @@ export default {
           this.btnLoading = true
           updateTicheng(this.ruleForm2).then(res => {
             if (res.code === 0 || res.code === '0') {
-              this.btnLoading = false
               this.$message.success('操作成功!')
               this.getData()
             }
+            this.btnLoading = false
+          })
+        }
+      })
+    },
+    // 保存3
+    submitForm3(formName, index) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.btnLoading = true
+          updateTicheng(this.ruleForm3).then(res => {
+            if (res.code === 0 || res.code === '0') {
+              this.$message.success('操作成功!')
+              this.getData()
+            }
+            this.btnLoading = false
           })
         }
       })
@@ -134,6 +165,7 @@ export default {
           this.ruleForm.ticheng = res.data.ticheng
           this.ruleForm2.hehuoren_first_time_ticheng = res.data.hehuoren_first_time_ticheng
           this.ruleForm2.hehuoren_xufei_ticheng = res.data.hehuoren_xufei_ticheng
+          this.ruleForm3.award_coupon = res.data.award_coupon
           this.loading = false
         }
       })
