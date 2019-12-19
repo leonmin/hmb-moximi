@@ -1,6 +1,6 @@
 <template>
   <div v-loading="loading" class="main">
-    <div class="title">用户列表</div>
+<!--    <div class="title">用户列表</div>-->
     <el-form :inline="true" :model="searchData" class="demo-form-inline" label-width="90px" style="margin-top: 30px">
       <el-form-item label="关键字" style="margin-left: 5px">
         <el-input v-model="searchData.searchKey" placeholder="用户名称\用户手机号" />
@@ -16,7 +16,7 @@
       </el-form-item>
     </el-form>
     <!--表格-->
-    <el-table :data="tableData" style="width: 95%;margin-left: 40px;" border :height="fullHeight-280+'px'">
+    <el-table :data="tableData" style="width: 95%;margin-left: 40px;" border :height="fullHeight-220+'px'">
       <el-table-column prop="userName" label="用户名称" min-width="100" show-overflow-tooltip />
       <el-table-column prop="mobile" label="用户手机号" min-width="100" show-overflow-tooltip>
         <template v-slot="scope">
@@ -51,12 +51,12 @@
           <span style="cursor: pointer;color: #409EFF;" @click="look(scope.row)">{{ scope.row.inviteUserCount }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="inviteUserCount" label="设置用户类型" min-width="100" show-overflow-tooltip>
+      <el-table-column prop="inviteUserCount" label="设置用户类型" min-width="120" show-overflow-tooltip>
         <template v-slot="scope">
           <span style="cursor: pointer;color: #409EFF;" @click="setPartner(scope.row)">{{ scope.row.partner===0 || scope.row.partner===null?'设置为合伙人':'取消合伙人' }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="inviteUserCount" label="删除用户" min-width="60" show-overflow-tooltip>
+      <el-table-column prop="inviteUserCount" label="删除用户" min-width="80" show-overflow-tooltip>
         <template v-slot="scope">
           <span style="cursor: pointer;color: #409EFF;" @click="del(scope.row)">删除用户</span>
         </template>

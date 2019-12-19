@@ -1,6 +1,6 @@
 <template>
   <div v-loading="loading" class="main">
-    <div class="title">用户反馈</div>
+<!--    <div class="title">用户反馈</div>-->
     <el-form :inline="true" :model="searchData" class="demo-form-inline" label-width="80px" style="margin-top: 30px">
       <el-form-item label="关键字" style="margin-left: 15px">
         <el-input v-model="searchData.searchKey" placeholder="用户名/手机号" />
@@ -11,7 +11,7 @@
       </el-form-item>
     </el-form>
     <!--表格-->
-    <el-table :data="tableData" style="width: 95%;margin-left: 40px;" border :height="fullHeight-280+'px'">
+    <el-table :data="tableData" style="width: 95%;margin-left: 40px;" border :height="fullHeight-220+'px'">
       <el-table-column prop="username" label="用户名" min-width="150" show-overflow-tooltip />
       <el-table-column prop="mobile" label="用户手机号" min-width="150" show-overflow-tooltip>
         <template v-slot="scope">

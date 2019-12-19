@@ -1,6 +1,6 @@
 <template>
   <div v-loading="loading" class="main">
-    <div class="title">提现审核</div>
+<!--    <div class="title">提现审核</div>-->
     <el-form :inline="true" :model="searchData" class="demo-form-inline" label-width="80px" style="margin-top: 30px">
       <el-form-item label="关键字" style="margin-left: 20px">
         <el-input v-model="searchData.orderNo" placeholder="订单编号\提现人\提现账号" style="width: 215px" clearable/>
@@ -16,7 +16,7 @@
       </el-form-item>
     </el-form>
     <!--表格-->
-    <el-table :data="tableData" style="width: 95%;margin-left: 40px;" border :height="fullHeight-280+'px'">
+    <el-table :data="tableData" style="width: 95%;margin-left: 40px;" border :height="fullHeight-220+'px'">
       <el-table-column prop="no" label="提现审核编号" min-width="180" show-overflow-tooltip />
       <el-table-column prop="userName" label="提现人" min-width="150" show-overflow-tooltip />
       <el-table-column prop="mobile" label="提现人手机号" min-width="150" show-overflow-tooltip>

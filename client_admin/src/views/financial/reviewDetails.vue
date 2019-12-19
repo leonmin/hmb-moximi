@@ -337,6 +337,7 @@ export default {
     min-height: 55px;
     text-align: center;
     padding-top: 20px;
+    word-wrap:break-word
   }
   .lineContent1{
     flex: 1;
@@ -346,6 +347,7 @@ export default {
     min-height: 55px;
     text-align: center;
     padding-top: 20px;
+    word-wrap:break-word
   }
   >>>.el-table .cell{
     white-space: nowrap !important;

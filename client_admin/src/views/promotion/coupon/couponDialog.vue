@@ -28,18 +28,18 @@
             </el-table-column>
           </el-table>
           <div class="rightNarrow" />
-          <el-table border :row-key="getRowKeys" :data="multipleSelection" tooltip-effect="dark" class="table" :height="550">
+          <el-table border :data="multipleSelection" tooltip-effect="dark" class="table" :height="550">
             <el-table-column prop="userName" label="用户名" show-overflow-tooltip min-width="120" />
             <el-table-column prop="mobile" label="用户手机号" show-overflow-tooltip min-width="120">
               <template v-slot="scope">
                 <span>{{ scope.row.mobile | formatTel }}</span>
               </template>
             </el-table-column>
-<!--            <el-table-column prop="mobile" label="操作" show-overflow-tooltip min-width="60">-->
-<!--              <template v-slot="scope">-->
-<!--                <span style="color: #1c75ff;cursor: pointer" @click="del(scope.row,false)">删除</span>-->
-<!--              </template>-->
-<!--            </el-table-column>-->
+            <el-table-column prop="mobile" label="操作" show-overflow-tooltip min-width="60">
+              <template v-slot="scope">
+                <span style="color: #1c75ff;cursor: pointer" @click="toggleSelection([multipleSelection[scope.$index]])">删除</span>
+              </template>
+            </el-table-column>
           </el-table>
           <div style="float: right;margin-right: 10px;font-size: 14px;margin-top: 10px">共 {{ multipleSelection.length }} 位</div>
         </div>
@@ -117,18 +117,40 @@ export default {
     }
   },
   methods: {
-    // del(row, status) {
+    // del(row) {
     //   this.$confirm('确认删除此用户?', '提示', {
     //     confirmButtonText: '确定',
     //     cancelButtonText: '取消',
     //     type: 'warning'
     //   }).then(() => {
-    //     this.$refs.multipleTable.toggleRowSelection(row,false)
-    //     console.log(this.tableData2)
-    //     console.log(this.multipleSelection)
+    //     for (let i = 0; i <= this.multipleSelection.length; i++) {
+    //       if (row.id === this.multipleSelection[i].id) {
+    //         this.multipleSelection.splice(i, 1)
+    //       }
+    //     }
+    //     this.$refs.multipleTable.toggleRowSelection(row, false)
     //   }).catch(() => {
     //   })
     // },
+    toggleSelection(rows) {
+      if (rows) {
+        rows.forEach(row => {
+          this.$refs.multipleTable.toggleRowSelection(row)
+        })
+      }
+      function unique(arr) {
+        for (var i = 0; i < arr.length; i++) {
+          for (var j = i + 1; j < arr.length; j++) {
+            if (arr[i].id === arr[j].id) { // 第一个等同于第二个，splice方法删除第二个
+              arr.splice(j, 1)
+              j--
+            }
+          }
+        }
+        return arr
+      }
+      unique(this.multipleSelection)
+    },
     // 取消
     cancel() {
       this.visible = false
