@@ -21,7 +21,7 @@
           <div class="lineContent1">提现账号</div>
           <div class="lineContent2">{{ checkData.alipayAccount }}</div>
           <div class="lineContent1">提现金额(元)</div>
-          <div class="lineContent2">{{ checkData.cash | formatMoney}}</div>
+          <div class="lineContent2">{{ checkData.cash}}</div>
         </div>
         <div class="line">
           <div class="lineContent1">钱包余额(元)</div>
