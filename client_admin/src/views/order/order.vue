@@ -101,7 +101,7 @@
       <el-table-column
         prop="orderStatus"
         label="订单状态"
-        min-width="60"
+        min-width="80"
         show-overflow-tooltip
       >
         <template v-slot="scope">

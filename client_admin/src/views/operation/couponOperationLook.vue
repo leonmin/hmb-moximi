@@ -48,27 +48,27 @@
       </div>
       <!--表格-->
       <el-table :data="tableData" style="width: 99%;margin-left: 15px;margin-top: 20px" border>
-        <el-table-column prop="couponNumber" label="优惠券编号" min-width="150" show-overflow-tooltip />
+        <el-table-column prop="couponNumber" label="优惠券编号" min-width="140" show-overflow-tooltip />
         <el-table-column prop="couponTitle" label="优惠券名称" min-width="140" show-overflow-tooltip />
-        <el-table-column prop="discount" label="优惠券折扣" min-width="100" show-overflow-tooltip>
+        <el-table-column prop="discount" label="优惠券折扣" min-width="80" show-overflow-tooltip>
           <template v-slot="scope">
             <span>{{ scope.row.discount | discount }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="getType" label="领取方式" min-width="120" show-overflow-tooltip>
+        <el-table-column prop="getType" label="领取方式" min-width="90" show-overflow-tooltip>
           <template v-slot="scope">
             <span>{{ scope.row.getType | getType }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="addTime" label="领取时间" min-width="180" show-overflow-tooltip />
-        <el-table-column prop="usedStatus" label="使用状态" min-width="120" show-overflow-tooltip>
+        <el-table-column prop="addTime" label="领取时间" min-width="160" show-overflow-tooltip />
+        <el-table-column prop="usedStatus" label="使用状态" min-width="80" show-overflow-tooltip>
           <template v-slot="scope">
             <span>{{ scope.row.usedStatus | usedStatus }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="usedTime" label="使用时间" min-width="180" show-overflow-tooltip />
-        <el-table-column prop="endTime" label="到期时间" min-width="180" show-overflow-tooltip />
-        <el-table-column prop="orderNo" label="订单编号" min-width="180" show-overflow-tooltip />
+        <el-table-column prop="usedTime" label="使用时间" min-width="160" show-overflow-tooltip />
+        <el-table-column prop="endTime" label="到期时间" min-width="160" show-overflow-tooltip />
+        <el-table-column prop="orderNo" label="订单编号" min-width="160" show-overflow-tooltip />
       </el-table>
       <!--分页-->
       <el-pagination

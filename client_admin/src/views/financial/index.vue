@@ -18,26 +18,26 @@
     <!--表格-->
     <el-table :data="tableData" style="width: 95%;margin-left: 40px;" border :height="fullHeight-220+'px'">
       <el-table-column prop="no" label="提现审核编号" min-width="180" show-overflow-tooltip />
-      <el-table-column prop="userName" label="提现人" min-width="150" show-overflow-tooltip />
-      <el-table-column prop="mobile" label="提现人手机号" min-width="150" show-overflow-tooltip>
+      <el-table-column prop="userName" label="提现人" min-width="100" show-overflow-tooltip />
+      <el-table-column prop="mobile" label="提现人手机号" min-width="100" show-overflow-tooltip>
         <template v-slot="scope">
           <span>{{ scope.row.mobile | formatTel }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="addTime" label="提现时间" min-width="150" show-overflow-tooltip />
+      <el-table-column prop="addTime" label="提现时间" min-width="160" show-overflow-tooltip />
       <el-table-column prop="partner" label="提现类型" min-width="120" show-overflow-tooltip>
         <template v-slot="scope">
           <span>{{ scope.row.partner | partner }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="alipayAccount" label="提现账号" min-width="150" show-overflow-tooltip />
-      <el-table-column prop="cash" label="提现金额(元)" min-width="150" show-overflow-tooltip>
+      <el-table-column prop="alipayAccount" label="提现账号" min-width="140" show-overflow-tooltip />
+      <el-table-column prop="cash" label="提现金额(元)" min-width="100" show-overflow-tooltip>
         <template v-slot="scope">
           <span>{{ scope.row.cash | formatMoney }}</span>
         </template>
       </el-table-column>
       <!--      <el-table-column prop="balance" label="钱包余额" min-width="150" show-overflow-tooltip />-->
-      <el-table-column prop="applyStatus" label="审核状态" min-width="150" show-overflow-tooltip>
+      <el-table-column prop="applyStatus" label="审核状态" min-width="100" show-overflow-tooltip>
         <template v-slot="scope">
           <span>{{ scope.row.applyStatus | applyStatus }}</span>
         </template>

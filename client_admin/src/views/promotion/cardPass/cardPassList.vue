@@ -25,27 +25,28 @@
     </el-form>
     <!--表格-->
     <el-table :data="tableData" style="width: 95%;margin-left: 40px;" border :height="fullHeight-220+'px'">
-      <el-table-column prop="serialNumber" label="编号" min-width="150" show-overflow-tooltip />
+      <el-table-column prop="id" label="ID" min-width="80" show-overflow-tooltip />
+      <el-table-column prop="serialNumber" label="编号" min-width="140" show-overflow-tooltip />
       <el-table-column prop="title" label="卡密名称" min-width="150" show-overflow-tooltip />
       <el-table-column prop="validity" label="有效期" min-width="180" show-overflow-tooltip />
-      <el-table-column prop="total" label="总发行量" min-width="150" show-overflow-tooltip />
-      <el-table-column prop="outTime" label="是否过期" min-width="120" show-overflow-tooltip>
+      <el-table-column prop="total" label="总发行量" min-width="100" show-overflow-tooltip />
+      <el-table-column prop="outTime" label="是否过期" min-width="90" show-overflow-tooltip>
         <template slot-scope="scope">
           <span>{{ scope.row.outTime | outTime }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="partnerName" label="合伙人" min-width="150" show-overflow-tooltip />
-      <el-table-column prop="status" label="状态" min-width="120" show-overflow-tooltip>
+      <el-table-column prop="partnerName" label="合伙人" min-width="100" show-overflow-tooltip />
+      <el-table-column prop="status" label="状态" min-width="100" show-overflow-tooltip>
         <template slot-scope="scope">
           <span>{{ scope.row.status | status }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="cardType" label="适用范围" min-width="120" show-overflow-tooltip>
+      <el-table-column prop="cardType" label="适用范围" min-width="80" show-overflow-tooltip>
         <template slot-scope="scope">
           <span>{{ scope.row.cardType | cardType }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" show-overflow-tooltip width="150">
+      <el-table-column label="操作" show-overflow-tooltip width="120">
         <template slot-scope="scope">
           <span style="cursor: pointer;color: #409EFF;margin-right: 15px" @click="lookDetail(scope.row)">查看</span>
           <span style="cursor: pointer;color: #409EFF" @click="startAndStop(scope.row)">{{ scope.row.status===0?'停用':'启用' }}</span>

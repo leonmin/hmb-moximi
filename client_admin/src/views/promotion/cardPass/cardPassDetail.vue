@@ -41,26 +41,26 @@
       </div>
       <!--表格-->
       <el-table :data="tableData" style="width: 99%;margin-left: 15px;margin-top: 20px" border>
-        <el-table-column prop="userId" label="用户ID" min-width="100" show-overflow-tooltip />
-        <el-table-column prop="cardKey" label="卡密密码" min-width="180" show-overflow-tooltip>
+        <el-table-column prop="userId" label="用户ID" min-width="80" show-overflow-tooltip />
+        <el-table-column prop="cardKey" label="卡密密码" min-width="150" show-overflow-tooltip>
           <template slot-scope="scope">
             <span>{{ scope.row.cardKey | cardKey }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="username" label="使用用户" min-width="150" show-overflow-tooltip />
-        <el-table-column prop="mobile" label="用户手机号" min-width="150" show-overflow-tooltip>
+        <el-table-column prop="username" label="使用用户" min-width="100" show-overflow-tooltip />
+        <el-table-column prop="mobile" label="用户手机号" min-width="120" show-overflow-tooltip>
           <template slot-scope="scope">
             <span>{{ scope.row.mobile | formatTel }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="cardStatus" label="当前状态" min-width="120" show-overflow-tooltip>
+        <el-table-column prop="cardStatus" label="当前状态" min-width="90" show-overflow-tooltip>
           <template slot-scope="scope">
             <span>{{ scope.row.cardStatus | cardStatus }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="usedTime" label="使用时间" min-width="180" show-overflow-tooltip />
-        <el-table-column prop="orderNum" label="订单编号" min-width="180" show-overflow-tooltip />
-        <el-table-column label="操作" show-overflow-tooltip width="150">
+        <el-table-column prop="usedTime" label="使用时间" min-width="150" show-overflow-tooltip />
+        <el-table-column prop="orderNum" label="订单编号" min-width="170" show-overflow-tooltip />
+        <el-table-column label="操作" show-overflow-tooltip width="120">
           <template slot-scope="scope">
             <span v-clipboard:copy="scope.row.cardKey" v-clipboard:success="copy" style="cursor: pointer;color: #409EFF;margin-right: 15px">复制卡密</span>
           </template>

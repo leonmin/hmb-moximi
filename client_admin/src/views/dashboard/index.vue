@@ -46,13 +46,13 @@
           <span>{{ scope.row.partner | partner }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="puserName" label="上级用户" min-width="100" show-overflow-tooltip />
+      <el-table-column prop="puserName" label="上级用户" min-width="80" show-overflow-tooltip />
       <el-table-column prop="puserMobile" label="上级手机号" min-width="100" show-overflow-tooltip>
         <template v-slot="scope">
           <span>{{ scope.row.puserMobile | formatTel }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="inviteUserCount" label="下级用户数" min-width="80" show-overflow-tooltip>
+      <el-table-column prop="inviteUserCount" label="下级用户数" min-width="70" show-overflow-tooltip>
         <template v-slot="scope">
           <span style="cursor: pointer;color: #409EFF;" @click="look(scope.row)">{{ scope.row.inviteUserCount }}</span>
         </template>
