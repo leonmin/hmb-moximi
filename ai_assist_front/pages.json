@@ -1,0 +1,444 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "魔小秘",
+				"app-plus":{
+					"titleNView": false
+				}
+			}
+		}
+	    ,{
+            "path" : "pages/IncomeHome/IncomeHome",
+            "style" : {
+				"navigationBarTitleText": "魔秘来电",
+				 "enablePullDownRefresh": true,  //设置为true表示当前页面开启下拉刷新
+				  "backgroundTextStyle": "dark",  //下拉 loading 的样式，仅支持 dark/light
+				"app-plus":{
+					"titleNView": false
+				}
+			}
+        }
+		,{
+		    "path" : "pages/IncomeHome/focus/focus",
+		    "style" : {
+				"navigationBarTitleText": "关注公众号",
+				"app-plus":{
+					"titleNView": false
+				}
+			}
+		}
+        ,{
+            "path" : "pages/CustomPage/CustomPage",
+            "style" : {
+				"navigationBarTitleText": "专属定制",
+				"enablePullDownRefresh": true,  //设置为true表示当前页面开启下拉刷新
+				 "backgroundTextStyle": "dark",  //下拉 loading 的样式，仅支持 dark/light
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/MinePage/MinePage",
+            "style" : {
+				"navigationBarTitleText": "个人中心",
+				"enablePullDownRefresh": true, 
+				 "backgroundTextStyle": "dark", 
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/SettingPage/SettingPage",
+            "style" : {
+				"navigationBarTitleText": "接听配置",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/IncomeHome/search/search",
+            "style" : {
+				"navigationBarTitleText": "搜索来电",
+				"app-plus":{
+					"titleNView": false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/IncomeHome/callDetails/callDetails",
+            "style" : {
+				"navigationBarTitleText": "通话详情",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/CustomPage/editOpen/editOpen",
+            "style" : {
+				"navigationBarTitleText": "编辑开场白",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        },
+		{
+            "path" : "pages/MinePage/MineWallet/MineWallet",
+            "style" : {
+				"navigationBarTitleText":"我的钱包",
+				"enablePullDownRefresh": true,  //设置为true表示当前页面开启下拉刷新
+				 "backgroundTextStyle": "dark",  //下拉 loading 的样式，仅支持 dark/light
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/MinePage/MineWalletDetail/MineWalletDetail",
+            "style" : {
+				"navigationBarTitleText":"明细详情",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/MinePage/MineWithDraw/MineWithDraw",
+            "style" : {
+				"navigationBarTitleText":"提现",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/MinePage/MineVipPage/MineVipPage",
+            "style" : {
+				"navigationBarTitleText":"我的VIP",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/Welcome/Welcome",
+            "style" : {
+				"navigationBarTitleText":"服务介绍",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/Login/bindMobile",
+            "style" : {
+				"navigationBarTitleText":"注册",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/Login/Invite/InviteNewUser",
+            "style" : {
+						"navigationBarTitleText": "邀请使用",
+						"app-plus":{
+							"titleNView":false
+						}
+			}
+        }
+		,{
+            "path" : "pages/Login/RegisterSucc/RegisterSucc",
+            "style" : {}
+        }
+		,{
+			"path":"pages/Login/Invite/Invite",
+			"style":{
+				"navigationBarTitleText": "邀请赚钱",
+				"enablePullDownRefresh": true,
+				 "backgroundTextStyle": "dark",  
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+		}
+        ,{
+            "path" : "pages/Login/Loginin/Loginin",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/CustomPage/AddressBook/AddressBook",
+            "style" : {
+				"navigationBarTitleText": "通讯录",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/CustomPage/AddContact/AddContact",
+            "style" : {
+				"navigationBarTitleText": "添加联系人",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/CustomPage/ContactDetail/ContactDetail",
+            "style" : {
+				"navigationBarTitleText": "通讯录详情",
+				"enablePullDownRefresh": true,  //设置为true表示当前页面开启下拉刷新
+				 "backgroundTextStyle": "dark",  //下拉 loading 的样式，仅支持 dark/light
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/MinePage/Coupons/Coupons",
+            "style" : {
+				"navigationBarTitleText":"选择优惠券",
+				"app-plus":{
+					"titleNView": false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/JumpLogin/JumpLogin",
+            "style" : {
+				"navigationBarTitleText":"跳转",
+				"app-plus":{
+					"titleNView": false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/partner/partner",
+            "style" : {
+				"navigationBarTitleText":"合伙人",
+				"app-plus":{
+					"titleNView": false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/camilo/camilo",
+            "style" : {
+				"navigationBarTitleText":"卡密激活",
+				"app-plus":{
+					"titleNView": false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/partner/balanceSubsidiary/balanceSubsidiary",
+            "style" : {
+				"navigationBarTitleText":"余额明细",
+				"app-plus":{
+					"titleNView": false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/partner/partnerBind/partnerBind",
+            "style" : {
+				"navigationBarTitleText":"账号绑定",
+				"app-plus":{
+					"titleNView": false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/partner/partnerInvite/partnerInvite",
+            "style" : {
+				"navigationBarTitleText":"我的邀请",
+				"enablePullDownRefresh": true,  
+				 "backgroundTextStyle": "dark",  
+				"app-plus":{
+					"titleNView": false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/partner/partnerInviteNew/partnerInviteNew",
+            "style" : {
+				"navigationBarTitleText":"邀请使用",
+				"app-plus":{
+					"titleNView": false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/Login/Invite/inviteDetail",
+            "style" : {
+				"navigationBarTitleText":"我的邀请",
+				"enablePullDownRefresh": true,
+				 "backgroundTextStyle": "dark",  
+				"app-plus":{
+					"titleNView": false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/helpCenter/helpCenter",
+            "style" : {
+				"navigationBarTitleText":"帮助中心",
+				"app-plus":{
+					"titleNView": false
+				}
+			}
+        }
+		,{
+		    "path" : "pages/helpCenter/about",
+		    "style" : {
+				"navigationBarTitleText":"关于魔小秘",
+				"app-plus":{
+					"titleNView": false
+				}
+			}
+		}
+        ,{
+            "path" : "pages/helpCenter/callForwarding",
+            "style" : {
+				"navigationBarTitleText":"什么是呼叫转移",
+				"app-plus":{
+					"titleNView": false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/helpCenter/isSetting",
+            "style" : {
+				"navigationBarTitleText":"如何查询是否设置成功",
+				"app-plus":{
+					"titleNView": false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/helpCenter/downtime",
+            "style" : {
+				"navigationBarTitleText":"手机停机后是否还能正常使用",
+				"app-plus":{
+					"titleNView": false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/helpCenter/ensureSafety",
+            "style" : {
+				"navigationBarTitleText":"魔小秘如何保障数据安全",
+				"app-plus":{
+					"titleNView": false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/helpCenter/feedBack",
+            "style" : {
+				"navigationBarTitleText":"如何反馈问题",
+				"app-plus":{
+					"titleNView": false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/MinePage/haveASaying/haveASaying",
+            "style" : {
+				"navigationBarTitleText":"我有话说",
+				"app-plus":{
+					"titleNView": false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/Welcome/guide/guide",
+            "style" : {
+				"navigationBarTitleText":"开启魔小秘",
+				"app-plus":{
+					"titleNView": false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/partner/partnerDraw/partnerDraw",
+            "style" : {
+				"navigationBarTitleText":"提现",
+				"app-plus":{
+					"titleNView": false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/partner/regSucc/regSucc",
+            "style" : {
+				"navigationBarTitleText":"注册成功",
+				"app-plus":{
+					"titleNView": false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/partner/partnerJumpLogin/partnerJumpLogin",
+            "style" : {
+				"navigationBarTitleText":"跳转",
+				"app-plus":{
+					"titleNView": false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/partner/partnerTip/partnerTip",
+            "style" : {
+				"navigationBarTitleText":"提示",
+				"app-plus":{
+					"titleNView": false
+				}
+			}
+        }
+    ],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#FFFFFF",
+		"backgroundColor": "#FFFFFF"
+	},
+	"tabBar": {
+		"color":"#555555",
+		"selectedColor":"#1c75ff",
+		"borderStyle":"white",
+		"backgroundColor":"#FFFFFF",
+		"list": [
+			{
+				"pagePath":"pages/IncomeHome/IncomeHome",
+				"text":"来电记录",
+				"iconPath":"static/tab/shou@2x.png",
+				"selectedIconPath":"static/tab/shouye@2x.png"
+			},
+			{
+				"pagePath":"pages/SettingPage/SettingPage",
+				"text":"接听配置",
+				"iconPath":"static/tab/peizhi@2x.png",
+				"selectedIconPath":"static/tab/pei@2x.png"
+			},
+			{
+				"pagePath":"pages/CustomPage/CustomPage",
+				"text":"专属定制",
+				"iconPath":"static/tab/dingzhi@2x.png",
+				"selectedIconPath":"static/tab/ding@2x.png"
+			},
+			{
+				"pagePath":"pages/MinePage/MinePage",
+				"text":"个人中心",
+				"iconPath":"static/tab/gerenzhongxin-@2x.png",
+				"selectedIconPath":"static/tab/geren@2x.png"
+			}
+		]
+	}
+}

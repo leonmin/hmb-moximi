@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "通话详情",
+  "usingComponents": {
+    "dragball": "/components/drag-ball/drag-ball"
+  }
+}

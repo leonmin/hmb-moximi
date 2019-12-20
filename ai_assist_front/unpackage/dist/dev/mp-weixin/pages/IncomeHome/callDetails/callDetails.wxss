@@ -1,0 +1,267 @@
+
+page {
+	background-color: #F3F6F7;
+}
+.telText {
+	color: #111111;
+	font-size: 30rpx;
+}
+.callDetails {
+	font-size: 22rpx;
+	color: #777777;
+}
+.callDetails>text {
+	margin-right: 20rpx;
+}
+.chatRrecord {
+	background-color: #F3F6F7;
+}
+.callTip {
+	color: #666666;
+	font-size: 22rpx;
+	text-align: center;
+	padding: 30rpx 0;
+}
+.chatRight {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	    -ms-flex-direction: row;
+	        flex-direction: row;
+	margin: 40rpx 0;
+	padding: 0 30rpx;
+	-webkit-box-pack: end;
+	-webkit-justify-content: flex-end;
+	    -ms-flex-pack: end;
+	        justify-content: flex-end;
+}
+.callHead {
+	width: 80rpx;
+	height: 80rpx;
+	border-radius: 80rpx;
+}
+.callHead>image {
+	width: 80rpx;
+	height: 80rpx;
+	border-radius: 80rpx;
+}
+.chatContent {
+	background-color: white;
+	max-width: 380rpx;
+	padding: 22rpx 38rpx;
+	border-radius: 20rpx;
+	display: -webkit-flex;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	margin-right: 40rpx;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	    -ms-flex-direction: column;
+	        flex-direction: column;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	    -ms-flex-pack: center;
+	        justify-content: center;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	    -ms-flex-align: center;
+	        align-items: center;
+	position: relative;
+}
+.chatContent:after {
+	content: '';
+	position: absolute;
+	left: 100%;
+	top: 20rpx;
+	width: 0;
+	height: 0;
+	border: 15rpx solid;
+	border-color: transparent transparent transparent #FFFFFF;
+}
+.chatContent>text,
+.chatContentLeft>view>text {
+	color: #222222;
+	font-size: 28rpx;
+	margin: 0;
+	padding: 0;
+}
+.chatLeft {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	    -ms-flex-direction: row;
+	        flex-direction: row;
+	margin: 40rpx 0;
+	padding: 0 30rpx;
+	-webkit-box-pack: start;
+	-webkit-justify-content: flex-start;
+	    -ms-flex-pack: start;
+	        justify-content: flex-start;
+}
+.chatContentLeft {
+	background-color: white;
+	padding: 22rpx 38rpx;
+	max-width: 380rpx;
+	border-radius: 20rpx;
+	display: -webkit-flex;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	margin-left: 40rpx;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	    -ms-flex-direction: column;
+	        flex-direction: column;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	    -ms-flex-pack: center;
+	        justify-content: center;
+	position: relative;
+}
+.chatContentLeft:after {
+	content: '';
+	position: absolute;
+	right: 100%;
+	bottom: 40rpx;
+	width: 0;
+	height: 0;
+	border: 20rpx solid;
+	border-color: transparent #FFFFFF transparent transparent;
+}
+.chatContentLeft>view {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	    -ms-flex-direction: row;
+	        flex-direction: row;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	    -ms-flex-pack: justify;
+	        justify-content: space-between;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	    -ms-flex-align: center;
+	        align-items: center;
+}
+.chatContentLeft>view>view>image {
+	width: 30rpx;
+	height: 30rpx;
+}
+.chatContentLeft>view>view {
+	width: 30rpx;
+	height: 30rpx;
+	margin-left: 10rpx;
+}
+.endInfo {
+	text-align: center;
+}
+.endInfo>text:nth-of-type(1) {
+	color: #1c75ff;
+	font-size: 26rpx;
+}
+.endInfo>text:nth-of-type(3) {
+	color: #8E8E8F;
+	font-size: 22rpx;
+	display: block;
+	margin-top: 20rpx;
+}
+.moxiaomi {
+	font-size: 26rpx;
+	color: #464747;
+}
+.endDiv {
+	border: 1rpx solid #DD514C;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+}
+.playItem {
+	width: 100%;
+	border: 1rpx solid #DD514C;
+}
+.endItem>image {
+	width: 50rpx;
+	height: 50rpx;
+	display: block;
+	margin-bottom: 10rpx;
+}
+.recordView {
+	background-color: #FFFFFF;
+	padding: 20rpx 0;
+	width: 750rpx;
+	position: absolute;
+	bottom: 0;
+}
+.recordContain {
+	padding: 20rpx 180rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	    -ms-flex-direction: row;
+	        flex-direction: row;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	    -ms-flex-pack: justify;
+	        justify-content: space-between;
+}
+.recordIcon>image {
+	width: 56rpx;
+	height: 56rpx;
+}
+.recordIcon>view>text {
+	color: #333333;
+	font-size: 26rpx;
+}
+.recordSplit {
+	border: 1rpx solid #EDEDED;
+	margin: 30rpx 0;
+}
+.recordProgress {
+	width: 750rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	    -ms-flex-direction: row;
+	        flex-direction: row;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	    -ms-flex-pack: justify;
+	        justify-content: space-between;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	    -ms-flex-align: center;
+	        align-items: center;
+	padding: 0 20rpx;
+}
+.sliderPro {
+	width: 500rpx;
+}
+.recordProgress>text {
+	color: #333333;
+	font-size: 28rpx;
+	/* margin: 0 10rpx; */
+}
+
