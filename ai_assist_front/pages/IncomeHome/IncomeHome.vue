@@ -136,6 +136,9 @@
 
 		},
 		onReachBottom: function() {
+			
+			
+			
 			var _this = this
 			if (timer != null) {
 				clearTimeout(timer);
