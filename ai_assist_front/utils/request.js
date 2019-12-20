@@ -4,7 +4,6 @@ function jyRequest(url, parm, method, successCallback, errorCallback) {
 	var token
 	try {
 		token = uni.getStorageSync('myToken');
-
 	} catch (e) {
 		console.log('获取错误', e)
 		//TODO handle the exception

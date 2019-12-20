@@ -73,7 +73,7 @@
 	import {
 		uniSearchBar,
 		uniIcons
-	} from '@dcloudio/uni-ui';
+	} from '../../components/uni-icons/uni-icons.vue'
 	import {
 		CALLRECORDLISTTODAY,
 		CALLRECORDLIST,
@@ -167,10 +167,12 @@
 				var after = window.location.search
 				if (after.indexOf('?') === -1) {}
 				after = window.location.href.split("?")[1] || after.substr(1);
+				console.log('获取路径after',after)
 				if (after) {
 					var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
 					var r = after.match(reg)
 					if (r !== null) {
+						console.log('截取的结果',decodeURIComponent(r[2]))
 						return decodeURIComponent(r[2]);
 					} else {
 						return null
@@ -180,6 +182,7 @@
 			// 得到token
 			getCurToken() {	
 				curToken = this.getQueryString('token')
+				console.log('income中的token',curToken)
 				if(!curToken) 
 				{
 					//localstorage read
@@ -188,7 +191,7 @@
 				}
 				
 				if(!curToken) {
-					console.log(222)
+					console.log('路径和storage的token都为空')
 					uni.navigateTo({
 						url:"../JumpLogin/JumpLogin"
 					})

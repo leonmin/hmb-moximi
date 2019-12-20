@@ -138,7 +138,7 @@
 <script>
 	import {
 		uniIcons
-	} from '@dcloudio/uni-ui'
+	} from '../../../components/uni-icons/uni-icons.vue'
 	import {
 		JSAPI,
 		VOICEPROLOGUE,

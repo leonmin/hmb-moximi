@@ -80,7 +80,7 @@
 		uniSearchBar,
 		uniList,
 		uniListItem
-	} from '@dcloudio/uni-ui'
+	} from '../../../components/uni-icons/uni-icons.vue'
 	let that;
 	export default {
 		components: {
