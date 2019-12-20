@@ -3,7 +3,7 @@
 <!--    <div class="title">合伙人下级用户明细</div>-->
     <el-form :inline="true" :model="searchData" class="demo-form-inline" label-width="80px" style="margin-top: 30px">
       <el-form-item label="关键字" style="margin-left: 20px">
-        <el-input v-model="searchData.key" placeholder="用户名\手机号" @input="loadList()" />
+        <el-input v-model="searchData.key" placeholder="用户名\手机号" />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" style="margin-left: 30px" @click="loadList()">查询</el-button>
