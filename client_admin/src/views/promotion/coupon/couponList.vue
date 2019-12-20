@@ -42,6 +42,12 @@
       :data="couponsData"
     >
       <el-table-column
+        prop="id"
+        label="ID"
+        min-width="60"
+        show-overflow-tooltip
+      />
+      <el-table-column
         prop="couponNumber"
         label="编号"
         min-width="150"
