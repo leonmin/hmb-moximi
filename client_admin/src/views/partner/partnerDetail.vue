@@ -15,15 +15,15 @@
           <div class="lineContent1">下级用户数</div>
           <div class="lineContent2" style="color: #3399FF;cursor: pointer" @click="toBelowList()">{{ partnerRow.subUser===null?'':partnerRow.subUser+'人' }}</div>
           <div class="lineContent1">合伙人余额(元)</div>
-          <div class="lineContent2">{{ partnerRow.partnerBalance | formatMoney}}</div>
+          <div class="lineContent2">{{ partnerRow.partnerBalance | formatMoney }}</div>
           <div class="lineContent1">提成累计(元)</div>
-          <div class="lineContent2">{{ partnerRow.royaltyCount | formatMoney}}</div>
+          <div class="lineContent2">{{ partnerRow.royaltyCount | formatMoney }}</div>
         </div>
       </div>
     </el-card>
     <el-card class="box-card" shadow="hover">
       <div class="title">渠道提成收益
-        <span style="font-weight: normal;margin-left: 10px">（总计：{{ total | formatMoney}}元）</span>
+        <span style="font-weight: normal;margin-left: 10px">（总计：{{ total | formatMoney }}元）</span>
         <div style="color: red;font-size: 16px;margin-top: 10px">（注：近7日）</div>
       </div>
       <div id="myChart" class="charts" />
@@ -93,6 +93,7 @@ export default {
           }
           const yData = []
           for (let i = 0; i < res.data.list.length; i++) {
+            res.data.list[i].profit = res.data.list[i].profit / 100
             yData.push(res.data.list[i].profit)
           }
 
