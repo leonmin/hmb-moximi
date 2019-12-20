@@ -58,7 +58,7 @@
             <span>{{ scope.row.cardStatus | cardStatus }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="userTime" label="使用时间" min-width="180" show-overflow-tooltip />
+        <el-table-column prop="usedTime" label="使用时间" min-width="180" show-overflow-tooltip />
         <el-table-column prop="orderNum" label="订单编号" min-width="180" show-overflow-tooltip />
         <el-table-column label="操作" show-overflow-tooltip width="150">
           <template slot-scope="scope">
