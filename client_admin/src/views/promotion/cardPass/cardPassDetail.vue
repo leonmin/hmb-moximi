@@ -41,6 +41,7 @@
       </div>
       <!--表格-->
       <el-table :data="tableData" style="width: 99%;margin-left: 15px;margin-top: 20px" border>
+        <el-table-column prop="userId" label="用户ID" min-width="100" show-overflow-tooltip />
         <el-table-column prop="cardKey" label="卡密密码" min-width="180" show-overflow-tooltip>
           <template slot-scope="scope">
             <span>{{ scope.row.cardKey | cardKey }}</span>
