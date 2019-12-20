@@ -23,7 +23,7 @@
     </el-card>
     <el-card class="box-card" shadow="hover">
       <div class="title">渠道提成收益
-        <span style="font-weight: normal;margin-left: 10px">（总计：{{ total }}元）</span>
+        <span style="font-weight: normal;margin-left: 10px">（总计：{{ total | formatMoney}}元）</span>
         <div style="color: red;font-size: 16px;margin-top: 10px">（注：近7日）</div>
       </div>
       <div id="myChart" class="charts" />
