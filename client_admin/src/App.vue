@@ -22,6 +22,7 @@ export default {
       this.isRouterAlive = false
       this.$nextTick(function() {
         this.isRouterAlive = true
+        console.log(111)
       })
     }
   }
