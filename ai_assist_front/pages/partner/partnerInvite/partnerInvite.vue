@@ -57,23 +57,26 @@
 		},
 		filters: {
 			mobilechange: function(value) {
+				var b = ''
 				if (value) {
 					var pat = /(\d{3})\d*(\d{4})/
-					var b = value.replace(pat, '$1****$2');
+					b = value.replace(pat, '$1****$2');
 					return b
 				} else {
-					return ''
+					b = '未绑定'
+					return b
 				}
 
 			},
 			datechange: function(value) {
+				var first = ''
 				if (value) {
-					var first = value.split(" ")[0]
+					first = value.split(" ")[0]
 					if (first !== undefined) {
 						return first
 					}
 				} else {
-					return ''
+					return first
 				}
 
 			}
