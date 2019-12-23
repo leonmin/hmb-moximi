@@ -1,84 +1,126 @@
 <template>
-  <div class="order">
+  <div v-loading="loading" class="order">
     <!--   搜索栏-->
     <div class="search clearfix">
       <div class="searchItem">
         <p>关键词</p>
         <el-input
           v-model="orderInput"
-          placeholder="订单编号/用户名/手机号"
+          placeholder="订单编号\用户名\手机号"
           style="width: 220px"
-          clearable>
-        </el-input>
+          clearable
+        />
       </div>
       <el-button type="primary" class="searchBtn" @click="seachList">查询</el-button>
     </div>
     <!--    表格-->
     <el-table
       :data="tableData"
-      border>
+      border
+    >
       <el-table-column
-      prop="no"
-      label="订单编号"
-      width="300">
+        prop="no"
+        label="订单编号"
+        min-width="200"
+        show-overflow-tooltip
+      />
+      <el-table-column
+        prop="sku"
+        label="会员卡续费种类"
+        :formatter="vipType"
+        min-width="80"
+        show-overflow-tooltip
+      />
+      <el-table-column
+        prop="price"
+        label="会员卡续费金额(元)"
+        min-width="80"
+        show-overflow-tooltip
+      >
+        <template v-slot="scope">
+          <span>{{ scope.row.price | formatMoney }}</span>
+        </template>
       </el-table-column>
       <el-table-column
-      prop="sku"
-      label="会员卡续费种类"
-      :formatter="vipType"
-      width="100">
-      </el-table-column>
+        prop="addTime"
+        label="支付时间"
+        min-width="120"
+        show-overflow-tooltip
+      />
       <el-table-column
-      prop="price"
-      label="会员卡续费金额"
-      width="100">
-      </el-table-column>
+        prop="userName"
+        label="支付用户名"
+        min-width="80"
+        show-overflow-tooltip
+      />
       <el-table-column
-      prop="addTime"
-      label="支付时间">
-      </el-table-column>
+        prop="mobile"
+        label="支付手机号"
+        min-width="80"
+        show-overflow-tooltip
+        :formatter="changeMobile"
+      />
       <el-table-column
-      prop="userName"
-      label="支付用户名">
-      </el-table-column>
-      <el-table-column
-      prop="mobile"
-      label="支付手机号"
-      :formatter="changeMobile">
-      </el-table-column>
-      <el-table-column
-      prop="couponPrice"
-      label="是否使用优惠券"
-      :formatter="isUseCoupon">
-      </el-table-column>
+        prop="couponPrice"
+        label="是否使用优惠券"
+        min-width="60"
+        show-overflow-tooltip
+        :formatter="isUseCoupon"
+      />
 
       <el-table-column
-      prop="couponPrice"
-      label="优惠券折扣">
+        prop="couponPrice"
+        label="优惠券抵扣(元)"
+        min-width="80"
+        show-overflow-tooltip
+      >
+        <template v-slot="scope">
+          <span>{{ scope.row.couponPrice | formatMoney }}</span>
+        </template>
       </el-table-column>
       <el-table-column
-      prop="payPrice"
-      label="实际支付金额">
+        prop="payPrice"
+        label="实际支付金额(元)"
+        min-width="80"
+        show-overflow-tooltip
+      >
+        <template v-slot="scope">
+          <span>{{ scope.row.payPrice | formatMoney }}</span>
+        </template>
       </el-table-column>
       <el-table-column
-      prop=""
-      label="提成金额">
+        prop="profit"
+        label="提成金额(元)"
+        min-width="80"
+        show-overflow-tooltip
+      >
+        <template v-slot="scope">
+          <span>{{ scope.row.profit | formatMoney }}</span>
+        </template>
       </el-table-column>
-
+      <el-table-column
+        prop="orderStatus"
+        label="订单状态"
+        min-width="80"
+        show-overflow-tooltip
+      >
+        <template v-slot="scope">
+          <span>{{ scope.row.orderStatus | orderStatus }}</span>
+        </template>
+      </el-table-column>
     </el-table>
     <!--    分页-->
-    <div class="pageList clearfix">
+    <div class="pageList clearfix" style="margin-top: 10px">
       <div class="pageination">
-        <p style="display: inline-block">共{{totalPage}}页/{{totalNum}}条数据</p>
+        <p style="display: inline-block">共{{ totalPage }}页/{{ totalNum }}条数据</p>
         <el-pagination
-          background
-          @current-change="currentChange"
           :current-page.sync="currentPage"
           :page-size="pageSize"
           layout="prev, pager, next, jumper"
           :total="totalNum"
-          style="display: inline-block">
-        </el-pagination>
+          style="display: inline-block"
+          @current-change="currentChange"
+        />
       </div>
     </div>
   </div>
@@ -88,6 +130,19 @@
 import { orderList } from '@/api/user'
 export default {
   name: 'Order',
+  filters: {
+    orderStatus: function(data) {
+      if (data === 0 || data === '0') {
+        return '等待支付'
+      } else if (data === 1 || data === '1') {
+        return '已支付'
+      } else if (data === 2 || data === '2') {
+        return '退款中'
+      } else if (data === 3 || data === '3') {
+        return '已退款'
+      }
+    }
+  },
   data() {
     return {
       tableData: [],
@@ -95,7 +150,8 @@ export default {
       totalNum: 0, // 总条数
       pageSize: 10, // 每页的数据条数
       orderInput: '',
-      totalPage: 1 // 总页数
+      totalPage: 1, // 总页数
+      loading: false
     }
   },
   mounted() {
@@ -105,15 +161,17 @@ export default {
   methods: {
   //  初始化数据
     initData() {
+      this.loading = true
       const params = {
-        pageNum: this.currentPage,
-        orderNo: this.orderInput
+        page: this.currentPage,
+        searchKey: this.orderInput
       }
       orderList(params).then(res => {
         this.tableData = res.data.records
         this.pageSize = res.data.size
         this.totalNum = res.data.total
         this.totalPage = res.data.pages
+        this.loading = false
       })
     },
     // 查询
@@ -155,7 +213,9 @@ export default {
     changeMobile(row, column) {
       var changeMobile = row[column.property]
       var reg = /^(\d{3})\d{4}(\d{4})$/
-      return changeMobile.replace(reg, '$1****$2')
+      if (changeMobile !== null && changeMobile !== '') {
+        return changeMobile.replace(reg, '$1****$2')
+      }
     }
   }
 }

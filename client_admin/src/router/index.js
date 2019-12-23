@@ -53,7 +53,7 @@ export const asyncRoutes = [
   {
     path: '/promotion',
     component: Layout,
-    redirect: '/coupon/couponList',
+    redirect: '/promotion/coupon/couponList',
     name: 'promotion',
     meta: { title: '促销', icon: 'nested', roles: ['admin'] },
     children: [
@@ -145,7 +145,7 @@ export const asyncRoutes = [
         path: 'applyWithdraw',
         name: 'applyWithdraw',
         component: () => import('@/views/financial/index'),
-        meta: { title: '提现申请审核' }
+        meta: { title: '提现申请' }
       },
       {
         path: 'reviewDetails',
@@ -275,6 +275,33 @@ export const asyncRoutes = [
         name: 'couponOperationLook',
         component: () => import('@/views/operation/couponOperationLook'),
         meta: { title: '查看' },
+        hidden: true
+      }
+    ]
+  },
+  // 用户反馈
+  {
+    path: '/userFeedback',
+    component: Layout,
+    redirect: '/userFeedback/userFeedbackList',
+    name: 'userFeedback',
+    meta: {
+      title: '用户反馈',
+      icon: 'nested',
+      roles: ['admin']
+    },
+    children: [
+      {
+        path: 'userFeedbackList',
+        name: 'userFeedbackList',
+        component: () => import('@/views/userFeedback/list'),
+        meta: { title: '用户反馈' }
+      },
+      {
+        path: 'userFeekbackDetails',
+        name: 'userFeekbackDetails',
+        component: () => import('@/views/userFeedback/userFeekbackDetails'),
+        meta: { title: '用户反馈详情' },
         hidden: true
       }
     ]

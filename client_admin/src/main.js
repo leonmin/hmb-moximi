@@ -21,11 +21,21 @@ import Vueclipboard from 'vue-clipboard2'
 Vueclipboard.config.autoSetContainer = true
 Vue.use(Vueclipboard)
 
+/* 手机号处理*/
 Vue.filter('formatTel', function(value) {
   if (!value) return ''
   value = value.toString()
   return value.substr(0, 3) + '****' + value.substr(7)
 })
+// 分转元
+Vue.filter('formatMoney', function(number) {
+//     var number = +val.replace(/[^\d.]/g, '');
+  return isNaN(number) ? 0.00 : parseFloat((number / 100).toFixed(2))
+})
+
+// 引入echarts
+import echarts from 'echarts'
+Vue.prototype.$echarts = echarts
 
 /**
  * If you don't want to use mock-server

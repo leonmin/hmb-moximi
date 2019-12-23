@@ -1,5 +1,5 @@
 <template>
-  <div v-loading="loading" class="main" :style="{height:fullHeight-50+'px'}">
+  <div class="main" :style="{height:fullHeight-50+'px'}">
     <div class="title">添加卡密</div>
     <el-form
       ref="ruleForm"
@@ -13,27 +13,20 @@
         <el-input v-model="ruleForm.title" placeholder="请输入" />
       </el-form-item>
       <el-form-item label="总发行量" prop="total" class="form-item">
-        <el-input v-model="ruleForm.total" placeholder="请输入" />
+        <el-input v-model="ruleForm.total" placeholder="请输入" oninput="this.value=this.value.replace(/\D/g,'')" />
       </el-form-item>
       <el-form-item label="有效期" prop="beginDate" class="form-item" style="width: 700px;">
         <el-date-picker
-          v-model="ruleForm.beginDate"
-          type="datetime"
-          placeholder="请选择开始日期"
-          class="picker"
+          v-model="date"
+          type="datetimerange"
+          align="right"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
           format="yyyy-MM-dd"
+          :picker-options="pickerOptionsStart"
           value-format="yyyy-MM-dd HH:mm:ss"
-          default-time="00:00:00"
-        />
-        <div class="picker-font">至</div>
-        <el-date-picker
-          v-model="ruleForm.endDate"
-          type="datetime"
-          placeholder="请选择结束日期"
-          class="picker"
-          format="yyyy-MM-dd"
-          value-format="yyyy-MM-dd HH:mm:ss"
-          default-time="23:59:59"
+          :default-time="['00:00:00', '23:59:59']"
+          @change="getDate"
         />
       </el-form-item>
       <el-form-item label="适用范围" prop="cardType" class="form-item" style="width: 700px;">
@@ -51,7 +44,7 @@
           />
         </el-select>
       </el-form-item>
-      <el-button type="primary" class="sure" @click="sure('ruleForm')">确定</el-button>
+      <el-button type="primary" class="sure" :loading="loading" @click="sure('ruleForm')">确定</el-button>
     </el-form>
   </div>
 </template>
@@ -64,6 +57,11 @@ export default {
   // 存放 数据
   data: function() {
     return {
+      pickerOptionsStart: {
+        disabledDate(time) {
+          return time.getTime() < new Date(new Date().toLocaleDateString()).getTime()
+        }
+      },
       loading: false,
       fullHeight: document.documentElement.clientHeight, // 页面高度
       ruleForm: {
@@ -88,31 +86,8 @@ export default {
           { required: true, message: '请选择适用范围', trigger: 'blur' }
         ]
       },
-      startTimeOptions: {
-        disabledDate: time => {
-          if (this.ruleForm.endDate) {
-            return (
-              time.getTime() > Date.now() ||
-                time.getTime() > new Date(this.ruleForm.endDate).getTime()
-            )
-          } else {
-            return time.getTime() > Date.now()
-          }
-        }
-      },
-      endTimeOptions: {
-        disabledDate: time => {
-          if (this.ruleForm.beginDate) {
-            return (
-              time.getTime() > Date.now() ||
-                time.getTime() < new Date(this.ruleForm.beginDate).getTime() - 1 * 24 * 60 * 59 * 1000
-            )
-          } else {
-            return time.getTime() > Date.now()
-          }
-        }
-      },
-      options: []
+      options: [],
+      date: []
     }
   },
   watch: {
@@ -143,6 +118,13 @@ export default {
     })
   },
   methods: {
+    // 得到时间
+    getDate(value) {
+      if (value != null) {
+        this.ruleForm.beginDate = value[0]
+        this.ruleForm.endDate = value[1]
+      }
+    },
     // 选择下拉框
     select(item) {
       if (item !== null) {
@@ -161,8 +143,11 @@ export default {
           addExchangeCard(this.ruleForm).then(res => {
             if (res.code === 0 || res.code === '0') {
               this.$message.success('操作成功!')
-              this.loading = false
+              this.$router.push({
+                path: 'cardPassList'
+              })
             }
+            this.loading = false
           })
         }
       })

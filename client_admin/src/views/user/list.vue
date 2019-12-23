@@ -72,17 +72,14 @@ export default {
   },
   methods: {
     onSubmit() {
-      console.log('查询')
       const that = this
       userList().then(res => {
-        console.log('得到的数据')
         that.tableData = res.data
         that.totalNum = res.data.length
       })
     },
 
     handleClickDetails(item) {
-      console.log('查看用户的详情:', item)
       this.$router.push(
         {
           path: 'userDetails',
@@ -102,10 +99,8 @@ export default {
     },
     queryOrderList(item) {
       apiOrderList({ appkey: item.appkey }).then(res => {
-        console.log('得到调用记录:', res.data)
         this.orderTableData = res.data
       })
-      console.log('查询调用订单...')
     },
     currentChange(currentPage) {
       this.currentPage = currentPage

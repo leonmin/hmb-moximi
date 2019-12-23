@@ -1,0 +1,130 @@
+.headLarge {
+	width: 120rpx;
+	height: 120rpx;
+}
+
+.columnDisplay {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.rowDisplay {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.clear:after {
+	content: "";
+	visibility: hidden;
+	display: block;
+	clear: both;
+}
+
+.fontStyle32 {
+	color: #333333;
+	font-size: 32rpx;
+}
+
+.fontStyle30 {
+	color: #333333;
+	font-size: 30rpx;
+}
+
+.line {
+	border: 1rpx solid #E9E9E9;
+	margin: 40rpx 0;
+}
+
+.iconSize {
+	font-size: 36rpx;
+	color: #A2A2A2;
+}
+
+.whiteFont {
+	color: #FFFFFF;
+	font-size: 32rpx;
+}
+
+.whiteIcon {
+	color: #FFFFFF;
+	font-size: 36rpx;
+	margin-right: 10rpx;
+}
+
+.blueIcon {
+	color: #1C75FF;
+	font-size: 36rpx;
+	margin-right: 10rpx;
+}
+
+.greyText {
+	color: #B0B0B0;
+	font-size: 28rpx;
+}
+
+.greyTextMid {
+	color: #606060;
+	font-size: 30rpx;
+	font-weight: 600;
+}
+
+.greyTextXs {
+	color: #999999;
+	font-size: 26rpx;
+}
+
+.shadowE7 {
+	box-shadow: 3rpx 3rpx 14rpx #E7E7E7;
+}
+
+.titleFont {
+	font-weight: 600;
+	color: #343434;
+	font-size: 38rpx;
+}
+
+.innerDisplay {
+	display: inline-block;
+}
+
+.leftFloat {
+	float: left;
+}
+
+.font301 {
+	font-size: 30rpx;
+	color: #111111;
+	line-height: 42rpx;
+}
+
+.weight {
+	font-weight: 600;
+}
+
+.marginDIs {
+	margin: 0 30rpx;
+}
+
+.smLine {
+	border: 1rpx solid #F4F4F4;
+}
+
+.topBar {
+	color: #111111;
+	font-size: 34rpx;
+	font-weight: 600;
+}
+
+.titlePosition {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 750rpx;
+	z-index: 9999;
+}
+
+.topDistance {
+	margin-top: 106rpx;
+}

@@ -2,7 +2,7 @@
   <div>
     <el-dialog
       title="赠送优惠券"
-      width="900px"
+      width="1000px"
       height="600px"
       top="50px"
       :visible.sync="visible"
@@ -12,37 +12,65 @@
     >
       <div v-loading="loading">
         <div class="bigBox">
-          <el-input v-model="input" placeholder="输入优惠卷编号\名称" clearable class="input" />
+          <el-input v-model="searchData.searchKey" placeholder="优惠券名称" clearable class="input" style="float: left;width: 300px" />
+          <el-input v-model="searchData.couponNumber" placeholder="优惠卷编号" clearable class="input" style="float: left;width: 300px;margin-left: 20px" />
+          <el-button type="primary" style="margin-left: 15px;" @click="loadList()">搜索</el-button>
           <!--表格部分-->
-          <el-table ref="multipleTable" v-loading="loading" :data="tableData" tooltip-effect="dark" class="table" :height="550" @selection-change="handleSelectionChange">
-            <el-table-column type="selection" width="55" />
-            <el-table-column prop="username" label="优惠卷编号" show-overflow-tooltip min-width="120" />
-            <el-table-column prop="commentType" label="优惠卷名称" show-overflow-tooltip min-width="120" />
-            <el-table-column prop="" label="折扣数" show-overflow-tooltip min-width="120" />
-            <el-table-column prop="" label="适用范围" show-overflow-tooltip min-width="120" />
-            <el-table-column prop="content" label="有效期" show-overflow-tooltip min-width="150" />
+          <el-table ref="multipleTable" :row-key="getRowKeys" :data="tableData" tooltip-effect="dark" class="table" :height="550" @selection-change="handleSelectionChange">
+            <el-table-column type="selection" width="55" :reserve-selection="true" />
+            <el-table-column prop="couponNumber" label="优惠卷编号" show-overflow-tooltip min-width="120" />
+            <el-table-column prop="couponTitle" label="优惠卷名称" show-overflow-tooltip min-width="120" />
+            <el-table-column prop="couponDiscount" label="折扣数" show-overflow-tooltip min-width="120">
+              <template v-slot="scope">
+                {{ scope.row.couponDiscount | couponDiscount }}
+              </template>
+            </el-table-column>
+            <el-table-column prop="couponType" label="适用范围" show-overflow-tooltip min-width="120">
+              <template v-slot="scope">
+                <span>{{ scope.row.couponCardType | couponType }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column prop="validity" label="有效期" show-overflow-tooltip min-width="150" />
           </el-table>
           <!--分页-->
           <el-pagination
             style="float: right;margin-top: 20px;"
             :current-page="searchData.pageNum"
-            :page-sizes="[10,30,50,100,200]"
             :page-size="searchData.pageSize"
-            layout="total, sizes, prev, pager, next, jumper"
+            layout="total, prev, pager, next, jumper"
             :total="total"
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
           />
         </div>
+        <el-button type="primary" style="margin-left: 20px" :loading="btnLoading" @click="sure()">确认</el-button>
+        <el-button type="info" @click="cancel()">取消</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
-
+import { couponList, sendCoupons } from '@/api/couponOperation'
 export default {
-  props: ['show'],
+  filters: {
+    /* 折扣*/
+    couponDiscount: function(data) {
+      data = data.toString()
+      return data.substring(0, 1) + '.' + data.substring(1) + '折'
+    },
+    /* 适用范围*/
+    couponType: function(data) {
+      if (data === 0 || data === '0') {
+        return '月卡'
+      } else if (data === 1 || data === '1') {
+        return '季卡'
+      } else if (data === 2 || data === '2') {
+        return '年卡'
+      }
+    }
+  },
+  props: ['show', 'row'],
   data() {
     return {
       visible: this.show,
@@ -55,9 +83,16 @@ export default {
       searchData: { // 筛选的数据
         pageNum: 1,
         pageSize: 10,
-        key: '' // 关键字
+        couponNumber: '',
+        searchKey: '' // 关键字
       },
-      total: null
+      total: null,
+      btnLoading: false,
+      // 获取row的key值
+      getRowKeys(row) {
+        return row.id
+      },
+      isPaging: false // 是否是分页
     }
   },
   watch: {
@@ -85,6 +120,10 @@ export default {
     }
   },
   methods: {
+    // 取消
+    cancel() {
+      this.visible = false
+    },
     // 当前页码
     handleSizeChange(val) {
       this.searchData.pageSize = val
@@ -92,6 +131,7 @@ export default {
     },
     // 当前页数
     handleCurrentChange(val) {
+      this.isPaging = true
       this.searchData.pageNum = val
       this.loadList()
     },
@@ -112,17 +152,59 @@ export default {
     },
     // 确定
     sure() {
-
-    },
-    // 取消
-    cancel() {
-      this.$emit('update:show', false)
+      if (this.multipleSelection.length > 0) {
+        this.$confirm('确认赠送' + this.multipleSelection.length + '张优惠券', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.btnLoading = true
+          const data = {
+            couponIds: [],
+            userId: this.row.id
+          }
+          for (let i = 0; i < this.multipleSelection.length; i++) {
+            data.couponIds.push(this.multipleSelection[i].id)
+          }
+          sendCoupons(data).then(res => {
+            if (res.code === 0 || res.code === '0') {
+              this.btnLoading = false
+              this.$message.success(res.msg)
+              this.visible = false
+              this.$emit('success')
+            }
+          })
+        }).catch(() => {
+        })
+      } else {
+        this.$message.error('请先选择赠送的优惠券')
+      }
     },
     openDialog() {
+      this.searchData = { // 筛选的数据
+        pageNum: 1,
+        pageSize: 10,
+        couponNumber: '',
+        searchKey: '' // 关键字
+      }
       this.loadList()
+      if (this.multipleSelection.length > 0) {
+        this.$refs.multipleTable.clearSelection()
+      }
     },
     loadList() {
-
+      this.loading = true
+      if (!this.isPaging) {
+        this.searchData.pageNum = 1
+      }
+      couponList(this.searchData).then(res => {
+        if (res.code === 0 || res.code === '0') {
+          this.total = res.data.total
+          this.tableData = res.data.records
+          this.isPaging = false
+          this.loading = false
+        }
+      })
     }
   }
 }

@@ -38,7 +38,7 @@ export function startAndStopCard(data) {
 // 卡密明细
 export function pageList(data) {
   return request({
-    url: '/admin/UserExchangeCard/pageList',
+    url: '/admin/userExchangeCard/pageList',
     method: 'get',
     params: data
   })

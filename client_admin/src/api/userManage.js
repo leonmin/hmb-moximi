@@ -66,7 +66,7 @@ export function userList(data) {
   return request({
     url: '/admin/user/list',
     method: 'get',
-    data
+    params: data
   })
 }
 
@@ -141,10 +141,65 @@ export function couponDetail(data) {
     params: data
   })
 }
+
 // 优惠券启停
 export function couponEnable(data) {
   return request({
     url: '/admin/coupon/couponEnable',
+    method: 'post',
+    params: data
+  })
+}
+
+// 计算优惠券折扣价
+export function getDiscountPrice(data) {
+  return request({
+    url: '/admin/coupon/getDiscountPrice',
+    method: 'get',
+    params: data
+  })
+}
+
+// 添加优惠券
+export function addCoupon(data) {
+  return request({
+    url: '/admin/coupon/addCoupon',
+    method: 'post',
+    data
+  })
+}
+
+// 优惠券详情(使用明细)
+export function couponUseDetails(data) {
+  return request({
+    url: '/admin/coupon/couponUseDetails',
+    method: 'get',
+    params: data
+  })
+}
+
+// 优惠券下发确认
+export function sendCoupons(data) {
+  return request({
+    url: '/admin/coupon/sendCoupons',
+    method: 'post',
+    data
+  })
+}
+
+/* 下发的用户列表*/
+export function usersList(data) {
+  return request({
+    url: '/admin/user/usersList',
+    method: 'get',
+    params: data
+  })
+}
+
+/* 修改密码*/
+export function updatePassword(data) {
+  return request({
+    url: '/admin/auth/updatePassword',
     method: 'post',
     params: data
   })

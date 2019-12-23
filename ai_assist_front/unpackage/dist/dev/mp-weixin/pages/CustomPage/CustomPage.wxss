@@ -1,0 +1,65 @@
+
+page {
+	background-color: #F1F4F6;
+}
+.addressBook {
+	margin-top: 10rpx;
+	-webkit-box-shadow: 2rpx -5rpx 15rpx #F3F6F7;
+	        box-shadow: 2rpx -5rpx 15rpx #F3F6F7;
+}
+.customContain {
+	padding: 20rpx 30rpx;
+}
+.contactBox {
+	border-radius: 20rpx;
+	background: #FFFFFF;
+	-webkit-box-shadow: 1rpx 1rpx 20rpx rgba(0, 0, 0, 0.1);
+	        box-shadow: 1rpx 1rpx 20rpx rgba(0, 0, 0, 0.1);
+}
+.userList {
+	padding: 20rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	    -ms-flex-direction: row;
+	        flex-direction: row;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	    -ms-flex-pack: justify;
+	        justify-content: space-between;
+}
+.userListItem {
+	width: 160rpx;
+	text-align: center;
+}
+.userListItem image {
+	width: 160rpx;
+	height: 160rpx;
+}
+.userListItem>text {
+	font-size: 36rpx;
+	display: inline-block;
+}
+.imageDiaplay {
+	border-radius: 20rpx;
+	-webkit-box-shadow: 1rpx 1rpx 20rpx rgba(0, 0, 0, 0.1);
+	        box-shadow: 1rpx 1rpx 20rpx rgba(0, 0, 0, 0.1);
+}
+.imageDisplay {
+	font-size: 0;
+	padding: 0;
+}
+.imgView {
+	width: 730rpx;
+	height: 295rpx;
+	margin: auto;
+}
+.imgView>image {
+	width: 730rpx;
+	height: 295rpx;
+}
+

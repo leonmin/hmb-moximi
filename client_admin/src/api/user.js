@@ -71,3 +71,47 @@ export function checkCash(data) {
   })
 }
 
+// 获取下级用户列表
+export function partnerSubUserDetails(data) {
+  return request({
+    url: '/admin/user/partnerSubUserDetails',
+    method: 'get',
+    params: data
+  })
+}
+
+// 提现历史记录
+export function cashHistoryApplyList(data) {
+  return request({
+    url: '/admin/order/cashHistoryApplyList',
+    method: 'get',
+    params: data
+  })
+}
+
+// 设置合伙人
+export function setPartner(data) {
+  return request({
+    url: '/admin/user/setPartner',
+    method: 'post',
+    params: data
+  })
+}
+
+// 删除用户
+export function deleteUser(data) {
+  return request({
+    url: '/admin/user/deleteUser',
+    method: 'post',
+    params: data
+  })
+}
+
+// 查看用户详情
+export function userDetail(data) {
+  return request({
+    url: '/admin/user/userDetail',
+    method: 'get',
+    params: data
+  })
+}

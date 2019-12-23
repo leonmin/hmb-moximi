@@ -1,65 +1,120 @@
 <template>
-  <div class="coupons">
+  <div v-loading="loading" class="coupons">
     <!--   搜索栏-->
     <div class="search clearfix">
       <div class="searchItem">
-        <p>关键词</p>
+        <p>名称</p>
         <el-input
-          v-model="nameInput"
-          placeholder="用户名称/用户手机号"
-          style="width: 180px"
-          clearable>
-        </el-input>
+          v-model="searchData.searchKey"
+          placeholder="优惠卷名称"
+          style="width: 140px"
+          clearable
+        />
+        <p style="margin-left: 10px">编号</p>
+        <el-input
+          v-model="searchData.couponNumber"
+          placeholder="编号"
+          style="width: 170px"
+          clearable
+        />
       </div>
       <div class="searchItem" style="margin-left: 20px">
-        <p>是否已成会员</p>
-        <el-select v-model="isMemberSelect" placeholder="请选择">
-          <el-option :key="-1" label="全部" :value="-1" />
-          <el-option :key="1" label="未过期" :value="1" />
-          <el-option :key="0" label="已过期" :value="0" />
+        <p>是否已过期</p>
+        <el-select v-model="searchData.isOutime" placeholder="请选择" clearable style="width: 140px">
+          <el-option :key="-1" label="全部" :value="null" />
+          <el-option :key="1" label="未过期" :value="0" />
+          <el-option :key="0" label="已过期" :value="2" />
         </el-select>
       </div>
       <div class="searchItem" style="margin-left: 20px">
         <p>状态</p>
-        <el-select v-model="isUseSelect" placeholder="请选择">
-          <el-option :key="-1" label="全部" :value="-1" />
+        <el-select v-model="searchData.status" placeholder="请选择" clearable style="width: 140px">
+          <el-option :key="-1" label="全部" :value="null" />
           <el-option :key="1" label="启用中" :value="1" />
           <el-option :key="0" label="未启用" :value="0" />
         </el-select>
       </div>
-      <el-button type="primary" class="searchBtn" @click="seachList">查询</el-button>
+      <el-button type="primary" class="searchBtn" @click="getCoupons()">查询</el-button>
     </div>
     <!--    表格-->
     <el-table
       border
-      :data="couponsData">
+      :data="couponsData"
+    >
       <el-table-column
         prop="id"
-        label="编号"></el-table-column>
+        label="ID"
+        min-width="60"
+        show-overflow-tooltip
+      />
+      <el-table-column
+        prop="couponNumber"
+        label="编号"
+        min-width="120"
+        show-overflow-tooltip
+      />
       <el-table-column
         prop="couponTitle"
-        label="优惠券名称"></el-table-column>
+        label="优惠券名称"
+        min-width="120"
+        show-overflow-tooltip
+      />
       <el-table-column
         prop="validity"
+<<<<<<< HEAD
         label="有效期">
       </el-table-column>
+=======
+        label="有效期"
+        min-width="160"
+        show-overflow-tooltip
+      />
+>>>>>>> 5b2c142b8a0c631b4dc9338097545b45b4cce3d2
       <el-table-column
         prop="couponDiscount"
         label="折扣数"
-      :formatter="discountChange"></el-table-column>
+        min-width="60"
+        show-overflow-tooltip
+        :formatter="discountChange"
+      />
+      <el-table-column
+        prop="status"
+        label="是否过期"
+        min-width="60"
+        show-overflow-tooltip
+      >
+        <template v-slot="scope">
+          <span>{{ scope.row.status | status }}</span>
+        </template>
+      </el-table-column>
       <el-table-column
         prop="enable"
         label="状态"
-        :formatter="enableChange"></el-table-column>
+        min-width="60"
+        show-overflow-tooltip
+        :formatter="enableChange"
+      >
+        <template v-slot="scope">
+          <span>{{ scope.row.enable | enable }}</span>
+        </template>
+      </el-table-column>
       <el-table-column
-        prop="cardSku"
+        prop="couponCardType"
         label="适用范围"
-       :formatter="typeChange"></el-table-column>
+        min-width="60"
+        show-overflow-tooltip
+      >
+        <template v-slot="scope">
+          <span>{{ scope.row.couponCardType | couponCardType }}</span>
+        </template>
+      </el-table-column>
       <el-table-column
-        label="操作">
+        label="操作"
+        min-width="120"
+      >
         <template slot-scope="scope">
           <span class="tableOperation" @click="checkDetails(scope.row)">查看</span>
-          <span class="tableOperation" @click="Issued">下发</span>
+          <span class="tableOperation" @click="Issued(scope.row)">下发</span>
           <span class="tableOperation" @click="RevStop(scope.row.id,scope.row.enable ? 0: 1)">{{ scope.row.enable ? '停用': '启用' }}</span>
         </template>
 
@@ -68,37 +123,58 @@
     <!--    分页-->
     <div class="pageList clearfix">
       <div class="pageination">
-        <p style="display: inline-block">共{{totalPage}}页/{{totalNum}}条数据</p>
         <el-pagination
-          background
-          :current-page.sync="currentPage"
-          :page-size="pageSize"
-          layout="prev, pager, next, jumper"
-          :total="totalNum"
+          :current-page.sync="searchData.pageNum"
+          :page-size="10"
+          layout="total,prev, pager, next, jumper"
+          :total="total"
+          style="display: inline-block"
           @current-change="currentChange"
-          style="display: inline-block">
-        </el-pagination>
+        />
       </div>
     </div>
-<!--    穿梭框-->
-    <el-dialog title="下发优惠券" :visible.sync="dialogFormVisible" >
-        <el-transfer
-          style="margin-left: 20px !important;"
-          filterable
-          :filter-method="filterMethod"
-          filter-placeholder="请输入城市拼音"
-          v-model="value"
-          :data="data"
-        >
-        </el-transfer>
-    </el-dialog>
+    <!--dialog-->
+    <coupon-dialog :show.sync="show" :row="row" />
   </div>
 </template>
 
 <script>
 import { couponList, couponEnable } from '@/api/userManage'
+import couponDialog from './couponDialog'
 export default {
-  name: '',
+  name: 'CouponList',
+  components: {
+    couponDialog
+  },
+  filters: {
+    enable: function(data) {
+      if (data === null || data === '') {
+        return null
+      } else {
+        if (data) {
+          return '已启用'
+        } else {
+          return '已停用'
+        }
+      }
+    },
+    couponCardType: function(data) {
+      if (data === 0 || data === '0') {
+        return '月卡'
+      } else if (data === 1 || data === '1') {
+        return '季卡'
+      } else if (data === 2 || data === '2') {
+        return '年卡'
+      }
+    },
+    status: function(data) {
+      if (data === 0 || data === '0') {
+        return '未过期'
+      } else if (data === 2 || data === '2') {
+        return '已过期'
+      }
+    }
+  },
   // 存放 数据
   data() {
     const generateData = _ => {
@@ -124,10 +200,18 @@ export default {
       isUseSelect: -1,
       couponsData: [],
       dialogFormVisible: false,
-      totalPage: 1,
-      currentPage: 1, // 当前页码
-      totalNum: 0, // 总条数
-      pageSize: 10 // 每页的数据条数
+      total: null,
+      searchData: {
+        pageNum: 1,
+        searchKey: '',
+        isOutime: '',
+        status: '',
+        couponNumber: ''
+      },
+      loading: false,
+      isPaging: false, // 是否是分页
+      row: null,
+      show: false
     }
   },
   mounted() {
@@ -138,20 +222,24 @@ export default {
   methods: {
     // 获取优惠券列表
     getCoupons() {
-      couponList().then(res => {
+      this.loading = true
+      if (!this.isPaging) {
+        this.searchData.pageNum = 1
+      }
+      couponList(this.searchData).then(res => {
         this.couponsData = res.data.records
-        this.totalNum = res.data.total
-        this.pageSize = res.data.size
-        this.currentPage = res.data.pages
+        this.total = res.data.total
+        this.isPaging = false
+        this.loading = false
       })
     },
     // 下发优惠券
-    Issued() {
-      this.dialogFormVisible = true
+    Issued(row) {
+      this.row = row
+      this.show = true
     },
     // 优惠券启停
     RevStop(id, rs) {
-      console.log(rs,id)
       var stauts
       if (rs === 1) {
         stauts = '启用'
@@ -183,7 +271,6 @@ export default {
     },
     // 优惠券详情
     checkDetails(row) {
-      console.log(row)
       this.$router.push({ path: '/promotion/coupon/couponsDetails', query: { id: row.id }})
     },
     // 状态
@@ -213,7 +300,11 @@ export default {
       return result / 10 + '折'
     },
     // 页码改变
-    currentChange() {},
+    currentChange(currentPage) {
+      this.isPaging = true
+      this.searchData.pageNum = currentPage
+      this.getCoupons()
+    },
     //  查询
     seachList() {}
   }
