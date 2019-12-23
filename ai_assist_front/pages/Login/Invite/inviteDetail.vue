@@ -35,7 +35,10 @@
 </template>
 
 <script>
-	import {INVITELIST,INVITEDATA} from '../../../utils/api.js'
+	import {
+		INVITELIST,
+		INVITEDATA
+	} from '../../../utils/api.js'
 	export default {
 		data() {
 			return {
@@ -45,9 +48,9 @@
 		},
 		onLoad() {
 			uni.showToast({
-				title:'加载中...',
-				icon:"none",
-				mask:true
+				title: '加载中...',
+				icon: "none",
+				mask: true
 			})
 			// 邀请明细
 			this.inviteList()
@@ -57,34 +60,44 @@
 			this.inviteList()
 			this.myInvite()
 		},
-		filters:{
-			mobilechange:function(value){
-				var pat = /(\d{3})\d*(\d{4})/
-				var b = value.replace(pat, '$1****$2');
-				return b
-			},
-			datechange: function(value){
-				var first = value.split(" ")[0]
-				if (first !== undefined) {
-					return first
+		filters: {
+			mobilechange: function(value) {
+				if (value) {
+					var pat = /(\d{3})\d*(\d{4})/
+					var b = value.replace(pat, '$1****$2');
+					return b
+				} else {
+					return ''
 				}
+
+			},
+			datechange: function(value) {
+				if (value) {
+					var first = value.split(" ")[0]
+					if (first !== undefined) {
+						return first
+					}
+				} else {
+					return ''
+				}
+
 			}
 		},
 		methods: {
-			myInvite(){
+			myInvite() {
 				const params = {}
-				this.$request.url_request(INVITEDATA,params,'GET',res => {
+				this.$request.url_request(INVITEDATA, params, 'GET', res => {
 					this.myInviteData = JSON.parse(res.data).data
 					uni.hideToast()
 					uni.stopPullDownRefresh()
-				},err => {})
+				}, err => {})
 			},
-			inviteList(){
+			inviteList() {
 				const params = {
-					pageNum:1,
-					pageSize :20
+					pageNum: 1,
+					pageSize: 20
 				}
-				this.$request.url_request(INVITELIST,params,'GET',res => {
+				this.$request.url_request(INVITELIST, params, 'GET', res => {
 					this.listData = JSON.parse(res.data).data
 					uni.hideToast()
 					uni.stopPullDownRefresh()
@@ -95,99 +108,117 @@
 </script>
 
 <style>
-	page{
+	page {
 		background-color: #FFFFFF;
 	}
-.topHead{
-	width: 750rpx;
-	height: 284rpx;
-	background-size: cover;
-	background-image: url(~@/static/partner/bj@2x.png);
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: center;
-}
-.diliver{
-	height: 20rpx;
-	background-color:#F3F6F7 ;
-}
-.itemNum{
-	display: flex;
-	flex-direction: column;
-	color: #FFFFFF;
-	text-align: center;
-	width: 250rpx;
-}
-.itemNum>text:nth-of-type(1){
-	font-size: 30rpx;
-}
-.itemNum>text:nth-of-type(2){
-	font-size: 64rpx;
-}
-.divider{
-	width: 3rpx;
-	height: 79rpx;
-	background-color: #FFFFFF;
-}
-.InviteList{
-	background-color: #FFFFFF;
-	padding: 50rpx 0 22rpx 0;
-	overflow: hidden;
-}
-.inviteTitle{
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	padding: 0 38rpx;
-	
-}
-.inviteTitle>view{
-	width: 300rpx;
-	/* border: 1rpx solid; */
-	text-align: center;
-}
-.inviteTitle>view>text{
-	font-size: 30rpx;
-	color: #333333;
-}
-.deliver{
-	border-top: 1rpx solid #EDEDED;
-	margin-top: 40rpx;
-	margin-bottom: 50rpx;
-}
-.list{
-/* 	margin-top: 30rpx; */
-}
-.listItem{
-	color: #111111;
-	font-size: 30rpx;
-	margin: 30rpx 38rpx;
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-}
-.listItem>view{
-	/* border: 1rpx sienna solid; */
-	width: 300rpx;
-	text-align: center;
-	margin: 30rpx 0;
-}
-	.noData{
+
+	.topHead {
+		width: 750rpx;
+		height: 284rpx;
+		background-size: cover;
+		background-image: url(~@/static/partner/bj@2x.png);
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.diliver {
+		height: 20rpx;
+		background-color: #F3F6F7;
+	}
+
+	.itemNum {
+		display: flex;
+		flex-direction: column;
+		color: #FFFFFF;
+		text-align: center;
+		width: 250rpx;
+	}
+
+	.itemNum>text:nth-of-type(1) {
+		font-size: 30rpx;
+	}
+
+	.itemNum>text:nth-of-type(2) {
+		font-size: 64rpx;
+	}
+
+	.divider {
+		width: 3rpx;
+		height: 79rpx;
+		background-color: #FFFFFF;
+	}
+
+	.InviteList {
+		background-color: #FFFFFF;
+		padding: 50rpx 0 22rpx 0;
+		overflow: hidden;
+	}
+
+	.inviteTitle {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		padding: 0 38rpx;
+
+	}
+
+	.inviteTitle>view {
+		width: 300rpx;
+		/* border: 1rpx solid; */
+		text-align: center;
+	}
+
+	.inviteTitle>view>text {
+		font-size: 30rpx;
+		color: #333333;
+	}
+
+	.deliver {
+		border-top: 1rpx solid #EDEDED;
+		margin-top: 40rpx;
+		margin-bottom: 50rpx;
+	}
+
+	.list {
+		/* 	margin-top: 30rpx; */
+	}
+
+	.listItem {
+		color: #111111;
+		font-size: 30rpx;
+		margin: 30rpx 38rpx;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+	}
+
+	.listItem>view {
+		/* border: 1rpx sienna solid; */
+		width: 300rpx;
+		text-align: center;
+		margin: 30rpx 0;
+	}
+
+	.noData {
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
 	}
-	.noData>image{
+
+	.noData>image {
 		width: 285rpx;
 		height: 166rpx;
 	}
-	.noData>view{
+
+	.noData>view {
 		text-align: center;
 		margin-top: 30rpx;
 	}
-	.noData>view>text{
+
+	.noData>view>text {
 		font-size: 28rpx;
 		color: #CBDCFE;
 	}

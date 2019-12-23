@@ -1,11 +1,13 @@
 <script>
 	var curToken
+	var invite = ''
 	export default {
 		onLaunch: function() {
 			console.log('App Launch')
 		},
 		onShow: function() {
 			this.getCurToken()
+			this.getInviteCode()
 			console.log('App Show')
 		},
 		onHide: function() {
@@ -14,18 +16,26 @@
 		methods:{
 			// 截取
 			getQueryString(name) {
-				var after = window.location.search
-				if (after.indexOf('?') === -1) {}
-				after = window.location.href.split("?")[1] || after.substr(1);
-				console.log('获取路径after',after)
+				var url = window.location.href
+				console.log('APPVUE获取的url',url)
+				after = url.split("?")[1]
+				var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
 				if (after) {
-					var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
 					var r = after.match(reg)
 					if (r !== null) {
-						console.log('截取的结果',decodeURIComponent(r[2]))
+						console.log('appVUE截取的结果1',decodeURIComponent(r[2]))
 						return decodeURIComponent(r[2]);
 					} else {
-						return null
+						var a = url.split('?')[2]
+						if(a){
+							var s = a.match(reg)
+							if(s !==null){
+								console.log('appvue截取的结果2',decodeURIComponent(s[2]))
+								return decodeURIComponent(s[2])
+							} else {
+								return null
+							}
+						}
 					}
 				}
 			},
@@ -57,6 +67,15 @@
 					}
 				}			
 			},
+			// 获取invitecode
+			getInviteCode(){
+					// invite = this.getQueryString('inviteCode')
+					// if(invite){
+					// 	uni.setStorageSync('inviteCode',invite)
+					// } else {
+					// 	uni.setStorageSync('inviteCode','')
+					// }
+			}
 			
 		}
 	}
