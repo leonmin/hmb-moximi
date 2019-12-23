@@ -142,7 +142,7 @@
 					this.$request.url_request(LOGIN, params, "POST", res => {
 						if (JSON.parse(res.data).code == 0) {
 							uni.navigateTo({
-								url: '../Welcome/Welcome'
+								url: '../../Welcome/Welcome'
 							})
 						} else {
 							if (JSON.parse(res.data).msg) {
@@ -178,7 +178,7 @@
 				curToken = this.getQueryString('token')
 				if (!curToken) {
 					uni.navigateTo({
-						url: "../JumpLogin/JumpLogin"
+						url: '../../JumpLogin/JumpLogin'
 					})
 				} else {
 					try {
