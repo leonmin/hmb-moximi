@@ -2,7 +2,7 @@
 	<view class="login">
 		<!-- 顶部图片 -->
 		<view class="topImage">
-			<image src="../../static/login/bj@2x.jpg" mode=""></image>
+			<image src="../../static/login/getNewUser/bj@2x.jpg" mode=""></image>
 			<view class="topText">
 			</view>
 		</view>
@@ -26,7 +26,7 @@
 					</view>
 				</view>
 				<view class="registerBtn  btn-group">
-					<button formType="submit" :disabled="isDisable" class="cu-btn bg-blue shadow-blur round">立即申请</button>
+					<button formType="submit" :disabled="isDisable" class="cu-btn bg-blue shadow-blur round">立即登录</button>
 				</view>
 			</form>
 		</view>

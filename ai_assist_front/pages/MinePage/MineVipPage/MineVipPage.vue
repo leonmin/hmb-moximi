@@ -559,11 +559,10 @@
 		margin-left: 30rpx;
 		margin-right: 30rpx;
 		height: 235rpx;
-
-		border-radius: 20rpx;
-
-		background-color: #282827;
-
+		background-image: url(~@/static/mine/VIPPage/kapian@2x.png);
+		background-size: cover;
+	/* 	border-radius: 20rpx;
+		background-color: #282827; */
 		display: flex;
 		align-items: center;
 		color: #FFFFFF;

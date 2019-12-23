@@ -4,7 +4,7 @@
 		<view class="topHeader">
 			<view class="headerItem">
 				<!-- 未返回头像url -->
-				<image src="../../static/camilo/touxiang@2x.png" mode=""></image>
+				<image src="../../static/logoHead.png" mode=""></image>
 				<view class="headerTime">
 					<text>{{myInfo.userName}}</text>
 					<text :class="myInfo.vipEndTime? 'daoqi' : 'xufei' ">{{myInfo.vipEndTime?"到期时间"+myInfo.vipEndTime.split(' ')[0] : '立即续费'}}</text>
@@ -72,7 +72,7 @@
 				if (this.myCamilo == '') {
 					uni.showToast({
 						title: '卡密不能为空',
-						icon: 'none',
+						icon: 'success',
 						duration: 1000
 					})
 				} else {
@@ -92,7 +92,7 @@
 									uni.reLaunch({
 										url: '../Welcome/guide/guide'
 									})
-								})
+								},1000)
 							} else {
 								setTimeout(() => {
 									_this.getInfo()
@@ -136,6 +136,8 @@
 	.topHeader>view>image {
 		width: 107rpx;
 		height: 107rpx;
+		border-radius: 150rpx;
+		border: 1rpx solid #1C75FF;
 	}
 
 	.headerItem {

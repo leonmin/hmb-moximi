@@ -1,11 +1,11 @@
 <template>
 	<view class="editOpen">
 		<view class="editOpenContain shadowE7">
-			<view class="flexDisplay">
+<!-- 			<view class="flexDisplay">
 				<text class="fontStyle30">名称</text>
 				<text class="fontStyle30">录音</text>
 			</view>
-			<view class="line"></view>
+			<view class="line"></view> -->
 			<view class="flexDisplay">
 				<view>
 					<text class="fontStyle30">开场白</text>

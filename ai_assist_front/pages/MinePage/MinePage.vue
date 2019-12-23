@@ -293,7 +293,7 @@
 							timestamp: this.jsData.timestamp,
 							nonceStr: this.jsData.nonceStr,
 							signature: this.jsData.signature,
-							jsApiList: ['updateAppMessageShareData', 'onMenuShareAppMessage']
+							jsApiList: ['updateAppMessageShareData', 'onMenuShareAppMessage','onMenuShareTimeline']
 						}),
 						jweixin.ready(function() {
 							console.log("接口处理成功")

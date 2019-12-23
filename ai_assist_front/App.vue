@@ -1,5 +1,5 @@
 <script>
-	var token
+	var curToken
 	export default {
 		onLaunch: function() {
 			console.log('App Launch')

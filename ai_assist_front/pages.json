@@ -125,6 +125,24 @@
 				}
 			}
         }
+		,{
+		    "path" : "pages/MinePage/personalData/personalData",
+		    "style" : {
+				"navigationBarTitleText":"个人信息",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+		}
+		,{
+		    "path" : "pages/MinePage/aboutMXM/aboutMXM",
+		    "style" : {
+				"navigationBarTitleText":"关于魔小秘",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+		}
         ,{
             "path" : "pages/Welcome/Welcome",
             "style" : {
@@ -412,7 +430,7 @@
 	"tabBar": {
 		"color":"#555555",
 		"selectedColor":"#1c75ff",
-		"borderStyle":"white",
+		"borderStyle":"black",
 		"backgroundColor":"#FFFFFF",
 		"list": [
 			{

@@ -7,7 +7,7 @@
 				<text>您知道魔小秘是怎么工作的吗</text>
 			</view>
 			<view style="width: 700rpx;">
-				<text class="font301">魔小秘是针对不同场景设置呼叫转移为您接听电话的，比如这三种场景：</text>
+				<text class="font301">魔小秘是针对不同场景设置呼叫转移为您接听电话的，比如这四种场景：</text>
 			</view>
 			<!-- 场景描述view -->
 			<view class="wel-sceneDes">
