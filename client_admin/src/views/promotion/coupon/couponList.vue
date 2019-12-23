@@ -40,11 +40,8 @@
         prop="couponTitle"
         label="优惠券名称"></el-table-column>
       <el-table-column
-        prop="endTime"
+        prop="validity"
         label="有效期">
-        <template slot-scope="scope">
-          <span>{{ scope.row.addTime.split('T')[0] }}<span style="margin: 0 5px">至</span>{{ scope.row.endTime.split('T')[0] }}</span>
-        </template>
       </el-table-column>
       <el-table-column
         prop="couponDiscount"
@@ -205,6 +202,8 @@ export default {
         result = '年卡'
       } else if (result === 0) {
         result = '通用'
+      } else {
+        result = '/'
       }
       return result
     },
