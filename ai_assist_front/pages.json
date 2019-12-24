@@ -378,7 +378,7 @@
         ,{
             "path" : "pages/Welcome/guide/guide",
             "style" : {
-				"navigationBarTitleText":"开启魔小秘",
+				"navigationBarTitleText":"启用魔小秘",
 				"app-plus":{
 					"titleNView": false
 				}

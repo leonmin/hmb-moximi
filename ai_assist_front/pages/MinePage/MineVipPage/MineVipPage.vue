@@ -235,6 +235,8 @@
 					this.couponData = JSON.parse(res.data).data
 					if(this.couponData.userCoupon){
 						this.couponId = this.couponData.userCoupon.id
+					} else {
+						this.couponId = ''
 					}
 				},err =>{})
 			},
@@ -274,6 +276,7 @@
 			},
 			// 支付
 			vipPay() {
+				console.log("优惠券id",this.couponId)
 				const params = {
 					sku: this.vipSku,
 					couponId: this.couponId

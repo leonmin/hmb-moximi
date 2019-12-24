@@ -173,6 +173,8 @@
 					this.couponData = JSON.parse(res.data).data
 					if(JSON.parse(res.data).data.userCoupon){
 						this.couponId = JSON.parse(res.data).data.userCoupon.id
+					} else {
+						this.couponId = ''
 					}
 				}, err => {})
 			},

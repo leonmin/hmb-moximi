@@ -70,6 +70,8 @@ export const INVITEDATA  = API+"/app/chat/myInviteData";
 export const INVITELIST  = API+"/app/chat/inviteUserList";
 //是否关注
 export const SUBSCRIBEINFO  = API+"/app/chat/subscribeInfo";
+//引导页手机号
+export const GETNUMINFO  = API+"/app/chat/getNumberInfo";
 
 
 

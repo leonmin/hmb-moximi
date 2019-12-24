@@ -59,7 +59,8 @@
 					inviteCode = ''
 				}
 				console.log('获取的inviteCode', inviteCode)
-				var redirectIp = 'https://m.checkshirt-ai.com/app/partnerLogin'
+				
+				var redirectIp = this.$url.mainURL + '/app/partnerLogin'
 				window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx5136cb5c7d21f3d1&redirect_uri=" +
 					redirectIp + "&response_type=code&scope=snsapi_userinfo&state=" + inviteCode + "#wechat_redirect"
 			}

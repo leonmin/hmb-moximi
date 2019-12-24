@@ -18,7 +18,7 @@
 			getQueryString(name) {
 				var url = window.location.href
 				console.log('APPVUE获取的url',url)
-				after = url.split("?")[1]
+				var after = url.split("?")[1]
 				var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
 				if (after) {
 					var r = after.match(reg)

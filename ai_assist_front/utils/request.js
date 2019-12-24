@@ -21,7 +21,7 @@ function jyRequest(url, parm, method, successCallback, errorCallback) {
 		success: (res) => {
 			if (res.statusCode == 200) {
 				var data = JSON.parse(res.data)
-				if (data.code == 0 || data.code == 4001001 || data.code < 0) {
+				if (data.code == 0 || data.code == 4001001 || data.code < 0 || data.code == 400) {
 					if (data.msg !== null) {
 						uni.showToast({
 							title: data.msg,

@@ -244,7 +244,7 @@
 				} else if (time >= 3600 && time <= 3600 * 24) {
 					result = time / 3600 + ',小时'
 				} else if (time >= 60 && time < 3600) {
-					result = time / 60 + ',分'
+					result = time / 60 + ',分钟'
 				} else {
 					result = time + ',秒'
 				}
@@ -312,7 +312,7 @@
 				jweixin.onMenuShareAppMessage({
 					title: '【魔小秘】您的专属智能来电助理', // 分享标题
 					desc: '不想接，就挂断，来电助理帮你接听', // 分享描述
-					link: 'http://m.checkshirt-ai.com/index.html#/pages/JumpLogin/JumpLogin', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+					link: that.$url.shareURL, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
 					imgUrl: 'https://ai-assist.oss-cn-beijing.aliyuncs.com/aac/mxmlogo.png', // 分享图标
 					type: 'link', // 分享类型,music、video或link，不填默认为link
 					dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
@@ -324,7 +324,7 @@
 				//分享到朋友圈
 				jweixin.onMenuShareTimeline({
 					title: '【魔小秘】您的专属智能来电助理', // 分享标题
-					link: 'http://m.checkshirt-ai.com/index.html#/pages/JumpLogin/JumpLogin',
+					link: that.$url.shareURL,
 					imgUrl: 'https://ai-assist.oss-cn-beijing.aliyuncs.com/aac/mxmlogo.png', // 分享图标
 					success: function() {
 						// 用户点击了分享后执行的回调函数
