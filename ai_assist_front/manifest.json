@@ -78,11 +78,11 @@
             "proxy" : {
 				//	正式
                 "/api" : {
-                    "target" : "http://m.checkshirt-ai.com", //目标接口域名
+                    "target" : "https://m.checkshirt-ai.com", //目标接口域名
                     "changeOrigin" : true, //是否跨域
                     "secure" : false, // 设置支持https协议的代理     
                     "pathRewrite" : {
-                        "^/api" : "http://m.checkshirt-ai.com"
+                        "^/api" : "https://m.checkshirt-ai.com"
                     }
                 }
 				

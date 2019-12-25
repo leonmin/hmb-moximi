@@ -59,8 +59,8 @@
 				console.log('链接截取的invitecode',inviteCode)
 				if (!inviteCode) {
 					console.log('从本地获取invitecode')
-					inviteCode = ''
-					// inviteCode = uni.getStorageSync('inviteCode')
+					// inviteCode = ''
+					inviteCode = uni.getStorageSync('inviteCode')
 				}
 				partnerId = this.getQueryString('partner')
 				console.log('获取的inviteCode', inviteCode)

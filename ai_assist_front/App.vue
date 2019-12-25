@@ -6,8 +6,8 @@
 			console.log('App Launch')
 		},
 		onShow: function() {
-			this.getCurToken()
 			this.getInviteCode()
+			this.getCurToken()
 			console.log('App Show')
 		},
 		onHide: function() {
@@ -69,12 +69,15 @@
 			},
 			// 获取invitecode
 			getInviteCode(){
-					// invite = this.getQueryString('inviteCode')
-					// if(invite){
-					// 	uni.setStorageSync('inviteCode',invite)
-					// } else {
-					// 	uni.setStorageSync('inviteCode','')
-					// }
+					invite = this.getQueryString('inviteCode')
+					console.log('appvue中截取inviteCode',invite)
+					if(invite){
+						console.log('截取到了InviteCode')
+						uni.setStorageSync('inviteCode',invite)
+					} else {
+						console.log('没有截取到InviteCode')
+						uni.setStorageSync('inviteCode','')
+					}
 			}
 			
 		}

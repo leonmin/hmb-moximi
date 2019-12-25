@@ -25,7 +25,7 @@
 						<!-- 聊天记录右 -->
 						<view class="chatRight " v-if="item.roleType == 1">
 							<view class="chatContent">
-								<text>{{item.content}}</text>
+								<text>{{item.content | chatFileter}}</text>
 							</view>
 							<!-- 头像 -->
 							<view class="callHead">
@@ -115,6 +115,16 @@
 				var pat = /(\d{3})\d*(\d{4})/
 				var mobile = String(value).replace(pat, '$1****$2');
 				return mobile
+			},
+			chatFileter:function(value){
+				var result
+				if(value == '香蕉来电已拒接'){
+					result = '魔小秘已拒接'
+					return result
+				}else{
+					result = value
+					return result
+				}
 			}
 		},
 		data() {

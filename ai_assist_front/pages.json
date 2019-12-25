@@ -420,6 +420,24 @@
 				}
 			}
         }
+        ,{
+            "path" : "pages/Welcome/guideNew/guideNew",
+            "style" : {
+				"navigationBarTitleText":"引导页面",
+				"app-plus":{
+					"titleNView": false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/helpCenter/setFail",
+            "style" : {
+				"navigationBarTitleText":"设置失败",
+				"app-plus":{
+					"titleNView": false
+				}
+			}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
