@@ -61,15 +61,10 @@
       />
       <el-table-column
         prop="validity"
-<<<<<<< HEAD
-        label="有效期">
-      </el-table-column>
-=======
         label="有效期"
         min-width="160"
         show-overflow-tooltip
       />
->>>>>>> 5b2c142b8a0c631b4dc9338097545b45b4cce3d2
       <el-table-column
         prop="couponDiscount"
         label="折扣数"
