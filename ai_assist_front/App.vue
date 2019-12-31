@@ -76,7 +76,7 @@
 						uni.setStorageSync('inviteCode',invite)
 					} else {
 						console.log('没有截取到InviteCode')
-						uni.setStorageSync('inviteCode','')
+						uni.removeStorageSync('inviteCode')
 					}
 			}
 			

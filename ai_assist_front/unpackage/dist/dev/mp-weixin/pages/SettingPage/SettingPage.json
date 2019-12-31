@@ -1,6 +1,0 @@
-{
-  "navigationBarTitleText": "接听配置",
-  "usingComponents": {
-    "uni-icons": "/node-modules/@dcloudio/uni-ui/lib/uni-icons/uni-icons"
-  }
-}

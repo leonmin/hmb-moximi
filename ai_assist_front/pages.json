@@ -155,12 +155,39 @@
         ,{
             "path" : "pages/Login/bindMobile",
             "style" : {
-				"navigationBarTitleText":"注册",
+				"navigationBarTitleText":"魔小秘",
 				"app-plus":{
 					"titleNView":false
 				}
 			}
         }
+		// ,{
+		//     "path" : "pages/Login/tip/tip",
+		//     "style" : {
+		// 		"navigationBarTitleText":"注册",
+		// 		"app-plus":{
+		// 			"titleNView":false
+		// 		}
+		// 	}
+		// }
+		,{
+		    "path" : "pages/Login/callList/callList",
+		    "style" : {
+				"navigationBarTitleText":"注册",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+		}
+		,{
+		    "path" : "pages/Login/callListDetail/callListDetail",
+		    "style" : {
+				"navigationBarTitleText":"注册",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+		}
         ,{
             "path" : "pages/Login/Invite/InviteNewUser",
             "style" : {
@@ -435,6 +462,51 @@
 				"navigationBarTitleText":"设置失败",
 				"app-plus":{
 					"titleNView": false
+				}
+			}
+        }
+        ,{
+            "path" : "static/userAgreement/userAgreement",
+            "style" : {
+				"navigationBarTitleText":"隐私协议",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
+        ,{
+            "path" : "static/privacyAgreement/privacyAgreement",
+            "style" : {
+				"navigationBarTitleText":"用户协议",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/Login/Courier/Courier",
+            "style" : {
+				"navigationBarTitleText":"外卖",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/Login/business/business",
+            "style" : {
+				"navigationBarTitleText":"商务",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/Login/collection/collection",
+            "style" : {
+				"navigationBarTitleText":"催收",
+				"app-plus":{
+					"titleNView":false
 				}
 			}
         }

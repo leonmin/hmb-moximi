@@ -36,7 +36,8 @@
 					var r = after.match(reg)
 					if (r !== null) {
 						console.log('一个问号时截取code', decodeURIComponent(r[2]))
-						return decodeURIComponent(r[2]);
+						return decodeURIComponent(
+						r[2]);
 					} else {
 						var a = url.split("?")[2]
 						if (a) {

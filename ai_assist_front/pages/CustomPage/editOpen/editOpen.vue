@@ -391,7 +391,7 @@
 							console.log("录音上传成功！")
 							uni.showToast({
 								title: '保存成功!',
-								icon: 'none',
+								icon: 'success',
 								duration: 1000
 							})
 							setTimeout(() =>{

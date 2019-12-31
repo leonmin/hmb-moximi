@@ -93,6 +93,9 @@
 				<view class="bto-bar-commit" style="padding: 26rpx 0;border-radius: 100rpx;" @click="welcomePay">
 					立即支付
 				</view>
+		<!-- 		<view class="bto-bar-commit" style="padding: 26rpx 0;border-radius: 100rpx;" @click="toastTip">
+					立即支付
+				</view> -->
 			</view>
 
 		</view>
@@ -277,6 +280,12 @@
 						}
 					}
 				)
+			},
+			toastTip(){
+				uni.showModal({
+					content: '太火爆啦！魔小秘今日注册名额已超限！优惠将于明日00:00重新开启！',
+					showCancel: false
+				});
 			}
 		},
 	}
