@@ -25,7 +25,7 @@
 				</view>
 			</view>
 			<view v-if="listData.length <= 0" class="noData">
-				<image src="../../../static/quexing/wushuju@2x.png" mode=""></image>
+				<image src="../../../static/quexing/wushujku@2x.png" mode=""></image>
 				<view>
 					<text>暂无数据</text>
 				</view>
@@ -211,8 +211,10 @@
 	}
 
 	.noData>image {
-		width: 285rpx;
-		height: 166rpx;
+		display: block;
+		margin-top: 50rpx;
+		width: 265rpx;
+		height: 204rpx;
 	}
 
 	.noData>view {

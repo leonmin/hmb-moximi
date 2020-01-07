@@ -15,7 +15,7 @@
 			<view class="deliver"></view>
 		</view>
 		<view v-if="list.length <= 0" class="noData">
-			<image src="../../../static/quexing/wushuju@2x.png" mode=""></image>
+			<image src="../../../static/quexing/wushujku@2x.png" mode=""></image>
 			<view>
 				<text>暂无数据</text>
 			</view>
@@ -149,13 +149,13 @@
 		justify-content: center;
 		align-items: center;
 		position: absolute;
-		top: 450rpx;
-		left: 240rpx;
+		top: 430rpx;
+		left: 245rpx;
 	}
 
 	.noData>image {
-		width: 285rpx;
-		height: 166rpx;
+		width: 265rpx;
+		height: 204rpx;
 	}
 
 	.noData>view {

@@ -2,7 +2,7 @@
 	<view v-if="infoData">
 		<!-- 顶部信息 -->
 		<view class="topHeader">
-			<image class="userHeader" src="../../../static/logoHead.png" mode="" style="border: 1rpx solid  #3396FB; border-radius: 150rpx;"></image>
+			<image class="userHeader" src="../../../static/logoHead.png" mode="" style="border-radius: 150rpx;"></image>
 			<view class="userInfo">
 				<view class="userName">
 					{{infoData.userName}}
@@ -656,8 +656,6 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-
-		/* background-image: url('../../../static/mine/VIPPage/youhuiquan@2x.png'); */
 	}
 
 	.levelPage-list-item-un {

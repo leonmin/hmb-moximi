@@ -46,7 +46,7 @@
 		</view>
 		<view v-else class="noDataBox">
 			<view class="noData">
-				<image src="../../../static/quexing/sousuo@2x.png" mode=""></image>
+				<image src="../../../static/quexing/wusousuo@2x.png" mode=""></image>
 				<view>
 					<text>暂无搜索结果</text>
 				</view>
@@ -204,14 +204,14 @@
 		display: flex;
 		flex-direction: row;
 		justify-content: center;
-		margin-top: 430rpx;
+		margin-top: 330rpx;
 	}
 	.noData{
 		text-align: center;
 	}
 	.noData>image{
-		width: 285rpx;
-		height: 166rpx;
+		width: 265rpx;
+		height: 204rpx;
 	}
 	.noData>view>{
 		margin-top: 20rpx;

@@ -17,7 +17,7 @@
 		<view  v-if="couponsData.userCoupon === null">
 			<view class="noDataBox">
 				<view class="noData">
-					<image src="../../../static/quexing/youhuiquan@2x.png" mode=""></image>
+					<image src="../../../static/quexing/wuquan@2x.png" mode=""></image>
 					<view>
 						<text>暂无可用优惠券</text>
 					</view>
@@ -157,8 +157,8 @@
 		text-align: center;
 	}
 	.noData>image{
-		width: 285rpx;
-		height: 166rpx;
+		width: 265rpx;
+		height: 204rpx;
 	}
 	.noData>view>{
 		margin-top: 20rpx;

@@ -68,15 +68,21 @@
 				<view class="recordContain">
 					<view class="recordIcon" @click="playRecord">
 						<image v-if='!playIcon' src="../../../static/callDetail/bofang-1@2x.png" mode=""></image>
-						<image v-else src="../../../static/lALPDgQ9rUe7HQxKSg_74_74.png" mode=""></image>
+						<image v-else src="../../../static/contactDetail/zanting@2x.png" mode=""></image>
 						<view>
 							<text>播放</text>
 						</view>
 					</view>
 					<view class="recordIcon" @click="callPhone">
-						<image src="../../../static/callDetail/laidian@2x.png" mode=""></image>
+						<image src="../../../static/callDetail/laidian@2x.png" mode="" style="width: 40rpx;height: 46rpx;"></image>
 						<view>
 							<text>回电</text>
+						</view>
+					</view>
+					<view class="recordIcon" @click="more">
+						<image src="../../../static/callDetail/gengduo@2x.png" mode=""></image>
+						<view>
+							<text>更多</text>
 						</view>
 					</view>
 				</view>
@@ -92,23 +98,39 @@
 				</view>
 
 			</view>
+			<uni-popup ref="popup" type="bottom">
+				<view class="pop">
+					<view class="popItem" @click="addContact">
+						<text>添加联系人</text>
+					</view>
+					<view style="border-top: 1rpx solid #EDEDED;"></view>
+					<view class="popItem" @click="addBlack">
+						<text>加入黑名单</text>
+					</view>
+					<view style="border-top: 1rpx solid #EDEDED;"></view>
+					<view class="popItem" @click="delCall">
+						<text>删除通话</text>
+					</view>
+				</view>
+			</uni-popup>
 		</view>
-
 	</view>
 </template>
 
 <script>
 	
 	let innerAudioContext = uni.createInnerAudioContext();
-	// let innerAudioContext = uni.createInnerAudioContext();
+	import uniPopup from "../../../components/uni-popup/uni-popup.vue"
 	import dragball from '../../../components/drag-ball/drag-ball.vue'
 	import {
 		CALLRECORDDETAILS,
-		ADDBLACKLIST
+		ADDBLACKLIST,
+		DELCALL
 	} from "../../../utils/api.js"
 	export default {
 		components: {
-			dragball
+			dragball,
+			uniPopup
 		},
 		filters: {
 			formateTel: function(value) {
@@ -367,12 +389,45 @@
 					}
 				})
 			},
+			// 删除通话记录
+			delCall(){
+				var _this = this
+				uni.showModal({
+					title: '提示',
+					content: '确认删除通话记录？',
+					duration: 5000,
+					success: function(res) {
+						if (res.confirm) {
+						const params = {
+							callInstanceId: _this.recordId
+						}
+						_this.$request.url_request(DELCALL,params,'GET',res =>{
+							uni.showToast({
+								title:'删除成功',
+								icon:'success',
+								duration:1200
+							})
+							setTimeout(() =>{
+								uni.navigateTo({
+									url:'../callList'
+								})
+							},1200)
+						},err=>{})
+						} else if (res.cancel) {}
+				
+					}
+				})
+			},
 			// 返回上页
 			goback() {
 				innerAudioContext.stop()
 				uni.navigateBack({
 					delta: 1
 				})
+			},
+			// 更多
+			more(){
+				 this.$refs.popup.open()
 			}
 		}
 	}
@@ -565,21 +620,21 @@
 	.recordContain {
 		/* padding: 20rpx 180rpx; */
 		/* height: 154rpx; */
-		padding: 10rpx 0;
+		padding: 12rpx 129rpx;
 		display: flex;
 		flex-direction: row;
-		justify-content: center;
+		justify-content: space-between;
 		align-items: center;
 	}
 
 	.recordIcon {
-		margin: 0 140rpx;
+		/* margin: 0 100rpx; */
 		font-size: 0;
 	}
 
 	.recordIcon>image {
-		width: 56rpx;
-		height: 56rpx;
+		width: 48rpx;
+		height: 48rpx;
 	}
 
 	.recordIcon>view>text {
@@ -632,5 +687,17 @@
 	.del>image {
 		width: 100rpx;
 		height: 100rpx;
+	}
+	.pop{
+		padding: 10rpx 0;
+		border-top-left-radius: 35rpx;
+		border-top-right-radius: 35rpx;
+		background: #FFFFFF;
+	}
+	.popItem{
+		padding: 30rpx 0;
+		text-align: center;
+		color: #111111;
+		font-size: 30rpx;
 	}
 </style>

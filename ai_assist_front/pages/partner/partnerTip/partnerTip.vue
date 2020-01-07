@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="noData">
-			<image src="../../../static/quexing/wushuju@2x.png" mode=""></image>
+			<image src="../../../static/quexing/wushujku@2x.png" mode=""></image>
 			<view>
 			<text class="tip">当前账号暂未开通合伙人权限，如有需求请通过公众号联系客服。</text>
 			</view>
@@ -30,13 +30,13 @@
 		justify-content: center;
 		align-items: center;
 		position: absolute;
-		top: 450rpx;
+		top: 360rpx;
 		left: 180rpx;
 		/* margin-top: 450rpx; */
 	}
 	.noData>image{
-		width: 285rpx;
-		height: 166rpx;
+		width: 265rpx;
+		height: 204rpx;
 	}
 	.noData>view{
 		text-align: center;

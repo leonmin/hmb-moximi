@@ -56,7 +56,7 @@
 		<!-- 按钮 -->
 		<view class="bto-bar cu-bar foot btnFoot" style="bottom: 0px; background: #FFFFFF;">
 			<view class="btn">
-				<button class="shili" @click="tonghuashili">通话示例(魔小秘)</button>
+				<!-- <button class="shili" @click="tonghuashili">通话示例(魔小秘)</button> -->
 				<button class="kaitong" @click="open">立即开通</button>
 			</view>
 		</view>
@@ -369,14 +369,14 @@
 	.check {
 		display: flex;
 		flex-direction: row;
-		align-items: center;
+		/* align-items: center; */
 	}
 	.xieyi{
 		color: #999999;
 		font-size: 26rpx;
 		margin-left: 17rpx;
 		display: block;
-		margin-top: 25rpx;
+		/* margin-top: -2rpx; */
 	}
 	.loginInputItem {
 		margin: 29rpx 0;
@@ -576,6 +576,7 @@
 	}
 
 	.btn {
+		width: 100%;
 		display: flex;
 		flex-direction: row;
 		justify-content: center;
@@ -594,7 +595,7 @@
 	}
 
 	.kaitong {
-		width: 309rpx;
+		width: 100%;
 		height: 72rpx;
 		border-radius: 100rpx;
 		line-height: 72rpx;

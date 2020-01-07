@@ -87,8 +87,46 @@
 				</view>
 			</view>
 
+			<!-- 模块 -->
+			<view class="module">
+				<view class="moduleItem" @click="mineVipClick">
+					<image src="../../static/mine/huangguan.png" mode="" style="width: 56rpx;height: 44rpx;"></image>
+					<text class="moduleText">我的会员</text>
+				</view>
+				<view class="moduleItem" @click="helpCenter">
+					<image src="../../static/mine/bangzhu@2x.png" mode="" style="width: 46rpx;height: 45rpx;"></image>
+					<text class="moduleText">帮助中心</text>
+				</view>
+				<view class="moduleItem" @click="haveAWord">
+					<image src="../../static/mine/woyouhuahsuo@2x.png" mode="" style="width: 43rpx;height: 44rpx;"></image>
+					<text class="moduleText">我有话说</text>
+				</view>
+				<view class="moduleItem" @click="focus">
+					<image src="../../static/mine/lijiguanzhu@2x.png" mode="" style="width: 53rpx;height: 42rpx;"></image>
+					<text class="moduleText">立即关注</text>
+				</view>
+			</view>
+
 			<!-- 底部菜单 -->
 			<view class="mineList">
+				<view class="mineList-item" @click="exclusiveNum">
+					<view class="listItem-header">
+						<image style="width: 36rpx;height: 36rpx;" class="listItem-headerIcon" src="../../static/mine/zhuanshuzhuanjie@2x.png"
+						 mode=""></image>
+						<view class="listItem-headerTitle">
+							专属转接号码 
+						</view>
+					</view>
+					<view class="listItem-footer">
+				
+						<view class="listItem-footerTitle">
+							{{phoneNum}}
+						</view>
+						<image style="height: 22rpx; width: 12rpx;margin-left: 18rpx;" class="listItem-footerIcon" src="../../static/mine/VIPPage/jinru@2x.png"
+						 mode=""></image>
+					</view>
+				</view>
+				
 				<view class="mineList-item" @click="mineWalletClick()">
 					<view class="listItem-header">
 						<image style="width: 36rpx;height: 36rpx;" class="listItem-headerIcon" src="../../static/mine/qianbao-@2x.png"
@@ -97,7 +135,6 @@
 							我的钱包
 						</view>
 					</view>
-
 					<view class="listItem-footer">
 
 						<view class="listItem-footerTitle" style="color: #E01212;">
@@ -124,73 +161,6 @@
 						 mode=""></image>
 					</view>
 				</view>
-
-				<!-- 				<view class="mineList-item">
-					<view class="listItem-header">
-						<image style="width: 36rpx;height: 36rpx;" class="listItem-headerIcon" src="../../static/mine/hehuoren@2x.png"
-						 mode=""></image>
-						<view class="listItem-headerTitle">
-							合伙人申请
-						</view>
-					</view>
-
-					<view class="listItem-footer">
-
-						<view class="listItem-footerTitle">
-						</view>
-						<image style="height: 22rpx; width: 12rpx;margin-left: 18rpx;" class="listItem-footerIcon" src="../../static/mine/VIPPage/jinru@2x.png"
-						 mode=""></image>
-					</view>
-				</view> -->
-
-<!-- 				<view class="mineList-item" @click="haveAWord">
-					<view class="listItem-header">
-						<image style="width: 36rpx;height: 36rpx;" class="listItem-headerIcon" src="../../static/mine/tongzhishezhi@2x.png"
-						 mode=""></image>
-						<view class="listItem-headerTitle">
-							我有话说
-						</view>
-					</view>
-					<view class="listItem-footer">
-						<image style="height: 22rpx; width: 12rpx;margin-left: 18rpx;" class="listItem-footerIcon" src="../../static/mine/VIPPage/jinru@2x.png"
-						 mode=""></image>
-					</view>
-				</view> -->
-
-				<view class="mineList-item" @click="helpCenter">
-					<view class="listItem-header">
-						<image style="width: 36rpx;height: 36rpx;" class="listItem-headerIcon" src="../../static/mine/guanyu@2x.png" mode=""></image>
-						<view class="listItem-headerTitle">
-							帮助中心
-						</view>
-					</view>
-
-					<view class="listItem-footer">
-
-						<view class="listItem-footerTitle">
-
-						</view>
-						<image style="height: 22rpx; width: 12rpx;margin-left: 18rpx;" class="listItem-footerIcon" src="../../static/mine/VIPPage/jinru@2x.png"
-						 mode=""></image>
-					</view>
-				</view>
-				<view class="mineList-item" @click="focus">
-					<view class="listItem-header">
-						<image style="width: 36rpx;height: 36rpx;" class="listItem-headerIcon" src="../../static/mine/gongzhonghao@2x.png" mode=""></image>
-						<view class="listItem-headerTitle">
-							关注魔小秘公众号
-						</view>
-					</view>
-				
-					<view class="listItem-footer">
-				
-						<view class="listItem-footerTitle">
-				
-						</view>
-						<image style="height: 22rpx; width: 12rpx;margin-left: 18rpx;" class="listItem-footerIcon" src="../../static/mine/VIPPage/jinru@2x.png"
-						 mode=""></image>
-					</view>
-				</view>
 			</view>
 			<view class="imageshadow" v-if="imageshow">
 				<view class="shadowItem">
@@ -205,7 +175,8 @@
 <script>
 	import {
 		MYINFO,
-		JSAPI
+		JSAPI,
+		GETNUMINFO
 	} from "../../utils/api.js"
 	var jweixin = require('jweixin-module')
 	export default {
@@ -213,7 +184,8 @@
 			return {
 				infoData: "",
 				imageshow: false,
-				screenHight: ''
+				screenHight: '',
+				phoneNum: ''
 			}
 		},
 		computed: {
@@ -256,6 +228,8 @@
 			this.initData()
 			// 获得JSSDK
 			this.getJSAPI()
+			// 获取呼叫转接号码
+			this.getPhoneNum()
 			uni.showToast({
 				title: '正在加载中..',
 				icon: 'none',
@@ -275,6 +249,13 @@
 					uni.stopPullDownRefresh()
 				}, err => {})
 			},
+			// 获取呼叫转接号码
+			getPhoneNum(){
+				const params = {}
+				this.$request.url_request(GETNUMINFO,params,'GET',res=>{
+					this.phoneNum = JSON.parse(res.data).data.line
+				},err =>{})
+			},
 			// 我的钱包
 			mineWalletClick() {
 				uni.navigateTo({
@@ -293,7 +274,7 @@
 							timestamp: this.jsData.timestamp,
 							nonceStr: this.jsData.nonceStr,
 							signature: this.jsData.signature,
-							jsApiList: ['updateAppMessageShareData', 'onMenuShareAppMessage','onMenuShareTimeline']
+							jsApiList: ['updateAppMessageShareData', 'onMenuShareAppMessage', 'onMenuShareTimeline']
 						}),
 						jweixin.ready(function() {
 							console.log("接口处理成功")
@@ -341,10 +322,16 @@
 					url: "MineVipPage/MineVipPage"
 				})
 			},
-			// focus
-			focus(){
+			// 专属号码
+			exclusiveNum(){
 				uni.navigateTo({
-					url:'../IncomeHome/focus/focus'
+					url:'exclusiveNum/exclusiveNum'
+				})
+			},
+			// focus
+			focus() {
+				uni.navigateTo({
+					url: '../IncomeHome/focus/focus'
 				})
 			},
 			close() {
@@ -361,6 +348,12 @@
 				uni.navigateTo({
 					url: '../helpCenter/helpCenter'
 				})
+			},
+			aaa(){
+				uni.showModal({
+					content: '请到公众号菜单关于我们->联系客服',
+					showCancel: false
+				});
 			},
 			haveAWord() {
 				uni.navigateTo({
@@ -436,10 +429,9 @@
 		border-radius: 20rpx;
 		background-color: #FFFFFF;
 		height: 126rpx;
-
 		margin-left: 30rpx;
 		margin-right: 30rpx;
-		margin-top: 288rpx;
+		margin-top: 268rpx;
 
 		display: flex;
 		flex-direction: row;
@@ -554,7 +546,7 @@
 		width: 148rpx;
 
 		border-radius: 74rpx;
-		border: 4px solid rgba(215, 214, 214, 1);
+		border: 4px solid rgba(255, 255, 255, 0.6);
 	}
 
 	/* 头部视图 */
@@ -593,19 +585,46 @@
 		flex-direction: row;
 		justify-content: flex-end;
 	}
-	.shadowItem{
+
+	.shadowItem {
 		padding: 50rpx;
 	}
-	.shadowItem>image:nth-of-type(1){
+
+	.shadowItem>image:nth-of-type(1) {
 		width: 464rpx;
 		height: 304rpx;
 		display: block;
 	}
-	.shadowItem>image:nth-of-type(2){
+
+	.shadowItem>image:nth-of-type(2) {
 		width: 241rpx;
 		height: 86rpx;
 		display: block;
 		margin-top: 50rpx;
 		margin-left: 100rpx;
+	}
+
+	.module {
+		margin: 20rpx 30rpx 0 30rpx;
+		border-radius: 25rpx;
+		background: #FFFFFF;
+		padding: 45rpx;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.moduleItem {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.moduleText {
+		display: block;
+		margin-top: 20rpx;
+		size: 26rpx;
+		color: #111111;
 	}
 </style>

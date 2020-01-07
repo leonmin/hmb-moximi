@@ -16,17 +16,7 @@
 		methods: {
 			// 授权
 			getAuth(){
-				// if(!this.code){
-				// 	window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx5136cb5c7d21f3d1&redirect_uri=http://m.checkshirt-ai.com/app/login&response_type=code&scope=snsapi_userinfo&state=db15da066b4541b2818e7f11666d4d31#wechat_redirect"
-				// }else{
-				// 	uni.redirectTo({
-				// 		url:"../Login/bindMobile"
-				// 	})
-				// }
-				
 				var hrefUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx5136cb5c7d21f3d1&redirect_uri="+ this.$url.mainURL + "/app/login&response_type=code&scope=snsapi_userinfo#wechat_redirect";
-				
-				
 				window.location.href = hrefUrl;
 			},
 		}

@@ -161,15 +161,7 @@
 				}
 			}
         }
-		// ,{
-		//     "path" : "pages/Login/tip/tip",
-		//     "style" : {
-		// 		"navigationBarTitleText":"注册",
-		// 		"app-plus":{
-		// 			"titleNView":false
-		// 		}
-		// 	}
-		// }
+
 		,{
 		    "path" : "pages/Login/callList/callList",
 		    "style" : {
@@ -505,6 +497,24 @@
             "path" : "pages/Login/collection/collection",
             "style" : {
 				"navigationBarTitleText":"催收",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/IncomeHome/callList",
+            "style" : {
+				"navigationBarTitleText":"通话列表",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/MinePage/exclusiveNum/exclusiveNum",
+            "style" : {
+				"navigationBarTitleText":"专属转接号码",
 				"app-plus":{
 					"titleNView":false
 				}

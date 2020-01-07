@@ -29,7 +29,7 @@
 			<view class="customContain" v-if="listData.length <= 0">
 				<view class="columnDisplay contactBox">
 				<view class="noData">
-					<image src="../../static/quexing/laidain@2x.png" mode=""></image>
+					<image src="../../static/quexing/wulaidian@2x.png" mode=""></image>
 					<view>
 					<text>暂无数据</text>
 					</view>
@@ -186,8 +186,8 @@
 		/* margin-top: 450rpx; */
 	}
 	.noData>image{
-		width: 142rpx;
-		height: 83rpx;
+		width: 212rpx;
+		height: 163rpx;
 	}
 	.noData>view{
 		text-align: center;

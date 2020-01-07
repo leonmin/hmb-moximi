@@ -5,7 +5,10 @@
 				<image src="../../../static/erweima.jpg" mode=""></image>
 			</view>
 			<view class="text">
-				长按关注公众号“魔小秘”
+				长按识别上方二维码
+			</view>
+			<view class="text">
+				即可进入“魔小秘”公众号
 			</view>
 		</view>
 	</view>
@@ -24,6 +27,11 @@
 			}
 		},
 		onLoad() {
+			uni.getSystemInfo({
+			    success: function (res) {
+			        console.log(res.windowHeight);
+			    }
+			});
 		},
 		methods: {
 		}
@@ -32,7 +40,7 @@
 
 <style>
 	page {
-		background: #5F89FD;
+		background: #6089FD;
 		padding-bottom: 10rpx;
 	}
 
@@ -64,7 +72,7 @@
 	.text{
 		text-align: center;
 		font-size: 28rpx;
-		color: #111111;
+		color: #FFFFFF;
 		margin-top: 20rpx;
 	}
 </style>

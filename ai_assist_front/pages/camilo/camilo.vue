@@ -90,7 +90,7 @@
 							if (_this.type == 1) {
 								setTimeout(() => {
 									uni.reLaunch({
-										url: '../Welcome/guide/guide'
+										url: '../Welcome/guideNew/guideNew'
 									})
 								},1000)
 							} else {
