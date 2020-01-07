@@ -506,6 +506,8 @@
             "path" : "pages/IncomeHome/callList",
             "style" : {
 				"navigationBarTitleText":"通话列表",
+				"enablePullDownRefresh": true,  //设置为true表示当前页面开启下拉刷新
+				 "backgroundTextStyle": "dark",  //下拉 loading 的样式，仅支持 dark/light
 				"app-plus":{
 					"titleNView":false
 				}

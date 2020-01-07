@@ -47,43 +47,45 @@
 		UPLOADFILE,
 		FEEDBACK
 	} from '../../../utils/api.js'
-	// import VConsole from '../../../utils/vconsole.min.js'
-	// var vconsole = new VConsole()
+	import VConsole from '../../../utils/vconsole.min.js'
+	var vconsole = new VConsole()
 	export default {
 		data() {
 			return {
 				imgList: [],
 				adviceText: '',
-				satisfaction:5, //满意度
+				satisfaction: 5, //满意度
 				newList: '',
+				imgPath: '',
+				uploadPath: '',
 				evaluationData: [{
 						uncheck: '../../../static/haveAWord/henbuman@2x.png',
 						checked: '../../../static/haveAWord/henbuman1@2x.png',
-						satisfaction:1,
+						satisfaction: 1,
 						text: '很不满'
 					},
 					{
 						uncheck: '../../../static/haveAWord/buman@2x.png',
 						checked: '../../../static/haveAWord/buman1@2x.png',
-						satisfaction:2,
+						satisfaction: 2,
 						text: '不满'
 					},
 					{
 						uncheck: '../../../static/haveAWord/yiban@2x.png',
 						checked: '../../../static/haveAWord/yiban1@2x.png',
-						satisfaction:3,
+						satisfaction: 3,
 						text: '一般'
 					},
 					{
 						uncheck: '../../../static/haveAWord/manyi@2x.png',
 						checked: '../../../static/haveAWord/manyi1@2x.png',
-						satisfaction:4,
+						satisfaction: 4,
 						text: '满意'
 					},
 					{
 						uncheck: '../../../static/haveAWord/henmanyi1@2x.png',
 						checked: '../../../static/haveAWord/henmanyi@2x.png',
-						satisfaction:5,
+						satisfaction: 5,
 						text: '很满意'
 					}
 				]
@@ -95,7 +97,7 @@
 		},
 		methods: {
 			// 用户反馈
-			feedback(){
+			feedback() {
 				const params = {
 					satisfaction: this.satisfaction,
 					content: this.adviceText,
@@ -103,49 +105,93 @@
 					attach: this.imgList.join(",")
 				}
 				console.log(params)
-				this.$request.url_requestSimple(FEEDBACK,params,'POST',res =>{
+				this.$request.url_requestSimple(FEEDBACK, params, 'POST', res => {
 					uni.showToast({
-						title:'反馈成功！',
-						icon:'success',
-						duration:1200
+						title: '反馈成功！',
+						icon: 'success',
+						duration: 1200
 					})
-					setTimeout(() =>{
+					setTimeout(() => {
 						uni.reLaunch({
-							url:'../MinePage'
+							url: '../MinePage'
 						})
-					},1200)
-				},err =>{})
-				
+					}, 1200)
+				}, err => {})
+
 			},
 			ChooseImage() {
 				var _this = this
 				uni.chooseImage({
 					count: 1,
-					sizeType: ['original', 'compressed'],
+					sizeType: ['compressed'],
 					sourceType: ['album', 'camera '],
 					success: (res) => {
-							// 上传图片
-							uni.uploadFile({
-								url: UPLOADFILE,
-								filePath: res.tempFilePaths[0],
-								header: {
-									"AI-Chat-Token": token
-								},
-								name: 'file',
-								success: (uploadFileRes) => {
-									_this.imgList.push((JSON.parse(uploadFileRes.data).data))
-									console.log(_this.newList)
-									// _this.imgList = _this.imgList.concat(res.tempFilePaths)
-								},
-								fail: (size) => {
-									// console.log(size)
-									uni.showModal({
-										content: '图片上传失败，请重试！',
-										showCancel: false
-									});
-								}
-							})
-							console.log('imglist有数据是', this.imgList)
+						console.log('选择图片', res)
+						_this.imgPath = res.tempFilePaths.toString()
+						console.log('图片的路径', _this.imgPath)
+						uni.getImageInfo({
+							src: _this.imgPath,
+							success: (res) => {
+								console.log('压缩前', res)
+								let canvasWidth = res.width //图片原始长宽
+								let canvasHeight = res.height
+								let img = new Image()
+								img.src = res.path
+								let canvas = document.createElement('canvas');
+								let ctx = canvas.getContext('2d')
+								canvas.width = canvasWidth / 4.5
+								canvas.height = canvasHeight / 4.5
+								ctx.drawImage(img, 0, 0, canvasWidth / 4.5, canvasHeight / 4.5)
+								canvas.toBlob(function(fileSrc) {
+									_this.uploadPath = window.URL.createObjectURL(fileSrc)
+									// 上传图片
+									uni.uploadFile({
+										url: UPLOADFILE,
+										// filePath: res.tempFilePaths[0],
+										filePath: _this.uploadPath,
+										header: {
+											"AI-Chat-Token": token
+										},
+										name: 'file',
+										success: (uploadFileRes) => {
+											_this.imgList.push((JSON.parse(uploadFileRes.data).data))
+											// _this.imgList = _this.imgList.concat(res.tempFilePaths)
+										},
+										fail: () => {
+											console.log('上传图片的路径',_this.uploadPath)
+											uni.showModal({
+												content: '图片上传失败，请重试！',
+												showCancel: false
+											});
+										}
+									})
+									
+								})
+
+							}
+						})
+						// 上传图片
+						// uni.uploadFile({
+						// 	url: UPLOADFILE,
+						// 	// filePath: res.tempFilePaths[0],
+						// 	filePath: _this.uploadPath,
+						// 	header: {
+						// 		"AI-Chat-Token": token
+						// 	},
+						// 	name: 'file',
+						// 	success: (uploadFileRes) => {
+						// 		_this.imgList.push((JSON.parse(uploadFileRes.data).data))
+						// 		// _this.imgList = _this.imgList.concat(res.tempFilePaths)
+						// 	},
+						// 	fail: () => {
+						// 		console.log('上传图片的路径',_this.uploadPath)
+						// 		uni.showModal({
+						// 			content: '图片上传失败，请重试！',
+						// 			showCancel: false
+						// 		});
+						// 	}
+						// })
+						console.log('imglist有数据是', this.imgList)
 					}
 				})
 			},
@@ -255,17 +301,22 @@
 	.uploadImg {
 		margin-top: 20rpx;
 	}
-	button::after{border: none;}
-	.submitBtn>button{
+
+	button::after {
+		border: none;
+	}
+
+	.submitBtn>button {
 		/* margin-top: 10rpx; */
 		color: #FFFFFF;
 		font-size: 30rpx;
 		padding: 8rpx 0;
 		border-radius: 100rpx;
 		box-shadow: 0 2rpx 2rpx #1C75FF;
-		background-color: #1C75FF; /* 不支持线性的时候显示 */
-		background-image: linear-gradient(to right, #5799FF , #1C75FF);
-		background-image: -moz-linear-gradient(to right, #5799FF , #1C75FF);
-		background-image: -webkit-linear-gradient(to right, #5799FF , #1C75FF);
-		}
+		background-color: #1C75FF;
+		/* 不支持线性的时候显示 */
+		background-image: linear-gradient(to right, #5799FF, #1C75FF);
+		background-image: -moz-linear-gradient(to right, #5799FF, #1C75FF);
+		background-image: -webkit-linear-gradient(to right, #5799FF, #1C75FF);
+	}
 </style>
