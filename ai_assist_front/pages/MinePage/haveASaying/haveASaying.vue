@@ -47,8 +47,8 @@
 		UPLOADFILE,
 		FEEDBACK
 	} from '../../../utils/api.js'
-	import VConsole from '../../../utils/vconsole.min.js'
-	var vconsole = new VConsole()
+	// import VConsole from '../../../utils/vconsole.min.js'
+	// var vconsole = new VConsole()
 	export default {
 		data() {
 			return {
