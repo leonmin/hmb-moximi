@@ -41,7 +41,7 @@
 					<view class="content">
 						<text class="fontStyle30">卡密包</text>
 						<view>
-							<text class="inviteNum">{{infoData.cardCount}}有效</text>
+							<text class="inviteNum">{{infoData.cardCount}} 有效</text>
 							<text class="cuIcon-right" style="color: #C2C2C2;"></text>
 						</view>
 					</view>
@@ -243,6 +243,9 @@
 </script>
 
 <style>
+	page{
+		background-color: #FFFFFF;
+	}
 	.partner {}
 
 	/* 合伙人顶部 */
@@ -327,7 +330,7 @@
 
 	.inviteNum {
 		color: #E01212;
-		font-size: 36rpx;
+		font-size: 30rpx;
 	}
 
 	.inviteUrl {

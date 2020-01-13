@@ -101,7 +101,7 @@
 					</view>
 				</view>
 				<view class="paybtnGroup">
-					<view style="margin-right: 12rpx;">
+					<view style="margin-right: 12rpx;" class="shareTextBtn" v-if="vipSku == '100004'">
 						<text class="shareText" @click="welcomeShare">分享免费领取</text>
 					</view>
 					<view class="bto-bar-commit" style="padding: 26rpx 0;border-radius: 100rpx;" @click="welcomePay">
@@ -333,8 +333,8 @@
 			// 选择优惠
 			checkSaleItem(num, sku, priceD, total) {
 				this.saleItem = num
-				console.log('当前选择的id', this.saleItem)
 				this.vipSku = sku
+				console.log('当前选择的sku', this.vipSku)
 				this.getCoupons()
 				this.payPrice = priceD
 				this.savePrice = total
@@ -462,7 +462,18 @@
 		width: 100%;
 		border-radius: 10rpx;
 	}
-
+	.shareTextBtn{
+		font-size: 26rpx;
+		color: #FFFFFF;
+		height: 54rpx;
+		padding: 0 10rpx;
+		border: 1rpx solid #D5A06E;
+		border-radius: 27rpx;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin-right: 30rpx;
+	}
 	.shareText {
 		background: linear-gradient(to right, #D5A06E, #B18153);
 		-webkit-background-clip: text;

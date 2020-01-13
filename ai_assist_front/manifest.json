@@ -77,25 +77,25 @@
             "disableHostCheck" : true,
             "proxy" : {
                 //	正式
-                            // "/api" : {
-                            //     "target" : "https://m.checkshirt-ai.com", //目标接口域名
-                            //     "changeOrigin" : true, //是否跨域
-                            //     "secure" : false, // 设置支持https协议的代理     
-                            //     "pathRewrite" : {
-                            //         "^/api" : "https://m.checkshirt-ai.com"
-                            //     }
-                            // }
+                            "/api" : {
+                                "target" : "https://m.checkshirt-ai.com", //目标接口域名
+                                "changeOrigin" : true, //是否跨域
+                                "secure" : false, // 设置支持https协议的代理     
+                                "pathRewrite" : {
+                                    "^/api" : "https://m.checkshirt-ai.com"
+                                }
+                            }
           
 				
 				//	测试
-                "/api" : {
-                    "target" : "http://m.t.checkshirt-ai.com", //目标接口域名
-                    "changeOrigin" : true, //是否跨域
-                    "secure" : false, // 设置支持https协议的代理     
-                    "pathRewrite" : {
-                        "^/api" : "http://m.t.checkshirt-ai.com"
-                    }
-                }
+                // "/api" : {
+                //     "target" : "http://m.t.checkshirt-ai.com", //目标接口域名
+                //     "changeOrigin" : true, //是否跨域
+                //     "secure" : false, // 设置支持https协议的代理     
+                //     "pathRewrite" : {
+                //         "^/api" : "http://m.t.checkshirt-ai.com"
+                //     }
+                // }
             }
         }
     }
