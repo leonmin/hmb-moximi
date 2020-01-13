@@ -34,7 +34,7 @@ export default {
   // 存放 数据
   data: function() {
     return {
-      activeName: 'first',
+      activeName: 'month',
       fullHeight: document.documentElement.clientHeight, // 页面高度
       loading: false,
       btnLoading: false,
@@ -55,18 +55,23 @@ export default {
       tabsData: [
         {
           name: '月卡',
-          activeName: 'first',
+          activeName: 'month',
           value: '30'
         },
         {
           name: '季卡',
-          activeName: 'second',
+          activeName: 'season',
           value: '90'
         },
         {
           name: '年卡',
-          activeName: 'thirdly',
+          activeName: 'year',
           value: '360'
+        },
+        {
+          name: '周卡',
+          activeName: 'week',
+          value: '7'
         }
       ],
       lookData: {

@@ -19,7 +19,9 @@
     <el-table :data="tableData" style="width: 95%;margin-left: 40px;" border :height="fullHeight-220+'px'">
       <el-table-column prop="avatar" label="头像" min-width="60" show-overflow-tooltip>
         <template v-slot="scope">
-          <div class="block"><el-avatar icon="el-icon-user-solid" :size="40" :src="scope.row.avatar" /></div>
+          <div class="block">
+            <el-avatar icon="el-icon-user-solid" :size="40" :src="scope.row.avatar" />
+          </div>
         </template>
       </el-table-column>
       <el-table-column prop="id" label="ID" min-width="80" show-overflow-tooltip />
@@ -62,6 +64,11 @@
           <span style="cursor: pointer;color: #409EFF;" @click="setPartner(scope.row)">{{ scope.row.partner===0 || scope.row.partner===null?'设置为合伙人':'取消合伙人' }}</span>
         </template>
       </el-table-column>
+      <el-table-column prop="inviteUserCount" label="修改合伙人配置" min-width="135" show-overflow-tooltip>
+        <template v-slot="scope">
+          <span v-show="scope.row.partner===1" style="cursor: pointer;color: #409EFF;" @click="changePartner(scope.row)">修改合伙人配置</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="inviteUserCount" label="查看详情" min-width="80" show-overflow-tooltip>
         <template v-slot="scope">
           <span style="cursor: pointer;color: #409EFF;" @click="lookData(scope.row)">查看详情</span>
@@ -85,16 +92,19 @@
     />
     <!--dialog-->
     <look-detail :show.sync="show" :row="row" />
+    <set-partner-dialog :show.sync="show2" :row="row2" @success="success" />
   </div>
 </template>
 
 <script>
 import { getUserList, setPartner, deleteUser } from '@/api/user'
 import lookDetail from './lookDetail'
+import setPartnerDialog from './setPartner'
+
 export default {
   name: 'Index',
   components: {
-    lookDetail
+    lookDetail, setPartnerDialog
   },
   filters: {
     /* 是否过期*/
@@ -147,7 +157,9 @@ export default {
       total: null, // 总数
       isPaging: false, // 是否是分页
       show: false,
-      row: {}
+      show2: false,
+      row: {},
+      row2: {}
     }
   },
   watch: {
@@ -173,26 +185,38 @@ export default {
     this.loadList()
   },
   methods: {
+    // 修改合伙人配置成功回调
+    success() {
+      this.loadList()
+    },
+    // 修改合伙人配置
+    changePartner(row) {
+      this.show2 = true
+      this.row2 = row
+    },
     lookData(row) {
       this.show = true
       Object.assign(this.row, row)
     },
     // 删除
     del(row) {
-      this.$confirm('是否删除此用户', '提示', {
+      this.$prompt('请输入验证码', '提示', {
         confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        const data = {
-          id: row.id
-        }
-        deleteUser(data).then(res => {
-          if (res.code === 0) {
-            this.$message.success('操作成功!')
-            this.loadList()
+        cancelButtonText: '取消'
+      }).then(({ value }) => {
+        if (value === 'gzs') {
+          const data = {
+            id: row.id
           }
-        })
+          deleteUser(data).then(res => {
+            if (res.code === 0) {
+              this.$message.success('操作成功!')
+              this.loadList()
+            }
+          })
+        } else {
+          this.$message.error('验证码错误!')
+        }
       }).catch(() => {
       })
     },
@@ -264,7 +288,7 @@ export default {
 </script>
 
 <style scoped>
-  .title{
+  .title {
     font-size: 22px;
     margin-top: 20px;
     margin-left: 40px;
