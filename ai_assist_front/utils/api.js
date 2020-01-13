@@ -80,6 +80,8 @@ export const GETNUMINFO  = API+"/app/chat/getNumberInfo";
 export const UPLOADFILE = API+"/app/uploadFile";
 // 用户反馈
 export const FEEDBACK = API+"/app/chat/feedback";
+// 用户分享免费
+export const SHARECARD = API+"/app/order/shareGetWeekCard";
 
 
 
@@ -107,3 +109,7 @@ export const PARTNERCASHOUT =API+"/app/chat/partnerApplyCashOut";
 export const PARTNERINVITELIST =API+"/app/chat/partnerInviteUserList";
 // 合伙人明细列表
 export const PARTNERCASHLIST =API+"/app/chat/partnerCashList";
+// 合伙人卡密列表
+export const CARDPACK =API+"/app/chat/cardPack";
+// 合伙人卡密列表详情
+export const CARDPACKDETAILS =API+"/app/chat/cardPackDetails";

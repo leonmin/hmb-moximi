@@ -259,6 +259,8 @@
             "path" : "pages/partner/partner",
             "style" : {
 				"navigationBarTitleText":"合伙人",
+				"enablePullDownRefresh": true,  //设置为true表示当前页面开启下拉刷新
+				 "backgroundTextStyle": "dark",  //下拉 loading 的样式，仅支持 dark/light
 				"app-plus":{
 					"titleNView": false
 				}
@@ -517,6 +519,28 @@
             "path" : "pages/MinePage/exclusiveNum/exclusiveNum",
             "style" : {
 				"navigationBarTitleText":"专属转接号码",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/partner/camiloPackage/camiloPackage",
+            "style" : {
+				"navigationBarTitleText":"卡密包",
+				"enablePullDownRefresh": true,  //设置为true表示当前页面开启下拉刷新
+				 "backgroundTextStyle": "dark",  //下拉 loading 的样式，仅支持 dark/light
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/partner/camiDetail/camiDetail",
+            "style" : {
+				"navigationBarTitleText":"卡密详情",
+				"enablePullDownRefresh": true,  //设置为true表示当前页面开启下拉刷新
+				 "backgroundTextStyle": "dark",  //下拉 loading 的样式，仅支持 dark/light
 				"app-plus":{
 					"titleNView":false
 				}

@@ -36,6 +36,16 @@
 						</view>
 					</view>
 				</view>
+<!-- 卡密包 -->
+		<view class="cu-item" style="margin: 0;padding: 0 30rpx;"  @click="camiloPackage">
+					<view class="content">
+						<text class="fontStyle30">卡密包</text>
+						<view>
+							<text class="inviteNum">{{infoData.cardCount}}有效</text>
+							<text class="cuIcon-right" style="color: #C2C2C2;"></text>
+						</view>
+					</view>
+				</view>
 
 				<view class="cu-item invite" style="margin: 0;padding: 0 30rpx;">
 					<view class="content">
@@ -77,13 +87,13 @@
 			}
 		},
 		onShow() {
+			this.initData()
+		},
+		onLoad() {
 			uni.showToast({
 				title: '加载中...',
 				icon: 'none'
 			})
-			this.initData()
-		},
-		onLoad() {
 			this.getUrlToken()
 			this.getJSAPI()
 		},
@@ -177,7 +187,7 @@
 					dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
 					success: function() {
 						// 用户点击了分享后执行的回调函数
-						that.maskShow = false
+						that.imageshow = false
 					}
 				})
 				//分享到朋友圈
@@ -187,7 +197,7 @@
 					imgUrl: 'https://ai-assist.oss-cn-beijing.aliyuncs.com/aac/mxmlogo.png', // 分享图标
 					success: function() {
 						// 用户点击了分享后执行的回调函数
-						that.maskShow = false
+						that.imageshow = false
 					}
 				})
 			},
@@ -214,6 +224,12 @@
 			tixian() {
 				uni.navigateTo({
 					url: 'partnerDraw/partnerDraw'
+				})
+			},
+			// 卡密包
+			camiloPackage(){
+				uni.navigateTo({
+					url:'camiloPackage/camiloPackage'
 				})
 			},
 			// 邀请人数
@@ -285,7 +301,7 @@
 	}
 
 	.balanceBtn {
-		margin-top: 67rpx;
+		margin-top: 47rpx;
 		font-size: 28rpx;
 	}
 
@@ -343,14 +359,15 @@
 		color: #1C75FF;
 		font-size: 28rpx;
 	}
-
+	.shareBtn{
+		background: #FFFFFF;
+	}
 	.shareBtn>button {
 		/* width: 100%; */
 		color: #FFFFFF;
 		border-radius: 100rpx;
 		font-size: 30rpx;
 		margin: 0 30rpx;
-		margin-top: 50rpx;
 		background: linear-gradient(left, #1c75ff 0%, #1c75ff 10%, #5799ff 80%, #5799ff 100%);
 		background: -ms-linear-gradient(left, #1c75ff 0%, #1c75ff 10%, #5799ff 80%, #5799ff 100%);
 		background: -webkit-linear-gradient(left, #1c75ff 0%, #1c75ff 10%, #5799ff 80%, #5799ff 100%);

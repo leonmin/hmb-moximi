@@ -7,11 +7,11 @@
 				<view class="userName">
 					{{infoData.userName}}
 				</view>
-				<view class="userTime" v-if="infoData.vipEndTime == null">
+				<view class="userTime" v-if="now > infoData.vipEndTime">
 					立即续费	
 				</view>
-				<view class="userTime" v-if="infoData.vipEndTime !== null">
-					会员到期时间      {{getTime}}
+				<view class="userTime1" v-else>
+					到期时间      {{getTime}}
 				</view>
 			</view>
 		</view>
@@ -190,7 +190,8 @@
 				infoData:'',
 				couponData: '',
 				imageIndex: 0,
-				couponId: ''
+				couponId: '',
+				now:""
 			}
 		},
 		computed:{
@@ -212,6 +213,7 @@
 			this.getCoupons()
 			// 我的信息
 			this.getMyInfo()
+			this.getTime()
 		},
 		methods: {
 			// 卡列表
@@ -228,6 +230,22 @@
 				uni.navigateTo({
 					url:'../../camilo/camilo?type=2'
 				})
+			},
+			// getTime
+			getTime() {
+				var myDate = new Date();
+				var year = myDate.getFullYear();
+				var month = myDate.getMonth() + 1;
+				var date = myDate.getDate();
+				var h = myDate.getHours();
+				var m = myDate.getMinutes();
+				var s = myDate.getSeconds();
+				this.now = year + '-' + this.conver(month) + "-" + this.conver(date) + " " + this.conver(h) + ':' + this.conver(m) +
+					":" + this.conver(s);
+				console.log(this.now)
+			},
+			conver(s) {
+				return s < 10 ? '0' + s : s;
 			},
 			// 获取优惠券信息
 			getCoupons(){
@@ -358,40 +376,22 @@
 	}
 	
 	.saleItem {
+		/* flex-shrink:0; */
 		background-size: cover;
-		width: 200rpx;
-		height: 248rpx;
+		width: 193rpx;
+		height: 252rpx;
 		text-align: center;
 		padding: 30rpx;
 	}
-	
+
 	.checkedBg {
-		background-image: url('~@/static/welcome/huiyuan@2x.png');
+		background-image: url('~@/static/welcome/yueka@2x.png');
 		position: relative;
 	}
-	
-	.checkedBg:after {
-		content: "折扣";
-		font-size: 22rpx;
-		color: #FFFFFF;
-		width: 100rpx;
-		position: absolute;
-		left: 126rpx;
-		top: 14rpx;
-		transform: rotate(45deg);
-		-ms-transform: rotate(45deg);
-		/* IE 9 */
-		-moz-transform: rotate(45deg);
-		/* Firefox */
-		-webkit-transform: rotate(45deg);
-		/* Safari 和 Chrome */
-		-o-transform: rotate(45deg);
-	}
-	
 	.uncheckedBg {
-		background-image: url('~@/static/welcome/huiyuan1@2x.png');
+		background-image: url('~@/static/welcome/yuka-wei@2x.png');
 	}
-	
+
 	.price {
 		margin: 36rpx 0;
 		font-size: 40rpx;
@@ -548,6 +548,11 @@
 	.userTime {
 		font-size: 26rpx;
 		color: #CB9D50;
+		margin-top: 10rpx;
+	}
+	.userTime1 {
+		font-size: 26rpx;
+		color: #B3B3B3;
 		margin-top: 10rpx;
 	}
 
