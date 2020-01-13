@@ -41,8 +41,8 @@
 					<view class="content">
 						<text class="fontStyle30">专属邀请链接</text>
 						<view class="right">
-							<text class="inviteUrl">{{infoData.inviteUrl}}</text>
-							<text class="copy" v-clipboard:copy="infoData.inviteUrl" v-clipboard:success="(type) => onCopyResult('success')"
+							<text class="inviteUrl">{{infoData.inviteUrl2}}</text>
+							<text class="copy" v-clipboard:copy="infoData.inviteUrl2" v-clipboard:success="(type) => onCopyResult('success')"
 							 v-clipboard:error="(type) => onCopyResult('error')">点击复制</text>
 						</view>
 					</view>
@@ -151,7 +151,7 @@
 							timestamp: this.jsData.timestamp,
 							nonceStr: this.jsData.nonceStr,
 							signature: this.jsData.signature,
-							jsApiList: ['updateAppMessageShareData', 'onMenuShareAppMessage']
+							jsApiList: ['updateAppMessageShareData', 'onMenuShareAppMessage','onMenuShareTimeline']
 						}),
 						jweixin.ready(function() {
 							console.log("接口处理成功")
@@ -171,7 +171,7 @@
 				jweixin.onMenuShareAppMessage({
 					title: '【魔小秘】您的专属智能来电助理', // 分享标题
 					desc: '防骚扰、免漏接、立即开启人工智能时代', // 分享描述
-					link: that.infoData.inviteUrl, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+					link: that.infoData.inviteUrl2, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
 					imgUrl: 'https://ai-assist.oss-cn-beijing.aliyuncs.com/aac/mxmlogo.png', // 分享图标
 					type: 'link', // 分享类型,music、video或link，不填默认为link
 					dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
@@ -183,7 +183,7 @@
 				//分享到朋友圈
 				jweixin.onMenuShareTimeline({
 					title: '【魔小秘】您的专属智能来电助理', // 分享标题
-					link: that.infoData.inviteUrl,
+					link: that.infoData.inviteUrl2,
 					imgUrl: 'https://ai-assist.oss-cn-beijing.aliyuncs.com/aac/mxmlogo.png', // 分享图标
 					success: function() {
 						// 用户点击了分享后执行的回调函数

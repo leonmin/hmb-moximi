@@ -1,1 +1,0 @@
-<view class="holdon"><image class="ball" style="{{('right:'+(moveX==0&x>0?x:moveX)+'rpx;bottom:'+(moveY==0&y>0?y:moveY)+'rpx')}}" src="{{image}}" mode="aspectFill"></image></view>

@@ -29,19 +29,21 @@
 			// 截取
 			getQueryString(name) {
 				var url = window.location.href
+				console.log('jumpLogin获取的url',url)
 				var after = url.split("?")[1];
 				var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
 				if (after) {
 					var r = after.match(reg)
 					if (r !== null) {
-						console.log('截取code', decodeURIComponent(r[2]))
-						return decodeURIComponent(r[2]);
+						console.log('一个问号时截取code', decodeURIComponent(r[2]))
+						return decodeURIComponent(
+						r[2]);
 					} else {
 						var a = url.split("?")[2]
 						if (a) {
 							var s = a.match(reg)
 							if (s !== null) {
-								console.log('截取code', decodeURIComponent(s[2]))
+								console.log('两个问号时截取code', decodeURIComponent(s[2]))
 								return decodeURIComponent(s[2]);
 							} else {
 								return null
@@ -55,12 +57,16 @@
 				var inviteCode = ''
 				var partnerId = 0
 				inviteCode = this.getQueryString('inviteCode')
+				console.log('链接截取的invitecode',inviteCode)
 				if (!inviteCode) {
-					inviteCode = ''
+					console.log('从本地获取invitecode')
+					// inviteCode = ''
+					inviteCode = uni.getStorageSync('inviteCode')
 				}
 				partnerId = this.getQueryString('partner')
 				console.log('获取的inviteCode', inviteCode)
-				var redirectIp = 'https://m.checkshirt-ai.com/app/login'
+				// var redirectIp = 'https://m.checkshirt-ai.com/app/login'
+				var redirectIp = this.$url.mainURL + '/app/login';
 				window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx5136cb5c7d21f3d1&redirect_uri=" +
 					redirectIp + "&response_type=code&scope=snsapi_userinfo&partner="+partnerId+"&state=" + inviteCode + "#wechat_redirect"
 			}

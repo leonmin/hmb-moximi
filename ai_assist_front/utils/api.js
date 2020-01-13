@@ -1,5 +1,5 @@
-const API = "";
-// const API = "/api";
+// const API = "";
+const API = "/api";
 // 测试
 export const TEST =API+"/getWangYiNews";
 // 绑定手机号
@@ -38,6 +38,10 @@ export const GETPROLPGUE  = API+"/app/chat/getPrologue";
 export const CANCELPROLPGUE  = API+"/app/chat/cancelPrologue";
 // 试听
 export const AUDITION  = API+"/app/chat/audition";
+// 删除通话详情
+export const DELCALL  = API+"/app/chat/delCallRecord";
+//banner
+export const BANNER  = API+"/app/banner";
 
 
 /**
@@ -70,6 +74,12 @@ export const INVITEDATA  = API+"/app/chat/myInviteData";
 export const INVITELIST  = API+"/app/chat/inviteUserList";
 //是否关注
 export const SUBSCRIBEINFO  = API+"/app/chat/subscribeInfo";
+//引导页手机号
+export const GETNUMINFO  = API+"/app/chat/getNumberInfo";
+// 上传图片
+export const UPLOADFILE = API+"/app/uploadFile";
+// 用户反馈
+export const FEEDBACK = API+"/app/chat/feedback";
 
 
 

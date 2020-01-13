@@ -1,41 +1,41 @@
 <template>
-	<view class="getNeWUser">
-		<view class="newContain">
-			<view class="title">
-				<text>邀请您使用「魔小秘」</text>
+	<view class="login">
+		<!-- 顶部图片 -->
+		<view class="topImage">
+			<image src="../../../static/login/getNewUser/bj@2x.jpg" mode=""></image>
+			<view class="topText">
 			</view>
-			<!-- 注册表单 -->
-			<form @submit="bindMobile">
-				<view class="outDiv">
-					<view class="registerView">
-						<view class="register">
-							<view class="Logintitle">
-								<text>魔小秘—您的智能AI秘书为您开启没有骚扰和烦恼的智慧生活</text>
-							</view>
-							<view class="loginInput">
-								<input v-model="mobile" name='mobile' @blur="pickupKeyboard" type="text" value="" placeholder="请输入绑定的手机号" />
-								<view>
-									<input v-model="smscode" name='smscode' @blur="pickupKeyboard" type="text" value="" placeholder="请输入验证码" />
-									<text class="code" @click="getMobileCode">{{mobileCode}}</text>
-								</view>
-
-							</view>
-							<view class="registerBtn  btn-group">
-								<button formType="submit" :disabled="isdisable" class="cu-btn bg-blue shadow-blur round" @click="bindMobile">立即绑定</button>
-							</view>
+		</view>
+		<!-- 注册表单 -->
+		<view class="register">
+			<view class="title">
+				<text>魔小秘—您的智能AI秘书为您开启没有骚扰和烦恼的智慧生活</text>
+			</view>
+			<form @submit="handleLogin">
+				<view class="loginInput">
+					<view class="loginInputItem">
+						<view class="mobileInput">
+							<input type="text" @blur="pickupKeyboard" :value="inputValue" v-model="bindmobile" name="mobile" placeholder="请输入绑定的手机号" />
+						</view>
+					</view>
+					<view class="loginInputItem">
+						<view class="smsCode">
+							<input type="text" @blur="pickupKeyboard" value="" name="smsCode" v-model="smsCode" placeholder="请输入验证码" />
+							<text class="code" @click="getMobileCode">{{mobileCode}}</text>
 						</view>
 					</view>
 				</view>
-
+				<view class="registerBtn  btn-group">
+					<button formType="submit" :disabled="isDisable" class="cu-btn bg-blue shadow-blur round">领取福利</button>
+				</view>
 			</form>
-
 		</view>
 	</view>
 </template>
 
 <script>
 	var curToken
-	import WxValidate from '../../../utils/WxValidate.js'
+	import WxValidate from '../../../utils/WxValidate.js';
 	import {
 		LOGIN,
 		SENDCODE
@@ -45,54 +45,20 @@
 			return {
 				mobileCode: "获取验证码",
 				time: 60,
-				mobile: "",
-				smscode: "",
+				mobileTip: "",
 				inputValue: "",
-				isdisable: false
-
+				smsTip: "",
+				mobile: "",
+				smsCode: "",
+				isDisable: false,
+				bindmobile: ''
 			}
 		},
 		onLoad() {
-			// 获取token
-			this.getUrlToken()
 			this.initValidate();
+			this.getUrlToken();
 		},
 		methods: {
-			// 截取
-			getQueryString(name) {
-				var after = window.location.search
-				if (after.indexOf('?') === -1) {}
-				after = window.location.href.split("?")[1] || after.substr(1);
-				if (after) {
-					var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-					var r = after.match(reg)
-					if (r !== null) {
-						return decodeURIComponent(r[2]);
-					} else {
-						return null
-					}
-				}
-			},
-			// 获取当前保存token
-			getUrlToken() {
-				curToken = this.getQueryString('token')
-				if (!curToken) {
-					uni.navigateTo({
-						url: "../../JumpLogin/JumpLogin"
-					})
-				} else {
-					console.log('普通用户邀请的token',curToken)
-					try {
-						uni.setStorageSync('myToken', curToken)
-					} catch (e) {
-						//TODO handle the exception
-						uni.showModal({
-							content: e,
-							showCancel: false
-						});
-					}
-				}
-			},
 			// 规则校验
 			initValidate() {
 				// 规则
@@ -116,18 +82,53 @@
 				}
 				this.WxValidate = new WxValidate(rules, messages)
 			},
-			// bindMobile绑定手机号
-			bindMobile() {
-				const params = {
-					mobile: this.mobile,
-					smsCode: this.smscode
+			// 获取验证码
+			getMobileCode() {
+				if (this.bindmobile) {
+					if (this.mobileCode == '获取验证码') {
+						this.time = 60
+						this.timer()
+						const params = {
+							mobile: this.bindmobile
+						}
+						console.log(this.bindmobile)
+						this.$request.url_request(SENDCODE, params, 'POST', res => {
+							uni.showToast({
+								title: '验证码发送成功',
+								icon: 'none',
+								duration: 1000
+							})
+						}, err => {})
+					}
+				} else {
+					uni.showToast({
+						title: '手机号不可为空',
+						icon: 'none',
+						duration: 1000
+					})
 				}
+
+
+			},
+			timer() {
+				if (this.time > 0) {
+					this.time--;
+					this.mobileCode = "还剩" + this.time + "s"
+					setTimeout(this.timer, 1000);
+				} else {
+					this.time = 0;
+					this.mobileCode = "获取验证码";
+				}
+			},
+			// 登录
+			handleLogin(e) {
 				var that = this
-				this.isdisable = true
+				this.isDisable = true
 				setTimeout(function() {
-					that.isdisable = false
+					that.isDisable = false
 					that.$forceUpdate()
 				}, 1000)
+				const params = e.detail.value
 				if (!this.WxValidate.checkForm(params)) {
 					const error = this.WxValidate.errorList[0]
 					// 可以自定义提示
@@ -140,7 +141,7 @@
 					var _this = this
 					this.$request.url_request(LOGIN, params, "POST", res => {
 						if (JSON.parse(res.data).code == 0) {
-							uni.reLaunch({
+							uni.navigateTo({
 								url: '../../Welcome/Welcome'
 							})
 						} else {
@@ -152,44 +153,43 @@
 								})
 							}
 						}
-					}, err => {})
-				}
-			},
-			// 获取验证码
-			getMobileCode() {
-				if (this.mobile) {
-					if (this.mobileCode == '获取验证码') {
-						this.time = 60
-						this.timer()
-						const params = {
-							mobile: this.mobile
-						}
-						this.$request.url_request(SENDCODE, params, 'POST', res => {
-							uni.showToast({
-								title: '验证码发送成功',
-								icon: 'none',
-								duration: 1000
-							})
-						}, err => {})
-					}
+					}, err => {
 
-				} else {
-					uni.showToast({
-						title: '手机号不可为空',
-						icon: 'none',
-						duration: 1000
 					});
 				}
-
 			},
-			timer() {
-				if (this.time > 0) {
-					this.time--;
-					this.mobileCode = "还剩" + this.time + "s"
-					setTimeout(this.timer, 1000);
+			// 截取
+			getQueryString(name) {
+				var after = window.location.search
+				if (after.indexOf('?') === -1) {}
+				after = window.location.href.split("?")[1] || after.substr(1);
+				if (after) {
+					var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+					var r = after.match(reg)
+					if (r !== null) {
+						return decodeURIComponent(r[2]);
+					} else {
+						return null
+					}
+				}
+			},
+			// 获取当前保存token
+			getUrlToken() {
+				curToken = this.getQueryString('token')
+				if (!curToken) {
+					uni.navigateTo({
+						url: '../../JumpLogin/JumpLogin'
+					})
 				} else {
-					this.time = 0;
-					this.mobileCode = "获取验证码";
+					try {
+						uni.setStorageSync('myToken', curToken)
+					} catch (e) {
+						//TODO handle the exception
+						uni.showModal({
+							content: e,
+							showCancel: false
+						});
+					}
 				}
 			},
 			// 收起键盘
@@ -204,102 +204,113 @@
 </script>
 
 <style>
-	page {
-		background: #5F89FD;
-		padding-bottom: 10rpx;
+	.login {}
+	page{
+		background-color: #FFFFFF;
 	}
-
-	.getNeWUser {
-		/* height: 1369rpx; */
-		
-	}
-
-	.newContain {
-		width: 100%;
-		height: 1206rpx;	
-		border: 1rpx solid transparent;
-		background-size: cover;
-		background-image: url(../../../static/login/getNewUser/bejing@2x.jpg);
-		/* overflow: hidden; */
+	.topImage {
 		position: relative;
 	}
 
-	/* 顶部欢迎 */
-	.title {
-		text-align: center;
-		font-size: 30rpx;
-		margin-top: 30rpx;
-		color: #FFFFFF;
+	.topImage>image {
+		width: 750rpx;
+		height: 727rpx;
 	}
 
-	.topclear:after {
-		content: '';
-		display: block;
-	}
-
-	/* 注册表单 */
-	.outDiv {
-		width: 690rpx;
-		/* margin: 30rpx; */
-		/* padding: 30rpx 0; */
+	.topText {
 		position: absolute;
-		top: 680rpx;
-		left: 50%;
-		margin-left: -345rpx;
-
+		top: 100rpx;
+		left: 0;
 	}
 
-	.registerView {
-		background-color: #FFFFFF;
-		width: 690rpx;
-		padding: 41rpx 40rpx;
-		/* margin: 30rpx; */
-		border-radius: 20rpx;
-		/* margin-bottom: 50rpx; */
+	.topTextItem {
+		display: flex;
+		align-items: center;
+		margin: 50rpx 30rpx;
 	}
 
-	.Logintitle {
+	.topTextItem>image {
+		width: 15rpx;
+		height: 15rpx;
+	}
+
+	.topFontLar {
+		color: #FFFFFF;
+		font-size: 36rpx;
+		font-weight: bold;
+		margin-left: 20rpx;
+	}
+
+	.fontThin {
+		color: #FEFEFE;
+		font-size: 26rpx;
+		margin: 0 30rpx;
+	}
+
+	.register {
+		margin: 20rpx 107rpx 50rpx 107rpx;
+	}
+
+	.register .title {
 		color: #111111;
 		font-size: 26rpx;
-		margin:  0 30rpx;
+		margin-top: 30rpx;
+		letter-spacing: 3rpx;
+		margin-bottom: 28rpx;
 	}
 
-	.loginInput {
+	/* 绑定手机表单 */
+	.loginInputItem {
+		margin: 29rpx 0;
+		overflow: hidden;
+	}
+
+	.inputTip {
+		color: red;
+		font-size: 20rpx;
+		display: block;
+		margin-top: 5rpx;
+	}
+
+	.mobileInput>input {
 		width: 538rpx;
-		margin: auto;
-		margin-top: 40rpx;
 	}
 
 	.loginInput input {
 		outline: none;
-		width: 538rpx;
 		border-radius: 10rpx;
 		border: 1px solid #1C75FF;
 		height: 78rpx;
-		margin: 15rpx 0;
-		padding: 17rpx 36rpx;
+		padding: 10rpx 36rpx;
 	}
 
 	.loginInput>view {
+		/* 		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between; */
+	}
+
+	.smsCode {
 		display: flex;
 		flex-direction: row;
 		align-items: center;
+		justify-content: space-between;
 	}
 
-	.loginInput>view>input:nth-of-type(1) {
+	.smsCode>input {
 		width: 381rpx;
 	}
 
 	.code {
 		color: #1C75FF;
 		font-size: 26rpx;
-		margin-left: 30rpx;
+		display: inline-block
 	}
 
 	.registerBtn {
-		width: 538rpx;
-		margin: auto;
-		margin-top: 30rpx;
+		margin-top: 20rpx;
+		padding: 30rpx 0;
 	}
 
 	.registerBtn>button {

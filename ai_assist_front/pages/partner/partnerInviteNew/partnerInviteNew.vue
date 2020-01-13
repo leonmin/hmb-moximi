@@ -208,7 +208,7 @@
 <style>
 	page {
 		background: #5E88FD;
-		padding-bottom: 20rpx;
+		margin-bottom: 30rpx;
 	}
 
 	.topHead {
@@ -232,7 +232,7 @@
 		 font-size: 48rpx;
 	}
 	.register {
-		margin: 500rpx 30rpx 30rpx 30rpx;
+		margin: 520rpx 30rpx 30rpx 30rpx;
 		padding: 40rpx 30rpx;
 		border-radius: 20rpx;
 		background-color: #FFFFFF;
@@ -241,13 +241,13 @@
 	.register .title {
 		color: #111111;
 		font-size: 30rpx;
-		margin-bottom: 28rpx;
+		/* margin-bottom: 28rpx; */
 		text-align: center;
 	}
 
 	/* 绑定手机表单 */
 	.loginInputItem {
-		margin: 29rpx 0;
+		margin: 25rpx 0;
 		overflow: hidden;
 	}
 
@@ -299,7 +299,7 @@
 	}
 
 	.registerBtn {
-		margin-top: 50rpx;
+		margin-top: 30rpx;
 	}
 
 	.registerBtn>button {

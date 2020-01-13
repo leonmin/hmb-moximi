@@ -1,11 +1,11 @@
 <template>
 	<view class="editOpen">
 		<view class="editOpenContain shadowE7">
-			<view class="flexDisplay">
+<!-- 			<view class="flexDisplay">
 				<text class="fontStyle30">名称</text>
 				<text class="fontStyle30">录音</text>
 			</view>
-			<view class="line"></view>
+			<view class="line"></view> -->
 			<view class="flexDisplay">
 				<view>
 					<text class="fontStyle30">开场白</text>
@@ -138,7 +138,7 @@
 <script>
 	import {
 		uniIcons
-	} from '@dcloudio/uni-ui'
+	} from '../../../components/uni-icons/uni-icons.vue'
 	import {
 		JSAPI,
 		VOICEPROLOGUE,
@@ -391,7 +391,7 @@
 							console.log("录音上传成功！")
 							uni.showToast({
 								title: '保存成功!',
-								icon: 'none',
+								icon: 'success',
 								duration: 1000
 							})
 							setTimeout(() =>{

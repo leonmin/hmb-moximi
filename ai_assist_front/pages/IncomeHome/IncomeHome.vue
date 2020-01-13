@@ -4,64 +4,87 @@
 			<view v-if="isfocus !== 1">
 				<uni-notice-bar @click='focus' style="margin: 0;" show-close="true" show-icon="true" text="尚未关注公众号，无法接受来电消息提醒，点击关注 >"></uni-notice-bar>
 			</view>
-			<view class=" whiteBg">
-				<!-- 搜索来电 -->
-				<view class="cu-bar search" @click="search">
-					<view class="search-form searchBar">
-						<text class="cuIcon-search"></text>
-						<input type="text" placeholder="搜索来电" confirm-type="search"></input>
+			<!-- banner -->
+			<!-- 		<view class="banner">
+				<image src="../../static/tu@2x.png" mode=""></image>
+			</view> -->
+			<view class="uni-padding-wrap" v-if="bannerList.length>0" style="padding: 30rpx 30rpx 0 30rpx;">
+				<view class="page-section swiper">
+					<view class="page-section-spacing">
+						<swiper class="swiper" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration"
+						 circular='true'>
+							<swiper-item v-for="(item,index) in bannerList" :key='index'>
+								<view class="banner">
+									<image :src="item.bannerUrl" mode=""></image>
+								</view>
+							</swiper-item>
+						</swiper>
 					</view>
 				</view>
-				<!-- 今日、历史来电 -->
-				<view class="indexBtn">
-					<button class="today" @click="todayBtn" :style="todayStyle">今日来电</button>
-					<button class="today" @click="historyBtn" :style="historyStyle">历史来电</button>
-				</view>
-
 			</view>
-			<!-- 通话列表 -->
-			<view class="callList">
-				<view v-if="itemData.length == 0">
-					<view class="noDataBox">
-						<view class="noData">
-							<image src="../../static/quexing/laidain@2x.png" mode=""></image>
-							<view>
-								<text>暂无通话</text>
-							</view>
-						</view>
+			<!-- 功能板块 -->
+			<view class="module">
+				<view class="moduleItem" @click="gotoList">
+					<view class="badgeNum" v-if="itemData.length > 0">
+						<text>{{itemData.length}}</text>
 					</view>
+					<image src="../../static/incomeHome/laidianjilu@2x.png" mode=""></image>
+					<text>来电记录</text>
 				</view>
-				<view v-if="item" class="callListItem" @click="gotoDetails(item.id)" v-for="(item,index) in itemData" :key="index">
-					<view class="itemHead">
-						<image :src="item.avatarUrl" alt="">
-					</view>
-					<view class="rightItem">
-						<!-- 电话信息 -->
-						<view class="mobileFont">
-							<text class="mobileFont">{{item.callerMobile | formateTel}}</text>
-						</view>
-						<view class="durationItem">
-							<view class="duration">
-								<text v-if="item.location !== null">{{item.location}}</text>
-								<text>{{item.gmtCreate |formateDate}}</text>
-								<text>通话{{item.voiceTime}}s</text>
-							</view>
-							<view @click.stop="call(item.callerMobile)">
-								<image src="../../static/callDetail/laidian@2x.png" mode=""></image>
-							</view>
-						</view>
-						<!-- 通话消息 -->
-						<view class="chatItem">
-							<text v-for="(item1,index1) in item.contents.slice(0,2)" :key="index1">{{item1}}</text>
-							<text v-if="item.contents.length==0">对方未说话</text>
-						</view>
-						<!-- 来电类型 -->
-						<view class="tipBox">
-							<view class="tipItem"><text>{{item.labelName}}</text></view>
-						</view>
-					</view>
+				<view class="moduleItem" v-for="(item,index) in moduleData" :key='index' @click="gotoModule(index)">
+					<image :src="item.src" mode=""></image>
+					<text>{{item.name}}</text>
 				</view>
-				<uni-load-more :status="istoday? todayText: historyText" v-if="itemData.length !== 0"></uni-load-more>
+			</view>
+			<!-- 分割 -->
+			<view style="height: 20rpx;background-color: #F3F6F7;"></view>
+			<!-- 今日来电 -->
+			<view class="todayCall">
+				<view class="title"><text>今日来电</text></view>
+				<!-- 通话列表 -->
+				<view class="callList">
+					<view v-if="itemData.length == 0">
+						<view class="noDataBox">
+							<view class="noData">
+								<image src="../../static/quexing/wulaidian@2x.png" mode=""></image>
+								<view>
+									<text>暂无通话</text>
+								</view>
+							</view>
+						</view>
+					</view>
+					<view v-if="item" class="callListItem" @click="gotoDetails(item.id)" v-for="(item,index) in itemData" :key="index">
+						<view class="itemHead">
+							<image :src="item.avatarUrl" alt="">
+						</view>
+						<view class="rightItem">
+							<!-- 电话信息 -->
+							<view class="mobileFont">
+								<text class="mobileFont">{{item.callerMobile | formateTel}}</text>
+							</view>
+							<view class="durationItem">
+								<view class="duration">
+									<text v-if="item.location !== null">{{item.location}}</text>
+									<text>{{item.gmtCreate |formateDate}}</text>
+									<text>通话{{item.voiceTime}}s</text>
+								</view>
+								<view @click.stop="call(item.callerMobile)">
+									<image src="../../static/callDetail/laidian@2x.png" mode=""></image>
+								</view>
+							</view>
+							<!-- 通话消息 -->
+							<view class="chatItem">
+								<text v-for="(item1,index1) in item.contents.slice(0,2)" :key="index1">{{item1}}</text>
+								<text v-if="item.contents.length==0">对方未说话</text>
+							</view>
+							<!-- 来电类型 -->
+							<view class="tipBox">
+								<view class="tipItem"><text>{{item.labelName}}</text></view>
+							</view>
+						</view>
+					</view>
+					<uni-load-more :status="todayText" v-if="itemData.length > 9"></uni-load-more>
+				</view>
 			</view>
 		</view>
 	</view>
@@ -73,11 +96,11 @@
 	import {
 		uniSearchBar,
 		uniIcons
-	} from '@dcloudio/uni-ui';
+	} from '../../components/uni-icons/uni-icons.vue'
 	import {
 		CALLRECORDLISTTODAY,
-		CALLRECORDLIST,
-		SUBSCRIBEINFO
+		SUBSCRIBEINFO,
+		BANNER
 	} from '../../utils/api.js'
 	import uniLoadMore from '../../components/uni-load-more/uni-load-more.vue'
 	import uniNoticeBar from '../../components/uni-notice-bar/uni-notice-bar.vue'
@@ -90,9 +113,14 @@
 		},
 		filters: {
 			formateTel: function(value) {
-				var pat = /(\d{3})\d*(\d{4})/
-				var b = value.replace(pat, '$1****$2');
-				return b
+				if (value == '057126211779') {
+					var result = '魔小秘(示例电话)'
+					return result
+				} else {
+					var pat = /(\d{3})\d*(\d{4})/
+					var b = value.replace(pat, '$1****$2');
+					return b
+				}
 			},
 			formateDate: function(value) {
 				var first = value.split(" ")[0]
@@ -107,33 +135,47 @@
 			return {
 				todayStyle: 'border:1px solid #1c75ff;color:#1c75ff;box-shadow: 0 2rpx  10rpx #D4DDEC;',
 				historyStyle: '',
+				moduleData: [{
+						src: '../../static/incomeHome/jietingpeizhi@2x.png',
+						name: '接听配置'
+					},
+					{
+						src: '../../static/incomeHome/yaoqing@2x.png',
+						name: '邀请赚钱'
+					},
+					{
+						src: '../../static/incomeHome/qianbao@2x.png',
+						name: '我的钱包'
+					}
+				],
+				bannerList: [],
+				background: ['color1', 'color2', 'color3'],
+				indicatorDots: true,
+				autoplay: true,
+				interval: 3500,
+				duration: 700,
 				callList: [{}],
 				getToken: "",
 				itemData: "",
-				istoday: 1,
 				todayText: 'more',
-				historyText: 'more',
-				page: 1
+				page: 1,
+				isfocus: ''
 			}
 		},
 		onLoad(options) {
 			this.isGuanzhu()
 			this.getCurToken()
+			this.getBanner()
 			this.initData()
 			uni.showToast({
 				title: '正在加载中...',
-				icon:'none',
-				mask:true,
-				isfocus:''
+				icon: 'none',
+				mask: true,
+				isfocus: ''
 			})
 		},
 		onPullDownRefresh() {
-			if (this.istoday == 1) {
-				this.initData()
-			} else if (this.istoday == 0) {
-				this.historyBtn()
-			}
-
+			this.initData()
 		},
 		onReachBottom: function() {
 			var _this = this
@@ -146,28 +188,79 @@
 		},
 
 		methods: {
+			changeIndicatorDots(e) {
+				this.indicatorDots = !this.indicatorDots
+			},
+			changeAutoplay(e) {
+				this.autoplay = !this.autoplay
+			},
+			intervalChange(e) {
+				this.interval = e.target.value
+			},
+			durationChange(e) {
+				this.duration = e.target.value
+			},
+
 			// 是否关注
-			isGuanzhu(){
+			isGuanzhu() {
 				const params = {}
-				this.$request.url_request(SUBSCRIBEINFO,params,'GET',res =>{
+				this.$request.url_request(SUBSCRIBEINFO, params, 'GET', res => {
 					this.isfocus = JSON.parse(res.data).data
-				},err =>{})
+				}, err => {})
 			},
 			// focus
-			focus(){
+			focus() {
 				uni.navigateTo({
-					url:'focus/focus'
+					url: 'focus/focus'
 				})
+			},
+			// banner
+			getBanner() {
+				const params = {}
+				this.$request.url_request(BANNER, params, 'GET', res => {
+					this.bannerList = JSON.parse(res.data).data
+					if (this.bannerList.length <= 1) {
+						this.indicatorDots = false
+					}
+				}, err => {})
+			},
+			// gotoList今日历史记录
+			gotoList() {
+				uni.report('homeCallList', '来电记录')
+				uni.navigateTo({
+					url: 'callList'
+				})
+			},
+			// 跳转模块
+			gotoModule(index) {
+				if (index == 0) {
+					uni.report('homeSetting', '接听配置')
+					uni.switchTab({
+						url: '../SettingPage/SettingPage'
+					})
+				} else if (index == 1) {
+					uni.report('homeInvite', '邀请赚钱')
+					uni.navigateTo({
+						url: '../Login/Invite/Invite'
+					})
+				} else if (index == 2) {
+					uni.report('homeWallet', '我的钱包')
+					uni.navigateTo({
+						url: '../MinePage/MineWallet/MineWallet'
+					})
+				}
 			},
 			// 截取
 			getQueryString(name) {
 				var after = window.location.search
 				if (after.indexOf('?') === -1) {}
 				after = window.location.href.split("?")[1] || after.substr(1);
+				console.log('获取路径after', after)
 				if (after) {
 					var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
 					var r = after.match(reg)
 					if (r !== null) {
+						console.log('截取的结果', decodeURIComponent(r[2]))
 						return decodeURIComponent(r[2]);
 					} else {
 						return null
@@ -175,31 +268,31 @@
 				}
 			},
 			// 得到token
-			getCurToken() {	
+			getCurToken() {
 				curToken = this.getQueryString('token')
-				if(!curToken) 
-				{
+				console.log('income中的token', curToken)
+				if (!curToken) {
 					//localstorage read
 					curToken = uni.getStorageSync('myToken')
-					console.log('locattion',curToken)
+					console.log('locattion', curToken)
 				}
-				
-				if(!curToken) {
-					console.log(222)
+
+				if (!curToken) {
+					console.log('路径和storage的token都为空')
 					uni.navigateTo({
-						url:"../JumpLogin/JumpLogin"
+						url: "../JumpLogin/JumpLogin"
 					})
 				} else {
-					try{
-						uni.setStorageSync('myToken',curToken)
-					}catch(e){
+					try {
+						uni.setStorageSync('myToken', curToken)
+					} catch (e) {
 						//TODO handle the exception
 						uni.showModal({
 							content: e,
 							showCancel: false
 						});
 					}
-				}			
+				}
 			},
 			// 拨打电话
 			call(tel) {
@@ -209,7 +302,6 @@
 			},
 			// 初始化数据
 			initData() {
-				this.istoday = 1
 				const params = {
 					pageNum:1
 				}
@@ -221,84 +313,25 @@
 					err => {});
 			},
 			// 加载更多
-			getmore(){
-				if (this.todayText == 'more' || this.historyText == 'more') {
-					if(this.istoday == 1){
+			getmore() {
+				if (this.todayText == 'more') {
 					this.todayText = 'loading'
 					this.$forceUpdate()
 					this.page++
 					const params = {
 						pageNum: this.page
 					}
-						this.$request.url_request(CALLRECORDLISTTODAY, params, "GET", res => {
-							if(JSON.parse(res.data).data.list.length<= 0){
-								this.todayText = 'noMore'
-								this.$forceUpdate()
-							} else{
-								this.todayText = 'more'
-								this.itemData = this.itemData.concat(JSON.parse(res.data).data.list)
-								this.$forceUpdate()
-							}	
-					}, err => {})
-					} else{
-						this.page++
-						const params = {
-							pageNum: this.page
+					this.$request.url_request(CALLRECORDLISTTODAY, params, "GET", res => {
+						if (JSON.parse(res.data).data.list.length <= 0) {
+							this.todayText = 'noMore'
+							this.$forceUpdate()
+						} else {
+							this.todayText = 'more'
+							this.itemData = this.itemData.concat(JSON.parse(res.data).data.list)
+							this.$forceUpdate()
 						}
-						this.historyText = 'loading'
-						this.$request.url_request(CALLRECORDLIST, params, "GET", res => {
-							if(JSON.parse(res.data).data.list.length<= 0){
-								this.historyText = 'noMore'
-								this.$forceUpdate()
-							} else{
-								this.historyText = 'more'
-								this.itemData = this.itemData.concat(JSON.parse(res.data).data.list)
-								this.$forceUpdate()
-							}	
-						}, err => {})
-					}
-					
+					}, err => {})
 				}
-			},
-			search() {
-				uni.navigateTo({
-					url: 'search/search'
-				})
-			},
-			// 今日来电
-			todayBtn() {
-				uni.showToast({
-					title: '正在加载中...',
-					icon:'none',
-					mask:true
-				})
-				this.historyText = 'more'
-				this.historyStyle = ''
-				this.todayStyle = 'border:1px solid #1c75ff;color:#1c75ff;box-shadow: 0rpx 1rpx  10rpx #D4DDEC;'
-				this.page = 1
-				this.initData()
-			},
-			// 历史来电
-			historyBtn() {
-				uni.showToast({
-					title: '正在加载中...',
-					icon:'none',
-					mask:true
-				})
-				this.todayText  = 'more'
-				this.page = 1
-				this.istoday = 0
-				this.todayStyle = ''
-				this.historyStyle = 'border:1px solid #1c75ff;color:#1c75ff;box-shadow: 0rpx 1rpx  10rpx #D4DDEC;'
-				const params = {
-					pageNum:1
-				}
-				this.$request.url_request(CALLRECORDLIST, params, "GET", res => {
-						this.itemData = JSON.parse(res.data).data.list
-						uni.hideToast()
-						uni.stopPullDownRefresh()
-					},
-					err => {});
 			},
 			gotoDetails(id) {
 				uni.navigateTo({
@@ -312,7 +345,8 @@
 
 <style scoped>
 	page {
-		background-color: #F3F6F7;
+		/* background-color: #F3F6F7; */
+		background-color: #FFFFFF;
 	}
 
 	.indexBox {
@@ -363,18 +397,20 @@
 	}
 
 	.callList {
-		background-color: #F3F6F7;
+		/* background-color: #F3F6F7;	 */
 		overflow: hidden;
 	}
 
 	.callListItem {
+		border: 1rpx solid #FFFFFF;
+		box-shadow: 2rpx 2rpx 15rpx 5rpx #E8EDEF;
 		background-color: #FFFFFF;
 		border-radius: 20rpx;
 		display: flex;
 		flex-direction: row;
 		/* justify-content: space-between; */
 		/* width: 650rpx; */
-		margin: 30rpx 30rpx;
+		margin: 30rpx;
 		padding: 30rpx 40rpx;
 	}
 
@@ -465,24 +501,102 @@
 	.tipItem>text {
 		line-height: 40rpx;
 	}
-	.noDataBox{
+
+	.noDataBox {
 		display: flex;
 		flex-direction: row;
 		justify-content: center;
-		margin-top: 350rpx;
+		margin-top: 100rpx;
 	}
-	.noData{
+
+	.noData {
 		text-align: center;
 	}
-	.noData>image{
-		width: 285rpx;
-		height: 166rpx;
+
+	.noData>image {
+		width: 265rpx;
+		height: 204rpx;
 	}
-	.noData>view>{
+
+	.noData>view> {
 		margin-top: 20rpx;
 	}
-	.noData>view>text{
+
+	.noData>view>text {
 		color: #CBDCFE;
 		font-size: 28rpx;
+	}
+
+	.banner {
+		background: #FFFFFF;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+	}
+
+	.uni-margin-wrap {
+
+		height: 100%;
+		margin: 0 0upx;
+	}
+
+	.swiper {
+		height: 300rpx;
+	}
+
+	.banner>image {
+		width: 100%;
+		height: 295rpx;
+	}
+
+	.module {
+		/* border: 1rpx solid #F0AD4E; */
+		padding: 30rpx 30rpx;
+		background-color: #FFFFFF;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+	}
+
+	.moduleItem {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		position: relative;
+		margin: 0 10rpx;
+	}
+
+	.moduleItem>image {
+		width: 75rpx;
+		height: 75rpx;
+	}
+
+	.badgeNum {
+		border: 1rpx solid #FFFFFF;
+		text-align: center;
+		padding: 3rpx;
+		width: 30rpx;
+		height: 30rpx;
+		color: #FFFFFF;
+		border-radius: 100rpx;
+		font-size: 20rpx;
+		background-color: #E01212;
+		position: absolute;
+		top: -10rpx;
+		right: 10rpx;
+		z-index: 999;
+	}
+
+	/* 今日来电 */
+	.todayCall {
+		background: #FFFFFF;
+		color: #111111;
+		padding: 20rpx 0;
+		/* font-weight: 600; */
+	}
+
+	.title {
+		padding: 20rpx 30rpx;
+		font-size: 34rpx;
 	}
 </style>

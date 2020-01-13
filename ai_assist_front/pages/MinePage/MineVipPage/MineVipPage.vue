@@ -2,7 +2,7 @@
 	<view v-if="infoData">
 		<!-- 顶部信息 -->
 		<view class="topHeader">
-			<image class="userHeader" src="../../../static/logoHead.png" mode="" style="border: 1rpx solid  #3396FB; border-radius: 150rpx;"></image>
+			<image class="userHeader" src="../../../static/logoHead.png" mode="" style="border-radius: 150rpx;"></image>
 			<view class="userInfo">
 				<view class="userName">
 					{{infoData.userName}}
@@ -112,6 +112,9 @@
 			<view class="bto-bar-commit" @click="vipPay">
 				立即支付
 			</view>
+		<!-- 	<view class="bto-bar-commit" @click="toastTip">
+				立即支付
+			</view> -->
 		</view>
 
 		<!-- 弹框 -->
@@ -235,6 +238,8 @@
 					this.couponData = JSON.parse(res.data).data
 					if(this.couponData.userCoupon){
 						this.couponId = this.couponData.userCoupon.id
+					} else {
+						this.couponId = ''
 					}
 				},err =>{})
 			},
@@ -274,6 +279,7 @@
 			},
 			// 支付
 			vipPay() {
+				console.log("优惠券id",this.couponId)
 				const params = {
 					sku: this.vipSku,
 					couponId: this.couponId
@@ -314,6 +320,12 @@
 						}
 					}
 				)
+			},
+			toastTip(){
+				uni.showModal({
+					content: '太火爆啦！魔小秘今日注册名额已超限！优惠将于明日00:00重新开启！',
+					showCancel: false
+				});
 			}
 		}
 	}
@@ -559,11 +571,10 @@
 		margin-left: 30rpx;
 		margin-right: 30rpx;
 		height: 235rpx;
-
-		border-radius: 20rpx;
-
-		background-color: #282827;
-
+		background-image: url(~@/static/mine/VIPPage/kapian@2x.png);
+		background-size: cover;
+	/* 	border-radius: 20rpx;
+		background-color: #282827; */
 		display: flex;
 		align-items: center;
 		color: #FFFFFF;
@@ -645,8 +656,6 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-
-		/* background-image: url('../../../static/mine/VIPPage/youhuiquan@2x.png'); */
 	}
 
 	.levelPage-list-item-un {

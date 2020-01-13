@@ -12,32 +12,13 @@
 		},
 		onLoad() {
 			this.getAuth()
-			//	暂时直接进入项目
-			// uni.switchTab({
-			// 	url:"../IncomeHome/IncomeHome"
-			// })
-			// uni.redirectTo({
-			// 	url:"../Login/bindMobile"
-			// })
 		},
 		methods: {
 			// 授权
 			getAuth(){
-				// if(!this.code){
-				// 	window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx5136cb5c7d21f3d1&redirect_uri=http://m.checkshirt-ai.com/app/login&response_type=code&scope=snsapi_userinfo&state=db15da066b4541b2818e7f11666d4d31#wechat_redirect"
-				// }else{
-				// 	uni.redirectTo({
-				// 		url:"../Login/bindMobile"
-				// 	})
-				// }
-				window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx5136cb5c7d21f3d1&redirect_uri=http://m.checkshirt-ai.com/app/login&response_type=code&scope=snsapi_userinfo&state=db15da066b4541b2818e7f11666d4d31#wechat_redirect"
+				var hrefUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx5136cb5c7d21f3d1&redirect_uri="+ this.$url.mainURL + "/app/login&response_type=code&scope=snsapi_userinfo#wechat_redirect";
+				window.location.href = hrefUrl;
 			},
-			// 截取code
-			getQueryString(name){
-				var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-				var r = window.location.search.substr(1).match(reg);
-				if(r!=null)return unescape(r[2]); return null;
-			}
 		}
 	}
 </script>

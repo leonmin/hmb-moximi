@@ -7,7 +7,7 @@
 				<text>您知道魔小秘是怎么工作的吗</text>
 			</view>
 			<view style="width: 700rpx;">
-				<text class="font301">魔小秘是针对不同场景设置呼叫转移为您接听电话的，比如这三种场景：</text>
+				<text class="font301">魔小秘是针对不同场景设置呼叫转移为您接听电话的，比如这四种场景：</text>
 			</view>
 			<!-- 场景描述view -->
 			<view class="wel-sceneDes">
@@ -93,6 +93,9 @@
 				<view class="bto-bar-commit" style="padding: 26rpx 0;border-radius: 100rpx;" @click="welcomePay">
 					立即支付
 				</view>
+		<!-- 		<view class="bto-bar-commit" style="padding: 26rpx 0;border-radius: 100rpx;" @click="toastTip">
+					立即支付
+				</view> -->
 			</view>
 
 		</view>
@@ -173,6 +176,8 @@
 					this.couponData = JSON.parse(res.data).data
 					if(JSON.parse(res.data).data.userCoupon){
 						this.couponId = JSON.parse(res.data).data.userCoupon.id
+					} else {
+						this.couponId = ''
 					}
 				}, err => {})
 			},
@@ -267,13 +272,20 @@
 					function(res) {
 						if (res.err_msg == "get_brand_wcpay_request:ok") {
 							uni.reLaunch({
-								url: 'guide/guide'
+								// url: 'guide/guide'
+								url:'guideNew/guideNew'
 							})
 							// 使用以上方式判断前端返回,微信团队郑重提示：
 							//res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
 						}
 					}
 				)
+			},
+			toastTip(){
+				uni.showModal({
+					content: '太火爆啦！魔小秘今日注册名额已超限！优惠将于明日00:00重新开启！',
+					showCancel: false
+				});
 			}
 		},
 	}

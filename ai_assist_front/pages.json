@@ -125,6 +125,24 @@
 				}
 			}
         }
+		,{
+		    "path" : "pages/MinePage/personalData/personalData",
+		    "style" : {
+				"navigationBarTitleText":"个人信息",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+		}
+		,{
+		    "path" : "pages/MinePage/aboutMXM/aboutMXM",
+		    "style" : {
+				"navigationBarTitleText":"关于魔小秘",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+		}
         ,{
             "path" : "pages/Welcome/Welcome",
             "style" : {
@@ -137,12 +155,31 @@
         ,{
             "path" : "pages/Login/bindMobile",
             "style" : {
-				"navigationBarTitleText":"注册",
+				"navigationBarTitleText":"魔小秘",
 				"app-plus":{
 					"titleNView":false
 				}
 			}
         }
+
+		,{
+		    "path" : "pages/Login/callList/callList",
+		    "style" : {
+				"navigationBarTitleText":"注册",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+		}
+		,{
+		    "path" : "pages/Login/callListDetail/callListDetail",
+		    "style" : {
+				"navigationBarTitleText":"注册",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+		}
         ,{
             "path" : "pages/Login/Invite/InviteNewUser",
             "style" : {
@@ -360,7 +397,7 @@
         ,{
             "path" : "pages/Welcome/guide/guide",
             "style" : {
-				"navigationBarTitleText":"开启魔小秘",
+				"navigationBarTitleText":"启用魔小秘",
 				"app-plus":{
 					"titleNView": false
 				}
@@ -402,6 +439,89 @@
 				}
 			}
         }
+        ,{
+            "path" : "pages/Welcome/guideNew/guideNew",
+            "style" : {
+				"navigationBarTitleText":"引导页面",
+				"app-plus":{
+					"titleNView": false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/helpCenter/setFail",
+            "style" : {
+				"navigationBarTitleText":"设置失败",
+				"app-plus":{
+					"titleNView": false
+				}
+			}
+        }
+        ,{
+            "path" : "static/userAgreement/userAgreement",
+            "style" : {
+				"navigationBarTitleText":"隐私协议",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
+        ,{
+            "path" : "static/privacyAgreement/privacyAgreement",
+            "style" : {
+				"navigationBarTitleText":"用户协议",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/Login/Courier/Courier",
+            "style" : {
+				"navigationBarTitleText":"外卖",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/Login/business/business",
+            "style" : {
+				"navigationBarTitleText":"商务",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/Login/collection/collection",
+            "style" : {
+				"navigationBarTitleText":"催收",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/IncomeHome/callList",
+            "style" : {
+				"navigationBarTitleText":"通话列表",
+				"enablePullDownRefresh": true,  //设置为true表示当前页面开启下拉刷新
+				 "backgroundTextStyle": "dark",  //下拉 loading 的样式，仅支持 dark/light
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/MinePage/exclusiveNum/exclusiveNum",
+            "style" : {
+				"navigationBarTitleText":"专属转接号码",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
@@ -412,7 +532,7 @@
 	"tabBar": {
 		"color":"#555555",
 		"selectedColor":"#1c75ff",
-		"borderStyle":"white",
+		"borderStyle":"black",
 		"backgroundColor":"#FFFFFF",
 		"list": [
 			{
