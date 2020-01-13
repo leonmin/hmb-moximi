@@ -299,7 +299,7 @@
 					dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
 					success: function() {
 						// 用户点击了分享后执行的回调函数
-						that.maskShow = false
+						that.imageshow = false
 					}
 				})
 				//分享到朋友圈
@@ -309,7 +309,7 @@
 					imgUrl: 'https://ai-assist.oss-cn-beijing.aliyuncs.com/aac/mxmlogo.png', // 分享图标
 					success: function() {
 						// 用户点击了分享后执行的回调函数
-						that.maskShow = false
+						that.imageshow = false
 					}
 				})
 
@@ -478,7 +478,6 @@
 		display: flex;
 		flex-direction: row;
 	}
-
 	/* 会员信息 */
 	.vip-desc {
 		margin-left: 15rpx;

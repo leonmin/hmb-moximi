@@ -18,11 +18,6 @@
 					</view>
 				</view>
 			</view>
-			<!-- 		视频播放
-			<view class="wel-video">
-				<video class="myVideo" src="https://dcloud-img.oss-cn-hangzhou.aliyuncs.com/guide/uniapp/%E7%AC%AC1%E8%AE%B2%EF%BC%88uni-app%E4%BA%A7%E5%93%81%E4%BB%8B%E7%BB%8D%EF%BC%89-%20DCloud%E5%AE%98%E6%96%B9%E8%A7%86%E9%A2%91%E6%95%99%E7%A8%8B@20181126.mp4"
-				 @error="videoErrorCallback"></video>
-			</view> -->
 			<!-- 限时特惠 -->
 			<view class="limitSale">
 				<view class="saleTile">
@@ -30,7 +25,23 @@
 					<text @click="camilo">卡密激活</text>
 				</view>
 				<view class="saleContain">
-					<view v-for="(item,index) in goodslist" :key="index" class="saleItem checkedBg" :class="saleItem == index?'checkedBg':'uncheckedBg'"
+					<!-- 周卡 -->
+					<view v-for="(item,index) in goodslist" v-if="item.sku == '100004'" :key="index" class="saleItem checkedBg1"
+					 :class="saleItem == index?'checkedBg1':'uncheckedBg1'" @click="checkSaleItem(index,item.sku,item.priceDes,item.price)">
+						<text class="fontStyle30">{{item.cardTitle}}</text>
+						<view class="price">
+							<text style="font-size: 30rpx;">￥</text>
+							<text>{{item.priceDes}}</text>
+						</view>
+						<s :class="saleItem == index?'orignalPrice':'orignalPrice1'">
+							<view>
+								<text style="font-size: 20rpx;">￥</text>
+								<text style="font-size: 28rpx;">{{item.oldPriceDes}}</text>
+							</view>
+						</s>
+					</view>
+					<!-- 月卡、季卡、年卡 -->
+					<view v-for="(item,index) in goodslist" v-if="item.sku != '100004'" :key="index" class="saleItem checkedBg" :class="saleItem == index?'checkedBg':'uncheckedBg'"
 					 @click="checkSaleItem(index,item.sku,item.priceDes,item.price)">
 						<text class="fontStyle30">{{item.cardTitle}}</text>
 						<view class="price">
@@ -62,7 +73,7 @@
 							</view>
 						</view>
 					</view>
-					<view class="cu-item pay"  style="margin: 0;padding: 0;">
+					<view class="cu-item pay" style="margin: 0;padding: 0;">
 						<view class="content">
 							<text class="fontStyle30">支付方式</text>
 							<view>
@@ -80,7 +91,27 @@
 				<view class="smLine"></view>
 			</view>
 
-			<view class=" cu-bar bto-bar bottomBar foot">
+
+			<!--体验卡  -->
+			<view class=" cu-bar bto-bar bottomBar foot" v-if="saleItem == 0">
+				<view class="bto-bar-header">
+					<view class="bto-bar-headerTitle" style="color: #E01212;">
+						￥
+						<text style="font-size: 40rpx;">{{couponData.payPrice}}</text>
+					</view>
+				</view>
+				<view class="paybtnGroup">
+					<view style="margin-right: 12rpx;">
+						<text class="shareText" @click="welcomeShare">分享免费领取</text>
+					</view>
+					<view class="bto-bar-commit" style="padding: 26rpx 0;border-radius: 100rpx;" @click="welcomePay">
+						立即支付
+					</view>
+				</view>
+
+			</view>
+			<!-- 月卡、年卡、季卡 -->
+			<view class=" cu-bar bto-bar bottomBar foot" v-else>
 				<view class="bto-bar-header">
 					<view class="bto-bar-headerTitle" style="color: #E01212;">
 						￥
@@ -93,11 +124,14 @@
 				<view class="bto-bar-commit" style="padding: 26rpx 0;border-radius: 100rpx;" @click="welcomePay">
 					立即支付
 				</view>
-		<!-- 		<view class="bto-bar-commit" style="padding: 26rpx 0;border-radius: 100rpx;" @click="toastTip">
-					立即支付
-				</view> -->
 			</view>
 
+		</view>
+		<view class="imageshadow clear" v-show="imageShadow">
+			<image src="../../static/welcome/neirong@2x.png" mode="" class="imageContent"></image>
+			<view class="shareClick" @click="closeShadow">
+				<image src="../../static/invite/wozhidao@2x.png" mode=""></image>
+			</view>
 		</view>
 	</view>
 
@@ -108,8 +142,11 @@
 	import {
 		CREATEORDER,
 		GOODSLIST,
-		BEFORODER
+		BEFORODER,
+		JSAPI,
+		SHARECARD
 	} from "../../utils/api.js"
+	var jweixin = require('jweixin-module')
 	export default {
 		data() {
 			return {
@@ -130,7 +167,7 @@
 						icon: "../../static/welcome/zhinengdaijie@2x.png"
 					}
 				],
-				saleItem: 0,
+				saleItem: 1,
 				getToken: "",
 				payData: "",
 				goodslist: "",
@@ -139,7 +176,8 @@
 				savePrice: '',
 				couponsInfo: '',
 				couponData: '',
-				couponId: ''
+				couponId: '',
+				imageShadow: false
 			}
 		},
 		onLoad() {
@@ -149,6 +187,8 @@
 			this.getCard()
 			// 优惠券
 			this.getCoupons()
+			// 获得JSSDK
+			this.getJSAPI()
 		},
 		computed: {
 			savePriceC: function() {
@@ -174,7 +214,7 @@
 				this.$request.url_request(BEFORODER, params, "POST", res => {
 					this.couponsInfo = JSON.parse(res.data).data.userCoupon
 					this.couponData = JSON.parse(res.data).data
-					if(JSON.parse(res.data).data.userCoupon){
+					if (JSON.parse(res.data).data.userCoupon) {
 						this.couponId = JSON.parse(res.data).data.userCoupon.id
 					} else {
 						this.couponId = ''
@@ -215,22 +255,85 @@
 						uni.setStorageSync('myToken', curToken)
 					} catch (e) {}
 				}
-				// uni.setStorage({
-				// 	key:'myToken',
-				// 	data:this.getQueryString('token')
-				// })
 			},
 			// 视频播放出错
 			videoErrorCallback() {},
+			// 周卡分享免费
+			welcomeShare() {
+				var that = this
+				this.imageShadow = true
+				// 分享到朋友
+				jweixin.onMenuShareAppMessage({
+					title: '【魔小秘】您的专属智能来电助理', // 分享标题
+					desc: '不想接，就挂断，来电助理帮你接听', // 分享描述
+					link: that.$url.shareURL, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+					imgUrl: 'https://ai-assist.oss-cn-beijing.aliyuncs.com/aac/mxmlogo.png', // 分享图标
+					type: 'link', // 分享类型,music、video或link，不填默认为link
+					dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+					success: function() {
+						// 用户点击了分享后执行的回调函数
+						const params = {}
+						that.$request.url_request(SHARECARD, params, 'POST', res => {
+							that.imageShadow = false
+							uni.reLaunch({
+								url: 'guideNew/guideNew'
+							})
+						}, err => {})
+					}
+				})
+				//分享到朋友圈
+				jweixin.onMenuShareTimeline({
+					title: '【魔小秘】您的专属智能来电助理', // 分享标题
+					link: that.$url.shareURL,
+					imgUrl: 'https://ai-assist.oss-cn-beijing.aliyuncs.com/aac/mxmlogo.png', // 分享图标
+					success: function() {
+						// 用户点击了分享后执行的回调函数
+						const params = {}
+						that.$request.url_request(SHARECARD, params, 'POST', res => {
+							that.imageShadow = false
+							uni.reLaunch({
+								url: 'guideNew/guideNew'
+							})
+						}, err => {})
+					}
+				})
+			},
+			// 关闭遮罩
+			closeShadow() {
+				this.imageShadow = false
+			},
+			// 获得JSAPI
+			getJSAPI() {
+				var that = this
+				const params = {}
+				this.$request.url_request(JSAPI, params, "GET", res => {
+					this.jsData = JSON.parse(res.data).data
+					console.log("得到的签名", this.jsData.signature)
+					jweixin.config({
+							appId: this.jsData.appId,
+							timestamp: this.jsData.timestamp,
+							nonceStr: this.jsData.nonceStr,
+							signature: this.jsData.signature,
+							jsApiList: ['updateAppMessageShareData', 'onMenuShareAppMessage', 'onMenuShareTimeline']
+						}),
+						jweixin.ready(function() {
+							console.log("接口处理成功")
+						}),
+						jweixin.error(function() {
+							console.log("接口处理失败")
+						})
+				}, err => {})
+			},
 			// 卡密
 			camilo() {
 				uni.navigateTo({
-					url:"../camilo/camilo?type=1"
+					url: "../camilo/camilo?type=1"
 				})
 			},
 			// 选择优惠
 			checkSaleItem(num, sku, priceD, total) {
 				this.saleItem = num
+				console.log('当前选择的id', this.saleItem)
 				this.vipSku = sku
 				this.getCoupons()
 				this.payPrice = priceD
@@ -272,8 +375,7 @@
 					function(res) {
 						if (res.err_msg == "get_brand_wcpay_request:ok") {
 							uni.reLaunch({
-								// url: 'guide/guide'
-								url:'guideNew/guideNew'
+								url: 'guideNew/guideNew'
 							})
 							// 使用以上方式判断前端返回,微信团队郑重提示：
 							//res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
@@ -281,7 +383,7 @@
 					}
 				)
 			},
-			toastTip(){
+			toastTip() {
 				uni.showModal({
 					content: '太火爆啦！魔小秘今日注册名额已超限！优惠将于明日00:00重新开启！',
 					showCancel: false
@@ -361,6 +463,13 @@
 		border-radius: 10rpx;
 	}
 
+	.shareText {
+		background: linear-gradient(to right, #D5A06E, #B18153);
+		-webkit-background-clip: text;
+		color: transparent;
+		font-size: 24rpx;
+	}
+
 	.myVideo {
 		width: 100%;
 		height: 292rpx;
@@ -387,41 +496,36 @@
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
+		/* flex-wrap: nowrap; */
+		overflow-x: scroll;
 	}
 
 	.saleItem {
+		flex-shrink: 0;
 		background-size: cover;
-		width: 200rpx;
-		height: 248rpx;
+		width: 193rpx;
+		height: 252rpx;
 		text-align: center;
 		padding: 30rpx;
+		margin: 0 10rpx;
 	}
 
 	.checkedBg {
-		background-image: url('~@/static/welcome/huiyuan@2x.png');
+		background-image: url('~@/static/welcome/yueka@2x.png');
 		position: relative;
 	}
 
-	.checkedBg:after {
-		content: "折扣";
-		font-size: 22rpx;
-		color: #FFFFFF;
-		width: 100rpx;
-		position: absolute;
-		left: 126rpx;
-		top: 14rpx;
-		transform: rotate(45deg);
-		-ms-transform: rotate(45deg);
-		/* IE 9 */
-		-moz-transform: rotate(45deg);
-		/* Firefox */
-		-webkit-transform: rotate(45deg);
-		/* Safari 和 Chrome */
-		-o-transform: rotate(45deg);
+	.uncheckedBg {
+		background-image: url('~@/static/welcome/yuka-wei@2x.png');
 	}
 
-	.uncheckedBg {
-		background-image: url('~@/static/welcome/huiyuan1@2x.png');
+	.checkedBg1 {
+		background-image: url('~@/static/welcome/huiyuan-2@2x.png');
+		position: relative;
+	}
+
+	.uncheckedBg1 {
+		background-image: url('~@/static/welcome/huiyuan-1@2x.png');
 	}
 
 	.price {
@@ -494,8 +598,63 @@
 		margin-right: 30rpx;
 	}
 
+	.shareBtn {
+		font-size: 26rpx;
+		color: #FFFFFF;
+		width: 200rpx;
+		height: 54rpx;
+		background: linear-gradient(-90deg, rgba(224, 186, 148, 1), rgba(239, 209, 179, 1));
+		border-radius: 27rpx;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin-right: 30rpx;
+	}
+
 	.bottomBar {
 		background-color: #FFFFFF;
 		padding: 30rpx 0;
+	}
+
+	.paybtnGroup {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+	}
+
+	.imageshadow {
+		width: 100%;
+		height: 100vh;
+		position: fixed;
+		left: 0;
+		top: 0;
+		z-index: 1999;
+		background-color: rgba(0, 0, 0, 0.8);
+	}
+
+	.clear:after {
+		content: '';
+		display: block;
+		visibility: hidden;
+		clear: both;
+	}
+
+	.imageContent {
+		width: 590rpx;
+		height: 374rpx;
+		float: right;
+	}
+
+	.shareClick>image {
+		width: 241rpx;
+		height: 86rpx;
+	}
+
+	.shareClick {
+		width: 241rpx;
+		height: 86rpx;
+		float: right;
+		margin-top: 50rpx;
+		margin-right: 180rpx;
 	}
 </style>

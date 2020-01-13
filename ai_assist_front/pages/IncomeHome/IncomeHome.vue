@@ -83,6 +83,7 @@
 							</view>
 						</view>
 					</view>
+					<!--加载更多 -->
 					<uni-load-more :status="todayText" v-if="itemData.length > 9"></uni-load-more>
 				</view>
 			</view>

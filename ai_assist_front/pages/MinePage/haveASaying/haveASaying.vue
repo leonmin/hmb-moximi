@@ -54,38 +54,38 @@
 			return {
 				imgList: [],
 				adviceText: '',
-				satisfaction: 5, //满意度
+				satisfaction: 4, //满意度
 				newList: '',
 				imgPath: '',
 				uploadPath: '',
 				evaluationData: [{
 						uncheck: '../../../static/haveAWord/henbuman@2x.png',
 						checked: '../../../static/haveAWord/henbuman1@2x.png',
-						satisfaction: 1,
+						satisfaction: 0,
 						text: '很不满'
 					},
 					{
 						uncheck: '../../../static/haveAWord/buman@2x.png',
 						checked: '../../../static/haveAWord/buman1@2x.png',
-						satisfaction: 2,
+						satisfaction: 1,
 						text: '不满'
 					},
 					{
 						uncheck: '../../../static/haveAWord/yiban@2x.png',
 						checked: '../../../static/haveAWord/yiban1@2x.png',
-						satisfaction: 3,
+						satisfaction: 2,
 						text: '一般'
 					},
 					{
 						uncheck: '../../../static/haveAWord/manyi@2x.png',
 						checked: '../../../static/haveAWord/manyi1@2x.png',
-						satisfaction: 4,
+						satisfaction: 3,
 						text: '满意'
 					},
 					{
 						uncheck: '../../../static/haveAWord/henmanyi1@2x.png',
 						checked: '../../../static/haveAWord/henmanyi@2x.png',
-						satisfaction: 5,
+						satisfaction: 4,
 						text: '很满意'
 					}
 				]
