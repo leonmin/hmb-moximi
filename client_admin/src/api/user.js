@@ -115,3 +115,21 @@ export function userDetail(data) {
     params: data
   })
 }
+
+// 获取合伙人配置
+export function partnerProfitConfig(data) {
+  return request({
+    url: '/admin/user/partnerProfitConfig',
+    method: 'get',
+    params: data
+  })
+}
+
+// 修改合伙人配置
+export function updatePartnerProfitConfig(data) {
+  return request({
+    url: 'admin/user/updatePartnerProfitConfig',
+    method: 'post',
+    params: data
+  })
+}
