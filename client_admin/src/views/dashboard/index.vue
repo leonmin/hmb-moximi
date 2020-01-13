@@ -59,6 +59,7 @@
           <span style="cursor: pointer;color: #409EFF;" @click="look(scope.row)">{{ scope.row.inviteUserCount }}</span>
         </template>
       </el-table-column>
+<!--      <el-table-column prop="inviteUserCount" label="下级用户数" min-width="150" show-overflow-tooltip></el-table-column>-->
       <el-table-column prop="inviteUserCount" label="设置用户类型" min-width="110" show-overflow-tooltip>
         <template v-slot="scope">
           <span style="cursor: pointer;color: #409EFF;" @click="setPartner(scope.row)">{{ scope.row.partner===0 || scope.row.partner===null?'设置为合伙人':'取消合伙人' }}</span>

@@ -32,6 +32,7 @@
             <el-radio v-model="ruleForm.couponCardType" label="0" @change="compute(100001)">月卡</el-radio>
             <el-radio v-model="ruleForm.couponCardType" label="1" @change="compute(100002)">季卡</el-radio>
             <el-radio v-model="ruleForm.couponCardType" label="2" @change="compute(100003)">年卡</el-radio>
+<!--            <el-radio v-model="ruleForm.couponCardType" label="3" @change="compute(100004)">周卡</el-radio>-->
           </el-form-item>
           <el-form-item v-show="discount!==null && discount!==''" label="优惠后会员卡价格">
             <span>{{ discount===null || discount===''?null:discount+'元' }}</span>

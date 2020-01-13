@@ -206,6 +206,9 @@ export default {
       } else if (vipType === 100003) {
         result = '年卡会员'
         return result
+      } else if (vipType === 100004) {
+        result = '周卡会员'
+        return result
       }
       return result
     },

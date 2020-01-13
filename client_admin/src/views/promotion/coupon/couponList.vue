@@ -160,6 +160,8 @@ export default {
         return '季卡'
       } else if (data === 2 || data === '2') {
         return '年卡'
+      } else if (data === 3 || data === '3') {
+        return '周卡'
       }
     },
     status: function(data) {
