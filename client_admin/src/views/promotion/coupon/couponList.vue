@@ -60,6 +60,12 @@
         show-overflow-tooltip
       />
       <el-table-column
+          prop="enableDays"
+          label="有效天数(天)"
+          min-width="80"
+          show-overflow-tooltip
+      />
+      <el-table-column
         prop="validity"
         label="有效期"
         min-width="160"
@@ -161,7 +167,7 @@ export default {
       } else if (data === 2 || data === '2') {
         return '年卡'
       } else if (data === 3 || data === '3') {
-        return '周卡'
+        return '通用'
       }
     },
     status: function(data) {

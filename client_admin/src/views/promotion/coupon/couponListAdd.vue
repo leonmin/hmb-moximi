@@ -14,6 +14,11 @@
               <template slot="append">%</template>
             </el-input>
           </el-form-item>
+          <el-form-item label="有效天数" prop="enableDays">
+            <el-input v-model="ruleForm.enableDays" placeholder="请输入有效天数" style="max-width: 300px" oninput="this.value=this.value.replace(/\D/g,'')">
+              <template slot="append">天</template>
+            </el-input>
+          </el-form-item>
           <el-form-item label="优惠券有效期" prop="beginTime">
             <el-date-picker
               v-model="date"
@@ -32,10 +37,11 @@
             <el-radio v-model="ruleForm.couponCardType" label="0" @change="compute(100001)">月卡</el-radio>
             <el-radio v-model="ruleForm.couponCardType" label="1" @change="compute(100002)">季卡</el-radio>
             <el-radio v-model="ruleForm.couponCardType" label="2" @change="compute(100003)">年卡</el-radio>
-<!--            <el-radio v-model="ruleForm.couponCardType" label="3" @change="compute(100004)">周卡</el-radio>-->
+            <el-radio v-model="ruleForm.couponCardType" label="3" @change="compute(0)">通用</el-radio>
+            <!--            <el-radio v-model="ruleForm.couponCardType" label="3" @change="compute(100004)">周卡</el-radio>-->
           </el-form-item>
           <el-form-item v-show="discount!==null && discount!==''" label="优惠后会员卡价格">
-            <span>{{ discount===null || discount===''?null:discount+'元' }}</span>
+            <span>{{ discount===null || discount===''?null:discount }}</span>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" :loading="btnLoading" @click="submitForm('ruleForm')">确认</el-button>
@@ -58,7 +64,8 @@ export default {
         endTime: '',
         couponCardType: '0',
         cardSku: '',
-        enable: true
+        enable: true,
+        enableDays: ''
       },
       pickerOptionsStart: {
         disabledDate(time) {
@@ -77,6 +84,9 @@ export default {
         ],
         couponCardType: [
           { required: true, message: '请选择适用范围', trigger: 'change' }
+        ],
+        enableDays: [
+          { required: true, message: '请选择有效天数', trigger: 'change' }
         ]
       },
       discount: '',
