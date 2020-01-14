@@ -107,6 +107,14 @@
                 prop="orderNo"
                 label="订单编号"
               />
+              <el-table-column
+                  prop="beginTime"
+                  label="开始时间"
+              />
+              <el-table-column
+                  prop="endTime"
+                  label="结束时间"
+              />
             </el-table>
             <!--分页-->
             <el-pagination

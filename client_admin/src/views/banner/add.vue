@@ -28,7 +28,7 @@
             <el-input v-model="ruleForm.bannerType" />
           </el-form-item>
           <el-form-item style="float: right;margin-top: 20px">
-            <el-button type="primary" @click="submitForm('ruleForm')">确定</el-button>
+            <el-button type="primary" :loading="btnLoading" @click="submitForm('ruleForm')">确定</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -41,17 +41,19 @@ import { addOrUpdateBanner } from '@/api/banner'
 export default {
   filters: {
   },
-  props: ['show', 'row'],
+  props: ['show', 'row', 'isEdit'],
   data() {
     return {
       visible: this.show,
       loading: false,
+      btnLoading: false,
       ruleForm: {
         title: '',
         memo: '',
         url: '',
         bannerUrl: '',
-        bannerType: ''
+        bannerType: '',
+        id: ''
       },
       rules: {
         title: [
@@ -101,6 +103,7 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          this.btnLoading = true
           addOrUpdateBanner(this.ruleForm).then(res => {
             if (res.code === 0) {
               this.$message.success('操作成功!')
@@ -108,12 +111,26 @@ export default {
               this.$emit('success')
             } else {
               this.$message.error(res.msg)
+              this.btnLoading = false
             }
           })
         }
       })
     },
     openDialog() {
+      this.btnLoading = false
+      if (this.isEdit) {
+        this.ruleForm = this.row
+      } else {
+        this.ruleForm = {
+          title: '',
+          memo: '',
+          url: '',
+          bannerUrl: '',
+          bannerType: '',
+          id: ''
+        }
+      }
     }
   }
 }
