@@ -121,13 +121,15 @@ export default {
       }
     },
     submitForm(formName) {
-      if (this.ruleForm.couponCardType === 0 || this.ruleForm.couponCardType === '0') {
-        this.ruleForm.cardSku = 100001
-      } else if (this.ruleForm.couponCardType === 1 || this.ruleForm.couponCardType === '1') {
-        this.ruleForm.cardSku = 100002
-      } else {
-        this.ruleForm.cardSku = 100003
-      }
+      // if (this.ruleForm.couponCardType === 0 || this.ruleForm.couponCardType === '0') {
+      //   this.ruleForm.cardSku = 100001
+      // } else if (this.ruleForm.couponCardType === 1 || this.ruleForm.couponCardType === '1') {
+      //   this.ruleForm.cardSku = 100002
+      // } else if (this.ruleForm.couponCardType === 2 || this.ruleForm.couponCardType === '2') {
+      //   this.ruleForm.cardSku = 100003
+      // } else if (this.ruleForm.couponCardType === 3 || this.ruleForm.couponCardType === '3') {
+      //   this.ruleForm.cardSku = 0
+      // }
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.btnLoading = true

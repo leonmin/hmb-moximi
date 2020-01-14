@@ -312,6 +312,26 @@ export const asyncRoutes = [
       }
     ]
   },
+  // 用户反馈
+  {
+    path: '/banner',
+    component: Layout,
+    redirect: '/banner/index',
+    name: 'banner',
+    meta: {
+      title: 'banner管理',
+      icon: 'dashboard',
+      roles: ['admin']
+    },
+    children: [
+      {
+        path: 'index',
+        name: 'index',
+        component: () => import('@/views/banner/index'),
+        meta: { title: 'banner管理' }
+      }
+    ]
+  },
   // {
   //   path: '/tenant',
   //   component: Layout,
