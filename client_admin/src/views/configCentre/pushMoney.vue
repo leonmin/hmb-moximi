@@ -37,6 +37,17 @@
             <el-button type="primary" class="save" :loading="btnLoading" @click="submitForm3('ruleForm3')">确定</el-button>
           </el-form>
         </el-tab-pane>
+        <el-tab-pane label="用户提现金额限制" name="four">
+          <el-form ref="ruleForm4" :model="ruleForm4" label-width="150px" :rules="rules4" style="margin-top: 10px">
+            <el-form-item label="合伙人提现限制" class="form-item" prop="cash_out_limit_partner">
+              <el-input v-model="ruleForm4.cash_out_limit_partner" placeholder="请输入" oninput="this.value=this.value.replace(/\D/g,'')" />
+            </el-form-item>
+            <el-form-item label="普通用户提现限制" class="form-item" prop="cash_out_limit_user">
+              <el-input v-model="ruleForm4.cash_out_limit_user" placeholder="请输入" oninput="this.value=this.value.replace(/\D/g,'')" />
+            </el-form-item>
+            <el-button type="primary" class="save" :loading="btnLoading" @click="submitForm4('ruleForm4')">确定</el-button>
+          </el-form>
+        </el-tab-pane>
       </el-tabs>
     </div>
   </div>
@@ -63,6 +74,10 @@ export default {
       ruleForm3: {
         award_coupon: ''
       },
+      ruleForm4: {
+        cash_out_limit_partner: '',
+        cash_out_limit_user: ''
+      },
       rules: { // 正则
         ticheng: [
           { required: true, message: '请设置续费提成比例!', trigger: 'blur' },
@@ -82,6 +97,14 @@ export default {
       rules3: { // 正则
         award_coupon: [
           { required: true, message: '请输入普通邀请优惠券!', trigger: 'blur' }
+        ]
+      },
+      rules4: { // 正则
+        cash_out_limit_partner: [
+          { required: true, message: '请输入!', trigger: 'blur' }
+        ],
+        cash_out_limit_user: [
+          { required: true, message: '请输入!', trigger: 'blur' }
         ]
       }
     }
@@ -154,6 +177,21 @@ export default {
         }
       })
     },
+    // 保存4
+    submitForm4(formName, index) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.btnLoading = true
+          updateTicheng(this.ruleForm4).then(res => {
+            if (res.code === 0 || res.code === '0') {
+              this.$message.success('操作成功!')
+              this.getData()
+            }
+            this.btnLoading = false
+          })
+        }
+      })
+    },
     // tab切换
     handleClick(tab, event) {
     },
@@ -165,7 +203,10 @@ export default {
           this.ruleForm.ticheng = res.data.ticheng
           this.ruleForm2.hehuoren_first_time_ticheng = res.data.hehuoren_first_time_ticheng
           this.ruleForm2.hehuoren_xufei_ticheng = res.data.hehuoren_xufei_ticheng
-          this.ruleForm3.award_coupon = res.data.award_coupon
+          this.ruleForm3.award_coupon = res.data.award_COUPON_ID
+          /* 4*/
+          this.ruleForm4.cash_out_limit_partner = res.data.cash_out_limit_partner
+          this.ruleForm4.CASH_OUT_LIMIT_USER = res.data.CASH_OUT_LIMIT_USER
           this.loading = false
         }
       })

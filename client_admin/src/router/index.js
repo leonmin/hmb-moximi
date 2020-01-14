@@ -209,6 +209,12 @@ export const asyncRoutes = [
         name: 'pushMoney',
         component: () => import('@/views/configCentre/pushMoney'),
         meta: { title: '提成设置' }
+      },
+      {
+        path: 'couponGiveOut',
+        name: 'couponGiveOut',
+        component: () => import('@/views/configCentre/couponGiveOut'),
+        meta: { title: '优惠券发放配置' }
       }
     ]
   },
