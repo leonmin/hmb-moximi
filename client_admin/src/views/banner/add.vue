@@ -12,19 +12,19 @@
     >
       <div v-loading="loading" style="overflow: hidden">
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="100px" class="demo-ruleForm">
-          <el-form-item label="标题" prop="title">
+          <el-form-item label="标题">
             <el-input v-model="ruleForm.title" />
           </el-form-item>
-          <el-form-item label="备注" prop="memo">
+          <el-form-item label="备注">
             <el-input v-model="ruleForm.memo" />
           </el-form-item>
-          <el-form-item label="跳转地址" prop="url">
+          <el-form-item label="跳转地址">
             <el-input v-model="ruleForm.url" />
           </el-form-item>
-          <el-form-item label="图片地址" prop="bannerUrl">
+          <el-form-item label="图片地址">
             <el-input v-model="ruleForm.bannerUrl" />
           </el-form-item>
-          <el-form-item label="类型" prop="bannerType">
+          <el-form-item label="类型">
             <el-input v-model="ruleForm.bannerType" />
           </el-form-item>
           <el-form-item style="float: right;margin-top: 20px">
