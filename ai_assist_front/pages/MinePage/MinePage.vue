@@ -161,6 +161,20 @@
 						 mode=""></image>
 					</view>
 				</view>
+				
+				<view class="mineList-item" @click="WxService">
+					<view class="listItem-header">
+						<image style="width: 36rpx;height: 36rpx;" class="listItem-headerIcon" src="../../static/mine/weixinkefe@2x.png" mode=""></image>
+						<view class="listItem-headerTitle">
+							微信客服
+						</view>
+					</view>
+				
+					<view class="listItem-footer">
+						<image style="height: 22rpx; width: 12rpx;margin-left: 18rpx;" class="listItem-footerIcon" src="../../static/mine/VIPPage/jinru@2x.png"
+						 mode=""></image>
+					</view>
+				</view>
 			</view>
 			<view class="imageshadow" v-if="imageshow">
 				<view class="shadowItem">
@@ -347,6 +361,12 @@
 			helpCenter() {
 				uni.navigateTo({
 					url: '../helpCenter/helpCenter'
+				})
+			},
+			// 微信客服
+			WxService(){
+				uni.navigateTo({
+					url:'WxService/WxService'
 				})
 			},
 			aaa(){
@@ -576,7 +596,7 @@
 		width: 100%;
 		background-color: rgba(0, 0, 0, 0.8);
 		height: 100vh;
-		position: absolute;
+		position: fixed;
 		z-index: 999;
 		top: 0;
 		left: 0;

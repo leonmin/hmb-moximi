@@ -546,6 +546,24 @@
 				}
 			}
         }
+        ,{
+            "path" : "pages/MinePage/WxService/WxService",
+            "style" : {
+				"navigationBarTitleText":"微信客服",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/commonWebView/commonWebView",
+            "style" : {
+				"navigationBarTitleText":"链接",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

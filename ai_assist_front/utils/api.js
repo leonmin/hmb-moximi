@@ -1,5 +1,5 @@
-const API = "";
-// const API = "/api";
+// const API = "";
+const API = "/api";
 // 测试
 export const TEST =API+"/getWangYiNews";
 // 绑定手机号
@@ -12,6 +12,10 @@ export const CALLRECORDLISTTODAY =API+"/app/chat/callRecordListToday";
 export const CALLRECORDLIST =API+"/app/chat/callRecordList";
 // 获取接听
 export const SETTINGURL =API+"/app/chat/getSettingPageUrl";
+// 首页会员状态
+export const SHOWINDEXTIP =API+"/app/index/showIndexTips";
+// 首页获取优惠券
+export const INDEXCOUPON =API+"/app/index/getCoupon";
 
 
 /**

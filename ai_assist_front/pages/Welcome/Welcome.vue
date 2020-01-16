@@ -260,6 +260,7 @@
 			videoErrorCallback() {},
 			// 周卡分享免费
 			welcomeShare() {
+				uni.report('welcomeShare', '分享领取')
 				var that = this
 				this.imageShadow = true
 				// 分享到朋友

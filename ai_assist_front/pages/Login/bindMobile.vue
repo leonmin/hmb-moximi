@@ -126,6 +126,10 @@
 							{
 								img: '../../static/loginIntroduce/licai@2x.png',
 								name: '贷款理财'
+							},
+							{
+								img: '../../static/loginIntroduce/cuishou@2x.png',
+								name: '催收骚扰'
 							}
 						]
 					},
@@ -511,10 +515,11 @@
 	}
 
 	.iconGroup {
-		margin: 30rpx 0;
+		width: 550rpx;
+		margin: 30rpx auto;
 		display: flex;
 		flex-direction: row;
-		justify-content: center;
+		justify-content: space-between;
 		align-items: center;
 	}
 
@@ -522,7 +527,7 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		margin: 0 45rpx;
+		/* margin: 0 35rpx; */
 	}
 
 	/* 推送示例 */

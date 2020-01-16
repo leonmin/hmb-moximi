@@ -59,8 +59,12 @@
 				</view>
 			</view>
 		</view>
-		<view class="shareBtn">
+<!-- 		<view class="shareBtn">
 			<button @click="share">分享给好友</button>
+		</view> -->
+		<view class="shareBtn">
+				<button v-clipboard:copy="infoData.inviteUrl2" v-clipboard:success="(type) => onCopyResult('success')"
+							 v-clipboard:error="(type) => onCopyResult('error')">复制链接</button>
 		</view>
 		<view class="imageshadow" v-if="imageshow">
 			<view class="shadowItem">
@@ -255,7 +259,7 @@
 		padding: 40rpx 30rpx;
 		color: #FFFFFF;
 		background-size: cover;
-		background-image: url(~@/static/partner/beijing@2x.png);
+		background-image: url(~@/static/partner/beijing@2x.jpg);
 	}
 
 	.titleBox {
