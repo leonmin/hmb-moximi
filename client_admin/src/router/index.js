@@ -312,7 +312,7 @@ export const asyncRoutes = [
       }
     ]
   },
-  // 用户反馈
+  // banner管理
   {
     path: '/banner',
     component: Layout,
@@ -329,6 +329,32 @@ export const asyncRoutes = [
         name: 'index',
         component: () => import('@/views/banner/index'),
         meta: { title: 'banner管理' }
+      }
+    ]
+  },
+  // 数据统计
+  {
+    path: '/dataStatistics',
+    component: Layout,
+    redirect: '/dataStatistics/dayOrder',
+    name: 'dataStatistics',
+    meta: {
+      title: '数据统计',
+      icon: 'dashboard',
+      roles: ['admin']
+    },
+    children: [
+      {
+        path: 'dayOrder',
+        name: 'dayOrder',
+        component: () => import('@/views/dataStatistics/dayOrder'),
+        meta: { title: '日订单统计' }
+      },
+      {
+        path: 'statisticsMap',
+        name: 'statisticsMap',
+        component: () => import('@/views/dataStatistics/statisticsMap'),
+        meta: { title: '数据统计' }
       }
     ]
   },
