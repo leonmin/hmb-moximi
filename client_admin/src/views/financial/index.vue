@@ -44,8 +44,8 @@
           <span>{{ scope.row.applyStatus | applyStatus }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="yzhMsg" label="提现状态" min-width="150" show-overflow-tooltip/>
-      <el-table-column prop="yzhDetailsMsg" label="状态明细" min-width="150" show-overflow-tooltip/>
+      <el-table-column prop="yzhMsg" label="提现状态" min-width="150" show-overflow-tooltip />
+      <el-table-column prop="yzhDetailsMsg" label="状态明细" min-width="150" show-overflow-tooltip />
       <el-table-column label="操作" min-width="150" show-overflow-tooltip>
         <template slot-scope="scope">
           <span style="cursor: pointer;color: #409EFF;" @click="lookDetail(scope.row)">{{ scope.row.applyStatus===0?'审核':'查看详情' }}</span>
@@ -78,6 +78,8 @@ export default {
         return '通过审核'
       } else if (data === 2 || data === '2') {
         return '拒绝审核'
+      } else if (data === 15 || data === '15') {
+        return '审核取消'
       }
     },
     yzhStatus: function(data) {
@@ -87,7 +89,7 @@ export default {
         return '下单成功，等待打款'
       } else if (data === 3 || data === '3') {
         return '打款成功'
-      } else if(data === 4 || data === '4') {
+      } else if (data === 4 || data === '4') {
         return '打款失败'
       }
     },
