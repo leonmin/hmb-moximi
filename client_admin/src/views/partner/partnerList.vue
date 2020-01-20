@@ -1,6 +1,6 @@
 <template>
   <div v-loading="loading" class="main">
-<!--    <div class="title">合伙人列表</div>-->
+    <!--    <div class="title">合伙人列表</div>-->
     <el-form :inline="true" :model="searchData" class="demo-form-inline" label-width="80px" style="margin-top: 30px">
       <el-form-item label="关键字" style="margin-left: 20px">
         <el-input v-model="searchData.key" placeholder="用户名\手机号" />
@@ -22,18 +22,19 @@
       <el-table-column prop="addTime" label="注册时间" min-width="160" show-overflow-tooltip />
       <el-table-column prop="partnerBalance" label="合伙人余额(元)" min-width="120" show-overflow-tooltip>
         <template v-slot="scope">
-          <span>{{scope.row.partnerBalance | formatMoney}}</span>
+          <span>{{ scope.row.partnerBalance | formatMoney }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="royaltyCount" label="提成累计(元)" min-width="120" show-overflow-tooltip>
         <template v-slot="scope">
-          <span>{{scope.row.royaltyCount | formatMoney}}</span>
+          <span>{{ scope.row.royaltyCount | formatMoney }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="subUser" label="下级用户数" min-width="120" show-overflow-tooltip />
       <el-table-column label="操作" show-overflow-tooltip width="150">
         <template slot-scope="scope">
           <span style="cursor: pointer;color: #409EFF;margin-right: 15px" @click="lookDetail(scope.row)">查看</span>
+          <span style="cursor: pointer;color: #409EFF;margin-right: 15px" @click="partnerData(scope.row)">数据统计</span>
         </template>
       </el-table-column>
     </el-table>
@@ -106,8 +107,13 @@ export default {
       this.$router.push({
         path: 'partnerDetail'
       })
+      console.log(row)
       const row2 = JSON.stringify(row)
       sessionStorage.setItem('partnerRow', row2)
+    },
+    // 数据统计
+    partnerData(row) {
+      this.$router.push({ path: '/partner/partnerData', query: { mobile: row.mobile }})
     },
     // 当前页码
     handleSizeChange(val) {

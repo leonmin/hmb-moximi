@@ -255,6 +255,13 @@ export const asyncRoutes = [
         component: () => import('@/views/partner/partnerBelowList'),
         meta: { title: '合伙人下级用户明细' },
         hidden: true
+      },
+      {
+        path: 'partnerData',
+        name: 'partnerData',
+        component: () => import('@/views/partnerChart/partnerData'),
+        meta: { title: '合伙人下级统计' },
+        hidden: true
       }
     ]
   },
@@ -355,9 +362,22 @@ export const asyncRoutes = [
         name: 'statisticsMap',
         component: () => import('@/views/dataStatistics/statisticsMap'),
         meta: { title: '数据统计' }
+      },
+      {
+        path: 'dataReport',
+        name: 'dataReport',
+        component: () => import('@/views/dataStatistics/dataReport'),
+        meta: { title: '数据报告' }
+      },
+      {
+        path: 'financialStat',
+        name: 'financialStat',
+        component: () => import('@/views/dataStatistics/financialStat'),
+        meta: { title: '财务报表' }
       }
     ]
   },
+
   // {
   //   path: '/tenant',
   //   component: Layout,

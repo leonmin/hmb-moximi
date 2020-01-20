@@ -17,3 +17,13 @@ export function statisticsS3(data) {
     params: data
   })
 }
+
+// 数据报告
+export function dataMonth(data) {
+  return request({
+    url: '/admin/statistics/month',
+    method: 'get',
+    params: data
+  })
+}
+

@@ -19,6 +19,14 @@
           <div class="lineContent1">提成累计(元)</div>
           <div class="lineContent2">{{ partnerRow.royaltyCount | formatMoney }}</div>
         </div>
+        <div class="line">
+          <div class="lineContent1">提现中</div>
+          <div class="lineContent2">{{partnerRow.partnerApplyBalance | formatMoney }}</div>
+          <div class="lineContent1"></div>
+          <div class="lineContent2"></div>
+          <div class="lineContent1"></div>
+          <div class="lineContent2"></div>
+        </div>
       </div>
     </el-card>
     <el-card class="box-card" shadow="hover">

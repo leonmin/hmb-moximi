@@ -21,20 +21,39 @@
           <div class="lineContent1">提现账号</div>
           <div class="lineContent2">{{ checkData.alipayAccount }}</div>
           <div class="lineContent1">提现金额(元)</div>
-          <div class="lineContent2">{{ checkData.cash}}</div>
+          <div class="lineContent2">{{ checkData.cash }}</div>
         </div>
         <div class="line">
           <div class="lineContent1">钱包余额(元)</div>
           <div class="lineContent2">{{ checkData.balance |formatMoney }}</div>
           <div class="lineContent1">审批状态</div>
           <div class="lineContent2">{{ checkStatus }}</div>
-          <div class="lineContent1" />
-          <div class="lineContent2" />
+          <div class="lineContent1">打款状态</div>
+          <div class="lineContent2">{{ yzhStatus }}</div>
         </div>
       </div>
     </el-card>
     <!--      分割线-->
     <div class="deliver" />
+    <!--    待审核按钮-->
+    <div v-if="checkData.applyStatus === 0" class="checkBtn">
+      <el-button type="primary" @click="approved(1)">通过</el-button>
+      <el-button type="default" @click="approved(2)">拒绝</el-button>
+    </div>
+    <!--    查看审核备注-->
+    <div v-if="checkData.memo!==null && checkData.memo!==''" style="overflow: hidden">
+      <div style="float: left;margin-right: 20px;margin-bottom: 10px">备注:</div>
+      <el-input v-model="memo" type="textarea" rows="4" style="float: left;width: 95%" disabled />
+    </div>
+    <!--    审核失败备注-->
+    <el-dialog title="审核备注" :visible.sync="dialogTableVisible">
+      <span style="margin: 10px 0;display: inline-block;">审核备注:</span>
+      <el-input v-model="memo" clearable />
+      <div style="margin: 10px 0;text-align: center">
+        <el-button type="primary" @click="comfirmCheck">确认</el-button>
+        <el-button type="default" @click="dialogTableVisible = false">取消</el-button>
+      </div>
+    </el-dialog>
     <!--          页面标题-->
     <div class="pageTitle">
       <p>提现历史记录</p>
@@ -134,25 +153,6 @@
       </div>
     </el-card>
     <div class="deliver" />
-    <!--    待审核按钮-->
-    <div v-if="checkData.applyStatus === 0" class="checkBtn">
-      <el-button type="primary" @click="approved(1)">通过</el-button>
-      <el-button type="default" @click="approved(2)">拒绝</el-button>
-    </div>
-    <!--    查看审核备注-->
-    <div v-if="checkData.memo!==null && checkData.memo!==''" style="overflow: hidden">
-      <div style="float: left;margin-right: 20px;margin-bottom: 10px">备注:</div>
-      <el-input v-model="memo" type="textarea" rows="4" style="float: left;width: 95%" disabled />
-    </div>
-    <!--    审核失败备注-->
-    <el-dialog title="审核备注" :visible.sync="dialogTableVisible">
-      <span style="margin: 10px 0;display: inline-block;">审核备注:</span>
-      <el-input v-model="memo" clearable />
-      <div style="margin: 10px 0;text-align: center">
-        <el-button type="primary" @click="comfirmCheck">确认</el-button>
-        <el-button type="default" @click="dialogTableVisible = false">取消</el-button>
-      </div>
-    </el-dialog>
   </div>
 </template>
 
@@ -205,6 +205,24 @@ export default {
         return checkStatus
       } else if (status === 2) {
         checkStatus = '拒绝审核'
+        return checkStatus
+      }
+      return checkStatus
+    },
+    yzhStatus: function() {
+      var status = this.checkData.yzhStatus
+      var checkStatus = ''
+      if (status === 1) {
+        checkStatus = '下单成功'
+        return checkStatus
+      } else if (status === 2) {
+        checkStatus = '下单成功，等待打款'
+        return checkStatus
+      } else if (status === 3) {
+        checkStatus = '打款成功'
+        return checkStatus
+      }else if (status === 4) {
+        checkStatus = '打款失败'
         return checkStatus
       }
       return checkStatus

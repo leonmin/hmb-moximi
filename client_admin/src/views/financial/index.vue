@@ -31,6 +31,8 @@
         </template>
       </el-table-column>
       <el-table-column prop="alipayAccount" label="提现账号" min-width="140" show-overflow-tooltip />
+      <el-table-column prop="realName" label="提现人姓名" min-width="140" show-overflow-tooltip />
+      <el-table-column prop="idCard" label="提现人身份证" min-width="140" show-overflow-tooltip />
       <el-table-column prop="cash" label="提现金额(元)" min-width="100" show-overflow-tooltip>
         <template v-slot="scope">
           <span>{{ scope.row.cash | formatMoney }}</span>
@@ -42,6 +44,8 @@
           <span>{{ scope.row.applyStatus | applyStatus }}</span>
         </template>
       </el-table-column>
+      <el-table-column prop="yzhMsg" label="提现状态" min-width="150" show-overflow-tooltip/>
+      <el-table-column prop="yzhDetailsMsg" label="状态明细" min-width="150" show-overflow-tooltip/>
       <el-table-column label="操作" min-width="150" show-overflow-tooltip>
         <template slot-scope="scope">
           <span style="cursor: pointer;color: #409EFF;" @click="lookDetail(scope.row)">{{ scope.row.applyStatus===0?'审核':'查看详情' }}</span>
@@ -74,6 +78,17 @@ export default {
         return '通过审核'
       } else if (data === 2 || data === '2') {
         return '拒绝审核'
+      }
+    },
+    yzhStatus: function(data) {
+      if (data === 1 || data === '1') {
+        return '下单成功'
+      } else if (data === 2 || data === '2') {
+        return '下单成功，等待打款'
+      } else if (data === 3 || data === '3') {
+        return '打款成功'
+      } else if(data === 4 || data === '4') {
+        return '打款失败'
       }
     },
     partner: function(data) {

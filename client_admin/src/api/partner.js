@@ -35,3 +35,12 @@ export function partnerDetail(data) {
     params: data
   })
 }
+
+// 合伙人数据
+export function sprtner1(data) {
+  return request({
+    url: '/admin/statistics/sprtner1',
+    method: 'get',
+    params: data
+  })
+}
