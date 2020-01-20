@@ -206,7 +206,7 @@ export default {
           this.ruleForm3.award_coupon = res.data.award_COUPON_ID
           /* 4*/
           this.ruleForm4.cash_out_limit_partner = res.data.cash_out_limit_partner
-          this.ruleForm4.CASH_OUT_LIMIT_USER = res.data.CASH_OUT_LIMIT_USER
+          this.ruleForm4.cash_out_limit_user = res.data.cash_out_limit_user
           this.loading = false
         }
       })
