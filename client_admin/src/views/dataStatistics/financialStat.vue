@@ -59,7 +59,7 @@ export default {
           return time.getTime() > new Date(new Date().toLocaleDateString()).getTime()
         }
       },
-      legend: ['收入', '返佣', '提现', '成本支出'],
+      legend: ['收入', '返佣', '提现'],
       xAxis: [],
       series: []
     }
@@ -106,13 +106,13 @@ export default {
         var income = [] // 收入
         var commission = [] // 返佣
         var withdrawal = [] // 提现
-        var spending = [] // 成本支出
+        // var spending = [] // 成本支出
         for (let i = 0; i < res.data.length; i++) {
           this.xAxis.push(this.dealDate(res.data[i].begin))
-          income.push(res.data[i].sumPayPrice)
-          commission.push(res.data[i].orderWaitPay)
-          withdrawal.push(res.data[i].orderWeekShare)
-          spending.push(res.data[i].orderAllWeek - res.data[i].orderWeekShare)
+          income.push(res.data[i].sumPayPrice / 100)
+          commission.push(res.data[i].sumPayProfit / 100)
+          withdrawal.push(res.data[i].sumCashOut / 100)
+          // spending.push(res.data[i].orderAllWeek - res.data[i].orderWeekShare)
           this.series = [
             {
               name: '收入',
@@ -131,13 +131,13 @@ export default {
               type: 'bar',
               color: '#00AA72',
               data: withdrawal
-            },
-            {
-              name: '成本支出',
-              type: 'bar',
-              color: '#6A48D7',
-              data: spending
             }
+            // {
+            //   name: '成本支出',
+            //   type: 'bar',
+            //   color: '#6A48D7',
+            //   data: spending
+            // }
           ]
         }
         // this.xAxis

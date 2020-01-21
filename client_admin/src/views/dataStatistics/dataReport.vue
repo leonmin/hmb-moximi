@@ -13,7 +13,10 @@
       align="right"
       @change="timeChange"
     />
-    <div id="myChart" />
+    <div id="myChartPay" />
+    <div id="myChartCard" />
+    <div id="myChartRenewal" />
+    <div id="myChartWeekCard" />
   </div>
 </template>
 
@@ -59,9 +62,11 @@ export default {
           return time.getTime() > new Date(new Date().toLocaleDateString()).getTime()
         }
       },
-      legend: ['已支付', '等待支付', '免费周卡', '周卡', '月卡', '季卡', '年卡', '必应', '过期续费', '非过期续费', '当日累积过期'],
       xAxis: [],
-      series: []
+      series: [],
+      paySeries: [],
+      cardSeries: [],
+      renewalSeries: []
     }
   },
   mounted() {
@@ -111,6 +116,11 @@ export default {
         var seasonCard = []
         var yearCard = []
         var renewalDate = []
+        var unrenewalDate = []
+        var renewalNum = []
+        var weekrenewalDate = []
+        var weekunrenewalDate = []
+        var weekrenewalNum = []
         for (let i = 0; i < res.data.length; i++) {
           this.xAxis.push(this.dealDate(res.data[i].begin))
           payedData.push(res.data[i].orderPayed)
@@ -120,15 +130,13 @@ export default {
           monthCard.push(res.data[i].orderPayedMonth)
           seasonCard.push(res.data[i].orderPayedSeason)
           yearCard.push(res.data[i].orderPayedYear)
-          renewalDate.push(res.data[i].orderPayedYear)
-          this.series = [
-            {
-              name: '已支付',
-              type: 'bar',
-              stack: '支付',
-              color: '#C25552',
-              data: payedData
-            },
+          renewalDate.push(res.data[i].ofdRenew)
+          unrenewalDate.push(res.data[i].renew)
+          renewalNum.push(res.data[i].ofdUser)
+          weekrenewalDate.push(res.data[i].weekOfdRenew)
+          weekunrenewalDate.push(res.data[i].weekRenew)
+          weekrenewalNum.push(res.data[i].weekOfdUser)
+          this.paySeries = [
             {
               name: '等待支付',
               type: 'bar',
@@ -137,25 +145,21 @@ export default {
               data: notPay
             },
             {
-              name: '免费周卡',
+              name: '已支付',
               type: 'bar',
-              stack: '支付卡',
-              color: '#36BBCE',
-              data: weekShare
-            },
+              stack: '支付',
+              color: '#C25552',
+              barMaxWidth: '60px',
+              data: payedData
+            }
+          ]
+          this.cardSeries = [
             {
-              name: '周卡',
+              name: '年卡',
               type: 'bar',
               stack: '支付卡',
-              color: '#03899C',
-              data: allWeek
-            },
-            {
-              name: '月卡',
-              type: 'bar',
-              stack: '支付卡',
-              color: '#00AA72',
-              data: monthCard
+              color: '#38E156',
+              data: yearCard
             },
             {
               name: '季卡',
@@ -165,36 +169,99 @@ export default {
               data: seasonCard
             },
             {
-              name: '年卡',
+              name: '月卡',
               type: 'bar',
               stack: '支付卡',
-              color: '#38E156',
-              data: yearCard
+              color: '#00AA72',
+              data: monthCard
             },
+            {
+              name: '周卡',
+              type: 'bar',
+              stack: '支付卡',
+              color: '#03899C',
+              data: allWeek
+            },
+            {
+              name: '免费周卡',
+              type: 'bar',
+              stack: '支付卡',
+              barMaxWidth: '60px',
+              color: '#36BBCE',
+              data: weekShare
+            }
+          ]
+          this.renewalSeries = [
             {
               name: '过期续费',
               type: 'bar',
               stack: '过期',
               color: '#6A48D7',
+              barMaxWidth: '60px',
               data: renewalDate
+            },
+            {
+              name: '未过期续费',
+              type: 'bar',
+              stack: '过期',
+              color: '#00a0d7',
+              barMaxWidth: '60px',
+              data: unrenewalDate
+            },
+            {
+              name: '过期人数',
+              type: 'bar',
+              stack: '过期',
+              color: '#922dd7',
+              barMaxWidth: '60px',
+              data: renewalNum
+            }
+          ]
+          this.weekSeries = [
+            {
+              name: '周卡过期续费',
+              type: 'bar',
+              stack: '周卡',
+              color: '#d75413',
+              barMaxWidth: '60px',
+              data: weekrenewalDate
+            },
+            {
+              name: '周卡未过期续费',
+              type: 'bar',
+              stack: '周卡',
+              color: '#d7bf26',
+              barMaxWidth: '60px',
+              data: weekunrenewalDate
+            },
+            {
+              name: '周卡过期人数',
+              type: 'bar',
+              stack: '周卡',
+              color: '#a8d70b',
+              barMaxWidth: '60px',
+              data: weekrenewalNum
             }
           ]
         }
         // this.xAxis
-        this.drawLine()
+        this.drawLinePay()
+        this.drawLineCard()
+        this.drawLineRenewal()
+        this.drawLineWeekCard()
       })
     },
     dealDate(date) {
       return String(date).split(' ')[0]
     },
-    // 绘制图表
-    drawLine() {
+    // 绘制图表支付
+    drawLinePay() {
       var _this = this
       this.loading = true
       // 基于准备好的dom，初始化echarts实例
-      const myChart = this.$echarts.init(document.getElementById('myChart'))
+      const myChartPay = this.$echarts.init(document.getElementById('myChartPay'))
       // 绘制图表
-      myChart.setOption({
+      myChartPay.setOption({
         tooltip: {
           trigger: 'axis',
           axisPointer: { // 坐标轴指示器，坐标轴触发有效
@@ -202,9 +269,10 @@ export default {
           }
         },
         legend: {
-          data: _this.legend
+          data: ['已支付', '等待支付']
         },
         grid: {
+          top: '12%',
           left: '3%',
           right: '4%',
           bottom: '3%',
@@ -226,10 +294,151 @@ export default {
             type: 'value'
           }
         ],
-        series: _this.series
+        series: _this.paySeries
       })
       window.onresize = function() {
-        myChart.resize()
+        myChartPay.resize()
+      }
+      this.loading = false
+    },
+    //  绘制支付卡图表
+    drawLineCard() {
+      var _this = this
+      this.loading = true
+      // 基于准备好的dom，初始化echarts实例
+      const myChartCard = this.$echarts.init(document.getElementById('myChartCard'))
+      // 绘制图表
+      myChartCard.setOption({
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: { // 坐标轴指示器，坐标轴触发有效
+            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+          }
+        },
+        legend: {
+          data: ['免费周卡', '周卡', '月卡', '季卡', '年卡']
+        },
+        grid: {
+          top: '12%',
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
+        },
+        toolbox: {
+          feature: {
+            saveAsImage: {}
+          }
+        },
+        xAxis: [
+          {
+            type: 'category',
+            data: _this.xAxis
+          }
+        ],
+        yAxis: [
+          {
+            type: 'value'
+          }
+        ],
+        series: _this.cardSeries
+      })
+      window.onresize = function() {
+        myChartCard.resize()
+      }
+      this.loading = false
+    },
+    //  绘制续费图表
+    drawLineRenewal() {
+      var _this = this
+      this.loading = true
+      // 基于准备好的dom，初始化echarts实例
+      const myChartRenewal = this.$echarts.init(document.getElementById('myChartRenewal'))
+      // 绘制图表
+      myChartRenewal.setOption({
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: { // 坐标轴指示器，坐标轴触发有效
+            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+          }
+        },
+        legend: {
+          data: ['过期续费', '未过期续费', '过期人数']
+        },
+        grid: {
+          top: '12%',
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
+        },
+        toolbox: {
+          feature: {
+            saveAsImage: {}
+          }
+        },
+        xAxis: [
+          {
+            type: 'category',
+            data: _this.xAxis
+          }
+        ],
+        yAxis: [
+          {
+            type: 'value'
+          }
+        ],
+        series: _this.renewalSeries
+      })
+      window.onresize = function() {
+        myChartRenewal.resize()
+      }
+      this.loading = false
+    },
+    //  绘制周卡图表
+    drawLineWeekCard() {
+      var _this = this
+      this.loading = true
+      // 基于准备好的dom，初始化echarts实例
+      const myChartWeekCard = this.$echarts.init(document.getElementById('myChartWeekCard'))
+      // 绘制图表
+      myChartWeekCard.setOption({
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: { // 坐标轴指示器，坐标轴触发有效
+            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+          }
+        },
+        legend: {
+          data: ['周卡过期续费', '周卡未过期续费', '周卡过期人数']
+        },
+        grid: {
+          top: '12%',
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
+        },
+        toolbox: {
+          feature: {
+            saveAsImage: {}
+          }
+        },
+        xAxis: [
+          {
+            type: 'category',
+            data: _this.xAxis
+          }
+        ],
+        yAxis: [
+          {
+            type: 'value'
+          }
+        ],
+        series: _this.weekSeries
+      })
+      window.onresize = function() {
+        myChartWeekCard.resize()
       }
       this.loading = false
     }
@@ -238,10 +447,10 @@ export default {
 </script>
 
 <style scoped>
-  #myChart{
+  #myChartPay,#myChartCard,#myChartRenewal,#myChartWeekCard{
     width: calc(100% - 60px);
     margin:30px;
-    height: 600px;
+    height: 250px;
   }
   .time{
     margin-top: 30px;
