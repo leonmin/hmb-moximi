@@ -19,15 +19,26 @@
 						<input v-model="alipayAccount" @blur="pickupKeyboard" class="input-conteent" name="alipayAccount" placeholder="支付宝账号" type="text" value="" />
 					</view>
 					<view class="input-money">
+						<input v-model="idCard" @blur="pickupKeyboard" class="input-conteent" name="idCard" placeholder="身份证账号" type="text" value="" />
+					</view>
+					<view class="input-money">
+						<input v-model="realName" @blur="pickupKeyboard" class="input-conteent" name="realName" placeholder="真实姓名" type="text" value="" />
+					</view>
+					<view class="input-money">
 						<input v-model="cash" @blur="pickupKeyboard" class="input-conteent" name="cash" placeholder="提现金额" type="text" value="" />
 						<view class="total-money" @click="totalCash">
 							全部
 						</view>
 					</view>
+					<view class="agree" @click="checkAgree">
+						<view class="agreeView">
+							<image :src=" isCheck?'../../../static/mine/gouxuan@2x.png':'../../../static/mine/weigouxuan@2x.png'" mode=""></image>
+							<text style="font-size: 22rpx;color: #333333;margin-left: 10rpx;">我自愿准守并同意<text style="color: #1C75FF;" @click.stop="cooperation">《共享经济合作伙伴协议》</text></text>
+						</view>
+					</view>
 				<view class="registerBtn  btn-group">
 					<button formType="submit" class="cu-btn bg-blue shadow-blur round input-commit" :disabled="isDisable">立即提现</button>
 				</view>
-
 				</view>
 			
 				</form>
@@ -40,10 +51,10 @@
 		</view>
 		<view class="withDrawContent">
 			<view class="withDrawContent-title">
-				1.提现金额不低于100元
+				1.提现金额不低于1元
 			</view>
 			<view class="withDrawContent-title">
-				2.每月提现次数有限，每月可提现3次
+				2.活动推广期间每月提现次数不限
 			</view>
 			<view class="withDrawContent-title">
 				3.提现提交后，24小时内到账
@@ -69,8 +80,11 @@
 				myWalletData: '',
 				cash:"",
 				alipayAccount:"",
+				idCard: '',
+				realName: '',
 				message:"",
-				isDisable: false
+				isDisable: false,
+				isCheck:false
 			}
 		},
 		onLoad() {
@@ -92,8 +106,15 @@
 						required: true
 					},
 					cash: {
-						required: true,
-						checkcash: true
+						required: true
+						// checkcash: true
+					},
+					idCard: {
+						required:true,
+						idcard: true
+					},
+					realName: {
+						required:true
 					}
 				}
 				// 提示
@@ -104,7 +125,15 @@
 					cash: {
 						required: "请输入提现金额",
 						checkcash: '提现金额不得小于100元'
+					},
+					idCard: {
+						required: "请输入身份证号码",
+						checkcashTen: '请输入身份证号码'
+					},
+					realName: {
+						required:"请输入真实姓名"
 					}
+					
 				}
 				this.WxValidate = new WxValidate(rules, messages)
 			},
@@ -136,6 +165,13 @@
 					});
 					return false
 				} else {
+					console.log(params)
+					if(!this.isCheck){
+						uni.showToast({
+							title:'请阅读并同意共享经济合作伙伴协议！',
+							icon:'none'
+						})
+					} else{
 					this.$request.url_request(PARTNERCASHOUT,params,"GET",res=>{
 						console.log(JSON.parse(res.data))
 						var result = JSON.parse(res.data)
@@ -159,14 +195,27 @@
 							})
 						}
 					
-					},err=>{})	
+					},err=>{})							
+					}
+
 					
 				}	
 				
 			},
+			// 协议
+			cooperation(){
+				uni.navigateTo({
+					url:'../../../static/cooperationAgree/cooperationAgree'
+				})
+			},
 			// totalCash全部
 			totalCash(){
 				this.cash = this.mineWithDraw
+			},
+			// 协议
+			checkAgree(){
+				this.isCheck = !this.isCheck
+				this.$forceUpdate()
 			},
 			// 收起键盘
 			pickupKeyboard(){
@@ -204,7 +253,7 @@
 	}
 	/* 提现说明 */
 	.withDrawTips {
-		padding-top: 440rpx;
+		padding-top: 540rpx;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -216,7 +265,7 @@
 
 	/* 输入框 */
 	.input-commit {	
-		margin-top: 60rpx;
+		margin-top: 23rpx;
 		margin-left: 110rpx;
 		margin-right: 110rpx;
 		
@@ -230,7 +279,19 @@
 		justify-content: center;
 		align-items: center;
 	}
-
+	.agree{
+		margin-top: 44rpx;
+		display: flex;
+		justify-content: center;
+	}
+	.agreeView{
+		display: flex;
+		align-items: center;
+	}
+	.agreeView>image{
+		width: 24rpx;
+		height: 24rpx;
+	}
 	.total-money {
 		position: absolute;
 		top: 18rpx;
@@ -254,7 +315,7 @@
 		margin-right: 110rpx;
 
 		border: 1px solid #1C75FF;
-		margin-top: 30rpx;
+		margin-top: 20rpx;
 		border-radius: 10rpx;
 	}
 
@@ -264,7 +325,7 @@
 		margin-right: 110rpx;
 
 		border: 1px solid #1C75FF;
-		margin-top: 100rpx;
+		margin-top: 40rpx;
 		border-radius: 10rpx;
 	}
 
@@ -280,7 +341,7 @@
 	.mineHeader-tips {
 		font-size: 30rpx;
 		color: #111111;
-		margin-top: 77rpx;
+		margin-top: 50rpx;
 	}
 
 	.mineHeader-header {
@@ -301,13 +362,17 @@
 		top: 30rpx;
 		left: 30rpx;
 		right: 30rpx;
+		padding-bottom: 20px;
 		/* bottom: 30rpx; */
-		height: 700rpx;
+		/* height: 708rpx; */
 	}
 
 	.mineHeader {
-		height: 330rpx;
-		background-color: #007AFF;
+		height: 329rpx;
+		width: 100%;
+		/* background-color: #007AFF; */
+		background-size: cover;
+		background-image: url(../../../static/mine/bj@2x.png);
 		/* padding: 130rpx 5% 40rpx; */
 		position: relative;
 	}

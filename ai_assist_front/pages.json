@@ -564,6 +564,60 @@
 				}
 			}
         }
+        ,{
+            "path" : "static/cooperationAgree/cooperationAgree",
+            "style" : {
+				"navigationBarTitleText":"共享经济合作伙伴协议",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/SettingPage/Setting/Setting",
+            "style" : {
+				"navigationBarTitleText":"接听配置",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/SettingPage/CustomReply/CustomReply",
+            "style" : {
+				"navigationBarTitleText":"自定义回复",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/SettingPage/RejectionBlacklist/RejectionBlacklist",
+            "style" : {
+				"navigationBarTitleText":"拒接黑名单",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/SettingPage/AddScene/AddScene",
+            "style" : {
+				"navigationBarTitleText":"新增场景",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/SettingPage/addBlack/addBlack",
+            "style" : {
+				"navigationBarTitleText":"添加黑名单",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
@@ -584,7 +638,7 @@
 				"selectedIconPath":"static/tab/shouye@2x.png"
 			},
 			{
-				"pagePath":"pages/SettingPage/SettingPage",
+				"pagePath":"pages/SettingPage/Setting/Setting",
 				"text":"接听配置",
 				"iconPath":"static/tab/peizhi@2x.png",
 				"selectedIconPath":"static/tab/pei@2x.png"

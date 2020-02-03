@@ -1,15 +1,15 @@
 <template>
 	<view class="coupons" v-if="couponsData">
-		<view class="couponsContain" v-if="couponsData.userCoupon !== null">
-			<view class="couponsItem">
+		<view class="couponsContain">
+			<view class="couponsItem" v-for="(item,index) in couponsData" :key='index' @click="getCoupon(item.couponTitle,item.id)">
 				<image src="../../../static/mine/coupons/youhuiquan@2x.png" mode=""></image>
 				<view class="itemLeft">
-					<text>{{couponTitle}}</text>
-					<text>有效期:{{String(couponDetail.beginTime).split(' ')[0]}}至{{String(couponDetail.endTime).split(' ')[0]}}</text>
-					<text>适用范围：{{sku}}会员可用</text>
+					<text>{{item.couponTitle}}</text>
+					<text>有效期:{{String(item.beginTime).split(' ')[0]}}至{{String(item.endTime).split(' ')[0]}}</text>
+					<text>适用范围：{{item.sku |formateSku}}会员可用</text>
 				</view>
 				<view class="itemRight">
-					<text>{{discountChange}}</text>
+					<text>{{item.discount/10}}</text>
 					<text>折</text>
 				</view>
 			</view>
@@ -28,7 +28,7 @@
 </template>
 
 <script>
-	import {BEFORODER} from "../../../utils/api.js"
+	import {BEFORODER,COUPONLIST} from "../../../utils/api.js"
 	export default {
 		data() {
 			return {
@@ -36,23 +36,20 @@
 				couponTitle:"",
 				discount: "",
 				couponsSku:"",
-				couponDetail: ''
+				couponDetail: '',
+				page: ''
 			}
 		},
-		computed:{
-			discountChange:function(){
-				var discount =(this.discount)/10
-				return discount		
-			},
-			sku: function(){
-				var result = this.couponsData.sku
-				if(result == '100001'){
+		filters:{
+			formateSku: function(value){
+				var result
+				if(value == '100001'){
 					result = "月卡"
-				} else if (result == '100002'){
+				} else if (value == '100002'){
 					result = "季卡"
-				} else if (result == '100002') {
+				} else if (value == '100003') {
 					result = "年卡"
-				} else {
+				} else if(value == '0') {
 					result = "通用"
 				}
 				return result
@@ -64,25 +61,42 @@
 				icon:'none',
 				mask:true
 			})
-			this.couponsSku = options.sku
+			this.transferData = JSON.parse(options.data)
+			console.log(this.transferData)
+			this.page = this.transferData.page
+			this.couponsSku = this.transferData.sku
 			this.initData()
 		},
 		methods: {
 			// 初始化数据
 			initData(){
 				const params = {
-					sku:this.couponsSku
+					sku: this.couponsSku
 				}
-				this.$request.url_request(BEFORODER,params,"POST",res=>{
+				this.$request.url_request(COUPONLIST,params,'GET',res =>{
 					this.couponsData = JSON.parse(res.data).data
-					console.log('优惠券长度',this.couponsData.userCoupon)
-					if(this.couponsData.userCoupon !== null){
-						this.couponDetail = JSON.parse(res.data).data.userCoupon
-						this.couponTitle = this.couponsData.userCoupon.couponTitle
-						this.discount = this.couponsData.userCoupon.discount
-					}
-						uni.hideToast()
-				},err=>{})
+					uni.hideToast()
+				},err =>{})
+			},
+			// 选择优惠券
+			getCoupon(title,id){
+				console.log('标题',title)
+				console.log('id',id)
+				var data = {
+					title: title,
+					id: id,
+					sku: this.couponsSku,
+					item:this.transferData.item
+				}
+				if(this.page == 1){
+					uni.navigateTo({
+						url:"../../Welcome/Welcome?data="+ JSON.stringify(data)
+					})
+				} else{
+					uni.navigateTo({
+						url:'../MineVipPage/MineVipPage?data='+ JSON.stringify(data)
+					})
+				}
 			}
 		}
 	}

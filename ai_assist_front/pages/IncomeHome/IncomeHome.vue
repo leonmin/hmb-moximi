@@ -9,7 +9,7 @@
 					<view class="page-section-spacing">
 						<swiper class="swiper" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration"
 						 circular='true'>
-							<swiper-item v-for="(item,index) in bannerList" :key='index' @click="bannerView(item.url)">
+							<swiper-item v-for="(item,index) in bannerList" :key='index' @click="bannerView(item.url,item.bannerType,item.id)">
 								<view class="banner">
 									<image :src="item.bannerUrl" mode=""></image>
 								</view>
@@ -86,20 +86,37 @@
 		</view>
 		<!-- 到期弹窗 -->
 		<uni-popup ref="popup" type="center" :maskClick="false" style="z-index: 1000;">
-			<view class="dueView">
-				<view class="dueTitle">
-					<text v-if="dueData.remainDays >= 0">魔小秘AI助手还有<text style="font-size: 50rpx;color: #FFECB9;">{{dueData.remainDays}}</text>天就到期了</text>
-					<text v-else>魔小秘AI助手已经过期啦</text>
+			<view :class="dueData.remainDays >= 0 && dueData.ofd == false?'dueView':'dueView1'">
+				<view class="dueTitle" v-if="dueData.remainDays >= 0 && dueData.ofd == false">
+					<text  v-if="dueData.remainDays > 0">魔小秘AI助手还有<text style="font-size: 50rpx;color: #FFECB9;">{{dueData.remainDays}}</text>天就到期了</text>
+					<text  v-else>魔小秘AI助手<text style="font-size: 40rpx;color: #FFECB9;">今天</text>就到期了</text>
 					<text style="margin-top: 10rpx;">立即分享领取优惠券续费吧！</text>
 				</view>
-				<view class="DueBtn">
-					<view class="shareBtn" @click="dueShare">
+				<view :class="dueData.remainDays >= 0 && dueData.ofd == false?'DueBtn':'DueBtn1'">
+					<view :class="dueData.remainDays >= 0 && dueData.ofd == false?'shareBtn':'shareBtn1'" @click="dueShare">
 						<text>分享领取优惠券</text>
 					</view>
 				</view>
 			</view>
 			<view class="closeImage">
 				<image src="../../static/incomeHome/guanbi@2x.png" mode="" @click="closeDue"></image>
+			</view>
+		</uni-popup>
+		<!-- banner 弹窗 -->
+		<uni-popup ref="bannerPop" type="center" :maskClick="false" style="z-index: 1000;">
+			<view class="dueView">
+				<view class="dueTitle">
+					<text>续费福利领不停，魔小秘会员专享</text>
+					<text style="margin-top: 10rpx;">全场通用6折优惠券免费领！</text>
+				</view>
+				<view class="DueBtn" style="margin-top: 290rpx;">
+					<view class="shareBtn" @click="dueShare">
+						<text>分享领取优惠券</text>
+					</view>
+				</view>
+			</view>
+			<view class="closeImage">
+				<image src="../../static/incomeHome/guanbi@2x.png" mode="" @click="bannerClose"></image>
 			</view>
 		</uni-popup>
 		<!-- 分享遮罩 -->
@@ -251,18 +268,22 @@
 			open() {
 				this.$refs.popup.open()
 			},
-			closeDue(){
+			closeDue() {
 				this.$refs.popup.close()
 			},
+			// banner 弹窗关闭
+			bannerClose(){
+				this.$refs.bannerPop.close()
+			},
 			// 分享领取优惠券
-			dueShare(){
+			dueShare() {
 				this.imageshow = true
 				var that = this
 				// 分享到朋友
 				jweixin.onMenuShareAppMessage({
 					title: '【魔小秘】您的专属智能来电助理', // 分享标题
 					desc: '不想接，就挂断，来电助理帮你接听', // 分享描述
-					link: that.$url.shareURL, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+					link: 'https://m.checkshirt-ai.com/h5poster/index.html#/', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
 					imgUrl: 'https://ai-assist.oss-cn-beijing.aliyuncs.com/aac/mxmlogo.png', // 分享图标
 					type: 'link', // 分享类型,music、video或link，不填默认为link
 					dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
@@ -270,20 +291,32 @@
 						// 用户点击了分享后执行的回调函数
 						console.log('分享成功')
 						that.imageshow = false
+						that.$refs.popup.close()
+						that.$refs.bannerPop.close()
 						const params = {}
-						that.$request.url_request(INDEXCOUPON,params,"GET",res =>{},err =>{})
+						that.$request.url_request(INDEXCOUPON, params, "GET", res => {
+							uni.navigateTo({
+								url:'../MinePage/MineVipPage/MineVipPage'
+							})
+						}, err => {})
 					}
 				})
 				//分享到朋友圈
 				jweixin.onMenuShareTimeline({
 					title: '【魔小秘】您的专属智能来电助理', // 分享标题
-					link: that.$url.shareURL,
+					link: 'https://m.checkshirt-ai.com/h5poster/index.html#/',
 					imgUrl: 'https://ai-assist.oss-cn-beijing.aliyuncs.com/aac/mxmlogo.png', // 分享图标
 					success: function() {
 						// 用户点击了分享后执行的回调函数
 						that.imageshow = false
+						that.$refs.popup.close()
+						that.$refs.bannerPop.close()
 						const params = {}
-						that.$request.url_request(INDEXCOUPON,params,"GET",res =>{},err =>{})
+						that.$request.url_request(INDEXCOUPON, params, "GET", res => {
+							uni.navigateTo({
+								url:'../MinePage/MineVipPage/MineVipPage'
+							})
+						}, err => {})
 					}
 				})
 			},
@@ -318,10 +351,16 @@
 				})
 			},
 			// 跳转banner链接
-			bannerView(url) {
-				if (url) {
-					window.location.href = url	
+			bannerView(url, type,id) {
+				uni.report('homeBanner'+id, 'banner点击')
+				if (type == 1) {
+					if (url) {
+						window.location.href = url
+					}
+				} else if(type == 2){
+					this.$refs.bannerPop.open()
 				}
+
 			},
 			// 跳转模块
 			gotoModule(index) {
@@ -473,7 +512,7 @@
 		background-color: rgba(0, 0, 0, 0.8);
 		height: 100vh;
 		position: fixed;
-		z-index: 999;
+		z-index: 1300;
 		top: 0;
 		left: 0;
 		display: flex;
@@ -749,15 +788,25 @@
 		padding: 20rpx 30rpx;
 		font-size: 34rpx;
 	}
+
 	/* 到期弹窗 */
-	.dueView{
+	.dueView {
 		width: 560rpx;
-		height: 696rpx;
+		height: 686rpx;
 		overflow: hidden;
 		background-size: cover;
 		background-image: url('~@/static/incomeHome/bj@2x.png');
 	}
-	.dueTitle{
+
+	.dueView1 {
+		width: 560rpx;
+		height: 686rpx;
+		overflow: hidden;
+		background-size: cover;
+		background-image: url('~@/static/incomeHome/yiguoqi@2x.png');
+	}
+
+	.dueTitle {
 		font-size: 30rpx;
 		color: #FFFFFF;
 		margin-top: 150rpx;
@@ -766,33 +815,57 @@
 		flex-direction: column;
 		align-items: center;
 	}
-	.closeImage{
+
+	.closeImage {
 		width: 100%;
 		height: 60rpx;
 		display: flex;
 		flex-direction: row;
 		justify-content: center;
 	}
-	.closeImage>image{
+
+	.closeImage>image {
 		width: 60rpx;
 		height: 60rpx;
 	}
-	.DueBtn{
-		margin-top: 280rpx;
+
+	.DueBtn {
+		margin-top: 270rpx;
 		display: flex;
 		flex-direction: row;
 		justify-content: center;
-		
+
 	}
-	.shareBtn{
+
+	.DueBtn1 {
+		margin-top: 520rpx;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+
+	}
+
+	.shareBtn {
 		padding: 20rpx 50rpx;
 		color: #FFFFFF;
 		font-size: 32rpx;
 		border-radius: 100rpx;
-		box-shadow: 0rpx 5rpx 45rpx #FF5841;
-		background: linear-gradient(bottom, #FF4735 0%, #FF4735 40%, #FF654B 70%, #FF654B 100%);		
-		background: -ms-linear-gradient(bottom, #FF4735 0%, #FF4735 40%, #FF654B 70%, #FF654B 100%);	
-		background: -webkit-linear-gradient(bottom, #FF4735 0%, #FF4735 40%, #FF654B 70%, #FF654B 100%);		
+		box-shadow: 0rpx 5rpx 25rpx #FF5841;
+		background: linear-gradient(bottom, #FF4735 0%, #FF4735 40%, #FF654B 70%, #FF654B 100%);
+		background: -ms-linear-gradient(bottom, #FF4735 0%, #FF4735 40%, #FF654B 70%, #FF654B 100%);
+		background: -webkit-linear-gradient(bottom, #FF4735 0%, #FF4735 40%, #FF654B 70%, #FF654B 100%);
 		background: -moz-linear-gradient(bottom, #FF4735 0%, #FF4735 40%, #FF654B 70%, #FF654B 100%);
+	}
+
+	.shareBtn1 {
+		padding: 20rpx 50rpx;
+		color: #FFFFFF;
+		font-size: 32rpx;
+		border-radius: 100rpx;
+		box-shadow: 0rpx 5rpx 25rpx #4DC0FF;
+		background: linear-gradient(top, #4EC2FF, #2E95FF);
+		background: -ms-linear-gradient(top, #4EC2FF, #2E95FF);
+		background: -webkit-linear-gradient(top, #4EC2FF, #2E95FF);
+		background: -moz-linear-gradient(top, #4EC2FF, #2E95FF);
 	}
 </style>

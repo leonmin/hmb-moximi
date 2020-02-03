@@ -177,10 +177,18 @@
 				couponsInfo: '',
 				couponData: '',
 				couponId: '',
-				imageShadow: false
+				imageShadow: false,
+				transferData:''
 			}
 		},
-		onLoad() {
+		onLoad(options) {
+			if(options.data){
+				this.transferData = JSON.parse(options.data)
+				console.log(this.transferData)
+				this.saleItem = this.transferData.item
+				this.couponId = this.transferData.id
+				this.vipSku = this.transferData.sku
+			}
 			// 获取token
 			this.initData()
 			//卡列表
@@ -209,7 +217,8 @@
 			// 获取优惠券信息
 			getCoupons() {
 				const params = {
-					sku: this.vipSku
+					sku: this.vipSku,
+					couponId: this.couponId
 				}
 				this.$request.url_request(BEFORODER, params, "POST", res => {
 					this.couponsInfo = JSON.parse(res.data).data.userCoupon
@@ -224,8 +233,13 @@
 			// 优惠券详情
 			welCoupons() {
 				// if (this.couponsInfo !== null) {
+					var data = {
+						sku: this.vipSku,
+						item: this.saleItem,
+						page: 1
+					}
 				uni.navigateTo({
-					url: "../MinePage/Coupons/Coupons?sku=" + this.vipSku
+					url: "../MinePage/Coupons/Coupons?data=" + JSON.stringify(data)
 				})
 				// }
 			},
@@ -247,9 +261,12 @@
 			initData() {
 				curToken = this.getQueryString('token')
 				if (!curToken) {
-					uni.navigateTo({
-						url: "../JumpLogin/JumpLogin"
-					})
+					curToken = uni.getStorageSync('myToken')
+					if(!curToken){
+						uni.navigateTo({
+							url: "../JumpLogin/JumpLogin"
+						})
+					}
 				} else {
 					try {
 						uni.setStorageSync('myToken', curToken)
@@ -267,7 +284,7 @@
 				jweixin.onMenuShareAppMessage({
 					title: '【魔小秘】您的专属智能来电助理', // 分享标题
 					desc: '不想接，就挂断，来电助理帮你接听', // 分享描述
-					link: that.$url.shareURL, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+					link: 'https://m.checkshirt-ai.com/h5poster/index.html#/', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
 					imgUrl: 'https://ai-assist.oss-cn-beijing.aliyuncs.com/aac/mxmlogo.png', // 分享图标
 					type: 'link', // 分享类型,music、video或link，不填默认为link
 					dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
@@ -285,7 +302,7 @@
 				//分享到朋友圈
 				jweixin.onMenuShareTimeline({
 					title: '【魔小秘】您的专属智能来电助理', // 分享标题
-					link: that.$url.shareURL,
+					link: 'https://m.checkshirt-ai.com/h5poster/index.html#/',
 					imgUrl: 'https://ai-assist.oss-cn-beijing.aliyuncs.com/aac/mxmlogo.png', // 分享图标
 					success: function() {
 						// 用户点击了分享后执行的回调函数

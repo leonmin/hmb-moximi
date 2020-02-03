@@ -47,6 +47,9 @@ export const DELCALL  = API+"/app/chat/delCallRecord";
 //banner
 export const BANNER  = API+"/app/banner";
 
+//优惠券列表
+export const COUPONLIST  = API+"/app/chat/couponList";
+
 
 /**
  * 个人中心
@@ -117,3 +120,7 @@ export const PARTNERCASHLIST =API+"/app/chat/partnerCashList";
 export const CARDPACK =API+"/app/chat/cardPack";
 // 合伙人卡密列表详情
 export const CARDPACKDETAILS =API+"/app/chat/cardPackDetails";
+
+// 接听配置
+// 转接状态
+export const TRANSFERCONFIG = API+"/user/bysetting/transferConfig"
