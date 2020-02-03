@@ -1,0 +1,31 @@
+<template>
+	<view>
+		<web-view  :webview-styles="webviewStyles" 
+		src="https://mp.weixin.qq.com/s?__biz=MzI1NDYyMTA3Mw==&mid=2247484011&idx=1&sn=19d511bf5640dc49a81510f181482f15&chksm=e9c32695deb4af834aa128fab78fb9eaf0e63705d4293095370bb9315f3ecca641fbef2c2be7&token=549582618&lang=zh_CN#rd"></web-view>
+	</view>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				webviewStyles: {
+					progress: {
+						color: '#1c75ff'
+					}
+				},
+				urlView: ''
+			}
+		},
+		onLoad(options) {
+			this.urlView = options.url
+		},
+		methods: {
+			
+		}
+	}
+</script>
+
+<style>
+
+</style>
