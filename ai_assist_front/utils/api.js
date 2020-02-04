@@ -124,3 +124,29 @@ export const CARDPACKDETAILS =API+"/app/chat/cardPackDetails";
 // 接听配置
 // 转接状态
 export const TRANSFERCONFIG = API+"/user/bysetting/transferConfig"
+// 音色列表
+export const TTSPLAID = API+"/user/bysetting/ttsPlaid"
+// 设置音色
+export const TTSUPDATE = API+"/user/bysetting/ttsUpdate"
+// 查询当前音色
+export const TTSSCENE = API+"/user/bysetting/ttsScene"
+// 转化语音
+export const TTSCONVERT = API+"/user/bysetting/ttsConvert"
+// 开场白列表
+export const PROLOGUELIST = API+"/user/bysetting/prologueList"
+// 当前设置开场白
+export const PROLOGUECURRENT = API+"/user/bysetting/prologueCurrent"
+// 设置开场白
+export const PROLOGUESET = API+"/user/bysetting/prologueSet"
+// 修改开场白详情
+export const PROLOGUEGET = API+"/user/bysetting/prologueGet"
+// 开场白修改设置
+export const SETTEXTPROLOGUE = API+"/user/bysetting/setTextPrologue"
+// 删除开场白
+export const PROLOGUEDELETE = API+"/user/bysetting/prologueDelete"
+// 黑名单列表
+export const BLACKLIST = API+"/user/bysetting/blackList"
+// 黑名单添加
+export const BLACKADD = API+"/user/bysetting/blackAdd"
+// 黑名单删除
+export const BLACKDELETE = API+"/user/bysetting/blackDetele"

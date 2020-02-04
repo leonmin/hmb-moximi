@@ -1,6 +1,7 @@
 <template>
 	<view class="editOpen">
 		<view class="editOpenContain shadowE7">
+			<!-- 场景名称 -->
 			<view class="toptitle">
 				<text class="fontStyle30">名称</text>
 				<input type="text" v-model="sceneName" class="sceneName" placeholder="输入场景名称" />
@@ -118,7 +119,9 @@
 	import {
 		JSAPI,
 		VOICEPROLOGUE,
-		TEXTPROLOGUE
+		TEXTPROLOGUE,
+		SETTEXTPROLOGUE,
+		PROLOGUEGET
 	} from "../../../utils/api.js"
 	var jweixin = require('jweixin-module')
 	var jishiInterval;
@@ -156,15 +159,39 @@
 				isJishi: false,
 				startTime: '', //录音开始时间
 				endTime: '', // 录音结束时间
-				timeConsum: 0 //总耗时
+				timeConsum: 0 ,//总耗时
+				sceneId: '',//场景id
+				PrologueGet: '',//场景详情
+				ttsKey: '',
+				sceneType: '',
+				sceneDefId: ''
 
 			}
 		},
-		onLoad() {
+		onLoad(options) {
+			if(options.id){
+				this.sceneId = options.id
+				// 编辑场景
+				this.prologueGet()
+			}
 			// 得到JSSDK
 			this.getJsAPI()
 		},
 		methods: {
+			// 编辑场景
+			prologueGet(){
+				const params = {
+					id: this.sceneId
+				}
+				this.$request.url_request(PROLOGUEGET,params,'GET',res=>{
+					this.PrologueGet = JSON.parse(res.data).data.data
+					this.sceneName = this.PrologueGet.name
+					this.openInput = this.PrologueGet.customText
+					this.ttsKey = this.PrologueGet.ttsKey,
+					this.sceneType = this.PrologueGet.sceneType
+					this.sceneDefId = thid.prologueGet.sceneDefId
+				},err=>{})
+			},
 			// 获得jssdk
 			getJsAPI() {
 				var that = this
@@ -208,23 +235,37 @@
 			// 小米说确认保存
 			confirmXiaomi() {
 				const params = {
-					mobile: this.mobile,
-					text: this.openInput
+					customText: this.openInput,
+					name: this.sceneName,
+					id: this.sceneId,
+					ttsKey: this.ttsKey,
+					sceneType: this.sceneType,
+					sceneDefId:this.sceneDefId
 				}
-				this.$request.url_request(TEXTPROLOGUE, params, 'GET', res => {
-					uni.showToast({
-						title:'保存成功！',
-						icon:'success',
-						mask:true,
-						duration:1000
-					})
-					this.xiaomiSucc = false
-					const detail = JSON.stringify({mobile:this.mobile})
-					setTimeout(() => {
-						uni.navigateBack({
-							// url:'../ContactDetail/ContactDetail?detail='+detail
+				this.$request.url_request(SETTEXTPROLOGUE, params, 'GET', res => {
+					if(JSON.parse(res.data).code == 200){
+						uni.showToast({
+							title:'保存成功！',
+							icon:'success',
+							mask:true,
+							duration:1000
 						})
-					},1000)	
+						this.xiaomiSucc = false
+						setTimeout(() => {
+							uni.reLaunch({
+								url:'../Setting/Setting'
+							})
+						},1000)	
+					} else{
+						if(JSON.parse(res.data).resultMsg !== null ||JSON.parse(res.data).resultMsg !== ''){
+							this.xiaomiSucc = false
+							uni.showToast({
+								title:JSON.parse(res.data).resultMsg,
+								icon:'none',
+								duration:1200
+							})
+						}
+					}
 				}, err => {
 					console.log("文本保存失败")
 				})

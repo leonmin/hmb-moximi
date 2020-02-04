@@ -38,7 +38,7 @@
 </template>
 
 <script>
-	import {ADDBLACKLIST} from '../../../utils/api.js'
+	import {BLACKADD} from '../../../utils/api.js'
 	import WxValidate from '../../../utils/WxValidate.js'
 	export default {
 		data() {
@@ -46,12 +46,14 @@
 				name: "",
 				mobile: "",
 				addShow: "",
-				isdisable: false
+				isdisable: false,
+				remark: '',
+				address: ''
+				
 
 			}
 		},
-		onLoad(options) {
-			this.mobile = options.mobile
+		onLoad() {
 			this.initValidate();
 		},
 		methods: {
@@ -91,12 +93,17 @@
 						return false
 					} else {	
 						console.log(params)
-						_this.$request.url_request(ADDBLACKLIST,params,'GET',res=>{
+						_this.$request.url_request(BLACKADD,params,'GET',res=>{
 							uni.showToast({
 								title:'黑名单添加成功！',
 								icon:'none',
 								duration:1000
 							})
+							setTimeout(()=>{
+								uni.navigateTo({
+									url:'../RejectionBlacklist/RejectionBlacklist'
+								})
+							},1000)
 						},err=>{})
 					}
 				}

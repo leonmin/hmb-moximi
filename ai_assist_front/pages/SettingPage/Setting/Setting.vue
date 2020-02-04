@@ -7,17 +7,19 @@
 				<text class="cuIcon-question questionIcon"></text>
 			</view>
 			<view class="topHeadRight" @click="chooseScenario">
-				<text>默认</text>
+				<text>{{PrologueCurrent.name}}</text>
 				<text class="cuIcon-triangledownfill downIcon"></text>
 			</view>
 		</view>
 		<!-- banner -->
 		<view class="settingBanner">
+			<view class="imageshadow"></view>
+			<image :src="ttsScene.newAvatarUrl" mode=""></image>
 			<view class="bannerText">
-				<text>您好，我现在正在忙，您有什么事情可以简要说明一下。</text>
+				<text>{{PrologueCurrent.customText}}</text>
 				<view class="bannerIcon">
-					<view class="iconItem"><image src="../../../static/setting/bf@2x.png" mode=""></image></view>
-					<view class="iconItemRight"><image src="../../../static/setting/bianij@2x.png" mode=""></image></view>
+					<view class="iconItem" @click="playVoice"><image src="../../../static/setting/bf@2x.png" mode=""></image></view>
+					<view class="iconItemRight" @click="modifyText"><image src="../../../static/setting/bianij@2x.png" mode=""></image></view>
 				</view>
 			</view>
 		</view>
@@ -25,12 +27,12 @@
 		<view class="voiceChoose">
 			<view class="title"><text>音色选择</text></view>
 			<view class="voiceBox clear">
-				<view class="voiceItem" :class="voiceCheck==index?'voiceCheck':'voiceunCheck'" v-for="(item,index) in voiceData" :key='index' @click="checkVoice(index)">
-					<view class="checkIcon" v-if="voiceCheck == index"></view>
-					<view class="imgHeader"></view>
+				<view class="voiceItem" :class="ttsScene.sceneDefId==item.sceneDefId?'voiceCheck':'voiceunCheck'" v-for="(item,index) in voiceData" :key='index' @click="checkVoice(index,item)">
+					<view class="checkIcon" v-if="ttsScene.sceneDefId==item.sceneDefId"></view>
+					<view class="imgHeader"><image :src="item.miniAvatarUrl" mode=""></image></view>
 					<view class="voiceItemText">
-						<text>{{item.name}}</text>
-						<text>{{item.text}}</text>
+						<text>{{item.name.split('-')[0]}}</text>
+						<text style="color: #333333;font-size: 24rpx;margin-top: 20rpx;">{{item.name.split('-')[1]}}</text>
 					</view>
 				</view>
 			</view>
@@ -69,10 +71,20 @@
 				<text style="color: #999999; font-size: 26rpx;font-weight: 400;">开启不成功？</text>
 			</view>
 			<view class="secretaryBox">
-				<view class="secretaryItem" v-for="(item,index) in secretaryData" :key='index'>
-					<view class="secretaryItemImg"><image :src="item.check" mode=""></image></view>
-					<text class="secretaryText">{{item.name}}</text>
-					<view class="secretaryItemBtn open"@click="secretary(index)">开启</view>
+				<view class="secretaryItem">
+					<view class="secretaryItemImg"><image :src="TransferState.busy == 1?'../../../static/setting/guaduan@2x.png':'../../../static/setting/guaduan1@2x.png'" mode=""></image></view>
+					<text class="secretaryText">挂断转接</text>
+					<view class="secretaryItemBtn" :class="TransferState.busy == 1?'open':'close'" @click="secretary(0)">{{TransferState.busy == 1?'开启':'关闭'}}</view>
+				</view>
+				<view class="secretaryItem">
+					<view class="secretaryItemImg"><image :src="TransferState.noAnswer == 1?'../../../static/setting/wuyingda@2x.png':'../../../static/setting/wuyingda1@2x.png'" mode=""></image></view>
+					<text class="secretaryText">无应答</text>
+					<view class="secretaryItemBtn" :class="TransferState.noAnswer == 1?'open':'close'" @click="secretary(1)">{{TransferState.noAnswer == 1?'开启':'关闭'}}</view>
+				</view>
+				<view class="secretaryItem">
+					<view class="secretaryItemImg"><image :src="TransferState.unreachable == 1?'../../../static/setting/wuwangluo@2x.png':'../../../static/setting/wuwangluo1@2x.png'" mode=""></image></view>
+					<text class="secretaryText">无网络</text>
+					<view class="secretaryItemBtn" :class="TransferState.unreachable == 1?'open':'close'" @click="secretary(2)">{{TransferState.unreachable == 1?'开启':'关闭'}}</view>
 				</view>
 			</view>
 			<view class="closeTotal">
@@ -83,15 +95,27 @@
 		<uni-popup ref="scenariopopup" type="bottom" style="z-index: 10000;">
 			<view class="scenarioBox">
 				<view>
-					<view class="scenarioItem"><text>默认</text></view>
-					<view class="scenarioDeliver"></view>
-					<view class="scenarioItem"><text>旅游</text></view>
-					<view class="scenarioDeliver"></view>
-					<view class="scenarioItem"><text>开会</text></view>
-					<view class="scenarioDeliver"></view>
+					<view v-for="(item,index) in PrologueList" :key='index' @click="prologueSet(item)">
+						<view class="scenarioItem">
+							<view class="scenarioItemLeft">
+								<view class="scenarioItemCheck">
+									<text v-if="PrologueCurrent.id == item.id" class="cuIcon-check"></text>
+								</view>
+								<text class="scenarioItemName">{{item.name}}</text>
+							</view>	
+							<view v-if="PrologueCurrent.id !== item.id" class="scenarioCheckIcon" @click.stop="deletePrologue(item)">
+								<text class="cuIcon-delete deleteIcon"></text>	
+							</view>						
+						</view>
+						<view class="scenarioDeliver"></view>
+					</view>
 					<view class="scenarioItem" @click="addScene">
-						<text class="cuIcon-add"></text>
-						<text>新建</text></view>
+						<view style="margin-left: 40rpx;">
+							<text class="cuIcon-add" style="margin-left: -20rpx;"></text>
+							<text style="margin-left: 10rpx;">新建</text>
+						</view>
+						
+					</view>
 				</view>	
 			</view>
 		</uni-popup>
@@ -166,7 +190,7 @@
 
 <script>
 	import uniPopup from "../../../components/uni-popup/uni-popup.vue"
-	import { TRANSFERCONFIG } from '../../../utils/api.js'
+	import { TRANSFERCONFIG,TTSPLAID,TTSUPDATE,TTSSCENE,TTSCONVERT,PROLOGUELIST,PROLOGUECURRENT,PROLOGUESET,PROLOGUEDELETE } from '../../../utils/api.js'
 	export default {
 		components: {uniPopup},
 		data() {
@@ -178,23 +202,114 @@
 					{name: '第三人称',text: '女声'},
 				],
 				voiceCheck: 0,
-				secretaryData: [
-					{name:'挂断转接',check:'../../../static/setting/guaduan@2x.png',uncheck: '../../../static/setting/guaduan1@2x.png'},
-					{name:'无应答',check:'../../../static/setting/wuyingda@2x.png',uncheck: '../../../static/setting/wuyingda1@2x.png'},
-					{name:'无网络',check:'../../../static/setting/wuwangluo@2x.png',uncheck: '../../../static/setting/wuwangluo1@2x.png'}
-				],
-				secretaryCheck: 0
+				secretaryCheck: 0,
+				TransferState: '',//转接状态
+				ttsScene: '',//当前音色
+				PrologueList: '',//开场白列表
+				PrologueCurrent: '',//当前开场白
 			}
 		},
 		onLoad(){
 			//转接状态
 			this.getTransferConfig()
+			// 获取音色列表TTSPLAID
+			this.getTtsplaid()
+			// 查询当前音色
+			this.checkTtsScene()
+			// 开场白列表
+			this.getPrologueList()
+			// 当前开场白
+			this.getPrologueCurrent()
 		},
 		methods: {
+			// 当前开场白
+			getPrologueCurrent(){
+				const params = {}
+				this.$request.url_request(PROLOGUECURRENT,params,'GET',res=>{
+					this.PrologueCurrent = JSON.parse(res.data).data.data
+				},err=>{})
+			},
+			// 开场白列表
+			getPrologueList(){
+				const params = {}
+				this.$request.url_request(PROLOGUELIST,params,'GET',res=>{
+					this.PrologueList = JSON.parse(res.data).data.data.list
+				},err=>{})
+			},
+			// 设置开场白
+			prologueSet(item){
+				var that = this
+				const params = {
+					id: item.id
+				}
+				this.$request.url_request(PROLOGUESET,params,'GET',res=>{
+					that.getPrologueCurrent()
+					// that.$refs.scenariopopup.close()
+				},err=>{})
+			},
+			// 修改开场白
+			modifyText(){
+				uni.navigateTo({
+					url:'../AddScene/AddScene?id='+this.PrologueCurrent.id
+				})
+			},
+			// 删除开场白
+			deletePrologue(item){
+				var that = this
+				const params = {
+					id: item.id
+				}
+				this.$request.url_request(PROLOGUEDELETE,params,'GET',res=>{
+					if(JSON.parse(res.data).data.code == 200){
+						uni.showToast({
+							title:'删除成功',
+							icon:'success',
+							duration:1200
+						})
+						that.getPrologueList()
+					}
+				},err=>{})
+				
+			},
+			// 查询当前音色
+			checkTtsScene(){
+				const params = {}
+				this.$request.url_request(TTSSCENE,params,'GET',res=>{
+					this.ttsScene = JSON.parse(res.data).data.data
+				},err=>{})
+			},
 			// 转接状态
 			getTransferConfig(){
 				const params = {}
-				this.$request.url_request(TRANSFERCONFIG,params,'GET',res=>{},err=>{})
+				this.$request.url_request(TRANSFERCONFIG,params,'GET',res=>{
+					this.TransferState = JSON.parse(res.data).data.data
+				},err=>{})
+			},
+			// 获取音色列表
+			getTtsplaid(){
+				const params = {}
+				this.$request.url_request(TTSPLAID,params,'GET',res=>{
+					this.voiceData = JSON.parse(res.data).data.data
+				},err=>{})
+			},
+			// 播放语音
+			playVoice(){
+				const params = {
+					ttsKey: this.ttsScene.ttsKey,
+					text: this.PrologueCurrent.customText
+				}
+				this.$request.url_request(TTSCONVERT,params,'GET',res=>{
+					const innerAudioContext = uni.createInnerAudioContext();
+					innerAudioContext.autoplay = true;
+					innerAudioContext.src = JSON.parse(res.data).data.data.ossUrl ;
+					innerAudioContext.onPlay(() => {
+					  console.log('开始播放');
+					});
+					innerAudioContext.onError((res) => {
+					  console.log(res.errMsg);
+					  console.log(res.errCode);
+					});
+				},err=>{})
 			},
 			// 挂断停用
 			transferClose(){},
@@ -231,9 +346,19 @@
 				this.$refs.noNetwork.close()
 			},
 			// 选择音色
-			checkVoice(index){
+			checkVoice(index,item){
+				var that = this
 				this.voiceCheck = index
-				
+				// 设置音色
+				const params = {
+					ttsKey: item.ttsKey,
+					sceneType: item.sceneType,
+					sceneDefId: item.sceneDefId
+				}
+				this.$request.url_request(TTSUPDATE,params,'GET',res=>{
+					// 查询当前音色
+					that.checkTtsScene()
+				},err=>{})				
 			},
 			//场景选择
 			 chooseScenario(){
@@ -301,11 +426,30 @@
 	.settingBanner{
 		width:690rpx;
 		height:332rpx;
-		background:linear-gradient(0deg,rgba(41,27,0,1) 0%,rgba(255,255,255,0) 100%);
-		opacity:0.7;
 		margin-top: 30rpx;
 		border-radius:30rpx;
 		position: relative;
+		z-index: 10;
+	}
+	.imageshadow{
+		width:690rpx;
+		height:332rpx;
+		background:linear-gradient(0deg,rgba(41,27,0,1) 0%,rgba(255,255,255,0) 100%);
+		opacity:0.7;
+		border-radius:30rpx;
+		position: absolute;
+		top: 0;
+		left: 0;
+		/* z-index: 9; */
+	}
+	.settingBanner>image{
+		width:690rpx;
+		height:332rpx;
+		position: absolute;
+		border-radius:30rpx;	
+		top: 0;
+		left: 0;
+		z-index: -1;
 	}
 	.bannerText{
 		width:690rpx;
@@ -384,10 +528,16 @@
 		width:100rpx;
 		height:100rpx;
 		border-radius:50%;
-		border: 1rpx solid #F0AD4E;
+	}
+	.imgHeader>image{
+		width:100rpx;
+		height:100rpx;
+		border-radius:50%;
 	}
 	.voiceItemText{
+		color: #111111;
 		display: flex;
+		font-size: 28rpx;
 		flex-direction: column;
 		margin-left: 20rpx;
 	}
@@ -505,10 +655,34 @@
 		padding-top: 20rpx;
 	}
 	.scenarioItem{
-		text-align: center;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
 		font-size: 30rpx;
 		color: #111111;
 		padding: 30rpx;
+	}
+	.scenarioItemLeft{
+		display: flex;
+		flex-direction: row;
+	}
+	.scenarioItemName{
+		width: 200rpx;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+	}
+	.scenarioItemCheck{
+		width: 40rpx;
+		text-align: center;
+		color: #1C75FF;
+	}
+	.scenarioCheckIcon{
+		margin-left: 20rpx;
+		width: 40rpx;
+		height: 40rpx;
+		line-height: 40rpx;
 	}
 	.scenarioDeliver{
 		width: 100%;

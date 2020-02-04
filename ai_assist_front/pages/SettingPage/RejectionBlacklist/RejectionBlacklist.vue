@@ -40,16 +40,27 @@
 			</view>
 			<!-- 列表 -->
 			<view class="listBox">
+				<!-- 无数据 -->
+				<view class="noDataBox" v-if="listData.length ==0">
+					<view class="noData">
+						<image src="../../../static/quexing/wushujku@2x.png" mode=""></image>
+						<view>
+							<text>暂无数据</text>
+						</view>
+					</view>
+				</view>
 				<view v-for="(item,index) in listData" :key='index'>
 					<view class="listItem">
 						<view class="listItemLeft">
-							<view class="listItemImg"></view>
+							<view class="listItemImg"><image :src="item.avatarUrl" mode=""></image></view>
 							<view class="listItemName">
-								<view style="font-size: 32rpx;color: #111111;">{{item.name}}</view>
-								<view style="font-size: 26rpx;color: #999999;margin-top: 18rpx;">{{item.tel}}</view>
+								<view class="mobileDetail">
+									<text v-if="item.name !== ''">{{item.name}}</text>
+									<text>{{item.mobile}}</text>
+								</view>
 							</view>
 						</view>
-						<view @click="deleteBlack"><text class="cuIcon-delete laji"></text></view>
+						<view @click="deleteBlack(item)"><text class="cuIcon-delete laji"></text></view>
 					</view>
 					<view class="listDeliver"><view></view></view>
 				</view>
@@ -61,7 +72,7 @@
 				<view class="deleteBlack-title"><text>是否取消拒接来电</text></view>
 				<view class="deleteBlack-btn">
 					<view class="deleteBlack-cacel" @click="deleteBlackCacel">取消</view>
-					<view class="deleteBlack-sure">确定</view>
+					<view class="deleteBlack-sure" @click="deleteBlackSure">确定</view>
 				</view>
 			</view>
 		</uni-popup>
@@ -71,28 +82,62 @@
 <script>
 	import evanSwitch from '../../../components/evan-switch/evan-switch.vue'
 	import uniPopup from "../../../components/uni-popup/uni-popup.vue"
+	import {BLACKLIST,BLACKADD,BLACKDELETE} from '../../../utils/api.js'
 	export default {
 		components:{evanSwitch,uniPopup},
 		data() {
 			return {
 				zhapian: false,
 				dingding: false,
-				listData:[
-					{name: '小敏', tel: '183****2231'},
-					{name: '小敏', tel: '183****2231'},
-					{name: '小敏', tel: '183****2231'},
-					{name: '小敏', tel: '183****2231'}
-				]
+				pageSize: 0,
+				pageNum: 10,
+				deleteMobile: '',
+				listData:[]
 			}
 		},
+		onLoad() {
+			//获取黑名单列表
+			this.getBlackList()
+		},
 		methods: {
+			//获取黑名单列表
+			getBlackList(){
+				const params ={
+					pageSize: this.pageSize,
+					pageNum: this.pageNum,
+				}
+				this.$request.url_request(BLACKLIST,params,'GET',res=>{
+					this.listData = JSON.parse(res.data).data.data.list
+				},err=>{})
+			},
 			// 取消删除黑名单
 			deleteBlackCacel(){
 				this.$refs.deleteBlack.close()
 			},
 			// 删除黑名单
-			deleteBlack(){
+			deleteBlack(item){
 				this.$refs.deleteBlack.open()
+				this.deleteMobile = item.mobile
+			},
+			// 确认删除黑名单
+			deleteBlackSure(){
+				var that = this
+				const params = {
+					mobile: this.deleteMobile
+				}
+				this.$request.url_request(BLACKDELETE,params,'GET',res=>{
+					console.log(JSON.parse(res.data).data.code)
+					if(JSON.parse(res.data).data.code == 200){
+						that.$refs.deleteBlack.close()
+						that.getBlackList()
+					} else{
+						uni.showToast({
+							title:JSON.parse(res.data).data.resultMsg,
+							icon:'none',
+							duration:1200
+						})
+					}
+				},err=>{})
 			},
 			// 添加黑名单
 			addBlack(){
@@ -186,12 +231,32 @@ page{
 	width: 100rpx;
 	height: 100rpx;
 	border-radius: 100rpx;
-	border: 1rpx solid #F0AD4E;
+}
+.listItemImg>image{
+	width: 100rpx;
+	height: 100rpx;
+	border-radius: 100rpx;
 }
 .listItemName{
 	display: flex;
 	flex-direction: column;
 	margin-left: 20rpx;
+	align-items: center;
+}
+.mobileDetail{
+	height: 100rpx;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+.mobileDetail>text:nth-of-type(1){
+	font-size: 32rpx;
+	color: #111111;
+}
+.mobileDetail>text:nth-of-type(2){
+	font-size: 24rpx;
+	color: #999999;
+	margin-top: 10rpx;
 }
 .laji{
 	color: #999999;
@@ -241,4 +306,28 @@ page{
 	background:linear-gradient(-90deg,rgba(28,117,255,1),rgba(87,153,255,1));
 	margin-left: 68rpx;
 }
+	.noDataBox {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		margin-top: 100rpx;
+	}
+
+	.noData {
+		text-align: center;
+	}
+
+	.noData>image {
+		width: 265rpx;
+		height: 204rpx;
+	}
+
+	.noData>view> {
+		margin-top: 20rpx;
+	}
+
+	.noData>view>text {
+		color: #CBDCFE;
+		font-size: 28rpx;
+	}
 </style>
