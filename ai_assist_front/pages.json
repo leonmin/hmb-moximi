@@ -618,6 +618,15 @@
 				}
 			}
         }
+        ,{
+            "path" : "pages/SettingPage/setReply/setReply",
+            "style" : {
+				"navigationBarTitleText":"设置回复",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

@@ -10,18 +10,19 @@
 				<view class="CourierLeft">
 					<view class="Courier-img"><image src="../../../static/setting/kuaidi@2x.png" mode=""></image></view>
 					<view class="Courier-des">
-						<text>快递场景</text>
-						<text>接到快递电话，小秘将回复勾选内容</text>
+						<text>{{courierData.name}}</text>
+						<text>{{courierData.notice}}</text>
 					</view>
 				</view>
 					<evan-switch :size="25" inactive-color='#E5E5E5' v-model="courierSwitch"></evan-switch>	
 			</view>
 			<!-- 快递展开 -->
 			<view class="courierOpen" v-if="courierSwitch">
-				<view class="courierOpenItem" :class="courierOpenIndex == index?'courierOpenItemCheck':'courierOpenItemunCheck'" v-for="(item,index) in courierOpenData" :key='index'>
+				<view class="courierOpenItem" :class="item.active?'courierOpenItemCheck':'courierOpenItemunCheck'" v-for="(item,index) in takeOutOpenData" :key='index' @click="checkcourier(item)">
 					<text>{{item.text}}</text>
+					<text v-if="item.activeType == 1" class="cuIcon-write" @click.stop="modify(item)"></text>
 				</view>
-				<view class="courierOpenAdd">
+				<view class="courierOpenAdd" @click="addReply(2)">
 					<text class="cuIcon-add"></text>
 				</view>
 			</view>
@@ -31,18 +32,19 @@
 				<view class="CourierLeft">
 					<view class="Courier-img1"><image src="../../../static/setting/waimai@2x.png" mode=""></image></view>
 					<view class="Courier-des">
-						<text>外卖场景</text>
-						<text>接到外卖电话，小秘将回复勾选内容</text>
+						<text>{{takeoutData.name}}</text>
+						<text>{{takeoutData.notice}}</text>
 					</view>
 				</view>
 					<evan-switch :size="25" inactive-color='#E5E5E5' v-model="takeOut"></evan-switch>	
 			</view>
 			<!-- 外卖展开 -->
 			<view class="courierOpen" v-if="takeOut">
-				<view class="courierOpenItem" :class="takeOutIndex == index?'courierOpenItemCheck':'courierOpenItemunCheck'" v-for="(item,index) in courierOpenData" :key='index'>
+				<view class="courierOpenItem" :class="item.active?'courierOpenItemCheck':'courierOpenItemunCheck'" v-for="(item,index) in courierOpenData" :key='index' @click="checkcourier(item)">
 					<text>{{item.text}}</text>
+					<text v-if="item.activeType == 1" class="cuIcon-write" @click.stop="modify(item)"></text>
 				</view>
-				<view class="courierOpenAdd">
+				<view class="courierOpenAdd"  @click="addReply(1)">
 					<text class="cuIcon-add"></text>
 				</view>
 			</view>
@@ -55,15 +57,81 @@
 				<text>以下场景开启后，小秘将统一回复“不需要”</text>
 			</view>
 			<view class="sceneOpenContain">
-				<view v-for="(item,index) in sceneOpenData" :key='index'>
+				<!-- 房 -->
+				<view>
 					<view class="sceneOpenItem">
 						<view class="sceneOpenLeft">
-							<view class="sceneOpen-img"><image :src="item.img" mode=""></image></view>
+							<view class="sceneOpen-img"><image src="../../../static/setting/maifang@2x.png" mode=""></image></view>
 							<view class="sceneOpen-text">
-								<text>{{item.name}}</text>
+								<text>我不需要买房</text>
 							</view>
 						</view>
-						<evan-switch :size="25" inactive-color='#E5E5E5' v-model="item.isCheck"></evan-switch>
+						<evan-switch :size="25" inactive-color='#E5E5E5' v-model="estateType" @change="sceneChange('estateType',estateType)"></evan-switch>
+					</view>
+					<view class="sceneDliver"></view>
+				</view>
+				<!-- 保险 -->
+				<view>
+					<view class="sceneOpenItem">
+						<view class="sceneOpenLeft">
+							<view class="sceneOpen-img"><image src="../../../static/setting/baoxian@2x.png" mode=""></image></view>
+							<view class="sceneOpen-text">
+								<text>我不需要买保险</text>
+							</view>
+						</view>
+						<evan-switch :size="25" inactive-color='#E5E5E5' v-model="insureType"  @change="sceneChange('insureType',insureType)"></evan-switch>
+					</view>
+					<view class="sceneDliver"></view>
+				</view>
+				<!-- 教育 -->
+				<view>
+					<view class="sceneOpenItem">
+						<view class="sceneOpenLeft">
+							<view class="sceneOpen-img"><image src="../../../static/setting/peixun@2x.png" mode=""></image></view>
+							<view class="sceneOpen-text">
+								<text>我不需要参加教育培训</text>
+							</view>
+						</view>
+						<evan-switch :size="25" inactive-color='#E5E5E5' v-model="educateType" @change="sceneChange('educateType',educateType)"></evan-switch>
+					</view>
+					<view class="sceneDliver"></view>
+				</view>
+				<!-- 购物 -->
+				<view>
+					<view class="sceneOpenItem">
+						<view class="sceneOpenLeft">
+							<view class="sceneOpen-img"><image src="../../../static/setting/gouwu@2x.png" mode=""></image></view>
+							<view class="sceneOpen-text">
+								<text>我不需要购物</text>
+							</view>
+						</view>
+						<evan-switch :size="25" inactive-color='#E5E5E5' v-model="shoppingType" @change="sceneChange('shoppingType',shoppingType)"></evan-switch>
+					</view>
+					<view class="sceneDliver"></view>
+				</view>
+				<!-- 买车 -->
+				<view>
+					<view class="sceneOpenItem">
+						<view class="sceneOpenLeft">
+							<view class="sceneOpen-img"><image src="../../../static/setting/maiche@2x.png" mode=""></image></view>
+							<view class="sceneOpen-text">
+								<text>我不需要买车</text>
+							</view>
+						</view>
+						<evan-switch :size="25" inactive-color='#E5E5E5' v-model="carType" @change="sceneChange('carType',carType)"></evan-switch>
+					</view>
+					<view class="sceneDliver"></view>
+				</view>
+				<!-- 贷款 -->
+				<view>
+					<view class="sceneOpenItem">
+						<view class="sceneOpenLeft">
+							<view class="sceneOpen-img"><image src="../../../static/setting/daikuan@2x.png" mode=""></image></view>
+							<view class="sceneOpen-text">
+								<text>我不需要贷款</text>
+							</view>
+						</view>
+						<evan-switch :size="25" inactive-color='#E5E5E5' v-model="loansType" @change="sceneChange('loansType',loansType)"></evan-switch>
 					</view>
 					<view class="sceneDliver"></view>
 				</view>
@@ -74,38 +142,120 @@
 
 <script>
 	import evanSwitch from '../../../components/evan-switch/evan-switch.vue'
+	import {SCENESTATUS,SCENELIST,SCENEREFUSE,SCENEREFUSEUPDATE,SCENEUSERPOST,SCENCESET } from '../../../utils/api.js'
 	export default {
 		components:{
 			evanSwitch
 		},
 		data() {
 			return {
+				courierData: '',
+				takeoutData: '',
 				courierSwitch: false,
 				takeOut: false,
-				courierOpenData:[
-					{text: '你好，能否麻烦你把快递放在附近的快递点或者自提柜。谢谢'},
-					{text: '麻烦直接放在我家门口吧，谢谢'},
-					{text: '麻烦放在公司前台或者是门房吧，谢谢'}
-				],
-				takeOutData:[
-					{text: '我现在在忙，能否麻烦你把外卖放到保安那边呢我会去拿的'},
-					{text: '麻烦直接放在我家门口吧，谢谢'},
-					{text: '麻烦放在公司前台或者是门房吧，谢谢'}
-				],
-				courierOpenIndex: 0,
-				takeOutIndex: 0,
-				sceneOpenData:[
-					{name: '我不需要买房',isCheck: false,img:'../../../static/setting/maifang@2x.png'},
-					{name: '我不需要买保险',isCheck: false,img:'../../../static/setting/baoxian@2x.png'},
-					{name: '我不需要参加教育培训',isCheck: false,img:'../../../static/setting/peixun@2x.png'},
-					{name: '我不需要购物',isCheck: false,img:'../../../static/setting/gouwu@2x.png'},
-					{name: '我不需要买车',isCheck: false,img:'../../../static/setting/maiche@2x.png'},
-					{name: '我不需要贷款',isCheck: false,img:'../../../static/setting/daikuan@2x.png'}
-				]
+				SceneStatus: '',//自定义场景
+				courierOpenData:[],
+				takeOutOpenData:[],
+				SceneRefuse: [],
+				carType: '',
+				educateType: '',
+				estateType: '',
+				insureType: '',
+				loansType: '',
+				shoppingType: ''
 			}
 		},
+		onLoad() {
+			// 获取场景列表
+			this.getSceneStatus()
+			// 获取外卖场景列表回复
+			this.getcourierSceneList()
+			// 获取快递场景列表回复
+			this.getTakeoutSceneList()
+			// 查询拒接场景
+			this.getSceneRefuse()
+		},
 		methods: {
-			
+			// 获取场景列表
+			getSceneStatus(){
+				const params = {}
+				this.$request.url_request(SCENESTATUS,params,'GET',res=>{
+					this.SceneStatus = JSON.parse(res.data).data.data
+					this.courierData = this.SceneStatus[0]
+					this.takeoutData = this.SceneStatus[1]
+				},err=>{})
+			},
+			// 获取外卖场景列表回复
+			getcourierSceneList(){
+				const params = {
+					sceneType: 1
+				}
+				this.$request.url_request(SCENELIST,params,'GET',res=>{
+					this.courierOpenData = JSON.parse(res.data).data.data.list
+				},err=>{})
+			},
+			// 获取快递场景列表回复
+			getTakeoutSceneList(){
+				const params = {
+					sceneType: 2
+				}
+				this.$request.url_request(SCENELIST,params,'GET',res=>{
+					this.takeOutOpenData = JSON.parse(res.data).data.data.list
+				},err=>{})
+			},
+			// 保存快递回复
+			checkcourier(item){
+				var that = this
+				const params = {
+					sceneType: item.sceneType,
+					id: item.id,
+					activeType: item.activeType
+				}
+				this.$request.url_request(SCENCESET,params,'GET',res=>{
+					that.getTakeoutSceneList()
+					that.getcourierSceneList()
+				},err=>{})
+
+			},
+			// 查询拒接场景
+			getSceneRefuse(){
+				const params = {}
+				this.$request.url_request(SCENEREFUSE,params,'GET',res=>{
+					this.SceneRefuse = JSON.parse(res.data).data.data
+					this.estateType = this.SceneRefuse.estateType == 1? true:false
+					this.insureType = this.SceneRefuse.insureType == 1? true:false
+					this.educateType = this.SceneRefuse.educateType == 1? true:false
+					this.shoppingType = this.SceneRefuse.shoppingType == 1? true:false
+					this.carType = this.SceneRefuse.carType == 1? true:false
+					this.loansType = this.SceneRefuse.loansType == 1? true:false
+					
+				},err=>{})
+			},
+			// 场景关闭开启
+			sceneChange(type,open){
+				var that = this
+				const params = {
+					type: type,
+					status: open == true? 1: 0,
+					accountId: this.SceneRefuse.accountId
+				}
+				console.log(params)
+				this.$request.url_request(SCENEREFUSEUPDATE,params,'GET',res=>{
+					that.getSceneRefuse()
+				},err=>{})
+			},
+			// 回复修改
+			modify(item){
+				uni.navigateTo({
+					url:'../setReply/setReply?data='+JSON.stringify(item) 
+				})
+			},
+			// 添加回复
+			addReply(type){
+				uni.navigateTo({
+					url:'../setReply/setReply?type='+type
+				})
+			},
 		}
 	}
 </script>
@@ -176,6 +326,10 @@ page{
 	color: #222222;
 	padding: 30rpx 47rpx;
 	margin: 20rpx 0;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
 }
 .courierOpenItemCheck{
 	border:3rpx solid #1C75FF;

@@ -122,6 +122,8 @@ export const CARDPACK =API+"/app/chat/cardPack";
 export const CARDPACKDETAILS =API+"/app/chat/cardPackDetails";
 
 // 接听配置
+
+
 // 转接状态
 export const TRANSFERCONFIG = API+"/user/bysetting/transferConfig"
 // 音色列表
@@ -150,3 +152,21 @@ export const BLACKLIST = API+"/user/bysetting/blackList"
 export const BLACKADD = API+"/user/bysetting/blackAdd"
 // 黑名单删除
 export const BLACKDELETE = API+"/user/bysetting/blackDetele"
+// 拒接黑名单状态
+export const REFUSECALL = API+"/user/bysetting/refuseCall"
+// 更改拒接黑名单状态
+export const REFUSECALLSET = API+"/user/bysetting/refuseCallSet"
+// 场景列表
+export const SCENESTATUS = API+"/user/bysetting/sceneStatus"
+// 场景列表
+export const SCENELIST = API+"/user/bysetting/scenelist"
+// 场景拒接列表
+export const SCENEREFUSE = API+"/user/bysetting/sceneRefuse"
+// 场景拒接列表更新
+export const SCENEREFUSEUPDATE = API+"/user/bysetting/sceneRefuseUpdate"
+// 添加场景回复
+export const SCENEUSERPOST = API+"/user/bysetting/sceneUserPost"
+//设置语音开场白
+export const SETVOICEPROLOGUE = API+"/user/bysetting/setVoicePrologue"
+//设置回复
+export const SCENCESET = API+"/user/bysetting/sceneSet"

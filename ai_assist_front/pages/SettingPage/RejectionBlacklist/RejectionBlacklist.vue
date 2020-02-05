@@ -14,7 +14,7 @@
 						<view class="blacklist-left-img"><image src="../../../static/setting/zhapian@2x.png" mode=""></image></view>
 						<view class="blacklist-left-text"><text>诈骗电话</text></view>
 					</view>
-					<evan-switch :size="25" inactive-color='#E5E5E5' v-model="zhapian"></evan-switch>
+					<evan-switch :size="25" inactive-color='#E5E5E5' v-model="zhapian" @change="statusChange('defraud',RefuseCall.defraud)"></evan-switch>
 				</view>
 				<view class="deliver"></view>
 				<!-- 钉钉电话会议 -->
@@ -23,7 +23,7 @@
 						<view class="blacklist-left-img"><image src="../../../static/setting/dingding@2x.png" mode=""></image></view>
 						<view class="blacklist-left-text"><text>钉钉电话会议</text></view>
 					</view>
-					<evan-switch :size="25" inactive-color='#E5E5E5' v-model="dingding"></evan-switch>
+					<evan-switch :size="25" inactive-color='#E5E5E5' v-model="dingding"  @change="statusChange('dingding',RefuseCall.dingding)"></evan-switch>
 				</view>
 			</view>
 		</view>
@@ -82,24 +82,37 @@
 <script>
 	import evanSwitch from '../../../components/evan-switch/evan-switch.vue'
 	import uniPopup from "../../../components/uni-popup/uni-popup.vue"
-	import {BLACKLIST,BLACKADD,BLACKDELETE} from '../../../utils/api.js'
+	import {BLACKLIST,BLACKADD,BLACKDELETE,REFUSECALL,REFUSECALLSET} from '../../../utils/api.js'
 	export default {
 		components:{evanSwitch,uniPopup},
 		data() {
 			return {
-				zhapian: false,
-				dingding: false,
+				zhapian: '',
+				dingding: '',
 				pageSize: 0,
 				pageNum: 10,
 				deleteMobile: '',
-				listData:[]
+				listData:[],
+				RefuseCall: '',//拒接状态
 			}
 		},
 		onLoad() {
 			//获取黑名单列表
 			this.getBlackList()
+			// 查询拒接状态
+			this.getRefuseCall()
 		},
 		methods: {
+			// 查询拒接状态
+			getRefuseCall(){
+				const params = {}
+				this.$request.url_request(REFUSECALL,params,'GET',res=>{
+					this.RefuseCall = JSON.parse(res.data).data.data
+					console.log(this.RefuseCall)
+					this.zhapian = this.RefuseCall.defraud ==1?true: false
+					this.dingding = this.RefuseCall.dingding ==1?true: false
+				},err=>{})
+			},
 			//获取黑名单列表
 			getBlackList(){
 				const params ={
@@ -144,6 +157,20 @@
 				uni.navigateTo({
 					url:'../addBlack/addBlack'
 				})
+			},
+			// 状态更改
+			statusChange(status,num){
+				var that = this
+				console.log(num)
+				num = num == 1?0:1
+				const params = {
+					type: status,
+					status:num
+				}
+				console.log(params)
+				this.$request.url_request(REFUSECALLSET,params,'GET',res=>{
+					that.getRefuseCall()
+				},err=>{})
 			}
 		}
 	}

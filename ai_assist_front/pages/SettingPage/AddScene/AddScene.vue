@@ -121,7 +121,9 @@
 		VOICEPROLOGUE,
 		TEXTPROLOGUE,
 		SETTEXTPROLOGUE,
-		PROLOGUEGET
+		PROLOGUEGET,
+		SETVOICEPROLOGUE,
+		TTSSCENE
 	} from "../../../utils/api.js"
 	var jweixin = require('jweixin-module')
 	var jishiInterval;
@@ -144,6 +146,7 @@
 					opacity: "1"
 				},
 				isRec: false,
+				ttsScene: '',
 				isSave: false,
 				isPlay: true,
 				confirmShow: false,
@@ -164,7 +167,7 @@
 				PrologueGet: '',//场景详情
 				ttsKey: '',
 				sceneType: '',
-				sceneDefId: ''
+				sceneDefId: '',
 
 			}
 		},
@@ -176,6 +179,8 @@
 			}
 			// 得到JSSDK
 			this.getJsAPI()
+			// 查询当前音色
+			this.checkTtsScene()
 		},
 		methods: {
 			// 编辑场景
@@ -189,7 +194,7 @@
 					this.openInput = this.PrologueGet.customText
 					this.ttsKey = this.PrologueGet.ttsKey,
 					this.sceneType = this.PrologueGet.sceneType
-					this.sceneDefId = thid.prologueGet.sceneDefId
+					this.sceneDefId = this.prologueGet.sceneDefId
 				},err=>{})
 			},
 			// 获得jssdk
@@ -398,11 +403,15 @@
 					  success: function (res) {
 					    _this.serverId = res.serverId; // 返回音频的服务器端ID
 						const params = {
-							// mobile: _this.mobile,
 							serverId: _this.serverId,
-							voiceLength: _this.timeConsum
+							voiceLength: _this.timeConsum,
+							name: this.sceneName,
+							id: this.sceneId,
+							ttsKey: this.ttsScene.ttsKey,
+							sceneType: this.ttsScene.sceneType,
+							sceneDefId: this.ttsScene.sceneDefId
 						}
-						_this.$request.url_request(VOICEPROLOGUE,params,'GET',res =>{
+						_this.$request.url_request(SETVOICEPROLOGUE,params,'GET',res =>{
 							console.log("录音上传成功！")
 							uni.showToast({
 								title: '保存成功!',
@@ -431,6 +440,13 @@
 					this.confirmShow = false,
 					this.failShow = false
 				}
+			},
+			// 查询当前音色
+			checkTtsScene(){
+				const params = {}
+				this.$request.url_request(TTSSCENE,params,'GET',res=>{
+					this.ttsScene = JSON.parse(res.data).data.data
+				},err=>{})
 			},
 			// 取消录音
 			cancelSave() {

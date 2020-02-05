@@ -88,7 +88,7 @@
 				</view>
 			</view>
 			<view class="closeTotal">
-				<text>一键关闭</text>
+				<text @click="closeAll">一键关闭</text>
 			</view>
 		</view>
 		<!-- 场景选择-->
@@ -125,7 +125,7 @@
 				<view class="popTitle">挂断转接</view>
 				<view class="popContain">
 					<text>遇忙呼叫转移，请点击拨打号码</text>
-					<text style="color: #1C75FF;">**67*057156335846#</text>
+					<text style="color: #1C75FF;">*67*057126211610#</text>
 					<text>此操作不产生任何费用</text>
 				</view>
 				<view class="popTip">
@@ -147,7 +147,7 @@
 				<view class="popTitle">无应答</view>
 				<view class="popContain">
 					<text>无人接听呼叫转移，请点击拨打号码</text>
-					<text style="color: #1C75FF;">**61*057156335846#</text>
+					<text style="color: #1C75FF;">*61*057126211610#</text>
 					<text>此操作不产生任何费用</text>
 				</view>
 				<view class="popTip">
@@ -169,7 +169,7 @@
 				<view class="popTitle">无网络</view>
 				<view class="popContain">
 					<text>无法接通呼叫转移，请点击拨打号码</text>
-					<text style="color: #1C75FF;">**62*057156335846#</text>
+					<text style="color: #1C75FF;">*61*057126211610#</text>
 					<text>此操作不产生任何费用</text>
 				</view>
 				<view class="popTip">
@@ -190,7 +190,7 @@
 
 <script>
 	import uniPopup from "../../../components/uni-popup/uni-popup.vue"
-	import { TRANSFERCONFIG,TTSPLAID,TTSUPDATE,TTSSCENE,TTSCONVERT,PROLOGUELIST,PROLOGUECURRENT,PROLOGUESET,PROLOGUEDELETE } from '../../../utils/api.js'
+	import { TRANSFERCONFIG,TTSPLAID,TTSUPDATE,TTSSCENE,TTSCONVERT,PROLOGUELIST,PROLOGUECURRENT,PROLOGUESET,PROLOGUEDELETE,GETNUMINFO } from '../../../utils/api.js'
 	export default {
 		components: {uniPopup},
 		data() {
@@ -207,6 +207,9 @@
 				ttsScene: '',//当前音色
 				PrologueList: '',//开场白列表
 				PrologueCurrent: '',//当前开场白
+				isPlay: false,
+				telData: '',
+				mobileType: ''
 			}
 		},
 		onLoad(){
@@ -220,8 +223,31 @@
 			this.getPrologueList()
 			// 当前开场白
 			this.getPrologueCurrent()
+			// 获取电话
+			this.getNumberInfo()
 		},
 		methods: {
+			// 获取电话
+			getNumberInfo() {
+				const params = {}
+				this.$request.url_request(GETNUMINFO, params, "GET", res => {
+					this.telData = JSON.parse(res.data).data.mobile
+					// 移动
+					var isChinaMobile = /1(((3[5-9]|4[7]|5[012789]|7[28]|8[23478]|9[8])\d{8})|((34)[0-8]\d{7}))/
+					// 联通
+					var isChinaUnion = /1(3[0-2]|4[5]|5[56]|6[6]|7[156]|8[56])\d{8}/
+					//电信
+					var isChinaTelcom = /1(3[3]|4[9]|5[3]|7[37]|8[019]|9[19])\d{8}/
+					if (isChinaMobile.test(this.telData) || isChinaUnion.test(this.telData)){
+						console.log('移动或联通')
+						this.mobileType = 1
+						
+					} else if (isChinaTelcom.test(this.telData)){
+						console.log('电信')
+						this.mobileType =0
+					}
+				}, err => {})
+			},
 			// 当前开场白
 			getPrologueCurrent(){
 				const params = {}
@@ -294,11 +320,17 @@
 			},
 			// 播放语音
 			playVoice(){
+				var that = this
+				uni.showToast({
+					title:'语音生成中',
+					icon:'loading'
+				})
 				const params = {
 					ttsKey: this.ttsScene.ttsKey,
 					text: this.PrologueCurrent.customText
 				}
 				this.$request.url_request(TTSCONVERT,params,'GET',res=>{
+					uni.hideToast()
 					const innerAudioContext = uni.createInnerAudioContext();
 					innerAudioContext.autoplay = true;
 					innerAudioContext.src = JSON.parse(res.data).data.data.ossUrl ;
@@ -312,17 +344,101 @@
 				},err=>{})
 			},
 			// 挂断停用
-			transferClose(){},
+			transferClose(){
+				if(this.mobileType == 1){
+					uni.makePhoneCall({
+					    phoneNumber: '#67#' 
+					});	
+				} else{
+					uni.makePhoneCall({
+					    phoneNumber: '*900' 
+					});
+				}
+				this.$refs.transfer.close()
+			},
 			// 挂断启用
-			transferOpen(){},
+			transferOpen(){
+				if(this.mobileType == 1){
+					uni.makePhoneCall({
+					    phoneNumber: '**67*057126211610#'
+					});
+				}
+				else{
+					uni.makePhoneCall({
+					    phoneNumber: ' *90057126211610#'
+					});
+				}
+			
+				this.$refs.transfer.close()
+			},
 			// 无应答停用
-			noAnswerClose(){},
+			noAnswerClose(){
+				if(this.mobileType == 1){
+				uni.makePhoneCall({
+				    phoneNumber: '##67#'
+				});					
+				}else{
+				uni.makePhoneCall({
+			    phoneNumber: '*920'
+				});		
+				}
+
+				this.$refs.noAnswer.close()
+			},
 			// 无应答启用
-			noAnswerOpen(){},
+			noAnswerOpen(){
+				if(this.mobileType == 1){
+					uni.makePhoneCall({
+					    phoneNumber: '**61*057126211610#'
+					});
+					
+				} else{
+					uni.makePhoneCall({
+					    phoneNumber: '*92057126211610#'
+					});
+					
+				}
+
+				this.$refs.noAnswer.close()
+			},
 			// 无网络停用
-			noNetworkClose(){},
+			noNetworkClose(){
+				if(this.mobileType == 1){
+					uni.makePhoneCall({
+					    phoneNumber: '##62#'
+					});
+				}else{
+					uni.makePhoneCall({
+					    phoneNumber: '*920'
+					});
+				}
+				this.$refs.noNetwork.close()
+			},
 			// 无网络启用
-			noNetworkClose(){},
+			noNetworkOpen(){
+				if(this.mobileType == 1){
+					uni.makePhoneCall({
+					    phoneNumber: '**62*057126211610#'
+					});
+				}else{
+					uni.makePhoneCall({
+					    phoneNumber: '*92057126211610#'
+					});
+				}
+				this.$refs.noNetwork.close()
+			},
+			// 一件关闭
+			closeAll(){
+				if(this.mobileType == 1){
+					uni.makePhoneCall({
+					    phoneNumber: ' ##002#'
+					});
+				} else{
+					uni.makePhoneCall({
+					    phoneNumber: '*730'
+					});
+				}
+			},
 			// 新增场景
 			addScene(){
 				uni.navigateTo({
