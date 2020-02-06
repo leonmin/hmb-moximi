@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view v-if="listData">
 		<!-- 顶部提示 -->
 		<view class="topHeader">
 			<text> 以下类型来电，魔小秘将会进行主动挂断，不会接听但仍会记录并通知您</text>
@@ -97,6 +97,10 @@
 			}
 		},
 		onLoad() {
+			uni.showToast({
+				title:'加载中...',
+				icon:'none'
+			})
 			//获取黑名单列表
 			this.getBlackList()
 			// 查询拒接状态
@@ -120,6 +124,7 @@
 					pageNum: this.pageNum,
 				}
 				this.$request.url_request(BLACKLIST,params,'GET',res=>{
+					uni.hideToast()
 					this.listData = JSON.parse(res.data).data.data.list
 				},err=>{})
 			},

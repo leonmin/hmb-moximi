@@ -1,5 +1,5 @@
 <template>
-	<view class="editOpen">
+	<view class="editOpen" v-if="ttsScene">
 		<view class="editOpenContain shadowE7">
 			<!-- 场景名称 -->
 			<view class="toptitle">
@@ -13,11 +13,11 @@
 				</view>
 				<text class="cuIcon-notification iconSize" v-if="isleft"></text>
 				<!-- <text class="greyTextXs" v-if="recComplete">00:03</text> -->
-				<text class="greyTextXs" v-if="recComplete" @click="playRecord">试听</text>
+				<text class="greyTextXs" style="color: #1C75FF; font-size: 28rpx;" v-if="recComplete" @click="playRecord">试听</text>
 			</view>
 			<view class="openContent" :class="isRight?'greyText':''">
 				<textarea maxlength="100" bindinput="textareaAInput" v-if="isDisable" v-model="openInput" placeholder="请输入自定义开场白"></textarea>
-				<textarea maxlength="100" bindinput="textareaAInput" v-else disabled placeholder='Tips:请在录音结尾处加上"有神额是你可以先和我的「小秘」说"'></textarea>
+				<textarea maxlength="100" bindinput="textareaAInput" v-else disabled placeholder='Tips:请在录音结尾处加上"有什么是你可以先和我的「小秘」说"'></textarea>
 			</view>
 			<view class="openBtn">
 				<view>
@@ -172,6 +172,10 @@
 			}
 		},
 		onLoad(options) {
+			uni.showToast({
+				title:'加载中...',
+				icon:'none'
+			})
 			if(options.id){
 				this.sceneId = options.id
 				// 编辑场景
@@ -183,6 +187,15 @@
 			this.checkTtsScene()
 		},
 		methods: {
+			// 查询当前音色
+			checkTtsScene(){
+				const params = {}
+				this.$request.url_request(TTSSCENE,params,'GET',res=>{
+					uni.hideToast()
+					this.ttsScene = JSON.parse(res.data).data.data
+					console.log('sdadada',this.ttsScene)
+				},err=>{})
+			},
 			// 编辑场景
 			prologueGet(){
 				const params = {
@@ -194,7 +207,7 @@
 					this.openInput = this.PrologueGet.customText
 					this.ttsKey = this.PrologueGet.ttsKey,
 					this.sceneType = this.PrologueGet.sceneType
-					this.sceneDefId = this.prologueGet.sceneDefId
+					this.sceneDefId = this.PrologueGet.sceneDefId
 				},err=>{})
 			},
 			// 获得jssdk
@@ -386,7 +399,7 @@
 				}
 
 			},
-			// 上传语音
+			// 上传语音 保存录音
 			saveRecord() {
 				var _this = this
 				if (this.localId == '') {
@@ -405,12 +418,14 @@
 						const params = {
 							serverId: _this.serverId,
 							voiceLength: _this.timeConsum,
-							name: this.sceneName,
-							id: this.sceneId,
-							ttsKey: this.ttsScene.ttsKey,
-							sceneType: this.ttsScene.sceneType,
-							sceneDefId: this.ttsScene.sceneDefId
+							name: _this.sceneName,
+							id: _this.sceneId,
+							ttsKey:_this.ttsScene.ttsKey,
+							sceneType:_this.ttsScene.sceneType,
+							sceneDefId:_this.ttsScene.sceneDefId,
+							customText: "自定义语音开场白"
 						}
+						console.log('录音参数',params)
 						_this.$request.url_request(SETVOICEPROLOGUE,params,'GET',res =>{
 							console.log("录音上传成功！")
 							uni.showToast({
@@ -419,8 +434,8 @@
 								duration: 1000
 							})
 							setTimeout(() =>{
-								uni.navigateBack({
-									
+								uni.reLaunch({
+									url:'../Setting/Setting'
 								})
 							},1000)
 							_this.confirmShow = false,
@@ -440,13 +455,6 @@
 					this.confirmShow = false,
 					this.failShow = false
 				}
-			},
-			// 查询当前音色
-			checkTtsScene(){
-				const params = {}
-				this.$request.url_request(TTSSCENE,params,'GET',res=>{
-					this.ttsScene = JSON.parse(res.data).data.data
-				},err=>{})
 			},
 			// 取消录音
 			cancelSave() {

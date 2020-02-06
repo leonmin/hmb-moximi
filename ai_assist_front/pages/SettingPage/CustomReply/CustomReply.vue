@@ -1,7 +1,7 @@
 <template>
-	<view>
+	<view v-if="SceneStatus">
 		<!-- 以下场景支持自定义回复 -->
-		<view class="Scene-reply">
+		<view class="Scene-reply" >
 			<view class="topTitle">
 				<text>以下场景支持自定义回复</text>
 			</view>
@@ -14,7 +14,7 @@
 						<text>{{courierData.notice}}</text>
 					</view>
 				</view>
-					<evan-switch :size="25" inactive-color='#E5E5E5' v-model="courierSwitch"></evan-switch>	
+				<view :class="courierSwitch?'arrowIcon1':'arrowIcon'" @click="arrowChange(1)"><text class="cuIcon-unfold"></text></view>
 			</view>
 			<!-- 快递展开 -->
 			<view class="courierOpen" v-if="courierSwitch">
@@ -36,7 +36,7 @@
 						<text>{{takeoutData.notice}}</text>
 					</view>
 				</view>
-					<evan-switch :size="25" inactive-color='#E5E5E5' v-model="takeOut"></evan-switch>	
+					<view :class="takeOut?'arrowIcon1':'arrowIcon'" @click="arrowChange(2)"><text class="cuIcon-unfold"></text></view>
 			</view>
 			<!-- 外卖展开 -->
 			<view class="courierOpen" v-if="takeOut">
@@ -166,6 +166,10 @@
 			}
 		},
 		onLoad() {
+			uni.showToast({
+				title:'加载中...',
+				icon:'none'
+			})
 			// 获取场景列表
 			this.getSceneStatus()
 			// 获取外卖场景列表回复
@@ -176,10 +180,19 @@
 			this.getSceneRefuse()
 		},
 		methods: {
+			// arrowChange
+			arrowChange(num){
+				if(num ==1){
+					this.courierSwitch = !this.courierSwitch
+				} else if (num == 2){
+					this.takeOut = !this.takeOut
+				}
+			},
 			// 获取场景列表
 			getSceneStatus(){
 				const params = {}
 				this.$request.url_request(SCENESTATUS,params,'GET',res=>{
+					uni.hideToast()
 					this.SceneStatus = JSON.parse(res.data).data.data
 					this.courierData = this.SceneStatus[0]
 					this.takeoutData = this.SceneStatus[1]
@@ -277,6 +290,7 @@ page{
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
+	align-items: center;
 }
 .CourierLeft{
 	display: flex;
@@ -304,6 +318,27 @@ page{
 	color: #111111;
 	display: flex;
 	flex-direction: column;
+}
+.arrowIcon{
+	font-size: 32rpx;
+	color: #111111;
+	transition: all linear .2s;
+	-moz-transition:all linear .2s;	
+	-webkit-transition:all linear .2s;
+	-o-transition:all linear .2s;
+}
+.arrowIcon1{
+	font-size: 32rpx;
+	color: #111111;
+	transform:rotate(180deg);
+	-ms-transform:rotate(180deg); 	/* IE 9 */
+	-moz-transform:rotate(180deg); 	/* Firefox */
+	-webkit-transform:rotate(180deg); /* Safari 和 Chrome */
+	-o-transform:rotate(180deg); 
+	transition: all linear .2s;
+	-moz-transition:all linear .2s;	
+	-webkit-transition:all linear .2s;
+	-o-transition:all linear .2s;
 }
 .Courier-des>text:nth-of-type(2){
 	color: #666666;

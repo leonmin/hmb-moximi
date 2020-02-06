@@ -1,10 +1,10 @@
 <template>
-	<view class="setting">
+	<view class="setting" v-if="TransferState">
 		<!-- 标题 -->
 		<view class="topHead">
 			<view class="topHeadLeft">
 				<text>开场白设置</text>
-				<text class="cuIcon-question questionIcon"></text>
+				<text class="cuIcon-question questionIcon" @click="openPop"></text>
 			</view>
 			<view class="topHeadRight" @click="chooseScenario">
 				<text>{{PrologueCurrent.name}}</text>
@@ -43,7 +43,7 @@
 					<view class="replyLeft">
 						<view class="replyIcon"><image src="../../../static/setting/huifu@2x.png" mode=""></image></view>
 						<text class="customReplytext">定制回复</text>
-						<text class="cuIcon-question questionIcon"></text>
+						<text class="cuIcon-question questionIcon" @click.stop="question"></text>
 					</view>
 					<view class="replyRight">
 						<view class="replyItem"><text>快递</text><text>外卖</text><text>拒接</text></view>
@@ -70,27 +70,41 @@
 				<text>启用场景设置</text>
 				<text style="color: #999999; font-size: 26rpx;font-weight: 400;">开启不成功？</text>
 			</view>
-			<view class="secretaryBox">
-				<view class="secretaryItem">
-					<view class="secretaryItemImg"><image :src="TransferState.busy == 1?'../../../static/setting/guaduan@2x.png':'../../../static/setting/guaduan1@2x.png'" mode=""></image></view>
-					<text class="secretaryText">挂断转接</text>
-					<view class="secretaryItemBtn" :class="TransferState.busy == 1?'open':'close'" @click="secretary(0)">{{TransferState.busy == 1?'开启':'关闭'}}</view>
+			<view class="secretaryBoxOut">
+				<view class="secretaryBox">
+					<view class="secretaryItem">
+						<view class="secretaryItemImg"><image src="../../../static/setting/guaduan@2x.png" mode=""></image></view>
+						<text class="secretaryText">挂断转接</text>
+						<view class="secretaryItemBtn open" @click="secretary(0)">开启</view>
+					</view>
+					<view class="secretaryItem">
+						<view class="secretaryItemImg"><image src="../../../static/setting/wuyingda@2x.png" mode=""></image></view>
+						<text class="secretaryText">无应答</text>
+						<view class="secretaryItemBtn open" @click="secretary(1)">开启</view>
+					</view>
+					<view class="secretaryItem">
+						<view class="secretaryItemImg"><image src="../../../static/setting/wuwangluo@2x.png" mode=""></image></view>
+						<text class="secretaryText">无网络</text>
+						<view class="secretaryItemBtn open" @click="secretary(2)">开启</view>
+					</view>
 				</view>
-				<view class="secretaryItem">
-					<view class="secretaryItemImg"><image :src="TransferState.noAnswer == 1?'../../../static/setting/wuyingda@2x.png':'../../../static/setting/wuyingda1@2x.png'" mode=""></image></view>
-					<text class="secretaryText">无应答</text>
-					<view class="secretaryItemBtn" :class="TransferState.noAnswer == 1?'open':'close'" @click="secretary(1)">{{TransferState.noAnswer == 1?'开启':'关闭'}}</view>
-				</view>
-				<view class="secretaryItem">
-					<view class="secretaryItemImg"><image :src="TransferState.unreachable == 1?'../../../static/setting/wuwangluo@2x.png':'../../../static/setting/wuwangluo1@2x.png'" mode=""></image></view>
-					<text class="secretaryText">无网络</text>
-					<view class="secretaryItemBtn" :class="TransferState.unreachable == 1?'open':'close'" @click="secretary(2)">{{TransferState.unreachable == 1?'开启':'关闭'}}</view>
+				<view class="secretaryBoxDeliver"></view>
+				<view class="closeTotal" @click="closeAll">
+					<text>一键关闭</text>
 				</view>
 			</view>
-			<view class="closeTotal">
-				<text @click="closeAll">一键关闭</text>
-			</view>
+
 		</view>
+		<!-- 音乐播放 -->
+		<uni-popup ref="musicPlay" type="center" style="z-index: 10000;" @change="musicChange">
+			<view class="music active">
+			    <i></i>
+			    <i></i>
+			    <i></i>
+			    <i></i>
+			    <i></i>
+			</view>
+		</uni-popup>
 		<!-- 场景选择-->
 		<uni-popup ref="scenariopopup" type="bottom" style="z-index: 10000;">
 			<view class="scenarioBox">
@@ -125,7 +139,7 @@
 				<view class="popTitle">挂断转接</view>
 				<view class="popContain">
 					<text>遇忙呼叫转移，请点击拨打号码</text>
-					<text style="color: #1C75FF;">*67*057126211610#</text>
+					<text style="color: #1C75FF;">{{this.transferOpenTel}}</text>
 					<text>此操作不产生任何费用</text>
 				</view>
 				<view class="popTip">
@@ -147,7 +161,7 @@
 				<view class="popTitle">无应答</view>
 				<view class="popContain">
 					<text>无人接听呼叫转移，请点击拨打号码</text>
-					<text style="color: #1C75FF;">*61*057126211610#</text>
+					<text style="color: #1C75FF;">{{noAnswerOpenTel}}</text>
 					<text>此操作不产生任何费用</text>
 				</view>
 				<view class="popTip">
@@ -169,7 +183,7 @@
 				<view class="popTitle">无网络</view>
 				<view class="popContain">
 					<text>无法接通呼叫转移，请点击拨打号码</text>
-					<text style="color: #1C75FF;">*61*057126211610#</text>
+					<text style="color: #1C75FF;">{{noNetworkOpenTel}}</text>
 					<text>此操作不产生任何费用</text>
 				</view>
 				<view class="popTip">
@@ -185,10 +199,52 @@
 				<image src="../../../static/incomeHome/guanbi@2x.png" mode="" @click="closeDue"></image>
 			</view>
 		</uni-popup>
+		<!-- 一键关闭弹窗 -->
+		<uni-popup ref='turnOff' type='center' style="z-index: 10000;" :maskClick='false'>
+			<view class="popBox">
+				<view class="popTitle">一键关闭</view>
+				<view class="popContain">
+					<text>一键关闭呼叫转移，请点击拨打号码</text>
+					<text style="color: #1C75FF;">{{turnOffTel}}</text>
+					<text>此操作不产生任何费用</text>
+				</view>
+				<view class="popTip">
+					<text>设置成功后会提示</text>
+					<text>“设置注册成功”</text>
+				</view>
+				<view class="popBtn">
+					<view class="turnOffButton" @click="turnOffClose">一键关闭</view>
+				</view>
+			</view>
+			<view class="closeImage">
+				<image src="../../../static/incomeHome/guanbi@2x.png" mode="" @click="closeDue"></image>
+			</view>
+		</uni-popup>
+		<!-- 开场白弹窗 -->
+		<uni-popup ref='openPop' type='center' style="z-index: 10000;" :maskClick='false'>
+			<view class="questionBox">
+				<view class="questionTitle">开场白说明</view>
+				<view class="questionContain">魔小秘第一句说出的内容，起着介绍自己，带动对方；留言或说话的目的~</view>
+				<view class="questionBtn" @click="closeDue">我知道了</view>
+			</view>
+			<view class="closeImage">
+			</view>
+		</uni-popup>
+		<!-- 问号弹窗 -->
+		<uni-popup ref='question' type='center' style="z-index: 10000;" :maskClick='false'>
+			<view class="questionBox">
+				<view class="questionTitle">帮助魔小秘回答</view>
+				<view class="questionContain">针对各个场景可以自定义输入回答让魔小秘帮您说~</view>
+				<view class="questionBtn" @click="closeDue">我知道了</view>
+			</view>
+			<view class="closeImage">
+			</view>
+		</uni-popup>
 	</view>
 </template>
 
 <script>
+	let innerAudioContext = uni.createInnerAudioContext();
 	import uniPopup from "../../../components/uni-popup/uni-popup.vue"
 	import { TRANSFERCONFIG,TTSPLAID,TTSUPDATE,TTSSCENE,TTSCONVERT,PROLOGUELIST,PROLOGUECURRENT,PROLOGUESET,PROLOGUEDELETE,GETNUMINFO } from '../../../utils/api.js'
 	export default {
@@ -209,18 +265,39 @@
 				PrologueCurrent: '',//当前开场白
 				isPlay: false,
 				telData: '',
-				mobileType: ''
+				mobileType: '',
+				voiceType: '',
+				currentUrl: '',
+				turnOffTel: '',
+				transferOpenTel: '',
+				transferCloseTel: '',
+				noAnswerCloseTel: '',
+				noAnswerOpenTel: '',
+				noNetworkCloseTel:'',
+				noNetworkOpenTel: ''
+			}
+		},
+		watch:{
+			isPlay(e){
+				console.log('监听',e)
+				if(!e){
+					this.$refs.musicPlay.close()
+				}
 			}
 		},
 		onLoad(){
+			uni.showToast({
+				title:'加载中...',
+				icon:'none'
+			})
 			//转接状态
 			this.getTransferConfig()
+			// 开场白列表
+			this.getPrologueList()
 			// 获取音色列表TTSPLAID
 			this.getTtsplaid()
 			// 查询当前音色
 			this.checkTtsScene()
-			// 开场白列表
-			this.getPrologueList()
 			// 当前开场白
 			this.getPrologueCurrent()
 			// 获取电话
@@ -240,10 +317,24 @@
 					var isChinaTelcom = /1(3[3]|4[9]|5[3]|7[37]|8[019]|9[19])\d{8}/
 					if (isChinaMobile.test(this.telData) || isChinaUnion.test(this.telData)){
 						console.log('移动或联通')
+						this.turnOffTel = '##002#'
+						this.transferOpenTel = '**67*057126211610#'
+						this.transferCloseTel = '#67#' 
+						this.noAnswerCloseTel= '##67#',
+						this.noAnswerOpenTel= '**61*057126211610#',
+						this.noNetworkCloseTel= '##62#',
+						this.noNetworkOpenTel= '**62*057126211610#',
 						this.mobileType = 1
 						
 					} else if (isChinaTelcom.test(this.telData)){
 						console.log('电信')
+						this.turnOffTel = '*730'
+						this.transferOpenTel = '*90057126211610#'
+						this.transferCloseTel = '*900'
+						this.noAnswerCloseTel= '*920',
+						this.noAnswerOpenTel= '*92057126211610#',
+						this.noNetworkCloseTel= '*920',
+						this.noNetworkOpenTel= '*92057126211610#',
 						this.mobileType =0
 					}
 				}, err => {})
@@ -253,6 +344,9 @@
 				const params = {}
 				this.$request.url_request(PROLOGUECURRENT,params,'GET',res=>{
 					this.PrologueCurrent = JSON.parse(res.data).data.data
+					this.voiceType = this.PrologueCurrent.voiceType
+					this.currentUrl = this.PrologueCurrent.customOssUrl
+					console.log('开场白类型',this.voiceType)
 				},err=>{})
 			},
 			// 开场白列表
@@ -270,7 +364,7 @@
 				}
 				this.$request.url_request(PROLOGUESET,params,'GET',res=>{
 					that.getPrologueCurrent()
-					// that.$refs.scenariopopup.close()
+					that.$refs.scenariopopup.close()
 				},err=>{})
 			},
 			// 修改开场白
@@ -308,6 +402,7 @@
 			getTransferConfig(){
 				const params = {}
 				this.$request.url_request(TRANSFERCONFIG,params,'GET',res=>{
+					uni.hideToast()
 					this.TransferState = JSON.parse(res.data).data.data
 				},err=>{})
 			},
@@ -321,126 +416,141 @@
 			// 播放语音
 			playVoice(){
 				var that = this
-				uni.showToast({
-					title:'语音生成中',
-					icon:'loading'
-				})
-				const params = {
-					ttsKey: this.ttsScene.ttsKey,
-					text: this.PrologueCurrent.customText
+				this.isPlay = !this.isPlay
+				console.log('是否播放',this.isPlay)
+				if(this.isPlay){
+					uni.showToast({
+						title:'语音生成中',
+						icon:'loading'
+					})
+					if(that.voiceType == 1 || that.voiceType == 0){
+						const params = {
+							ttsKey: this.ttsScene.ttsKey,
+							text: this.PrologueCurrent.customText
+						}	
+						this.$request.url_request(TTSCONVERT,params,'GET',res=>{
+								uni.hideToast()
+								innerAudioContext.autoplay = true;
+								innerAudioContext.src = JSON.parse(res.data).data.data.ossUrl ;
+								that.$refs.musicPlay.open()
+								innerAudioContext.onPlay(() => {
+								  console.log('开始播放');
+								});
+								innerAudioContext.onEnded(function(){
+									that.isPlay = false
+									console.log('播放完毕')
+									// that.$refs.musicPlay.close()
+								})
+								innerAudioContext.onError((res) => {
+								  console.log(res.errMsg);
+								  console.log(res.errCode);
+								});	
+						},err=>{})
+										
+					} else{
+						uni.hideToast()
+						innerAudioContext.autoplay = true;
+						innerAudioContext.src = that.currentUrl;
+						that.$refs.musicPlay.open()
+						innerAudioContext.onPlay(() => {
+						  console.log('开始播放');
+						});
+						innerAudioContext.onEnded(function(){
+							that.isPlay = false
+							console.log('播放完毕')
+							// that.$refs.musicPlay.close()
+						})
+						innerAudioContext.onError((res) => {
+						  console.log(res.errMsg);
+						  console.log(res.errCode);
+						});	
+					}
+				
+				}else{
+					console.log('进入暂停1')
+					innerAudioContext.stop()
+					innerAudioContext.pause()
+					that.$refs.musicPlay.close()
+					innerAudioContext.onPause(function(){
+						console.log('播放暂停1')
+					})
 				}
-				this.$request.url_request(TTSCONVERT,params,'GET',res=>{
-					uni.hideToast()
-					const innerAudioContext = uni.createInnerAudioContext();
-					innerAudioContext.autoplay = true;
-					innerAudioContext.src = JSON.parse(res.data).data.data.ossUrl ;
-					innerAudioContext.onPlay(() => {
-					  console.log('开始播放');
-					});
-					innerAudioContext.onError((res) => {
-					  console.log(res.errMsg);
-					  console.log(res.errCode);
-					});
-				},err=>{})
+				
+			},
+			// musicChange
+			musicChange(e){
+				console.log('弹窗',e.show)
+				if(!e.show){
+					console.log('进入暂停2')
+					innerAudioContext.stop()
+					innerAudioContext.pause()
+					innerAudioContext.onPause(function(){
+						console.log('播放暂停2')
+					})
+				}
 			},
 			// 挂断停用
 			transferClose(){
-				if(this.mobileType == 1){
-					uni.makePhoneCall({
-					    phoneNumber: '#67#' 
-					});	
-				} else{
-					uni.makePhoneCall({
-					    phoneNumber: '*900' 
-					});
-				}
+				uni.makePhoneCall({
+				    phoneNumber: this.transferCloseTel
+				});	
 				this.$refs.transfer.close()
 			},
 			// 挂断启用
 			transferOpen(){
-				if(this.mobileType == 1){
-					uni.makePhoneCall({
-					    phoneNumber: '**67*057126211610#'
-					});
-				}
-				else{
-					uni.makePhoneCall({
-					    phoneNumber: ' *90057126211610#'
-					});
-				}
-			
+				uni.makePhoneCall({
+				    phoneNumber: this.transferOpenTel
+				});
 				this.$refs.transfer.close()
 			},
 			// 无应答停用
 			noAnswerClose(){
-				if(this.mobileType == 1){
 				uni.makePhoneCall({
-				    phoneNumber: '##67#'
-				});					
-				}else{
-				uni.makePhoneCall({
-			    phoneNumber: '*920'
-				});		
-				}
-
+				    phoneNumber: this.noAnswerCloseTel
+				});	
 				this.$refs.noAnswer.close()
 			},
 			// 无应答启用
 			noAnswerOpen(){
-				if(this.mobileType == 1){
-					uni.makePhoneCall({
-					    phoneNumber: '**61*057126211610#'
-					});
-					
-				} else{
-					uni.makePhoneCall({
-					    phoneNumber: '*92057126211610#'
-					});
-					
-				}
-
+				uni.makePhoneCall({
+				    phoneNumber: this.noAnswerOpenTel
+				});
 				this.$refs.noAnswer.close()
 			},
 			// 无网络停用
 			noNetworkClose(){
-				if(this.mobileType == 1){
-					uni.makePhoneCall({
-					    phoneNumber: '##62#'
-					});
-				}else{
-					uni.makePhoneCall({
-					    phoneNumber: '*920'
-					});
-				}
+				uni.makePhoneCall({
+				    phoneNumber: this.noNetworkCloseTel
+				});
 				this.$refs.noNetwork.close()
 			},
 			// 无网络启用
 			noNetworkOpen(){
-				if(this.mobileType == 1){
-					uni.makePhoneCall({
-					    phoneNumber: '**62*057126211610#'
-					});
-				}else{
-					uni.makePhoneCall({
-					    phoneNumber: '*92057126211610#'
-					});
-				}
+				uni.makePhoneCall({
+				    phoneNumber: this.noNetworkOpenTel
+				});
 				this.$refs.noNetwork.close()
 			},
-			// 一件关闭
+			// 问题弹窗
+			question(){
+				this.$refs.question.open()
+			},
+			openPop(){
+				this.$refs.openPop.open()
+			},
+			// 一键关闭
 			closeAll(){
-				if(this.mobileType == 1){
+				this.$refs.turnOff.open()
+			},
+			// 一键关闭开启
+			turnOffClose(){
 					uni.makePhoneCall({
-					    phoneNumber: ' ##002#'
+					    phoneNumber: this.turnOffTel
 					});
-				} else{
-					uni.makePhoneCall({
-					    phoneNumber: '*730'
-					});
-				}
 			},
 			// 新增场景
 			addScene(){
+				this.$refs.scenariopopup.close()
 				uni.navigateTo({
 					url:'../AddScene/AddScene'
 				})
@@ -460,6 +570,9 @@
 				this.$refs.transfer.close()
 				this.$refs.noAnswer.close()
 				this.$refs.noNetwork.close()
+				this.$refs.turnOff.close()
+				this.$refs.question.close()
+				this.$refs.openPop.close()
 			},
 			// 选择音色
 			checkVoice(index,item){
@@ -722,13 +835,27 @@
 		justify-content: space-between;
 		align-items: center;
 	}
-	.secretaryBox{
+	.secretaryBoxOut{
 		width:690rpx;
 		margin-top: 30rpx;
 		background:rgba(255,255,255,1);
 		box-shadow:0rpx 5rpx 20rpx 0rpx rgba(204,215,232,0.5);
 		border-radius:15rpx;
-		padding: 30rpx 50rpx;
+		padding: 30rpx 50rpx 0 50rpx;
+		display: flex;
+		flex-direction: column;
+	}
+	.secretaryBoxDeliver{
+		border-top: 1rpx solid #EDEDED;
+		margin-top: 40rpx;
+	}
+	.closeTotal{
+		padding: 40rpx 0 30rpx 0;
+		text-align: center;
+		font-size: 26rpx;
+		color: #C7C7C7;
+	}
+	.secretaryBox{
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
@@ -871,6 +998,14 @@
 		align-items: center;
 		border-top: 1rpx solid #EAEAEA;
 	}
+	.turnOffButton{
+		width: 100%;
+		height: 85rpx;
+		border-bottom-left-radius: 20rpx;
+		border-bottom-right-radius: 20rpx;
+		text-align: center;
+		line-height: 85rpx;
+	}
 	.popBtnLeft{
 		width: 263rpx;
 		height: 85rpx;
@@ -887,10 +1022,104 @@
 		line-height: 85rpx;
 		color: #1C75FF;
 	}
-	.closeTotal{
-		padding: 30rpx;
+
+	/* 音乐播放 */
+	.music {
+		width:200rpx;
+		height:200rpx;
+		position:relative;
+		background: #FFFFFF;
+		border-radius: 25rpx;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+	}
+	.music i {
+		width:10rpx;
+		height:5rpx;
+		margin: 0 5rpx;
+		background-color:#1C75FF;
+	}
+
+	.music.active i:nth-of-type(1) {
+		-webkit-animation:wave 0.76s linear infinite;
+		animation:wave 0.76s linear infinite;
+		background-color:#1C75FF;
+	}
+	.music.active i:nth-of-type(2) {
+		-webkit-animation:wave 0.9s linear infinite;
+		animation:wave 0.9s linear infinite;
+		background-color:#1C75FF;
+	}
+	.music.active i:nth-of-type(3) {
+		-webkit-animation:wave 0.8s linear infinite;
+		animation:wave 0.8s linear infinite;
+		background-color:#1C75FF;
+	}
+	.music.active i:nth-of-type(4) {
+		-webkit-animation:wave 0.6s linear infinite;
+		animation:wave 0.6s linear infinite;
+		background-color:#1C75FF;
+	}
+	.music.active i:nth-of-type(5) {
+		-webkit-animation:wave 1s linear infinite;
+		animation:wave 1s linear infinite;
+		background-color:#1C75FF;
+	}
+	
+	@-webkit-keyframes wave {
+		0% {
+		height:7rpx
+	}
+	50% {
+		height:50rpx
+	}
+	100% {
+		height:10rpx
+	}
+	}@keyframes wave {
+		0% {
+		height:7rpx
+	}
+	50% {
+		height:50rpx
+	}
+	100% {
+		height:10rpx
+	}
+	}
+	/* 问题弹窗 */
+	.questionBox{
+		width:528rpx;
+		padding: 50rpx 50rpx;
+		background:#FFFFFF;
+		border-radius:20rpx;
+		overflow: hidden;
+		position: relative;
+	}
+	.questionTitle{
+		text-align: center;
+		color: #111111;
+		font-size: 30rpx;
+		font-weight: 600;
+	}
+	.questionContain{
+		margin-top: 40rpx;
+		text-align: center;
+		font-size: 28rpx;
+		color: #666666;
+	}
+	.questionBtn{
+		margin-top: 40rpx;
+		color: #FFFFFF;
+		padding: 20rpx;
 		text-align: center;
 		font-size: 30rpx;
-		color: #E01212;
+		border-radius: 100rpx;
+		background: linear-gradient(left, #1c75ff 0%, #1c75ff 10%, #5799ff 80%, #5799ff 100%);
+		background: -ms-linear-gradient(left, #1c75ff 0%, #1c75ff 10%, #5799ff 80%, #5799ff 100%);
+		background: -webkit-linear-gradient(left, #1c75ff 0%, #1c75ff 10%, #5799ff 80%, #5799ff 100%);
+		background: -moz-linear-gradient(left, #1c75ff 0%, #1c75ff 10%, #5799ff 80%, #5799ff 100%);
 	}
 </style>
