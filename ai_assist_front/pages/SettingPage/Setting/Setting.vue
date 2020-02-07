@@ -68,7 +68,7 @@
 		<view class="secretary">
 			<view class="secretaryTitle">
 				<text>启用场景设置</text>
-				<text style="color: #999999; font-size: 26rpx;font-weight: 400;">开启不成功？</text>
+				<text style="color: #999999; font-size: 26rpx;font-weight: 400;" @click="OpenUnsuccessful">开启不成功？</text>
 			</view>
 			<view class="secretaryBoxOut">
 				<view class="secretaryBox">
@@ -274,7 +274,8 @@
 				noAnswerCloseTel: '',
 				noAnswerOpenTel: '',
 				noNetworkCloseTel:'',
-				noNetworkOpenTel: ''
+				noNetworkOpenTel: '',
+				transferTel: ''
 			}
 		},
 		watch:{
@@ -309,6 +310,7 @@
 				const params = {}
 				this.$request.url_request(GETNUMINFO, params, "GET", res => {
 					this.telData = JSON.parse(res.data).data.mobile
+					this.transferTel = JSON.parse(res.data).data.line
 					// 移动
 					var isChinaMobile = /1(((3[5-9]|4[7]|5[012789]|7[28]|8[23478]|9[8])\d{8})|((34)[0-8]\d{7}))/
 					// 联通
@@ -318,23 +320,24 @@
 					if (isChinaMobile.test(this.telData) || isChinaUnion.test(this.telData)){
 						console.log('移动或联通')
 						this.turnOffTel = '##002#'
-						this.transferOpenTel = '**67*057126211610#'
+						this.transferOpenTel = '**67*'+this.transferTel+'#'
 						this.transferCloseTel = '#67#' 
 						this.noAnswerCloseTel= '##67#',
-						this.noAnswerOpenTel= '**61*057126211610#',
+						this.noAnswerOpenTel= '**61*'+this.transferTel+'#',
 						this.noNetworkCloseTel= '##62#',
-						this.noNetworkOpenTel= '**62*057126211610#',
+						this.noNetworkOpenTel= '**62*'+this.transferTel+'#',
 						this.mobileType = 1
 						
 					} else if (isChinaTelcom.test(this.telData)){
 						console.log('电信')
-						this.turnOffTel = '*730'
-						this.transferOpenTel = '*90057126211610#'
+						// this.turnOffTel = '*730'
+						this.turnOffTel = '*920'
+						this.transferOpenTel = '*900'+this.transferTel+'#'
 						this.transferCloseTel = '*900'
 						this.noAnswerCloseTel= '*920',
-						this.noAnswerOpenTel= '*92057126211610#',
+						this.noAnswerOpenTel= '*920'+this.transferTel+'#',
 						this.noNetworkCloseTel= '*920',
-						this.noNetworkOpenTel= '*92057126211610#',
+						this.noNetworkOpenTel= '*920'+this.transferTel+'#',
 						this.mobileType =0
 					}
 				}, err => {})
@@ -604,6 +607,12 @@
 				 uni.navigateTo({
 				 	url:'../RejectionBlacklist/RejectionBlacklist'
 				 })
+			 },
+			 // 开启不成功
+			 OpenUnsuccessful(){
+				uni.navigateTo({
+					url:'../OpenUnsuccessful/OpenUnsuccessful'
+				})
 			 }
 		}
 	}

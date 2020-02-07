@@ -627,6 +627,15 @@
 				}
 			}
         }
+        ,{
+            "path" : "pages/SettingPage/OpenUnsuccessful/OpenUnsuccessful",
+            "style" : {
+				"navigationBarTitleText":"开启不成功",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

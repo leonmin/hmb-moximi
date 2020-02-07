@@ -83,7 +83,7 @@
 				</view>
 			</view>
 		</view>
-		
+
 		<!-- 确认弹窗 -->
 		<view class="cu-modal" :class="confirmShow?'show':''">
 			<view class="cu-dialog" style="border-radius: 20rpx;">
@@ -154,7 +154,7 @@
 				jsData: "",
 				isDisable: true,
 				localId: "",
-				sceneName: '',//场景名称
+				sceneName: '', //场景名称
 				serverId: '',
 				jishi: 0,
 				xiaomiSucc: false,
@@ -162,9 +162,9 @@
 				isJishi: false,
 				startTime: '', //录音开始时间
 				endTime: '', // 录音结束时间
-				timeConsum: 0 ,//总耗时
-				sceneId: '',//场景id
-				PrologueGet: '',//场景详情
+				timeConsum: 0, //总耗时
+				sceneId: '', //场景id
+				PrologueGet: '', //场景详情
 				ttsKey: '',
 				sceneType: '',
 				sceneDefId: '',
@@ -173,10 +173,10 @@
 		},
 		onLoad(options) {
 			uni.showToast({
-				title:'加载中...',
-				icon:'none'
+				title: '加载中...',
+				icon: 'none'
 			})
-			if(options.id){
+			if (options.id) {
 				this.sceneId = options.id
 				// 编辑场景
 				this.prologueGet()
@@ -188,27 +188,27 @@
 		},
 		methods: {
 			// 查询当前音色
-			checkTtsScene(){
+			checkTtsScene() {
 				const params = {}
-				this.$request.url_request(TTSSCENE,params,'GET',res=>{
+				this.$request.url_request(TTSSCENE, params, 'GET', res => {
 					uni.hideToast()
 					this.ttsScene = JSON.parse(res.data).data.data
-					console.log('sdadada',this.ttsScene)
-				},err=>{})
+					console.log('sdadada', this.ttsScene)
+				}, err => {})
 			},
 			// 编辑场景
-			prologueGet(){
+			prologueGet() {
 				const params = {
 					id: this.sceneId
 				}
-				this.$request.url_request(PROLOGUEGET,params,'GET',res=>{
+				this.$request.url_request(PROLOGUEGET, params, 'GET', res => {
 					this.PrologueGet = JSON.parse(res.data).data.data
 					this.sceneName = this.PrologueGet.name
 					this.openInput = this.PrologueGet.customText
 					this.ttsKey = this.PrologueGet.ttsKey,
-					this.sceneType = this.PrologueGet.sceneType
+						this.sceneType = this.PrologueGet.sceneType
 					this.sceneDefId = this.PrologueGet.sceneDefId
-				},err=>{})
+				}, err => {})
 			},
 			// 获得jssdk
 			getJsAPI() {
@@ -237,10 +237,10 @@
 			// 小秘说
 			xiaomishuo() {
 				this.isDisable = true
-				console.log('自己录',this.isDisable)
+				console.log('自己录', this.isDisable)
 				this.xiaomiSucc = false
 				this.isleft = true,
-				this.isRight = false
+					this.isRight = false
 			},
 			// 小秘取消
 			cancelXiaomi() {
@@ -258,29 +258,29 @@
 					id: this.sceneId,
 					ttsKey: this.ttsKey,
 					sceneType: this.sceneType,
-					sceneDefId:this.sceneDefId
+					sceneDefId: this.sceneDefId
 				}
 				this.$request.url_request(SETTEXTPROLOGUE, params, 'GET', res => {
-					if(JSON.parse(res.data).code == 200){
+					if (JSON.parse(res.data).code == 200) {
 						uni.showToast({
-							title:'保存成功！',
-							icon:'success',
-							mask:true,
-							duration:1000
+							title: '保存成功！',
+							icon: 'success',
+							mask: true,
+							duration: 1000
 						})
 						this.xiaomiSucc = false
 						setTimeout(() => {
 							uni.reLaunch({
-								url:'../Setting/Setting'
+								url: '../Setting/Setting'
 							})
-						},1000)	
-					} else{
-						if(JSON.parse(res.data).resultMsg !== null ||JSON.parse(res.data).resultMsg !== ''){
+						}, 1000)
+					} else {
+						if (JSON.parse(res.data).resultMsg !== null || JSON.parse(res.data).resultMsg !== '') {
 							this.xiaomiSucc = false
 							uni.showToast({
-								title:JSON.parse(res.data).resultMsg,
-								icon:'none',
-								duration:1200
+								title: JSON.parse(res.data).resultMsg,
+								icon: 'none',
+								duration: 1200
 							})
 						}
 					}
@@ -293,11 +293,11 @@
 			delXiaomi() {},
 			// 自己录
 			gotoSelfRecord() {
-				console.log('自己录',this.isDisable)
+				console.log('自己录', this.isDisable)
 				this.isDisable = false
 				this.btnShow = false,
-				this.isleft = false,
-				this.isRight = true
+					this.isleft = false,
+					this.isRight = true
 			},
 			// 开始录音
 			startRec() {
@@ -314,9 +314,9 @@
 				// 开始录音
 				jweixin.startRecord()
 				// 录音计时
-				jishiInterval = setInterval(() =>{
+				jishiInterval = setInterval(() => {
 					that.jishi++
-				},1000)
+				}, 1000)
 
 			},
 			// 停止录音
@@ -340,10 +340,10 @@
 						success: function(res) {
 							_this.localId = res.localId;
 							uni.showToast({
-								title:'录音完成',
-								icon:'none',
-								mask:true,
-								duration:1000
+								title: '录音完成',
+								icon: 'none',
+								mask: true,
+								duration: 1000
 							})
 						}
 					});
@@ -409,58 +409,70 @@
 						showCancel: false
 					});
 				} else {
-					console.log('得到的录音时间',this.timeConsum)
+					console.log('得到的录音时间', this.timeConsum)
 					jweixin.uploadVoice({
-					  localId:_this.localId, // 需要上传的音频的本地ID，由stopRecord接口获得
-					  isShowProgressTips: 1, // 默认为1，显示进度提示
-					  success: function (res) {
-					    _this.serverId = res.serverId; // 返回音频的服务器端ID
-						const params = {
-							serverId: _this.serverId,
-							voiceLength: _this.timeConsum,
-							name: _this.sceneName,
-							id: _this.sceneId,
-							ttsKey:_this.ttsScene.ttsKey,
-							sceneType:_this.ttsScene.sceneType,
-							sceneDefId:_this.ttsScene.sceneDefId,
-							customText: "自定义语音开场白"
-						}
-						console.log('录音参数',params)
-						_this.$request.url_request(SETVOICEPROLOGUE,params,'GET',res =>{
-							console.log("录音上传成功！")
-							uni.showToast({
-								title: '保存成功!',
-								icon: 'success',
-								duration: 1000
-							})
-							setTimeout(() =>{
-								uni.reLaunch({
-									url:'../Setting/Setting'
+						localId: _this.localId, // 需要上传的音频的本地ID，由stopRecord接口获得
+						isShowProgressTips: 1, // 默认为1，显示进度提示
+						success: function(res) {
+							_this.serverId = res.serverId; // 返回音频的服务器端ID
+							const params = {
+								serverId: _this.serverId,
+								voiceLength: _this.timeConsum,
+								name: _this.sceneName,
+								id: _this.sceneId,
+								ttsKey: _this.ttsScene.ttsKey,
+								sceneType: _this.ttsScene.sceneType,
+								sceneDefId: _this.ttsScene.sceneDefId,
+								customText: "自定义语音开场白"
+							}
+							console.log('录音参数', params)
+							_this.$request.url_request(SETVOICEPROLOGUE, params, 'GET', res => {
+								if (JSON.parse(res.data).code == 200) {
+									console.log("录音上传成功！")
+									uni.showToast({
+										title: '保存成功!',
+										icon: 'success',
+										duration: 1000
+									})
+									setTimeout(() => {
+										uni.reLaunch({
+											url: '../Setting/Setting'
+										})
+									}, 1000)
+									_this.confirmShow = false,
+										_this.failShow = false
+									_this.isJishi = false
+								} else {
+									if (JSON.parse(res.data).resultMsg !== null || JSON.parse(res.data).resultMsg !== '') {
+										this.xiaomiSucc = false
+										uni.showToast({
+											title: JSON.parse(res.data).resultMsg,
+											icon: 'none',
+											duration: 1200
+										})
+									}
+								}
+
+							}, err => {
+
+								uni.showToast({
+									title: '保存失败!',
+									icon: 'none',
+									duration: 1000
 								})
-							},1000)
-							_this.confirmShow = false,
-							_this.failShow = false
-							_this.isJishi = false
-						},err=>{
-							
-							uni.showToast({
-								title: '保存失败!',
-								icon: 'none',
-								duration: 1000
+								console.log("录音上传失败！")
 							})
-							console.log("录音上传失败！")
-						})
-					  }
+						}
 					});
 					this.confirmShow = false,
-					this.failShow = false
+						this.failShow = false
 				}
 			},
 			// 取消录音
 			cancelSave() {
 				this.isJishi = false
 				this.confirmShow = false,
-				this.failShow = false
+					this.failShow = false
 			},
 			confirmCancel() {
 				this.isJishi = false
@@ -477,19 +489,22 @@
 </script>
 
 <style>
-	page{
+	page {
 		background-color: #FFFFFF;
 	}
-	.toptitle{
+
+	.toptitle {
 		display: flex;
 		flex-direction: row;
 		align-items: center;
 	}
-	.sceneName{
+
+	.sceneName {
 		margin-left: 20rpx;
 		height: 60rpx;
 		padding: 10rpx 20rpx;
 	}
+
 	.editOpen {}
 
 	.editOpenContain {
@@ -554,10 +569,12 @@
 		justify-content: space-between;
 		align-items: center;
 	}
-	.deliverline{
+
+	.deliverline {
 		border-top: 1rpx solid #E9E9E9;
 		margin: 50rpx 0;
 	}
+
 	.bottomBtn {
 		margin: auto;
 		width: 100%;
@@ -568,13 +585,16 @@
 		flex-direction: row;
 		justify-content: space-between;
 	}
+
 	.recordBtn>button {
 		padding: 40rpx 0;
 		font-size: 34rpx;
 	}
-	.bottomBtn>button{
+
+	.bottomBtn>button {
 		padding: 36rpx 121rpx;
 	}
+
 	.bottomBtn>button:nth-of-type(1) {
 		color: #9D9D9D;
 	}
@@ -600,9 +620,11 @@
 	.positionRela {
 		position: relative;
 	}
-	.jishi{
+
+	.jishi {
 		text-align: center;
 	}
+
 	.recordTip {
 		background-color: #A0C5FF;
 		color: #EBF2FF;
