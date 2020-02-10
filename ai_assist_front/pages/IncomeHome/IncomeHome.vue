@@ -185,8 +185,8 @@
 						name: '接听配置'
 					},
 					{
-						src: '../../static/incomeHome/yaoqing@2x.png',
-						name: '邀请赚钱'
+						src: '../../static/incomeHome/lvsetongdao@2x.png',
+						name: '绿色通道'
 					},
 					{
 						src: '../../static/incomeHome/qianbao@2x.png',
@@ -359,6 +359,10 @@
 					}
 				} else if(type == 2){
 					this.$refs.bannerPop.open()
+				} else if(type == 'lvsetongdao'){
+					uni.navigateTo({
+						url:greenChannel
+					})
 				}
 
 			},
@@ -370,9 +374,9 @@
 						url: '../SettingPage/SettingPage'
 					})
 				} else if (index == 1) {
-					uni.report('homeInvite', '邀请赚钱')
+					uni.report('homeGreen', '绿色通道')
 					uni.navigateTo({
-						url: '../Login/Invite/Invite'
+						url: '../greenChannel/greenChannel'
 					})
 				} else if (index == 2) {
 					uni.report('homeWallet', '我的钱包')

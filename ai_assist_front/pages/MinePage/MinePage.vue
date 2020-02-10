@@ -109,6 +109,24 @@
 
 			<!-- 底部菜单 -->
 			<view class="mineList">
+				<view class="mineList-item" @click="greenChannel">
+					<view class="listItem-header">
+						<image style="width: 36rpx;height: 36rpx;" class="listItem-headerIcon" src="../../static/mine/lvsetongd@2x.png"
+						 mode=""></image>
+						<view class="listItem-headerTitle">
+							绿色通道 
+						</view>
+					</view>
+					<view class="listItem-footer">
+				
+						<view class="listItem-footerTitle">
+							完成任务 获取永久续费折扣
+						</view>
+						<image style="height: 22rpx; width: 12rpx;margin-left: 18rpx;" class="listItem-footerIcon" src="../../static/mine/VIPPage/jinru@2x.png"
+						 mode=""></image>
+					</view>
+				</view>
+				
 				<view class="mineList-item" @click="exclusiveNum">
 					<view class="listItem-header">
 						<image style="width: 36rpx;height: 36rpx;" class="listItem-headerIcon" src="../../static/mine/zhuanshuzhuanjie@2x.png"
@@ -378,6 +396,12 @@
 			haveAWord() {
 				uni.navigateTo({
 					url: 'haveASaying/haveASaying'
+				})
+			},
+			// 绿色通道
+			greenChannel(){
+				uni.navigateTo({
+					url:'../greenChannel/greenChannel'
 				})
 			}
 		}

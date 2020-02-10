@@ -136,6 +136,9 @@
 				</image>
 			</view>
 		</view>
+		<view class="suspensionBox" @click="greenChannel">
+			<image src="../../../static/mine/lvsetongdao@2x.png" mode=""></image>
+		</view>
 	</view>
 </template>
 
@@ -370,6 +373,11 @@
 					content: '太火爆啦！魔小秘今日注册名额已超限！优惠将于明日00:00重新开启！',
 					showCancel: false
 				});
+			},
+			greenChannel(){
+				uni.navigateTo({
+					url:'../../greenChannel/greenChannel'
+				})
 			}
 		}
 	}
@@ -715,5 +723,17 @@
 
 		padding-left: 30rpx;
 		margin-top: -5rpx;
+	}
+	.suspensionBox{
+		width: 112rpx;
+		height: 112rpx;
+		border-radius: 112rpx;
+		position: fixed;
+		right: 20rpx;
+		top: 900rpx;
+	}
+	.suspensionBox>image{
+		width: 107rpx;
+		height: 112rpx;
 	}
 </style>

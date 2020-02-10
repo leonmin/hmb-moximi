@@ -636,6 +636,15 @@
 				}
 			}
         }
+        ,{
+            "path" : "pages/greenChannel/greenChannel",
+            "style" : {
+				"navigationBarTitleText":"绿色通道",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
