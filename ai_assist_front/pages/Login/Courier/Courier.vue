@@ -336,10 +336,12 @@
 					if (this.mobileCode == '获取验证码') {
 						this.time = 60
 						this.timer()
+						var jiamiMobile = this.$encruption(this.bindmobile)
 						const params = {
-							mobile: this.bindmobile
+							mobile:this.bindmobile,
+							elmobi: jiamiMobile
 						}
-						console.log(this.bindmobile)
+						console.log(params)
 						this.$request.url_request(SENDCODE, params, 'POST', res => {
 							uni.showToast({
 								title: '验证码发送成功',

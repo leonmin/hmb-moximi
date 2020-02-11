@@ -7,6 +7,9 @@ import url from './utils/commonURL.js'
 import VueClipboard  from 'vue-clipboard2'
 import WxValidate from './utils/WxValidate.js'
 import Request from "./utils/request.js"
+import JsEncrypt  from 'jsencrypt'
+import jse from './utils/jsencryptKey.js'
+Vue.prototype.$jsEncrypt  = JsEncrypt
 Vue.prototype.$url = url;
 Vue.prototype.$request = Request;
 Vue.config.productionTip = false
