@@ -204,3 +204,58 @@ export function updatePassword(data) {
     params: data
   })
 }
+
+// 渠道列表
+export function channelList(data) {
+  return request({
+    url: '/admin/channel/channelList',
+    method: 'get',
+    params: data
+  })
+}
+
+// 渠道添加
+export function channelAdd(data) {
+  return request({
+    url: '/admin/channel/addChannel',
+    method: 'post',
+    data
+  })
+}
+
+// 渠道二维码
+export function channelQr(data) {
+  return request({
+    url: '/admin/channel/getChannelQr',
+    method: 'get',
+    params: data
+  })
+}
+
+// 渠道数据
+export function channelStatistics(data) {
+  return request({
+    url: '/admin/channel/channelStatistics',
+    method: 'get',
+    params: data
+  })
+}
+
+// 渠道数据
+export function ofdCharge(data) {
+  return request({
+    url: '/admin/statistics/ofdCharge',
+    method: 'get',
+    params: data
+  })
+}
+
+// 渠道数据
+export function ofdInfo(data) {
+  return request({
+    url: '/admin/statistics/ofdInfo',
+    method: 'get',
+    params: data
+  })
+}
+

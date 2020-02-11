@@ -218,6 +218,39 @@ export const asyncRoutes = [
       }
     ]
   },
+  /* 渠道管理*/
+  {
+    path: '/channel',
+    component: Layout,
+    redirect: '/channel/channelIndex',
+    name: 'channel',
+    meta: {
+      title: '渠道管理',
+      icon: 'nested',
+      roles: ['admin']
+    },
+    children: [
+      {
+        path: 'channelIndex',
+        name: 'channelIndex',
+        component: () => import('@/views/channel/index'),
+        meta: { title: '渠道列表' }
+      },
+      {
+        path: 'channelAdd',
+        name: 'channelAdd',
+        component: () => import('@/views/channel/channelAdd'),
+        meta: { title: '渠道添加' }
+      },
+      {
+        path: 'channelData',
+        name: 'channelData',
+        hidden: true,
+        component: () => import('@/views/channel/channelData'),
+        meta: { title: '渠道数据' }
+      }
+    ]
+  },
   // 合伙人
   {
     path: '/partner',
@@ -374,6 +407,12 @@ export const asyncRoutes = [
         name: 'financialStat',
         component: () => import('@/views/dataStatistics/financialStat'),
         meta: { title: '财务报表' }
+      },
+      {
+        path: 'dataChart',
+        name: 'dataChart',
+        component: () => import('@/views/dataStatistics/dataChart'),
+        meta: { title: '数据图表' }
       }
     ]
   },
