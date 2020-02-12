@@ -221,7 +221,7 @@ export default {
       } else if (status === 3) {
         checkStatus = '打款成功'
         return checkStatus
-      }else if (status === 4) {
+      } else if (status === 4) {
         checkStatus = '打款失败'
         return checkStatus
       }
