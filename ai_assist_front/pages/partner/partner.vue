@@ -41,7 +41,7 @@
 					<view class="content">
 						<text class="fontStyle30">卡密包</text>
 						<view>
-							<text class="inviteNum">{{infoData.cardCount}}有效</text>
+							<text class="inviteNum">{{infoData.cardCount}} 有效</text>
 							<text class="cuIcon-right" style="color: #C2C2C2;"></text>
 						</view>
 					</view>
@@ -59,8 +59,12 @@
 				</view>
 			</view>
 		</view>
-		<view class="shareBtn">
+<!-- 		<view class="shareBtn">
 			<button @click="share">分享给好友</button>
+		</view> -->
+		<view class="shareBtn">
+				<button v-clipboard:copy="infoData.inviteUrl2" v-clipboard:success="(type) => onCopyResult('success')"
+							 v-clipboard:error="(type) => onCopyResult('error')">复制链接</button>
 		</view>
 		<view class="imageshadow" v-if="imageshow">
 			<view class="shadowItem">
@@ -243,6 +247,9 @@
 </script>
 
 <style>
+	page{
+		background-color: #FFFFFF;
+	}
 	.partner {}
 
 	/* 合伙人顶部 */
@@ -252,7 +259,7 @@
 		padding: 40rpx 30rpx;
 		color: #FFFFFF;
 		background-size: cover;
-		background-image: url(~@/static/partner/beijing@2x.png);
+		background-image: url(~@/static/partner/beijing@2x.jpg);
 	}
 
 	.titleBox {
@@ -327,7 +334,7 @@
 
 	.inviteNum {
 		color: #E01212;
-		font-size: 36rpx;
+		font-size: 30rpx;
 	}
 
 	.inviteUrl {

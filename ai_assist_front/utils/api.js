@@ -5,18 +5,24 @@ export const TEST =API+"/getWangYiNews";
 // 绑定手机号
 export const LOGIN =API+"/app/bindMobile";
 //发送验证码
-export const SENDCODE =API+"/app/sendVerifyCode";
+export const SENDCODE =API+"/app/sendVerifyCodeS";
+//发送验证码加密
+export const SENDCODE2 =API+"/app/sendVerifyCode";
 // 通话列表
 export const CALLRECORDLISTTODAY =API+"/app/chat/callRecordListToday";
 // 历史来电
 export const CALLRECORDLIST =API+"/app/chat/callRecordList";
 // 获取接听
 export const SETTINGURL =API+"/app/chat/getSettingPageUrl";
+// 首页会员状态
+export const SHOWINDEXTIP =API+"/app/index/showIndexTips";
+// 首页获取优惠券
+export const INDEXCOUPON =API+"/app/index/getCoupon";
 
 
 /**
  * 专属定制
- */
+ */ 	
 
 // 通讯录详情
 export const CALLRECORDDETAILS =API+"/app/chat/callRecordDetails";
@@ -42,6 +48,9 @@ export const AUDITION  = API+"/app/chat/audition";
 export const DELCALL  = API+"/app/chat/delCallRecord";
 //banner
 export const BANNER  = API+"/app/banner";
+
+//优惠券列表
+export const COUPONLIST  = API+"/app/chat/couponList";
 
 
 /**
@@ -113,3 +122,63 @@ export const PARTNERCASHLIST =API+"/app/chat/partnerCashList";
 export const CARDPACK =API+"/app/chat/cardPack";
 // 合伙人卡密列表详情
 export const CARDPACKDETAILS =API+"/app/chat/cardPackDetails";
+
+// 接听配置
+
+
+// 转接状态
+export const TRANSFERCONFIG = API+"/user/bysetting/transferConfig"
+// 音色列表
+export const TTSPLAID = API+"/user/bysetting/ttsPlaid"
+// 设置音色
+export const TTSUPDATE = API+"/user/bysetting/ttsUpdate"
+// 查询当前音色
+export const TTSSCENE = API+"/user/bysetting/ttsScene"
+// 转化语音
+export const TTSCONVERT = API+"/user/bysetting/ttsConvert"
+// 开场白列表
+export const PROLOGUELIST = API+"/user/bysetting/prologueList"
+// 当前设置开场白
+export const PROLOGUECURRENT = API+"/user/bysetting/prologueCurrent"
+// 设置开场白
+export const PROLOGUESET = API+"/user/bysetting/prologueSet"
+// 修改开场白详情
+export const PROLOGUEGET = API+"/user/bysetting/prologueGet"
+// 开场白修改设置
+export const SETTEXTPROLOGUE = API+"/user/bysetting/setTextPrologue"
+// 删除开场白
+export const PROLOGUEDELETE = API+"/user/bysetting/prologueDelete"
+// 黑名单列表
+export const BLACKLIST = API+"/user/bysetting/blackList"
+// 黑名单添加
+export const BLACKADD = API+"/user/bysetting/blackAdd"
+// 黑名单删除
+export const BLACKDELETE = API+"/user/bysetting/blackDetele"
+// 拒接黑名单状态
+export const REFUSECALL = API+"/user/bysetting/refuseCall"
+// 更改拒接黑名单状态
+export const REFUSECALLSET = API+"/user/bysetting/refuseCallSet"
+// 场景列表
+export const SCENESTATUS = API+"/user/bysetting/sceneStatus"
+// 场景列表
+export const SCENELIST = API+"/user/bysetting/scenelist"
+// 场景拒接列表
+export const SCENEREFUSE = API+"/user/bysetting/sceneRefuse"
+// 场景拒接列表更新
+export const SCENEREFUSEUPDATE = API+"/user/bysetting/sceneRefuseUpdate"
+// 添加场景回复
+export const SCENEUSERPOST = API+"/user/bysetting/sceneUserPost"
+//设置语音开场白
+export const SETVOICEPROLOGUE = API+"/user/bysetting/setVoicePrologue"
+//设置回复
+export const SCENCESET = API+"/user/bysetting/sceneSet"
+
+// 绿色通道
+
+
+// 任务进度
+export const TASKINFO = API+"/app/green/taskInfo"
+// 绿色通道列表
+export const GREENCARDLIST = API+"/app/green/cardList"
+// 绿色通道列表
+export const GREENCREATEORDER = API+"/app/green/createOrder"

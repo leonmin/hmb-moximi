@@ -8,7 +8,7 @@
 				长按识别上方二维码
 			</view>
 			<view class="text">
-				即可进入“魔小秘”公众号
+				立即享受“私人秘书服务”
 			</view>
 		</view>
 	</view>
@@ -68,6 +68,8 @@
 	.erweima>image{
 		width: 300rpx;
 		height: 300rpx;
+		border: 12rpx solid rgba(255, 255, 255, 0.5);
+		border-radius: 10rpx;
 	}
 	.text{
 		text-align: center;

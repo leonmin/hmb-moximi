@@ -4,16 +4,12 @@
 			<view v-if="isfocus !== 1">
 				<uni-notice-bar @click='focus' style="margin: 0;" show-close="true" show-icon="true" text="尚未关注公众号，无法接受来电消息提醒，点击关注 >"></uni-notice-bar>
 			</view>
-			<!-- banner -->
-			<!-- 		<view class="banner">
-				<image src="../../static/tu@2x.png" mode=""></image>
-			</view> -->
 			<view class="uni-padding-wrap" v-if="bannerList.length>0" style="padding: 30rpx 30rpx 0 30rpx;">
 				<view class="page-section swiper">
 					<view class="page-section-spacing">
 						<swiper class="swiper" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration"
 						 circular='true'>
-							<swiper-item v-for="(item,index) in bannerList" :key='index'>
+							<swiper-item v-for="(item,index) in bannerList" :key='index' @click="bannerView(item.url,item.bannerType,item.id)">
 								<view class="banner">
 									<image :src="item.bannerUrl" mode=""></image>
 								</view>
@@ -88,6 +84,48 @@
 				</view>
 			</view>
 		</view>
+		<!-- 到期弹窗 -->
+		<uni-popup ref="popup" type="center" :maskClick="false" style="z-index: 1000;">
+			<view :class="dueData.remainDays >= 0 && dueData.ofd == false?'dueView':'dueView1'">
+				<view class="dueTitle" v-if="dueData.remainDays >= 0 && dueData.ofd == false">
+					<text  v-if="dueData.remainDays > 0">魔小秘AI助手还有<text style="font-size: 50rpx;color: #FFECB9;">{{dueData.remainDays}}</text>天就到期了</text>
+					<text  v-else>魔小秘AI助手<text style="font-size: 40rpx;color: #FFECB9;">今天</text>就到期了</text>
+					<text style="margin-top: 10rpx;">立即分享领取优惠券续费吧！</text>
+				</view>
+				<view :class="dueData.remainDays >= 0 && dueData.ofd == false?'DueBtn':'DueBtn1'">
+					<view :class="dueData.remainDays >= 0 && dueData.ofd == false?'shareBtn':'shareBtn1'" @click="dueShare">
+						<text>分享领取优惠券</text>
+					</view>
+				</view>
+			</view>
+			<view class="closeImage">
+				<image src="../../static/incomeHome/guanbi@2x.png" mode="" @click="closeDue"></image>
+			</view>
+		</uni-popup>
+		<!-- banner 弹窗 -->
+		<uni-popup ref="bannerPop" type="center" :maskClick="false" style="z-index: 1000;">
+			<view class="dueView">
+				<view class="dueTitle">
+					<text>续费福利领不停，魔小秘会员专享</text>
+					<text style="margin-top: 10rpx;">全场通用6折优惠券免费领！</text>
+				</view>
+				<view class="DueBtn" style="margin-top: 290rpx;">
+					<view class="shareBtn" @click="dueShare">
+						<text>分享领取优惠券</text>
+					</view>
+				</view>
+			</view>
+			<view class="closeImage">
+				<image src="../../static/incomeHome/guanbi@2x.png" mode="" @click="bannerClose"></image>
+			</view>
+		</uni-popup>
+		<!-- 分享遮罩 -->
+		<view class="imageshadow" v-if="imageshow">
+			<view class="shadowItem">
+				<image src="../../static/incomeHome/neirong@2x.png" mode=""></image>
+				<image src="../../static/invite/wozhidao@2x.png" mode="" @click="close"></image>
+			</view>
+		</view>
 	</view>
 </template>
 
@@ -101,16 +139,22 @@
 	import {
 		CALLRECORDLISTTODAY,
 		SUBSCRIBEINFO,
-		BANNER
+		BANNER,
+		SHOWINDEXTIP,
+		INDEXCOUPON,
+		JSAPI
 	} from '../../utils/api.js'
 	import uniLoadMore from '../../components/uni-load-more/uni-load-more.vue'
 	import uniNoticeBar from '../../components/uni-notice-bar/uni-notice-bar.vue'
+	import uniPopup from "../../components/uni-popup/uni-popup.vue"
+	var jweixin = require('jweixin-module')
 	export default {
 		components: {
 			uniSearchBar,
 			uniNoticeBar,
 			uniIcons,
-			uniLoadMore
+			uniLoadMore,
+			uniPopup
 		},
 		filters: {
 			formateTel: function(value) {
@@ -141,8 +185,8 @@
 						name: '接听配置'
 					},
 					{
-						src: '../../static/incomeHome/yaoqing@2x.png',
-						name: '邀请赚钱'
+						src: '../../static/incomeHome/lvsetongdao@2x.png',
+						name: '绿色通道'
 					},
 					{
 						src: '../../static/incomeHome/qianbao@2x.png',
@@ -160,14 +204,23 @@
 				itemData: "",
 				todayText: 'more',
 				page: 1,
-				isfocus: ''
+				isfocus: '',
+				imageshow: false,
+				dueData: ''
 			}
 		},
 		onLoad(options) {
+			// 是否关注
 			this.isGuanzhu()
+			// 获得JSSDK
+			this.getJSAPI()
 			this.getCurToken()
+			// banner
 			this.getBanner()
+			// 初始化数据
 			this.initData()
+			// 获取会员状态
+			this.getmember()
 			uni.showToast({
 				title: '正在加载中...',
 				icon: 'none',
@@ -201,7 +254,72 @@
 			durationChange(e) {
 				this.duration = e.target.value
 			},
-
+			// 会员状态
+			getmember() {
+				var _this = this
+				const params = {}
+				this.$request.url_request(SHOWINDEXTIP, params, "GET", res => {
+					this.dueData = JSON.parse(res.data).data
+					if (this.dueData.show) {
+						this.open()
+					}
+				}, err => {})
+			},
+			open() {
+				this.$refs.popup.open()
+			},
+			closeDue() {
+				this.$refs.popup.close()
+			},
+			// banner 弹窗关闭
+			bannerClose(){
+				this.$refs.bannerPop.close()
+			},
+			// 分享领取优惠券
+			dueShare() {
+				this.imageshow = true
+				var that = this
+				// 分享到朋友
+				jweixin.onMenuShareAppMessage({
+					title: '【魔小秘】您的专属智能来电助理', // 分享标题
+					desc: '不想接，就挂断，来电助理帮你接听', // 分享描述
+					link: 'https://m.checkshirt-ai.com/h5poster/index.html#/', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+					imgUrl: 'https://ai-assist.oss-cn-beijing.aliyuncs.com/aac/mxmlogo.png', // 分享图标
+					type: 'link', // 分享类型,music、video或link，不填默认为link
+					dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+					success: function() {
+						// 用户点击了分享后执行的回调函数
+						console.log('分享成功')
+						that.imageshow = false
+						that.$refs.popup.close()
+						that.$refs.bannerPop.close()
+						const params = {}
+						that.$request.url_request(INDEXCOUPON, params, "GET", res => {
+							uni.navigateTo({
+								url:'../MinePage/MineVipPage/MineVipPage'
+							})
+						}, err => {})
+					}
+				})
+				//分享到朋友圈
+				jweixin.onMenuShareTimeline({
+					title: '【魔小秘】您的专属智能来电助理', // 分享标题
+					link: 'https://m.checkshirt-ai.com/h5poster/index.html#/',
+					imgUrl: 'https://ai-assist.oss-cn-beijing.aliyuncs.com/aac/mxmlogo.png', // 分享图标
+					success: function() {
+						// 用户点击了分享后执行的回调函数
+						that.imageshow = false
+						that.$refs.popup.close()
+						that.$refs.bannerPop.close()
+						const params = {}
+						that.$request.url_request(INDEXCOUPON, params, "GET", res => {
+							uni.navigateTo({
+								url:'../MinePage/MineVipPage/MineVipPage'
+							})
+						}, err => {})
+					}
+				})
+			},
 			// 是否关注
 			isGuanzhu() {
 				const params = {}
@@ -232,6 +350,22 @@
 					url: 'callList'
 				})
 			},
+			// 跳转banner链接
+			bannerView(url, type,id) {
+				uni.report('homeBanner'+id, 'banner点击')
+				if (type == 1) {
+					if (url) {
+						window.location.href = url
+					}
+				} else if(type == 2){
+					this.$refs.bannerPop.open()
+				} else if(type == 'lvsetongdao'){
+					uni.navigateTo({
+						url:greenChannel
+					})
+				}
+
+			},
 			// 跳转模块
 			gotoModule(index) {
 				if (index == 0) {
@@ -240,9 +374,9 @@
 						url: '../SettingPage/SettingPage'
 					})
 				} else if (index == 1) {
-					uni.report('homeInvite', '邀请赚钱')
+					uni.report('homeGreen', '绿色通道')
 					uni.navigateTo({
-						url: '../Login/Invite/Invite'
+						url: '../greenChannel/greenChannel'
 					})
 				} else if (index == 2) {
 					uni.report('homeWallet', '我的钱包')
@@ -295,6 +429,28 @@
 					}
 				}
 			},
+			// 获得JSAPI
+			getJSAPI() {
+				var that = this
+				const params = {}
+				this.$request.url_request(JSAPI, params, "GET", res => {
+					this.jsData = JSON.parse(res.data).data
+					console.log("得到的签名", this.jsData.signature)
+					jweixin.config({
+							appId: this.jsData.appId,
+							timestamp: this.jsData.timestamp,
+							nonceStr: this.jsData.nonceStr,
+							signature: this.jsData.signature,
+							jsApiList: ['updateAppMessageShareData', 'onMenuShareAppMessage', 'onMenuShareTimeline']
+						}),
+						jweixin.ready(function() {
+							console.log("接口处理成功")
+						}),
+						jweixin.error(function() {
+							console.log("接口处理失败")
+						})
+				}, err => {})
+			},
 			// 拨打电话
 			call(tel) {
 				uni.makePhoneCall({
@@ -304,7 +460,7 @@
 			// 初始化数据
 			initData() {
 				const params = {
-					pageNum:1
+					pageNum: 1
 				}
 				this.$request.url_request(CALLRECORDLISTTODAY, params, "GET", res => {
 						this.itemData = JSON.parse(res.data).data.list
@@ -334,6 +490,10 @@
 					}, err => {})
 				}
 			},
+			// 关闭遮罩
+			close() {
+				this.imageshow = false
+			},
 			gotoDetails(id) {
 				uni.navigateTo({
 					url: 'callDetails/callDetails?id=' + id
@@ -348,6 +508,38 @@
 	page {
 		/* background-color: #F3F6F7; */
 		background-color: #FFFFFF;
+	}
+
+	/* 分享遮罩 */
+	.imageshadow {
+		width: 100%;
+		background-color: rgba(0, 0, 0, 0.8);
+		height: 100vh;
+		position: fixed;
+		z-index: 1300;
+		top: 0;
+		left: 0;
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-end;
+	}
+
+	.shadowItem {
+		padding: 50rpx;
+	}
+
+	.shadowItem>image:nth-of-type(1) {
+		width: 517rpx;
+		height: 373rpx;
+		display: block;
+	}
+
+	.shadowItem>image:nth-of-type(2) {
+		width: 241rpx;
+		height: 86rpx;
+		display: block;
+		margin-top: 50rpx;
+		margin-left: 100rpx;
 	}
 
 	.indexBox {
@@ -599,5 +791,85 @@
 	.title {
 		padding: 20rpx 30rpx;
 		font-size: 34rpx;
+	}
+
+	/* 到期弹窗 */
+	.dueView {
+		width: 560rpx;
+		height: 686rpx;
+		overflow: hidden;
+		background-size: cover;
+		background-image: url('~@/static/incomeHome/bj@2x.png');
+	}
+
+	.dueView1 {
+		width: 560rpx;
+		height: 686rpx;
+		overflow: hidden;
+		background-size: cover;
+		background-image: url('~@/static/incomeHome/yiguoqi@2x.png');
+	}
+
+	.dueTitle {
+		font-size: 30rpx;
+		color: #FFFFFF;
+		margin-top: 150rpx;
+		font-weight: 600;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.closeImage {
+		width: 100%;
+		height: 60rpx;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+	}
+
+	.closeImage>image {
+		width: 60rpx;
+		height: 60rpx;
+	}
+
+	.DueBtn {
+		margin-top: 270rpx;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+
+	}
+
+	.DueBtn1 {
+		margin-top: 520rpx;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+
+	}
+
+	.shareBtn {
+		padding: 20rpx 50rpx;
+		color: #FFFFFF;
+		font-size: 32rpx;
+		border-radius: 100rpx;
+		box-shadow: 0rpx 5rpx 25rpx #FF5841;
+		background: linear-gradient(bottom, #FF4735 0%, #FF4735 40%, #FF654B 70%, #FF654B 100%);
+		background: -ms-linear-gradient(bottom, #FF4735 0%, #FF4735 40%, #FF654B 70%, #FF654B 100%);
+		background: -webkit-linear-gradient(bottom, #FF4735 0%, #FF4735 40%, #FF654B 70%, #FF654B 100%);
+		background: -moz-linear-gradient(bottom, #FF4735 0%, #FF4735 40%, #FF654B 70%, #FF654B 100%);
+	}
+
+	.shareBtn1 {
+		padding: 20rpx 50rpx;
+		color: #FFFFFF;
+		font-size: 32rpx;
+		border-radius: 100rpx;
+		box-shadow: 0rpx 5rpx 25rpx #4DC0FF;
+		background: linear-gradient(top, #4EC2FF, #2E95FF);
+		background: -ms-linear-gradient(top, #4EC2FF, #2E95FF);
+		background: -webkit-linear-gradient(top, #4EC2FF, #2E95FF);
+		background: -moz-linear-gradient(top, #4EC2FF, #2E95FF);
 	}
 </style>

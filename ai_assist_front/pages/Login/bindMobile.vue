@@ -126,6 +126,10 @@
 							{
 								img: '../../static/loginIntroduce/licai@2x.png',
 								name: '贷款理财'
+							},
+							{
+								img: '../../static/loginIntroduce/cuishou@2x.png',
+								name: '催收骚扰'
 							}
 						]
 					},
@@ -270,10 +274,12 @@
 					if (this.mobileCode == '获取验证码') {
 						this.time = 60
 						this.timer()
+						var jiamiMobile = this.$encruption(this.bindmobile)
 						const params = {
-							mobile: this.bindmobile
+							mobile:this.bindmobile,
+							elmobi: jiamiMobile
 						}
-						console.log(this.bindmobile)
+						console.log(params)
 						this.$request.url_request(SENDCODE, params, 'POST', res => {
 							uni.showToast({
 								title: '验证码发送成功',
@@ -310,6 +316,7 @@
 					that.isDisable = false
 					that.$forceUpdate()
 				}, 1000)
+				// const params = e.detail.value
 				const params = e.detail.value
 				if (!this.WxValidate.checkForm(params)) {
 					const error = this.WxValidate.errorList[0]
@@ -511,10 +518,11 @@
 	}
 
 	.iconGroup {
-		margin: 30rpx 0;
+		width: 550rpx;
+		margin: 30rpx auto;
 		display: flex;
 		flex-direction: row;
-		justify-content: center;
+		justify-content: space-between;
 		align-items: center;
 	}
 
@@ -522,7 +530,7 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		margin: 0 45rpx;
+		/* margin: 0 35rpx; */
 	}
 
 	/* 推送示例 */
