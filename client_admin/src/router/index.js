@@ -22,9 +22,15 @@ export const constantRoutes = [
   {
     path: '/',
     component: Layout,
-    redirect: '/merchantList',
+    redirect: '/ofdInfo',
     meta: { title: '用户中心', icon: 'dashboard' },
     children: [
+      {
+        path: '/ofdInfo',
+        name: 'ofdInfo',
+        component: () => import('@/views/dashboard/ofdInfo'),
+        meta: { title: '用户信息' }
+      },
       {
         path: '/merchantList',
         name: 'merchantList',

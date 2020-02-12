@@ -29,8 +29,8 @@
     <!--  二维码弹窗 -->
     <el-dialog title="二维码" :visible.sync="dialogTableVisible" class="Qrimg" width="30%">
       <img :src="src" alt="" style="width:100%;max-width: 400px">
-      <p class="downloadQr" @click="down">下载二维码</p>
-      <a :href="base" download="">下载</a>
+<!--      <p class="downloadQr" @click="startTrans(src)">下载二维码</p>-->
+<!--      <a :href="base" download="png"></a>-->
     </el-dialog>
     <!--    分页-->
   </div>
@@ -79,42 +79,27 @@ export default {
       })
     },
     //  下载二维码
-    down() {
-      this.getBase64('https://fastmarket.oss-cn-shenzhen.aliyuncs.com/oss/static/other/1/images/baseMap_index.jpg')
+    getBase64Image(img) {
+      var canvas = document.createElement('canvas')
+      canvas.width = img.width
+      canvas.height = img.height
+      var ctx = canvas.getContext('2d')
+      ctx.drawImage(img, 0, 0, img.width, img.height)
+      var dataURL = canvas.toDataURL('image/png') // 可选其他值 image/jpeg
+      this.base = dataURL
+      return dataURL
     },
-    getBase64(imgUrl) {
-      window.URL = window.URL || window.webkitURL
-      var xhr = new XMLHttpRequest()
-      xhr.open('get', imgUrl, true)
-      // 至关重要
-      xhr.responseType = 'blob'
-      xhr.onload = function() {
-        if (this.status === 200) {
-          // 得到一个blob对象
-          var blob = this.response
-          console.log('blob', blob)
-          // 至关重要
-          const oFileReader = new FileReader()
-          oFileReader.onloadend = function(e) {
-            // 此处拿到的已经是 base64的图片了
-            const base64 = e.target.result
-            console.log('方式一》》》》》》》》》', base64)
-            this.base = base64
-          }
-          oFileReader.readAsDataURL(blob)
-          // ====为了在页面显示图片，可以删除====
-          var img = document.createElement('img')
-          img.onload = function(e) {
-            window.URL.revokeObjectURL(img.src) // 清除释放
-          }
-          const src = window.URL.createObjectURL(blob)
-          img.src = src
-          // document.getElementById("container1").appendChild(img);
-          // ====为了在页面显示图片，可以删除====
-        }
+
+    startTrans(src, cb) {
+      var image = new Image()
+      image.src = src + '?v=' + Math.random() // 处理缓存
+      image.crossOrigin = '*' // 支持跨域图片
+      image.onload = function() {
+        var base64 = this.getBase64Image(image)
+        cb && cb(base64)
       }
-      xhr.send()
     }
+
   }
 }
 </script>
