@@ -28,8 +28,8 @@
           <div class="lineContent2">{{ couponsDetailsData.usedCount }}</div>
           <div class="lineContent1">未使用数</div>
           <div class="lineContent2">{{ couponsDetailsData.unusedCount }}</div>
-          <div class="lineContent1"></div>
-          <div class="lineContent2"></div>
+          <div class="lineContent1" />
+          <div class="lineContent2" />
         </div>
       </div>
     </el-card>
@@ -108,12 +108,12 @@
                 label="订单编号"
               />
               <el-table-column
-                  prop="beginTime"
-                  label="开始时间"
+                prop="beginTime"
+                label="开始时间"
               />
               <el-table-column
-                  prop="endTime"
-                  label="结束时间"
+                prop="endTime"
+                label="结束时间"
               />
             </el-table>
             <!--分页-->
@@ -136,6 +136,7 @@
 
 <script>
 import { couponDetail, couponUseDetails } from '@/api/userManage'
+
 export default {
   name: 'CouponsDetails',
   filters: {
@@ -190,7 +191,7 @@ export default {
     }
   },
   mounted() {
-  //  优惠券详情
+    //  优惠券详情
     this.getDetails()
     this.searchData.couponId = this.$route.query.id
     this.loadList()
@@ -238,25 +239,28 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  .line{
+  .line {
     display: flex;
     width: 100%;
     border: 1px solid #dcdcdc;
   }
-  .lineBox{
+
+  .lineBox {
     width: 100%;
     margin-top: -10px;
   }
-  .lineContent2{
+
+  .lineContent2 {
     flex: 1;
-    background-color: rgba(255,255,255,1);
+    background-color: rgba(255, 255, 255, 1);
     font-size: 18px;
     font-weight: normal;
     min-height: 55px;
     text-align: center;
     padding-top: 20px;
   }
-  .lineContent1{
+
+  .lineContent1 {
     flex: 1;
     background-color: #f7f7f7;
     font-size: 18px;
@@ -265,27 +269,33 @@ export default {
     text-align: center;
     padding-top: 20px;
   }
-.couponsDetails{
-  margin: 30px;
-  .useDetail{
-    margin-top: 30px;
+
+  .couponsDetails {
+    margin: 30px;
+
+    .useDetail {
+      margin-top: 30px;
+    }
+
+    .search {
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+    }
+
+    .searchItem {
+      float: left;
+    }
+
+    .searchItem > p {
+      display: inline-block;
+      font-size: 18px;
+      margin-right: 10px;
+    }
+
+    .searchBtn {
+      width: 100px;
+      margin-left: 50px;
+    }
   }
-  .search{
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-  }
-  .searchItem{
-    float: left;
-  }
-  .searchItem>p{
-    display: inline-block;
-    font-size: 18px;
-    margin-right:10px;
-  }
-  .searchBtn{
-    width: 100px;
-    margin-left: 50px;
-  }
-}
 </style>

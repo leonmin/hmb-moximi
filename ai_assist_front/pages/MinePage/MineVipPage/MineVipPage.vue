@@ -11,7 +11,7 @@
 					立即续费	
 				</view>
 				<view class="userTime1" v-else>
-					到期时间      {{getTime}}
+					到期时间      {{getDueTime}}
 				</view>
 			</view>
 		</view>
@@ -70,10 +70,10 @@
 			</view>
 			<view class="vip-itemFooter" style="display: flex;flex-direction: row; align-items: center;">
 				<view class="vip-itemFooterTitle">
-					<span v-if="this.couponData.userCoupon == '' || this.couponData.userCoupon == null ">暂无可用</span>
-					<span v-else>1张可用</span>
+					<span v-if="this.couponList == '' || this.couponList == null ">暂无可用</span>
+					<span v-else>{{couponList.length}}张可用</span>
 				</view>
-				<image  v-if="this.couponData.userCoupon !== null " style="height: 23rpx; width: 15rpx; margin-left: 15rpx;" src="../../../static/mine/VIPPage/jinru@2x.png"
+				<image style="height: 23rpx; width: 15rpx; margin-left: 15rpx;" src="../../../static/mine/VIPPage/jinru@2x.png"
 				 mode=""></image>
 			</view>
 		</view>
@@ -136,11 +136,14 @@
 				</image>
 			</view>
 		</view>
+		<view class="suspensionBox" @click="greenChannel">
+			<image src="../../../static/mine/lvsetongdao@2x.png" mode=""></image>
+		</view>
 	</view>
 </template>
 
 <script>
-	import {GOODSLIST,BEFORODER,CREATEORDER,MYINFO} from "../../../utils/api.js"
+	import {GOODSLIST,BEFORODER,CREATEORDER,MYINFO,COUPONLIST} from "../../../utils/api.js"
 	export default {
 		data() {
 			return {
@@ -191,25 +194,35 @@
 				couponData: '',
 				imageIndex: 0,
 				couponId: '',
-				now:""
+				now:"",
+				couponList: '',
+				transferData: ''//传递回来的数据
 			}
 		},
 		computed:{
-			getTime: function() {
+			getDueTime: function() {
 				var time = this.infoData.vipEndTime
 				var result = String(time).split(" ")[0]
 				return result
 			}
 		},
-		onLoad() {
+		onLoad(options) {
 			uni.showToast({
 				title:'加载中...',
 				icon:'none',
 				mask:true
 			})
+			if(options.data){
+				this.transferData = JSON.parse(options.data)
+				this.couponId = this.transferData.id
+				this.saleItem = this.transferData.item
+				this.vipSku = this.transferData.sku
+				console.log('是否有数据',this.transferData)
+			}
 			//卡列表
 			this.getCard()
 			// 优惠券
+			this.getCoupons1()
 			this.getCoupons()
 			// 我的信息
 			this.getMyInfo()
@@ -247,20 +260,6 @@
 			conver(s) {
 				return s < 10 ? '0' + s : s;
 			},
-			// 获取优惠券信息
-			getCoupons(){
-				const params = {
-					sku:this.vipSku,
-				}
-				this.$request.url_request(BEFORODER,params,"POST",res =>{
-					this.couponData = JSON.parse(res.data).data
-					if(this.couponData.userCoupon){
-						this.couponId = this.couponData.userCoupon.id
-					} else {
-						this.couponId = ''
-					}
-				},err =>{})
-			},
 			// 获取我的信息
 			getMyInfo(){
 				const params = {}
@@ -277,12 +276,38 @@
 				this.modalName = "";
 			},
 			checkSaleItem(index,sku,priceD,total) {
+				console.log(sku)
 				this.saleItem = index;
 				this.vipSku = sku
+				this.couponId = ''
+				this.getCoupons1()
 				this.getCoupons()
 				this.payPrice = priceD
 				this.savePrice = total
 				
+			},
+			// 
+			getCoupons1(){
+				const params = {
+					sku: this.vipSku
+				}
+				this.$request.url_request(COUPONLIST,params,'GET',res =>{
+					this.couponList = JSON.parse(res.data).data
+				},err =>{})
+			},
+			// 获取优惠券信息
+			getCoupons(){
+				const params = {
+					sku:this.vipSku,
+					couponId: this.couponId
+				}
+				this.$request.url_request(BEFORODER,params,"POST",res =>{
+					this.couponData = JSON.parse(res.data).data
+					console.log(this.couponData)
+					if(this.couponData.userCoupon !== null){
+						this.couponId = JSON.parse(res.data).data.userCoupon.id
+					}
+				},err =>{})
 			},
 			goback(){
 				uni.navigateBack({
@@ -291,8 +316,12 @@
 			},
 			// 优惠券详情
 			couponsDetail(){
+				var data ={
+					sku: this.vipSku,
+					item: this.saleItem
+				}
 				uni.navigateTo({
-					url:"../Coupons/Coupons?sku="+this.vipSku
+					url:"../Coupons/Coupons?data="+JSON.stringify(data)
 				})
 			},
 			// 支付
@@ -344,6 +373,11 @@
 					content: '太火爆啦！魔小秘今日注册名额已超限！优惠将于明日00:00重新开启！',
 					showCancel: false
 				});
+			},
+			greenChannel(){
+				uni.navigateTo({
+					url:'../../greenChannel/greenChannel'
+				})
 			}
 		}
 	}
@@ -689,5 +723,17 @@
 
 		padding-left: 30rpx;
 		margin-top: -5rpx;
+	}
+	.suspensionBox{
+		width: 112rpx;
+		height: 112rpx;
+		border-radius: 112rpx;
+		position: fixed;
+		right: 20rpx;
+		top: 900rpx;
+	}
+	.suspensionBox>image{
+		width: 107rpx;
+		height: 112rpx;
 	}
 </style>

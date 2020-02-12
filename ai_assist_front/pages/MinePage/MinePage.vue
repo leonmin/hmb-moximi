@@ -109,6 +109,24 @@
 
 			<!-- 底部菜单 -->
 			<view class="mineList">
+				<view class="mineList-item" @click="greenChannel">
+					<view class="listItem-header">
+						<image style="width: 36rpx;height: 36rpx;" class="listItem-headerIcon" src="../../static/mine/lvsetongd@2x.png"
+						 mode=""></image>
+						<view class="listItem-headerTitle">
+							绿色通道 
+						</view>
+					</view>
+					<view class="listItem-footer">
+				
+						<view class="listItem-footerTitle">
+							完成任务 获取永久续费折扣
+						</view>
+						<image style="height: 22rpx; width: 12rpx;margin-left: 18rpx;" class="listItem-footerIcon" src="../../static/mine/VIPPage/jinru@2x.png"
+						 mode=""></image>
+					</view>
+				</view>
+				
 				<view class="mineList-item" @click="exclusiveNum">
 					<view class="listItem-header">
 						<image style="width: 36rpx;height: 36rpx;" class="listItem-headerIcon" src="../../static/mine/zhuanshuzhuanjie@2x.png"
@@ -157,6 +175,20 @@
 						<view class="listItem-footerTitle">
 							已邀请{{infoData.inviteUserCount}}人
 						</view>
+						<image style="height: 22rpx; width: 12rpx;margin-left: 18rpx;" class="listItem-footerIcon" src="../../static/mine/VIPPage/jinru@2x.png"
+						 mode=""></image>
+					</view>
+				</view>
+				
+				<view class="mineList-item" @click="WxService">
+					<view class="listItem-header">
+						<image style="width: 36rpx;height: 36rpx;" class="listItem-headerIcon" src="../../static/mine/weixinkefe@2x.png" mode=""></image>
+						<view class="listItem-headerTitle">
+							微信客服
+						</view>
+					</view>
+				
+					<view class="listItem-footer">
 						<image style="height: 22rpx; width: 12rpx;margin-left: 18rpx;" class="listItem-footerIcon" src="../../static/mine/VIPPage/jinru@2x.png"
 						 mode=""></image>
 					</view>
@@ -293,7 +325,7 @@
 				jweixin.onMenuShareAppMessage({
 					title: '【魔小秘】您的专属智能来电助理', // 分享标题
 					desc: '不想接，就挂断，来电助理帮你接听', // 分享描述
-					link: that.$url.shareURL, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+					link: 'https://m.checkshirt-ai.com/h5poster/index.html#/', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
 					imgUrl: 'https://ai-assist.oss-cn-beijing.aliyuncs.com/aac/mxmlogo.png', // 分享图标
 					type: 'link', // 分享类型,music、video或link，不填默认为link
 					dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
@@ -305,7 +337,7 @@
 				//分享到朋友圈
 				jweixin.onMenuShareTimeline({
 					title: '【魔小秘】您的专属智能来电助理', // 分享标题
-					link: that.$url.shareURL,
+					link: 'https://m.checkshirt-ai.com/h5poster/index.html#/',
 					imgUrl: 'https://ai-assist.oss-cn-beijing.aliyuncs.com/aac/mxmlogo.png', // 分享图标
 					success: function() {
 						// 用户点击了分享后执行的回调函数
@@ -349,6 +381,12 @@
 					url: '../helpCenter/helpCenter'
 				})
 			},
+			// 微信客服
+			WxService(){
+				uni.navigateTo({
+					url:'WxService/WxService'
+				})
+			},
 			aaa(){
 				uni.showModal({
 					content: '请到公众号菜单关于我们->联系客服',
@@ -358,6 +396,12 @@
 			haveAWord() {
 				uni.navigateTo({
 					url: 'haveASaying/haveASaying'
+				})
+			},
+			// 绿色通道
+			greenChannel(){
+				uni.navigateTo({
+					url:'../greenChannel/greenChannel'
 				})
 			}
 		}
@@ -576,7 +620,7 @@
 		width: 100%;
 		background-color: rgba(0, 0, 0, 0.8);
 		height: 100vh;
-		position: absolute;
+		position: fixed;
 		z-index: 999;
 		top: 0;
 		left: 0;
