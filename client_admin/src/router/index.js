@@ -221,7 +221,13 @@ export const asyncRoutes = [
         name: 'couponGiveOut',
         component: () => import('@/views/configCentre/couponGiveOut'),
         meta: { title: '优惠券发放配置' }
-      }
+      },
+      // {
+      //   path: 'greenChannel',
+      //   name: 'greenChannel',
+      //   component: () => import('@/views/greenChannel/greenChannel'),
+      //   meta: { title: '绿色通道配置' }
+      // }
     ]
   },
   /* 渠道管理*/
