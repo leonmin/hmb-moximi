@@ -81,6 +81,7 @@ export default {
     //  时间更改
     dateChange(value) {
       this.begin = value
+      this.initData()
     }
   }
 }
