@@ -7,7 +7,7 @@
         <el-tab-pane label="新用户优惠券奖励" name="first">
           <el-form ref="ruleForm" :model="ruleForm" label-width="120px" :rules="rules" style="margin-top: 10px">
             <el-form-item label="奖励开关" class="form-item" prop="switch_newuser_award">
-              <el-switch v-model="ruleForm.switch_newuser_award" active-color="#13ce66" inactive-color="#ff4949" active-value="0" inactive-value="1" />
+              <el-switch v-model="ruleForm.switch_newuser_award" active-color="#13ce66" inactive-color="#ff4949" active-value="1" inactive-value="0" @change="test" />
             </el-form-item>
             <el-form-item label="发放优惠券Id" class="form-item" prop="switch_newuser_award_coupon_id">
               <el-input v-model="ruleForm.switch_newuser_award_coupon_id" placeholder="请输入" oninput="this.value=this.value.replace(/\D/g,'')" onpaste="return false;" />
@@ -19,7 +19,7 @@
           <span style="margin-left: 30px;opacity: 0.5;font-size: 14px">A邀请B,B获得优惠券</span>
           <el-form ref="ruleForm2" :model="ruleForm2" label-width="120px" :rules="rules2" style="margin-top: 10px">
             <el-form-item label="奖励开关" class="form-item" prop="switch_invite_coupon_award">
-              <el-switch v-model="ruleForm2.switch_invite_coupon_award" active-color="#13ce66" inactive-color="#ff4949" active-value="0" inactive-value="1" />
+              <el-switch v-model="ruleForm2.switch_invite_coupon_award" active-color="#13ce66" inactive-color="#ff4949" active-value="1" inactive-value="0" />
             </el-form-item>
             <el-form-item label="发放优惠券Id" class="form-item" prop="AWARD_COUPON_ID">
               <el-input v-model="ruleForm2.AWARD_COUPON_ID" placeholder="请输入" oninput="this.value=this.value.replace(/\D/g,'')" onpaste="return false;" />
@@ -108,6 +108,9 @@ export default {
     this.getData()
   },
   methods: {
+    test(ev) {
+      // console.log(ev)
+    },
     // 保存1
     submitForm(formName, index) {
       this.$refs[formName].validate((valid) => {
