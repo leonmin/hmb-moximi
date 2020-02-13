@@ -34,7 +34,7 @@
       </el-table-column>
       <el-table-column prop="ofdUserCount" label="总续费率（周卡续费率/付费续费率）" min-width="150" show-overflow-tooltip>
         <template v-slot="scope">
-          <span>{{scope.row.rateWeek + scope.row.rateCharge}}（{{ scope.row.rateWeek}} / {{ scope.row.rateCharge }} ）</span>
+          <span>{{scope.row.rateAll}}（{{ scope.row.rateWeek}} / {{ scope.row.rateCharge }} ）</span>
         </template>
       </el-table-column>
     </el-table>
