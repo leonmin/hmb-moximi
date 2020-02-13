@@ -4,7 +4,7 @@
       <el-table-column prop="ofd" label="到期时间" min-width="150" show-overflow-tooltip />
       <el-table-column prop="ofdUserCount" label="到期人数（周卡/付费）" min-width="150" show-overflow-tooltip>
         <template v-slot="scope">
-          <span>{{ scope.row.ofdUserCount + scope.row.ofdWeekUserCount }}（{{ scope.row.ofdUserCount }} / {{ scope.row.ofdWeekUserCount }}）</span>
+          <span>{{ scope.row.ofdUserCount + scope.row.ofdWeekUserCount }}（{{ scope.row.ofdWeekUserCount }} / {{ scope.row.ofdUserCount }}）</span>
         </template>
       </el-table-column>
       <el-table-column prop="ofdUserCount" label="提前续费（周卡/付费）" min-width="150" show-overflow-tooltip>
