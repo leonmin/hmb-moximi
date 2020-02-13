@@ -1,6 +1,7 @@
 <script>
 	var curToken
 	var invite = ''
+	import qs from 'query-string';
 	export default {
 		onLaunch: function() {
 			console.log('App Launch')
@@ -14,6 +15,14 @@
 			console.log('App Hide')
 		},
 		methods:{
+			// 截取
+			getQueryString1(name) {
+				var url = window.location.href
+				console.log('合伙人邀请绑定获取的url', url)
+				let up = qs.parseUrl(url);
+				console.log("parse result ==> ", up);
+				return up.query[name]
+			},
 			// 截取
 			getQueryString(name) {
 				var url = window.location.href
@@ -70,6 +79,14 @@
 			// 获取invitecode
 			getInviteCode(){
 					invite = this.getQueryString('inviteCode')
+					var queryjp = this.getQueryString1('jp')
+					console.log('截取到的jp',queryjp)
+					if(queryjp){
+						console.log('截取到了pj并保存')
+						uni.setStorageSync('myjp',queryjp)
+					} else{
+						console.log('没有接取到')
+					}
 					console.log('appvue中截取inviteCode',invite)
 					if(invite){
 						console.log('截取到了InviteCode')

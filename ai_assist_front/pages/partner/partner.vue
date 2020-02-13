@@ -149,6 +149,7 @@
 						})
 					}
 					this.infoData = JSON.parse(res.data).data
+					console.log(this.infoData)
 					uni.stopPullDownRefresh()
 					uni.hideToast()
 				}, err => {}, true)

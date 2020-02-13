@@ -153,19 +153,6 @@
 						that.imageshow = false
 					}
 				})
-
-				// jweixin.updateAppMessageShareData({
-				// 	title:"魔小秘",
-				// 	desc:"我现在正在使用魔小秘，快来加入吧！",
-				// 	link:this.inviteUrl,
-				// 	imgUrl: 'https://img2.imgtn.bdimg.com/it/u=3312143108,1363335916&fm=26&gp=0.jpg',
-				// 	success:function(){
-				// 		uni.showModal({
-				// 			content: JSON.stringify(success),
-				// 			showCancel: false
-				// 		});
-				// 	}
-				// })
 			},
 			// 邀请详情
 			checkDetail() {
