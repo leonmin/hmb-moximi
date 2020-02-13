@@ -27,7 +27,7 @@
       </el-table-column>
     </el-table>
     <!--  二维码弹窗 -->
-    <el-dialog title="二维码" :visible.sync="dialogTableVisible" class="Qrimg" width="30%">
+    <el-dialog title="二维码" :visible.sync="dialogTableVisible" class="Qrimg" width="30%"">
       <img :src="src" alt="" style="width:100%;max-width: 400px">
 <!--      <p class="downloadQr" @click="startTrans(src)">下载二维码</p>-->
 <!--      <a :href="base" download="png"></a>-->

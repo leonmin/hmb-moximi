@@ -55,7 +55,10 @@ export default {
           this.btnLoading = true
           console.log(this.ruleForm)
           channelAdd(this.ruleForm).then(res => {
-
+            if (res.code === 0 || res.code === '0') {
+              this.btnLoading = false
+              this.$router.push({ name: 'channelIndex' })
+            }
           })
         }
       })
