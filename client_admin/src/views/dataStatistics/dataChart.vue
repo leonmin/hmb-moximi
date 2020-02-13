@@ -17,12 +17,12 @@
           <span>{{ scope.row.chargeToday }} （{{ scope.row.chargeTodayWeek }} / {{ scope.row.chargeTodayMonth + scope.row.chargeTodaySeason + scope.row.chargeTodayYear }}）</span>
         </template>
       </el-table-column>
-      <el-table-column prop="ofdUserCount" label="过期2-4天（周卡/付费）" min-width="150" show-overflow-tooltip>
+      <el-table-column prop="ofdUserCount" label="过期1-3天（周卡/付费）" min-width="150" show-overflow-tooltip>
         <template v-slot="scope">
           <span>{{ scope.row.ofd2charge }} （{{ scope.row.ofd2chargeWeek }} / {{ scope.row.ofd2chargeMonth + scope.row.ofd2chargeSeason + scope.row.ofd2chargeYear }}）</span>
         </template>
       </el-table-column>
-      <el-table-column prop="ofdUserCount" label="过期5-7天（周卡/付费）" min-width="150" show-overflow-tooltip>
+      <el-table-column prop="ofdUserCount" label="过期4-7天（周卡/付费）" min-width="150" show-overflow-tooltip>
         <template v-slot="scope">
           <span>{{ scope.row.ofd5charge }} （{{ scope.row.ofd5chargeWeek }} / {{ scope.row.ofd5chargeMonth + scope.row.ofd5chargeSeason + scope.row.ofd5chargeYear }}）</span>
         </template>

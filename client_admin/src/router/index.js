@@ -388,7 +388,7 @@ export const asyncRoutes = [
   {
     path: '/dataStatistics',
     component: Layout,
-    redirect: '/dataStatistics/dayOrder',
+    redirect: '/dataStatistics/dataReport',
     name: 'dataStatistics',
     meta: {
       title: '数据统计',
@@ -396,18 +396,18 @@ export const asyncRoutes = [
       roles: ['admin']
     },
     children: [
-      {
-        path: 'dayOrder',
-        name: 'dayOrder',
-        component: () => import('@/views/dataStatistics/dayOrder'),
-        meta: { title: '日订单统计' }
-      },
-      {
-        path: 'statisticsMap',
-        name: 'statisticsMap',
-        component: () => import('@/views/dataStatistics/statisticsMap'),
-        meta: { title: '数据统计' }
-      },
+      // {
+      //   path: 'dayOrder',
+      //   name: 'dayOrder',
+      //   component: () => import('@/views/dataStatistics/dayOrder'),
+      //   meta: { title: '日订单统计' }
+      // },
+      // {
+      //   path: 'statisticsMap',
+      //   name: 'statisticsMap',
+      //   component: () => import('@/views/dataStatistics/statisticsMap'),
+      //   meta: { title: '数据统计' }
+      // },
       {
         path: 'dataReport',
         name: 'dataReport',
@@ -424,7 +424,7 @@ export const asyncRoutes = [
         path: 'dataChart',
         name: 'dataChart',
         component: () => import('@/views/dataStatistics/dataChart'),
-        meta: { title: '数据图表' }
+        meta: { title: '续费分析' }
       }
     ]
   },
