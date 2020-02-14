@@ -62,6 +62,8 @@
 								<view class="vip-desc">
 									VIP会员
 								</view>
+								<view class="dot"></view>
+								<view>  点此续费</view>
 							</view>
 							<view v-if="infoData.vipEndTime !==null || infoData.vipEndTime !== '' " class="vip-time" style="z-index: 1;">
 								<span style='margin-right: 10rpx;'>{{getTime}}</span>到期
@@ -72,7 +74,12 @@
 				</view>
 			</image>
 
-
+			
+			<!-- 绿色通道 -->
+			<view class="greenBox" @click="greenChannel">
+				<image src="../../static/mine/green.png" mode=""></image>
+				<image class="greenImage" src="../../static/mine/anniu@2x.png" mode=""></image>
+			</view>
 			<!-- 周简介 -->
 			<view class="mineTraduce">
 				<view class="">
@@ -108,25 +115,7 @@
 			</view>
 
 			<!-- 底部菜单 -->
-			<view class="mineList">
-				<view class="mineList-item" @click="greenChannel">
-					<view class="listItem-header">
-						<image style="width: 36rpx;height: 36rpx;" class="listItem-headerIcon" src="../../static/mine/lvsetongd@2x.png"
-						 mode=""></image>
-						<view class="listItem-headerTitle">
-							绿色通道 
-						</view>
-					</view>
-					<view class="listItem-footer">
-				
-						<view class="listItem-footerTitle">
-							完成任务 获取永久续费折扣
-						</view>
-						<image style="height: 22rpx; width: 12rpx;margin-left: 18rpx;" class="listItem-footerIcon" src="../../static/mine/VIPPage/jinru@2x.png"
-						 mode=""></image>
-					</view>
-				</view>
-				
+			<view class="mineList">				
 				<view class="mineList-item" @click="exclusiveNum">
 					<view class="listItem-header">
 						<image style="width: 36rpx;height: 36rpx;" class="listItem-headerIcon" src="../../static/mine/zhuanshuzhuanjie@2x.png"
@@ -400,6 +389,7 @@
 			},
 			// 绿色通道
 			greenChannel(){
+				uni.report('mineGreen', '个人中心绿色通道')
 				uni.navigateTo({
 					url:'../greenChannel/greenChannel'
 				})
@@ -475,7 +465,7 @@
 		height: 126rpx;
 		margin-left: 30rpx;
 		margin-right: 30rpx;
-		margin-top: 268rpx;
+		margin-top: 20rpx;
 
 		display: flex;
 		flex-direction: row;
@@ -532,6 +522,7 @@
 	.vip-header {
 		display: flex;
 		flex-direction: row;
+		align-items: center;
 	}
 
 	.vip-logo {
@@ -669,5 +660,29 @@
 		margin-top: 20rpx;
 		size: 26rpx;
 		color: #111111;
+	}
+	/* 绿色通道 */
+	.greenBox{
+		margin: 0 30rpx;
+		margin-top: 258rpx;
+		position: relative;
+	}
+	.greenBox>image:nth-of-type(1){
+		width: 709rpx;
+		height: 123rpx;
+	}
+	.greenImage{
+		width: 61rpx;
+		height: 61rpx;
+		position: absolute;
+		right: 25rpx;
+		top: 46rpx;
+	}
+	.dot{
+		width: 8rpx;
+		height: 8rpx;
+		border-radius: 100rpx;
+		margin:0 5rpx 0 10rpx;
+		background: #CB9D50;
 	}
 </style>

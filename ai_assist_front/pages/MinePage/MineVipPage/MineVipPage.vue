@@ -375,6 +375,7 @@
 				});
 			},
 			greenChannel(){
+				uni.report('vipGreen', '支付页面绿色通道')
 				uni.navigateTo({
 					url:'../../greenChannel/greenChannel'
 				})
