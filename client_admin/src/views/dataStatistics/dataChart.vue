@@ -73,7 +73,7 @@ export default {
   data() {
     return {
       page: 1,
-      size: 10,
+      size: 40,
       fullHeight: document.documentElement.clientHeight, // 页面高度
       dataChart: [],
       searchData: { // 筛选的数据
