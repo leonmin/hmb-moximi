@@ -20,7 +20,7 @@
     >
       <el-table-column prop="day" label="推送时间" min-width="150" show-overflow-tooltip>
         <template v-slot="scope">
-          <span>{{scope.row.day.split(' ')[0]}}</span>
+          <span>{{ scope.row.day.split(' ')[0] }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="ofd3" label="过期3天" min-width="150" show-overflow-tooltip />
@@ -83,6 +83,7 @@ export default {
       const params = {
         month: this.month
       }
+
       wxMsg(params).then(res => {
         this.mypushData = res.data
       })
