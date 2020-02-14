@@ -337,7 +337,7 @@
 						this.noAnswerCloseTel= '*920',
 						this.noAnswerOpenTel= '*920'+this.transferTel+'#',
 						this.noNetworkCloseTel= '*920',
-						this.noNetworkOpenTel= '*920'+this.transferTel+'#',
+						this.noNetworkOpenTel= '*68'+this.transferTel+'#',
 						this.mobileType =0
 					}
 				}, err => {})

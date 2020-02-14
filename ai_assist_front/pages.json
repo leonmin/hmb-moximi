@@ -183,7 +183,7 @@
         ,{
             "path" : "pages/Login/Invite/InviteNewUser",
             "style" : {
-						"navigationBarTitleText": "邀请使用",
+						"navigationBarTitleText": "领取折扣优惠券",
 						"app-plus":{
 							"titleNView":false
 						}

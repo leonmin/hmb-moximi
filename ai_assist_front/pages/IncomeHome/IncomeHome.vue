@@ -206,10 +206,17 @@
 				page: 1,
 				isfocus: '',
 				imageshow: false,
-				dueData: ''
+				dueData: '',
+				jp: ''
 			}
 		},
 		onLoad(options) {
+			console.log('这是onload')
+			// 获取jp
+			this.getjp()
+		},
+		created() {
+			console.log('这是created')
 			// 是否关注
 			this.isGuanzhu()
 			// 获得JSSDK
@@ -242,6 +249,28 @@
 		},
 
 		methods: {
+			// 获取jp
+			getjp(){
+				console.log('进入jp')
+				this.jp = uni.getStorageSync('myjp')
+				console.log('storage中的jp',this.jp)
+				if(this.jp !== ''){
+					if(this.jp == 13 || this.jp == 17 || this.jp == 9 || this.jp == 10){
+						uni.navigateTo({
+							url:'../MinePage/MineVipPage/MineVipPage'
+						})
+					} else if(this.jp == 8){
+						uni.reLaunch({
+							url:'../SettingPage/Setting/Setting'
+						})
+					} else if(this.jp == 1){
+						uni.navigateTo({
+							url:'callList'
+						})
+					}
+					uni.removeStorageSync('myjp')
+				}
+			},
 			changeIndicatorDots(e) {
 				this.indicatorDots = !this.indicatorDots
 			},
@@ -283,7 +312,7 @@
 				jweixin.onMenuShareAppMessage({
 					title: '【魔小秘】您的专属智能来电助理', // 分享标题
 					desc: '不想接，就挂断，来电助理帮你接听', // 分享描述
-					link: 'https://m.checkshirt-ai.com/h5poster/index.html#/', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+					link: 'https://m.checkshirt-ai.com/h5poster/index.html#/pages/banner/banner', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
 					imgUrl: 'https://ai-assist.oss-cn-beijing.aliyuncs.com/aac/mxmlogo.png', // 分享图标
 					type: 'link', // 分享类型,music、video或link，不填默认为link
 					dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
@@ -304,7 +333,7 @@
 				//分享到朋友圈
 				jweixin.onMenuShareTimeline({
 					title: '【魔小秘】您的专属智能来电助理', // 分享标题
-					link: 'https://m.checkshirt-ai.com/h5poster/index.html#/',
+					link: 'https://m.checkshirt-ai.com/h5poster/index.html#/pages/banner/banner',
 					imgUrl: 'https://ai-assist.oss-cn-beijing.aliyuncs.com/aac/mxmlogo.png', // 分享图标
 					success: function() {
 						// 用户点击了分享后执行的回调函数
@@ -371,7 +400,7 @@
 				if (index == 0) {
 					uni.report('homeSetting', '接听配置')
 					uni.switchTab({
-						url: '../SettingPage/SettingPage'
+						url: '../SettingPage/Setting/Setting'
 					})
 				} else if (index == 1) {
 					uni.report('homeGreen', '绿色通道')

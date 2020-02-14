@@ -15,24 +15,46 @@
 				<view class="bg-yellow" :style="{'width': progress+'%'}"></view>
 			</view>
 			<view class="taskEnd">
-				<image v-if="taskInfo.completeCount == taskInfo.destCount" src="../../static/greenChannel/xufei@2x.png" mode=""></image>
+				<image v-if="taskInfo.completeCount >= taskInfo.destCount" src="../../static/greenChannel/xufei@2x.png" mode=""></image>
 				<text v-else>完成任务，可获取永久续费折扣福利</text>
 			</view>
 		</view>
 		<view class="division"></view>
 		<!-- 折扣专区 -->
-		<view class="discountBox">
-			<view class="discountTitle" :class="taskInfo.completeCount == taskInfo.destCount? 'lock':'unlock'">
+		<view class="discountBox" v-if="taskInfo.completeCount >= taskInfo.destCount">
+			<view class="discountTitle" :class="taskInfo.completeCount >= taskInfo.destCount? 'lock':'unlock'">
 				<text>折扣专区</text>
-				<text>{{taskInfo.completeCount == taskInfo.destCount? '已解锁':'尚未解锁'}}</text>
+				<text>{{taskInfo.completeCount >= taskInfo.destCount? '已解锁':'尚未解锁'}}</text>
 			</view>
 			<view class="saleContain">
 				<view v-for="(item,index) in goodslist" :key="index" class="saleItem checkedBg" :class="saleItem == index?'checkedBg':'uncheckedBg'"
-				 @click="checkSaleItem(index,item.sku,item.priceDes,item.price)">
+				 @click="checkSaleItem(index,item.sku,item.greenPrice,item.price)">
 					<text class="fontStyle30">{{item.cardTitle}}</text>
 					<view class="price">
 						<text style="font-size: 30rpx;">￥</text>
-						<text>{{item.greenPrice}}</text>
+						<text>{{item.greenPrice | priceChange}}</text>
+					</view>
+					<s :class="saleItem == index?'orignalPrice':'orignalPrice1'">
+						<view>
+							<text style="font-size: 20rpx;">￥</text>
+							<text style="font-size: 28rpx;">{{item.oldPriceDes}}</text>
+						</view>
+					</s>
+				</view>
+			</view>
+		</view>
+		<!-- 折扣专区未解锁 -->
+		<view class="discountBox" v-if="taskInfo.completeCount < taskInfo.destCount">
+			<view class="discountTitle" :class="taskInfo.completeCount >= taskInfo.destCount? 'lock':'unlock'">
+				<text>折扣专区</text>
+				<text>{{taskInfo.completeCount >= taskInfo.destCount? '已解锁':'尚未解锁'}}</text>
+			</view>
+			<view class="saleContain">
+				<view v-for="(item,index) in goodslist" :key="index" class="oldsaleItem oldcheckedBg" :class="saleItem == index?'oldcheckedBg':'olduncheckedBg'">
+					<text class="fontStyle30">{{item.cardTitle}}</text>
+					<view class="price">
+						<text style="font-size: 30rpx;">￥</text>
+						<text>{{item.greenPrice | priceChange}}</text>
 					</view>
 					<s :class="saleItem == index?'orignalPrice':'orignalPrice1'">
 						<view>
@@ -45,11 +67,11 @@
 		</view>
 		<!-- 按钮 -->
 		<!-- 支付 -->
-		<view class="bto-bar cu-bar foot" style="bottom: 0px; background: #FFFFFF;" v-if='taskInfo.completeCount == taskInfo.destCount'>
+		<view class="bto-bar cu-bar foot" style="bottom: 0px; background: #FFFFFF;" v-if='taskInfo.completeCount >= taskInfo.destCount'>
 			<view class="bto-bar-header">
 				<view class="bto-bar-headerTitle">
 					￥
-					<text style="font-size: 40rpx;">12</text>
+					<text style="font-size: 40rpx;">{{payPrice}}</text>
 				</view>
 			</view>
 			<view class="bto-bar-commit" @click="pay">
@@ -60,10 +82,11 @@
 		<view class="submitBtn" @click="greenShare" v-else>
 			立即完成任务
 		</view>
+		<view style="height: 60rpx;"></view>
 		<!-- 分享 -->
 		<view class="imageshadow" v-if="imageshow">
 			<view class="shadowItem">
-				<image src="../../static/greenChannel/wanctip@2x.png" mode=""></image>
+				<image src="../../static/greenChannel/wenz@2x.png" mode=""></image>
 				<image src="../../static/invite/wozhidao@2x.png" mode="" @click="close"></image>
 			</view>
 		</view>
@@ -75,7 +98,8 @@
 		TASKINFO,
 		GREENCARDLIST,
 		GREENCREATEORDER,
-		JSAPI
+		JSAPI,
+		MYINFO
 	} from '../../utils/api.js'
 	var jweixin = require('jweixin-module')
 	export default {
@@ -89,6 +113,13 @@
 				payData: '',
 				progress: '',
 				imageshow: false,
+				inviteUrl: '',
+				payPrice: ''
+			}
+		},
+		filters:{
+			priceChange:(value)=>{
+				return value/100
 			}
 		},
 		onLoad() {
@@ -102,14 +133,24 @@
 			this.getCardList()
 			// 获得JSSDK
 			this.getJSAPI()
+			// 我的邀请数据
+			this.getUrl()
 		},
 		methods: {
+			// 获得URL
+			getUrl() {
+				const params = {}
+				this.$request.url_request(MYINFO, params, "GET", res => {
+					this.inviteUrl = JSON.parse(res.data).data.inviteUrl
+				}, err => {})
+			},
 			// 任务进度
 			getTaskInfo() {
 				const params = {}
 				this.$request.url_request(TASKINFO, params, 'GET', res => {
 					this.taskInfo = JSON.parse(res.data).data
-					this.progress = parseInt(this.completeCount / this.destCount)
+					// this.progress = parseInt(this.taskInfo.completeCount / this.taskInfo.destCount)*100
+					this.progress = parseInt(this.taskInfo.completeCount / this.taskInfo.destCount*100)
 				}, err => {})
 			},
 			// 绿色通道卡列表
@@ -119,16 +160,19 @@
 					uni.hideToast()
 					this.goodslist = JSON.parse(res.data).data
 					this.greenSku = this.goodslist[0].sku
+					this.payPrice = this.goodslist[0].greenPrice/100
 				}, err => {})
 			},
 			// 选择优惠
-			checkSaleItem(index, sku, priceD, total) {
+			checkSaleItem(index, sku, greenPrice, total) {
 				this.saleItem = index;
 				this.greenSku = sku
+				this.payPrice = greenPrice/100
 
 			},
 			// 支付
 			pay() {
+				uni.report('greenPay', '绿色通道页面支付')
 				const params = {
 					sku: this.greenSku
 				}
@@ -194,14 +238,15 @@
 			},
 			// weekShare
 			greenShare() {
+				uni.report('greenShare', '绿色通道页面完成任务')
 				console.log(11)
 				this.imageshow = true
 				var that = this
 				// 分享到朋友
 				jweixin.onMenuShareAppMessage({
 					title: '【魔小秘】您的专属智能来电助理', // 分享标题
-					desc: '不想接，就挂断，来电助理帮你接听', // 分享描述
-					link: 'https://m.checkshirt-ai.com/h5poster/index.html#/', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+					desc: '快来领取你的优惠券', // 分享描述
+					link: that.inviteUrl, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
 					imgUrl: 'https://ai-assist.oss-cn-beijing.aliyuncs.com/aac/mxmlogo.png', // 分享图标
 					type: 'link', // 分享类型,music、video或link，不填默认为link
 					dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
@@ -213,7 +258,7 @@
 				//分享到朋友圈
 				jweixin.onMenuShareTimeline({
 					title: '【魔小秘】您的专属智能来电助理', // 分享标题
-					link: 'https://m.checkshirt-ai.com/h5poster/index.html#/',
+					link: that.inviteUrl,
 					imgUrl: 'https://ai-assist.oss-cn-beijing.aliyuncs.com/aac/mxmlogo.png', // 分享图标
 					success: function() {
 						// 用户点击了分享后执行的回调函数
@@ -341,7 +386,14 @@
 		text-align: center;
 		padding: 30rpx;
 	}
-
+	.oldsaleItem {
+		/* flex-shrink:0; */
+		background-size: cover;
+		width: 204rpx;
+		height: 252rpx;
+		text-align: center;
+		padding: 30rpx;
+	}
 	.checkedBg {
 		background-image: url('~@/static/welcome/yueka@2x.png');
 		position: relative;
@@ -350,7 +402,14 @@
 	.uncheckedBg {
 		background-image: url('~@/static/welcome/yuka-wei@2x.png');
 	}
+	.oldcheckedBg {
+		background-image: url('~@/static/greenChannel/zhihui-xuanz@2x.png');
+		position: relative;
+	}
 
+	.olduncheckedBg {
+		background-image: url('~@/static/greenChannel/zhihui-weixuanz@2x.png');
+	}
 	.price {
 		margin: 36rpx 0;
 		font-size: 40rpx;
@@ -372,7 +431,7 @@
 		width: 690rpx;
 		padding: 21rpx 0;
 		text-align: center;
-		background: linear-gradient(-90deg, rgba(224, 186, 148, 1), rgba(239, 209, 179, 1));
+		background: linear-gradient(-90deg, #FAB26C, #FED4AB);
 		border-radius: 39px;
 		color: #FFFFFF;
 		margin-top: 20rpx;
@@ -402,8 +461,8 @@
 	}
 
 	.shadowItem>image:nth-of-type(1) {
-		width: 464rpx;
-		height: 304rpx;
+		width: 645rpx;
+		height: 343rpx;
 		display: block;
 	}
 
@@ -412,7 +471,7 @@
 		height: 86rpx;
 		display: block;
 		margin-top: 50rpx;
-		margin-left: 100rpx;
+		margin-left: 200rpx;
 	}
 
 	.bto-bar-commit {

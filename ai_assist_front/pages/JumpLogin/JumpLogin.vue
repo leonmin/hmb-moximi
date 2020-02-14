@@ -57,6 +57,8 @@
 				var inviteCode = ''
 				var partnerId = 0
 				inviteCode = this.getQueryString('inviteCode')
+				var jj = this.getQueryString('pj')
+				console.log(jj)
 				console.log('链接截取的invitecode',inviteCode)
 				if (!inviteCode) {
 					console.log('从本地获取invitecode')
