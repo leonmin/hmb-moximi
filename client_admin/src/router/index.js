@@ -425,6 +425,12 @@ export const asyncRoutes = [
         name: 'dataChart',
         component: () => import('@/views/dataStatistics/dataChart'),
         meta: { title: '续费分析' }
+      },
+      {
+        path: 'pushData',
+        name: 'pushData',
+        component: () => import('@/views/dataStatistics/pushData'),
+        meta: { title: '推送数据' }
       }
     ]
   },

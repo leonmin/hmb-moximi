@@ -259,3 +259,12 @@ export function ofdInfo(data) {
   })
 }
 
+// 数据
+export function wxMsg(data) {
+  return request({
+    url: '/admin/statistics/wxMsg',
+    method: 'get',
+    params: data
+  })
+}
+
