@@ -268,3 +268,12 @@ export function wxMsg(data) {
   })
 }
 
+// 数据
+export function wxPushStats(data) {
+  return request({
+    url: '/admin/statistics/wxPushStats',
+    method: 'get',
+    params: data
+  })
+}
+

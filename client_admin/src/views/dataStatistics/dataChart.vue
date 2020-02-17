@@ -11,39 +11,47 @@
         @change="monthChange"
       />
     </div>
-    <el-table :data="dataChart" style="width: 95%;;margin-top: 40px" border :height="fullHeight-220+'px'" size="mini">
+    <el-table
+      :data="dataChart"
+      style="width: 95%;;margin-top: 40px"
+      border
+      :summary-method="getSummaries"
+      show-summary
+      :max-height="fullHeight-220+'px'"
+      size="mini"
+    >
       <el-table-column prop="ofd" label="到期时间" min-width="150" show-overflow-tooltip />
       <el-table-column prop="ofdUserCount" label="到期人数（周卡/付费）" min-width="150" show-overflow-tooltip>
         <template v-slot="scope">
           <span>{{ scope.row.ofdUserCount + scope.row.ofdWeekUserCount }}（{{ scope.row.ofdWeekUserCount }} / {{ scope.row.ofdUserCount }}）</span>
         </template>
       </el-table-column>
-      <el-table-column prop="ofdUserCount" label="提前续费（周卡/付费）" min-width="140" show-overflow-tooltip>
+      <el-table-column prop="chargeEarly" label="提前续费（周卡/付费）" min-width="140" show-overflow-tooltip>
         <template v-slot="scope">
           <span>{{ scope.row.chargeEarly }} （{{ scope.row.chargeEarlyWeek }} / {{ scope.row.chargeEarlyMonth + scope.row.chargeEarlySeason + scope.row.chargeEarlyYear }}）</span>
         </template>
       </el-table-column>
-      <el-table-column prop="ofdUserCount" label="今日续费（周卡/付费）" min-width="140" show-overflow-tooltip>
+      <el-table-column prop="chargeToday" label="今日续费（周卡/付费）" min-width="140" show-overflow-tooltip>
         <template v-slot="scope">
           <span>{{ scope.row.chargeToday }} （{{ scope.row.chargeTodayWeek }} / {{ scope.row.chargeTodayMonth + scope.row.chargeTodaySeason + scope.row.chargeTodayYear }}）</span>
         </template>
       </el-table-column>
-      <el-table-column prop="ofdUserCount" label="过期1-3天（周卡/付费）" min-width="140" show-overflow-tooltip>
+      <el-table-column prop="ofd2charge" label="过期1-3天（周卡/付费）" min-width="140" show-overflow-tooltip>
         <template v-slot="scope">
           <span>{{ scope.row.ofd2charge }} （{{ scope.row.ofd2chargeWeek }} / {{ scope.row.ofd2chargeMonth + scope.row.ofd2chargeSeason + scope.row.ofd2chargeYear }}）</span>
         </template>
       </el-table-column>
-      <el-table-column prop="ofdUserCount" label="过期4-7天（周卡/付费）" min-width="140" show-overflow-tooltip>
+      <el-table-column prop="ofd5charge" label="过期4-7天（周卡/付费）" min-width="140" show-overflow-tooltip>
         <template v-slot="scope">
           <span>{{ scope.row.ofd5charge }} （{{ scope.row.ofd5chargeWeek }} / {{ scope.row.ofd5chargeMonth + scope.row.ofd5chargeSeason + scope.row.ofd5chargeYear }}）</span>
         </template>
       </el-table-column>
-      <el-table-column prop="ofdUserCount" label="过期7天以上（周卡/付费）" min-width="140" show-overflow-tooltip>
+      <el-table-column prop="ofd8charge" label="过期7天以上（周卡/付费）" min-width="140" show-overflow-tooltip>
         <template v-slot="scope">
           <span>{{ scope.row.ofd8charge }} （{{ scope.row.ofd8chargeWeek }} / {{ scope.row.ofd8chargeMonth + scope.row.ofd8chargeSeason + scope.row.ofd8chargeYear }}）</span>
         </template>
       </el-table-column>
-      <el-table-column prop="ofdUserCount" label="总续费率（周卡续费率/付费续费率）" min-width="200" show-overflow-tooltip>
+      <el-table-column prop="rateAll" label="总续费率（周卡续费率/付费续费率）" min-width="200" show-overflow-tooltip>
         <template v-slot="scope">
           <span>{{ scope.row.rateAll }}（{{ scope.row.rateWeek }} / {{ scope.row.rateCharge }} ）</span>
         </template>
@@ -101,6 +109,87 @@ export default {
     this.getData()
   },
   methods: {
+    getSummaries(param) {
+      var _this = this
+      const { columns, data } = param
+      const sums = []
+      columns.forEach((column, index) => {
+        // console.log(column)
+        if (index === 0) {
+          sums[index] = '总计'
+          return
+        }
+        if (column.property === 'ofdUserCount') {
+          const ofTotal = data.map(item => Number(item.ofdUserCount + item.ofdWeekUserCount))
+          const ofWeek = data.map(item => Number(item.ofdWeekUserCount))
+          const ofPay = data.map(item => Number(item.ofdUserCount))
+          if (ofTotal) {
+            sums[index] = _this.qiuhe(ofTotal) + '（' + _this.qiuhe(ofWeek) + ' / ' + _this.qiuhe(ofPay) + '）'
+          }
+        } else if (column.property === 'chargeEarly') {
+          const chargeEarly = data.map(item => Number(item.chargeEarly))
+          const chargeEarlyWeek = data.map(item => Number(item.chargeEarlyWeek))
+          const chargeEarlyPay = data.map(item => Number(item.chargeEarlyMonth + item.chargeEarlySeason + item.chargeEarlyYear))
+          if (chargeEarly) {
+            sums[index] = _this.qiuhe(chargeEarly) + '（' + _this.qiuhe(chargeEarlyWeek) + ' / ' + _this.qiuhe(chargeEarlyPay) + '）'
+          }
+        } else if (column.property === 'chargeToday') {
+          const chargeToday = data.map(item => Number(item.chargeToday))
+          const chargeTodayWeek = data.map(item => Number(item.chargeTodayWeek))
+          const chargeTodayPay = data.map(item => Number(item.chargeTodayMonth + item.chargeTodaySeason + item.chargeTodayYear))
+          if (chargeToday) {
+            sums[index] = _this.qiuhe(chargeToday) + '（' + _this.qiuhe(chargeTodayWeek) + ' / ' + _this.qiuhe(chargeTodayPay) + '）'
+          }
+        } else if (column.property === 'ofd2charge') {
+          const ofd2charge = data.map(item => Number(item.ofd2charge))
+          const ofd2chargeWeek = data.map(item => Number(item.ofd2chargeWeek))
+          const ofd2chargePay = data.map(item => Number(item.ofd2chargeMonth + item.ofd2chargeSeason + item.ofd2chargeYear))
+          if (ofd2charge) {
+            sums[index] = _this.qiuhe(ofd2charge) + '（' + _this.qiuhe(ofd2chargeWeek) + ' / ' + _this.qiuhe(ofd2chargePay) + '）'
+          }
+        } else if (column.property === 'ofd5charge') {
+          const ofd5charge = data.map(item => Number(item.ofd5charge))
+          const ofd5chargeWeek = data.map(item => Number(item.ofd5chargeWeek))
+          const ofd5chargePay = data.map(item => Number(item.ofd5chargeMonth + item.ofd5chargeSeason + item.ofd5chargeYear))
+          if (ofd5charge) {
+            sums[index] = _this.qiuhe(ofd5charge) + '（' + _this.qiuhe(ofd5chargeWeek) + ' / ' + _this.qiuhe(ofd5chargePay) + '）'
+          }
+        } else if (column.property === 'ofd8charge') {
+          const ofd8charge = data.map(item => Number(item.ofd8charge))
+          const ofd8chargeWeek = data.map(item => Number(item.ofd8chargeWeek))
+          const ofd8chargePay = data.map(item => Number(item.ofd8chargeMonth + item.ofd8chargeSeason + item.ofd8chargeYear))
+          if (ofd8charge) {
+            sums[index] = _this.qiuhe(ofd8charge) + '（' + _this.qiuhe(ofd8chargeWeek) + ' / ' + _this.qiuhe(ofd8chargePay) + '）'
+          }
+        } else if (column.property === 'rateAll') {
+          const rateAll = data.map(item => Number(_this.toPoint(item.rateAll)))
+          const rateAllWeek = data.map(item => Number(_this.toPoint(item.rateWeek)))
+          const rateAllPay = data.map(item => Number(_this.toPoint(item.rateCharge)))
+          if (rateAll) {
+            sums[index] = this.toPercent(_this.qiuhe(rateAll)) + '（' + _this.toPercent(_this.qiuhe(rateAllWeek)) + ' / ' + this.toPercent(_this.qiuhe(rateAllPay)) + '）'
+          }
+        }
+      })
+      return sums
+    },
+    qiuhe(arr) {
+      // console.log(arr)
+      if (arr.length != 0) {
+        return arr.reduce((prev, curr, idx, arr) => {
+          return prev + curr
+        })
+      }
+    },
+    toPoint(percent) {
+      var str = percent.replace('%', '')
+      str = str / 100
+      return str
+    },
+    toPercent(point) {
+      var str = Number(point * 100).toFixed(2)
+      str += '%'
+      return str
+    },
     getTime() {
       var myDate = new Date()
       var year = myDate.getFullYear()

@@ -431,6 +431,12 @@ export const asyncRoutes = [
         name: 'pushData',
         component: () => import('@/views/dataStatistics/pushData'),
         meta: { title: '推送数据' }
+      },
+      {
+        path: 'pushClickData',
+        name: 'pushClickData',
+        component: () => import('@/views/dataStatistics/pushClickData'),
+        meta: { title: '推送点击统计' }
       }
     ]
   },

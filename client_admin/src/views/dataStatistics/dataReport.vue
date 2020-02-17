@@ -15,8 +15,8 @@
     />
     <div id="myChartPay" />
     <div id="myChartCard" />
-    <div id="myChartRenewal" />
-    <div id="myChartWeekCard" />
+<!--    <div id="myChartRenewal" />-->
+<!--    <div id="myChartWeekCard" />-->
   </div>
 </template>
 
@@ -247,8 +247,8 @@ export default {
         // this.xAxis
         this.drawLinePay()
         this.drawLineCard()
-        this.drawLineRenewal()
-        this.drawLineWeekCard()
+        // this.drawLineRenewal()
+        // this.drawLineWeekCard()
       })
     },
     dealDate(date) {

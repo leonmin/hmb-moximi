@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { wxMsg } from '../../api/userManage'
+import { wxMsg, wxPushStats } from '../../api/userManage'
 export default {
   data() {
     return {
