@@ -38,7 +38,7 @@
       </el-table-column>
       <el-table-column prop="ofd2charge" label="过期1-3天（周卡/付费）" min-width="140" show-overflow-tooltip>
         <template v-slot="scope">
-          <span>{{ scope.row.ofd2charge }} （{{ scope.row.ofd2chargeWeek }} / {{ scope.row.ofd2chargeMonth + scope.row.ofd2chargeSeason + scope.row.ofd2chargeYear }}）</span>
+          <span>{{ scope.row.ofd2charge }} （{{ scope.row.chargeTodayWeekite }} / {{ scope.row.ofd2chargeMonth + scope.row.ofd2chargeSeason + scope.row.ofd2chargeYear }}）</span>
         </template>
       </el-table-column>
       <el-table-column prop="ofd5charge" label="过期4-7天（周卡/付费）" min-width="140" show-overflow-tooltip>
@@ -162,9 +162,15 @@ export default {
             sums[index] = _this.qiuhe(ofd8charge) + '（' + _this.qiuhe(ofd8chargeWeek) + ' / ' + _this.qiuhe(ofd8chargePay) + '）'
           }
         } else if (column.property === 'rateAll') {
-          const rateAll = data.map(item => Number(_this.toPoint(item.rateAll)))
-          const rateAllWeek = data.map(item => Number(_this.toPoint(item.rateWeek)))
-          const rateAllPay = data.map(item => Number(_this.toPoint(item.rateCharge)))
+          const rateAll = data.map(item => (item.chargeEarlyWeek + item.chargeTodayWeek + item.ofd2chargeWeek + item.ofd5chargeWeek + item.ofd8chargeWeek + item.chargeEarlyMonth + item.chargeEarlySeason + item.chargeEarlyYear + item.chargeTodayMonth + item.chargeTodaySeason + item.chargeTodayYear + item.ofd2chargeMonth + item.ofd2chargeSeason + item.ofd2chargeYear + item.ofd5chargeMonth + item.ofd5chargeSeason + item.ofd5chargeYear + item.ofd8chargeMonth + item.ofd8chargeSeason + item.ofd8chargeYear) / (item.ofdUserCount + item.ofdUserCount))
+          const rateAllWeek = data.map(item => (item.chargeEarlyWeek + item.chargeTodayWeek + item.ofd2chargeWeek + item.ofd5chargeWeek + item.ofd8chargeWeek) / item.chargeEarlyWeek)
+          const rateAllPay = data.map(item => (item.chargeEarlyMonth + item.chargeEarlySeason + item.chargeEarlyYear + item.chargeTodayMonth + item.chargeTodaySeason + item.chargeTodayYear + item.ofd2chargeMonth + item.ofd2chargeSeason + item.ofd2chargeYear + item.ofd5chargeMonth + item.ofd5chargeSeason + item.ofd5chargeYear + item.ofd8chargeMonth + item.ofd8chargeSeason + item.ofd8chargeYear) / item.ofdUserCount)
+          this.changeArr(rateAll)
+          this.changeArr(rateAllWeek)
+          this.changeArr(rateAllPay)
+          // console.log(rateAll)
+          // console.log(rateAllWeek)
+          // console.log(rateAllPay)
           if (rateAll) {
             sums[index] = this.toPercent(_this.qiuhe(rateAll)) + '（' + _this.toPercent(_this.qiuhe(rateAllWeek)) + ' / ' + this.toPercent(_this.qiuhe(rateAllPay)) + '）'
           }
@@ -189,6 +195,13 @@ export default {
       var str = Number(point * 100).toFixed(2)
       str += '%'
       return str
+    },
+    changeArr(arr) {
+      for (let i = 0; i < arr.length; i++) {
+        if (Number.isNaN(arr[i]) || Number.isFinite(arr[i])) {
+          arr[i] = 0
+        }
+      }
     },
     getTime() {
       var myDate = new Date()
