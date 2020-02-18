@@ -113,6 +113,27 @@ export default {
       var _this = this
       const { columns, data } = param
       const sums = []
+      var ofTotal
+      var ofWeek
+      var ofPay
+      var chargeEarly
+      var chargeEarlyWeek
+      var chargeEarlyPay
+      var chargeToday
+      var chargeTodayWeek
+      var chargeTodayPay
+      var ofd2charge
+      var ofd2chargeWeek
+      var ofd2chargePay
+      var ofd5charge
+      var ofd5chargeWeek
+      var ofd5chargePay
+      var ofd8charge
+      var ofd8chargeWeek
+      var ofd8chargePay
+      var rateTotal
+      var rateWeek
+      var rateCharge
       columns.forEach((column, index) => {
         // console.log(column)
         if (index === 0) {
@@ -120,59 +141,53 @@ export default {
           return
         }
         if (column.property === 'ofdUserCount') {
-          const ofTotal = data.map(item => Number(item.ofdUserCount + item.ofdWeekUserCount))
-          const ofWeek = data.map(item => Number(item.ofdWeekUserCount))
-          const ofPay = data.map(item => Number(item.ofdUserCount))
+          ofTotal = data.map(item => Number(item.ofdUserCount + item.ofdWeekUserCount))
+          ofWeek = data.map(item => Number(item.ofdWeekUserCount))
+          ofPay = data.map(item => Number(item.ofdUserCount))
           if (ofTotal) {
             sums[index] = _this.qiuhe(ofTotal) + '（' + _this.qiuhe(ofWeek) + ' / ' + _this.qiuhe(ofPay) + '）'
           }
         } else if (column.property === 'chargeEarly') {
-          const chargeEarly = data.map(item => Number(item.chargeEarly))
-          const chargeEarlyWeek = data.map(item => Number(item.chargeEarlyWeek))
-          const chargeEarlyPay = data.map(item => Number(item.chargeEarlyMonth + item.chargeEarlySeason + item.chargeEarlyYear))
+          chargeEarly = data.map(item => Number(item.chargeEarly))
+          chargeEarlyWeek = data.map(item => Number(item.chargeEarlyWeek))
+          chargeEarlyPay = data.map(item => Number(item.chargeEarlyMonth + item.chargeEarlySeason + item.chargeEarlyYear))
           if (chargeEarly) {
             sums[index] = _this.qiuhe(chargeEarly) + '（' + _this.qiuhe(chargeEarlyWeek) + ' / ' + _this.qiuhe(chargeEarlyPay) + '）'
           }
         } else if (column.property === 'chargeToday') {
-          const chargeToday = data.map(item => Number(item.chargeToday))
-          const chargeTodayWeek = data.map(item => Number(item.chargeTodayWeek))
-          const chargeTodayPay = data.map(item => Number(item.chargeTodayMonth + item.chargeTodaySeason + item.chargeTodayYear))
+          chargeToday = data.map(item => Number(item.chargeToday))
+          chargeTodayWeek = data.map(item => Number(item.chargeTodayWeek))
+          chargeTodayPay = data.map(item => Number(item.chargeTodayMonth + item.chargeTodaySeason + item.chargeTodayYear))
           if (chargeToday) {
             sums[index] = _this.qiuhe(chargeToday) + '（' + _this.qiuhe(chargeTodayWeek) + ' / ' + _this.qiuhe(chargeTodayPay) + '）'
           }
         } else if (column.property === 'ofd2charge') {
-          const ofd2charge = data.map(item => Number(item.ofd2charge))
-          const ofd2chargeWeek = data.map(item => Number(item.ofd2chargeWeek))
-          const ofd2chargePay = data.map(item => Number(item.ofd2chargeMonth + item.ofd2chargeSeason + item.ofd2chargeYear))
+          ofd2charge = data.map(item => Number(item.ofd2charge))
+          ofd2chargeWeek = data.map(item => Number(item.ofd2chargeWeek))
+          ofd2chargePay = data.map(item => Number(item.ofd2chargeMonth + item.ofd2chargeSeason + item.ofd2chargeYear))
           if (ofd2charge) {
             sums[index] = _this.qiuhe(ofd2charge) + '（' + _this.qiuhe(ofd2chargeWeek) + ' / ' + _this.qiuhe(ofd2chargePay) + '）'
           }
         } else if (column.property === 'ofd5charge') {
-          const ofd5charge = data.map(item => Number(item.ofd5charge))
-          const ofd5chargeWeek = data.map(item => Number(item.ofd5chargeWeek))
-          const ofd5chargePay = data.map(item => Number(item.ofd5chargeMonth + item.ofd5chargeSeason + item.ofd5chargeYear))
+          ofd5charge = data.map(item => Number(item.ofd5charge))
+          ofd5chargeWeek = data.map(item => Number(item.ofd5chargeWeek))
+          ofd5chargePay = data.map(item => Number(item.ofd5chargeMonth + item.ofd5chargeSeason + item.ofd5chargeYear))
           if (ofd5charge) {
             sums[index] = _this.qiuhe(ofd5charge) + '（' + _this.qiuhe(ofd5chargeWeek) + ' / ' + _this.qiuhe(ofd5chargePay) + '）'
           }
         } else if (column.property === 'ofd8charge') {
-          const ofd8charge = data.map(item => Number(item.ofd8charge))
-          const ofd8chargeWeek = data.map(item => Number(item.ofd8chargeWeek))
-          const ofd8chargePay = data.map(item => Number(item.ofd8chargeMonth + item.ofd8chargeSeason + item.ofd8chargeYear))
+          ofd8charge = data.map(item => Number(item.ofd8charge))
+          ofd8chargeWeek = data.map(item => Number(item.ofd8chargeWeek))
+          ofd8chargePay = data.map(item => Number(item.ofd8chargeMonth + item.ofd8chargeSeason + item.ofd8chargeYear))
           if (ofd8charge) {
             sums[index] = _this.qiuhe(ofd8charge) + '（' + _this.qiuhe(ofd8chargeWeek) + ' / ' + _this.qiuhe(ofd8chargePay) + '）'
           }
         } else if (column.property === 'rateAll') {
-          const rateAll = data.map(item => (item.chargeEarlyWeek + item.chargeTodayWeek + item.ofd2chargeWeek + item.ofd5chargeWeek + item.ofd8chargeWeek + item.chargeEarlyMonth + item.chargeEarlySeason + item.chargeEarlyYear + item.chargeTodayMonth + item.chargeTodaySeason + item.chargeTodayYear + item.ofd2chargeMonth + item.ofd2chargeSeason + item.ofd2chargeYear + item.ofd5chargeMonth + item.ofd5chargeSeason + item.ofd5chargeYear + item.ofd8chargeMonth + item.ofd8chargeSeason + item.ofd8chargeYear) / (item.ofdUserCount + item.ofdUserCount))
-          const rateAllWeek = data.map(item => (item.chargeEarlyWeek + item.chargeTodayWeek + item.ofd2chargeWeek + item.ofd5chargeWeek + item.ofd8chargeWeek) / item.chargeEarlyWeek)
-          const rateAllPay = data.map(item => (item.chargeEarlyMonth + item.chargeEarlySeason + item.chargeEarlyYear + item.chargeTodayMonth + item.chargeTodaySeason + item.chargeTodayYear + item.ofd2chargeMonth + item.ofd2chargeSeason + item.ofd2chargeYear + item.ofd5chargeMonth + item.ofd5chargeSeason + item.ofd5chargeYear + item.ofd8chargeMonth + item.ofd8chargeSeason + item.ofd8chargeYear) / item.ofdUserCount)
-          this.changeArr(rateAll)
-          this.changeArr(rateAllWeek)
-          this.changeArr(rateAllPay)
-          // console.log(rateAll)
-          // console.log(rateAllWeek)
-          // console.log(rateAllPay)
-          if (rateAll) {
-            sums[index] = this.toPercent(_this.qiuhe(rateAll)) + '（' + _this.toPercent(_this.qiuhe(rateAllWeek)) + ' / ' + this.toPercent(_this.qiuhe(rateAllPay)) + '）'
+          rateWeek = (_this.qiuhe(chargeEarlyWeek) + _this.qiuhe(chargeTodayWeek) + _this.qiuhe(ofd2chargeWeek) + _this.qiuhe(ofd5chargeWeek) + _this.qiuhe(ofd8chargeWeek)) / _this.qiuhe(ofWeek)
+          rateCharge = (_this.qiuhe(chargeEarlyPay) + _this.qiuhe(chargeTodayPay) + _this.qiuhe(ofd2chargePay) + _this.qiuhe(ofd5chargePay) + _this.qiuhe(ofd8chargePay)) / _this.qiuhe(ofPay)
+          rateTotal = rateWeek + rateCharge
+          if (!Number.isNaN(rateWeek)) {
+            sums[index] = _this.toPercent(rateTotal) + '（' + _this.toPercent(rateWeek) + ' / ' + _this.toPercent(rateCharge) + '）'
           }
         }
       })
@@ -242,12 +257,13 @@ export default {
         this.total = res.data.total
       })
     }
+
   }
 }
 </script>
 
 <style scoped>
-.datachart{
-  margin: 40px;
-}
+  .datachart{
+    margin: 40px;
+  }
 </style>
