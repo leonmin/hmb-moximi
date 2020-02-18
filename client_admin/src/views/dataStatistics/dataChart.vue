@@ -38,7 +38,7 @@
       </el-table-column>
       <el-table-column prop="ofd2charge" label="过期1-3天（周卡/付费）" min-width="140" show-overflow-tooltip>
         <template v-slot="scope">
-          <span>{{ scope.row.ofd2charge }} （{{ scope.row.chargeTodayWeekite }} / {{ scope.row.ofd2chargeMonth + scope.row.ofd2chargeSeason + scope.row.ofd2chargeYear }}）</span>
+          <span>{{ scope.row.ofd2charge }} （{{ scope.row.chargeTodayWeek }} / {{ scope.row.ofd2chargeMonth + scope.row.ofd2chargeSeason + scope.row.ofd2chargeYear }}）</span>
         </template>
       </el-table-column>
       <el-table-column prop="ofd5charge" label="过期4-7天（周卡/付费）" min-width="140" show-overflow-tooltip>
@@ -185,7 +185,7 @@ export default {
         } else if (column.property === 'rateAll') {
           rateWeek = (_this.qiuhe(chargeEarlyWeek) + _this.qiuhe(chargeTodayWeek) + _this.qiuhe(ofd2chargeWeek) + _this.qiuhe(ofd5chargeWeek) + _this.qiuhe(ofd8chargeWeek)) / _this.qiuhe(ofWeek)
           rateCharge = (_this.qiuhe(chargeEarlyPay) + _this.qiuhe(chargeTodayPay) + _this.qiuhe(ofd2chargePay) + _this.qiuhe(ofd5chargePay) + _this.qiuhe(ofd8chargePay)) / _this.qiuhe(ofPay)
-          rateTotal = rateWeek + rateCharge
+          rateTotal = (_this.qiuhe(chargeEarly) + _this.qiuhe(chargeToday) + _this.qiuhe(ofd2charge) + _this.qiuhe(ofd5charge) + _this.qiuhe(ofd8charge)) / _this.qiuhe(ofTotal)
           if (!Number.isNaN(rateWeek)) {
             sums[index] = _this.toPercent(rateTotal) + '（' + _this.toPercent(rateWeek) + ' / ' + _this.toPercent(rateCharge) + '）'
           }
