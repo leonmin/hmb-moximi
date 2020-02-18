@@ -15,8 +15,23 @@
     />
     <div id="myChartPay" />
     <div id="myChartCard" />
-<!--    <div id="myChartRenewal" />-->
-<!--    <div id="myChartWeekCard" />-->
+    <!--    <div id="myChartRenewal" />-->
+    <!--    <div id="myChartWeekCard" />-->
+    <div style="margin-left: 60px;margin-top: 40px;margin-bottom: 10px">合计</div>
+    <el-table
+      :data="tableData"
+      style="width: 90%;margin:auto;margin-bottom: 40px"
+      border
+      size="mini"
+    >
+      <el-table-column prop="orderPayed" label="已支付" min-width="150" show-overflow-tooltip />
+      <el-table-column prop="orderWaitPay" label="等待支付" min-width="150" show-overflow-tooltip />
+      <el-table-column prop="orderWeekShare" label="免费周卡" min-width="150" show-overflow-tooltip />
+      <el-table-column prop="orderAllWeek" label="周卡" min-width="150" show-overflow-tooltip />
+      <el-table-column prop="orderPayedMonth" label="月卡" min-width="150" show-overflow-tooltip />
+      <el-table-column prop="orderPayedSeason" label="季卡" min-width="150" show-overflow-tooltip />
+      <el-table-column prop="orderPayedYear" label="年卡" min-width="150" show-overflow-tooltip />
+    </el-table>
   </div>
 </template>
 
@@ -66,7 +81,8 @@ export default {
       series: [],
       paySeries: [],
       cardSeries: [],
-      renewalSeries: []
+      renewalSeries: [],
+      tableData: []
     }
   },
   mounted() {
@@ -83,8 +99,9 @@ export default {
       var year1 = Date7.getFullYear()
       var month1 = Date7.getMonth() + 1
       var date1 = Date7.getDate()
-      this.begin = year1 + '-' + this.conver(month1) + '-' + this.conver(date1) + ' ' + '00:00:00'
+      this.begin = year1 + '-' + this.conver(month1) + '-' + '01' + ' ' + '00:00:00'
       this.end = year + '-' + this.conver(month) + '-' + this.conver(date) + ' ' + '00:00:00'
+      console.log(this.begin,this.end)
     },
     conver(s) {
       return s < 10 ? '0' + s : s
@@ -108,6 +125,7 @@ export default {
         end: this.end
       }
       dataMonth(params).then(res => {
+        this.tableData = res.data
         var payedData = []
         var notPay = []
         var weekShare = []
@@ -121,21 +139,41 @@ export default {
         var weekrenewalDate = []
         var weekunrenewalDate = []
         var weekrenewalNum = []
+        // 合计
+        var totalPayed = 0
+        var totalWaitPayed = 0
+        var totalWeekShare = 0
+        var totalAllWeek = 0
+        var totalPayedMonth = 0
+        var totalPayedSeason = 0
+        var totalPayedYear = 0
+
         for (let i = 0; i < res.data.length; i++) {
           this.xAxis.push(this.dealDate(res.data[i].begin))
           payedData.push(res.data[i].orderPayed)
           notPay.push(res.data[i].orderWaitPay)
+          // 第二个图表
           weekShare.push(res.data[i].orderWeekShare)
           allWeek.push(res.data[i].orderAllWeek - res.data[i].orderWeekShare)
           monthCard.push(res.data[i].orderPayedMonth)
           seasonCard.push(res.data[i].orderPayedSeason)
           yearCard.push(res.data[i].orderPayedYear)
+          // 第三个图表
           renewalDate.push(res.data[i].ofdRenew)
           unrenewalDate.push(res.data[i].renew)
           renewalNum.push(res.data[i].ofdUser)
+          // 第四个图表
           weekrenewalDate.push(res.data[i].weekOfdRenew)
           weekunrenewalDate.push(res.data[i].weekRenew)
           weekrenewalNum.push(res.data[i].weekOfdUser)
+          // 合计
+          totalPayed = totalPayed + res.data[i].orderPayed
+          totalWaitPayed = totalWaitPayed + res.data[i].orderWaitPay
+          totalWeekShare = totalWeekShare + res.data[i].orderWeekShare
+          totalAllWeek = totalAllWeek + res.data[i].orderAllWeek
+          totalPayedMonth = totalPayedMonth + res.data[i].orderPayedMonth
+          totalPayedSeason = totalPayedSeason + res.data[i].orderPayedSeason
+          totalPayedYear = totalPayedYear + res.data[i].orderPayedYear
           this.paySeries = [
             {
               name: '等待支付',
@@ -212,7 +250,7 @@ export default {
               name: '过期人数',
               type: 'bar',
               stack: '过期',
-              color: '#922dd7',
+              color: '#d745d1',
               barMaxWidth: '60px',
               data: renewalNum
             }
@@ -244,6 +282,9 @@ export default {
             }
           ]
         }
+        this.tableData = [{ orderPayed: totalPayed, orderWaitPay: totalWaitPayed, orderWeekShare: totalWeekShare,
+          orderAllWeek: totalAllWeek, orderPayedMonth: totalPayedMonth, orderPayedSeason: totalPayedSeason,
+          orderPayedYear: totalPayedYear }]
         // this.xAxis
         this.drawLinePay()
         this.drawLineCard()

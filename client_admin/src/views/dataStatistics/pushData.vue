@@ -25,10 +25,10 @@
       </el-table-column>
       <el-table-column prop="ofd3" label="过期3天" min-width="150" show-overflow-tooltip />
       <el-table-column prop="ofd7" label="过期7天" min-width="150" show-overflow-tooltip />
-      <el-table-column prop="serviceOff" label="服务器未开通" min-width="150" show-overflow-tooltip />
+      <el-table-column prop="serviceOff" label="服务器为开通" min-width="150" show-overflow-tooltip />
       <el-table-column prop="callNotify" label="转接" min-width="150" show-overflow-tooltip />
       <el-table-column prop="remain1" label="剩余1天" min-width="150" show-overflow-tooltip />
-      <el-table-column prop="remain5" label="剩余5天" min-width="150" show-overflow-tooltip />
+      <el-table-column prop="remain5" label="剩余3天" min-width="150" show-overflow-tooltip />
     </el-table>
   </div>
 </template>
