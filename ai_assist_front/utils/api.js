@@ -1,5 +1,5 @@
-// const API = "";
-const API = "/api";
+const API = "";
+// const API = "/api";
 // 测试
 export const TEST =API+"/getWangYiNews";
 // 绑定手机号
@@ -182,3 +182,5 @@ export const TASKINFO = API+"/app/green/taskInfo"
 export const GREENCARDLIST = API+"/app/green/cardList"
 // 绿色通道列表
 export const GREENCREATEORDER = API+"/app/green/createOrder"
+//推送统计
+export const PUSHCLICK = API+"/push_stats/click"

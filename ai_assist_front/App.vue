@@ -80,12 +80,20 @@
 			getInviteCode(){
 					invite = this.getQueryString('inviteCode')
 					var queryjp = this.getQueryString1('jp')
+					var querypp = this.getQueryString1('pp')
 					console.log('截取到的jp',queryjp)
+					console.log('截取到的pp',querypp)
 					if(queryjp){
 						console.log('截取到了pj并保存')
 						uni.setStorageSync('myjp',queryjp)
 					} else{
-						console.log('没有接取到')
+						console.log('没有截取jp')
+					}
+					if(querypp){
+						console.log('截取到了pp并保存')
+						uni.setStorageSync('mypp',querypp)
+					} else{
+						console.log('没有截取pp')
 					}
 					console.log('appvue中截取inviteCode',invite)
 					if(invite){
