@@ -38,7 +38,7 @@
       </el-table-column>
       <el-table-column prop="ofd2charge" label="过期1-3天（周卡/付费）" min-width="140" show-overflow-tooltip>
         <template v-slot="scope">
-          <span>{{ scope.row.ofd2charge }} （{{ scope.row.chargeTodayWeek }} / {{ scope.row.ofd2chargeMonth + scope.row.ofd2chargeSeason + scope.row.ofd2chargeYear }}）</span>
+          <span>{{ scope.row.ofd2charge }} （{{ scope.row.ofd2chargeWeek }} / {{ scope.row.ofd2chargeMonth + scope.row.ofd2chargeSeason + scope.row.ofd2chargeYear }}）</span>
         </template>
       </el-table-column>
       <el-table-column prop="ofd5charge" label="过期4-7天（周卡/付费）" min-width="140" show-overflow-tooltip>
