@@ -259,6 +259,15 @@ export function ofdInfo(data) {
   })
 }
 
+// 渠道统计
+export function channelStat(data) {
+  return request({
+    url: '/admin/channel/channelDayStatistics',
+    method: 'get',
+    params: data
+  })
+}
+
 // 数据
 export function wxMsg(data) {
   return request({
@@ -272,6 +281,15 @@ export function wxMsg(data) {
 export function wxPushStats(data) {
   return request({
     url: '/admin/statistics/wxPushStats',
+    method: 'get',
+    params: data
+  })
+}
+
+// 绿色通道数据
+export function greenStats(data) {
+  return request({
+    url: '/admin/statistics/greenStats',
     method: 'get',
     params: data
   })

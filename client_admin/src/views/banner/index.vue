@@ -12,6 +12,7 @@
           <el-image style="width: 120px; height: 100px;cursor: pointer" :src="scope.row.bannerUrl" fit="contain" :preview-src-list="[scope.row.bannerUrl]" />
         </template>
       </el-table-column>
+      <el-table-column prop="bannerSort" label="banner顺序" show-overflow-tooltip />
       <el-table-column prop="memo" label="备注" show-overflow-tooltip />
       <el-table-column label="操作" show-overflow-tooltip width="200">
         <template v-slot="scope">

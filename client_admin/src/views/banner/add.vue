@@ -27,6 +27,9 @@
           <el-form-item label="类型">
             <el-input v-model="ruleForm.bannerType" />
           </el-form-item>
+          <el-form-item label="banner排序">
+            <el-input v-model="ruleForm.bannerSort" />
+          </el-form-item>
           <el-form-item style="float: right;margin-top: 20px">
             <el-button type="primary" :loading="btnLoading" @click="submitForm('ruleForm')">确定</el-button>
           </el-form-item>
@@ -104,14 +107,12 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.btnLoading = true
+          console.log(this.ruleForm)
           addOrUpdateBanner(this.ruleForm).then(res => {
             if (res.code === 0) {
               this.$message.success('操作成功!')
               this.visible = false
               this.$emit('success')
-            } else {
-              this.$message.error(res.msg)
-              this.btnLoading = false
             }
           })
         }

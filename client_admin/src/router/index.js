@@ -221,13 +221,34 @@ export const asyncRoutes = [
         name: 'couponGiveOut',
         component: () => import('@/views/configCentre/couponGiveOut'),
         meta: { title: '优惠券发放配置' }
+      }
+    ]
+  },
+  /* 绿色通道*/
+  {
+    path: '/Greenchannel',
+    component: Layout,
+    redirect: '/Greenchannel/greenChannelStat',
+    name: 'Greenchannel',
+    meta: {
+      title: '绿色通道管理',
+      icon: 'nested',
+      roles: ['admin']
+    },
+    children: [
+      {
+        path: 'greenChannelStat',
+        name: 'greenChannelStat',
+        component: () => import('@/views/greenChannel/greenChannelStat'),
+        meta: { title: '绿色通道统计' }
       },
-      // {
-      //   path: 'greenChannel',
-      //   name: 'greenChannel',
-      //   component: () => import('@/views/greenChannel/greenChannel'),
-      //   meta: { title: '绿色通道配置' }
-      // }
+      {
+        path: 'greenChannel',
+        name: 'greenChannel',
+        hidden: true,
+        component: () => import('@/views/greenChannel/greenChannel'),
+        meta: { title: '绿色通道' }
+      }
     ]
   },
   /* 渠道管理*/
@@ -260,6 +281,12 @@ export const asyncRoutes = [
         hidden: true,
         component: () => import('@/views/channel/channelData'),
         meta: { title: '渠道数据' }
+      },
+      {
+        path: 'channelStatistical',
+        name: 'channelStatistical',
+        component: () => import('@/views/channel/channelStatistical'),
+        meta: { title: '渠道统计' }
       }
     ]
   },
@@ -440,97 +467,6 @@ export const asyncRoutes = [
       }
     ]
   },
-
-  // {
-  //   path: '/tenant',
-  //   component: Layout,
-  //   redirect: '/tenant/list',
-  //   name: 'Tenant',
-  //   meta: {
-  //     title: '充值管理',
-  //     icon: 'nested',
-  //     roles: ['admin']
-  //   },
-  //   children: [{
-  //     path: 'list',
-  //     component: () => import('@/views/user/list'), // Parent router-view
-  //     name: 'List',
-  //     meta: {
-  //       title: '用户列表',
-  //       icon: 'nested',
-  //       roles: ['admin']
-  //     }
-  //   },
-  //   {
-  //     path: 'recharge',
-  //     component: () => import('@/views/user/recharge'), // Parent router-view
-  //     name: 'Recharge',
-  //     hidden: true,
-  //     meta: {
-  //       title: '充值',
-  //       icon: 'nested',
-  //       roles: ['admin']
-  //     }
-  //   },
-  //   {
-  //     path: 'rechargeDetail',
-  //     component: () => import('@/views/user/rechargeDetail'), // Parent router-view
-  //     name: 'rechargeDetail',
-  //     hidden: true,
-  //     meta: {
-  //       title: '充值详情',
-  //       roles: ['admin']
-  //     }
-  //   },
-  //   {
-  //     path: 'bill',
-  //     component: () => import('@/views/user/bill'), // Parent router-view
-  //     name: 'Nested',
-  //     meta: {
-  //       title: '充值审核',
-  //       icon: 'nested',
-  //       roles: ['admin']
-  //     }
-  //   },
-  //   // {
-  //   //   path: 'realNameAuth/:realNameAuthType',
-  //   //   component: () => import('@/views/user/realNameAuth'), // Parent router-view
-  //   //   name: 'RealNameAuth',
-  //   //   hidden: true,
-  //   //   meta: {
-  //   //     title: '',
-  //   //     icon: 'nested',
-  //   //     roles: ['admin']
-  //   //   }
-  //   // },
-  //   // {
-  //   //   path: 'realNameAuth/1',
-  //   //   meta: {
-  //   //     icon: 'nested',
-  //   //     title: '个人实名认证审核'
-  //   //   }
-  //   // },
-  //   // {
-  //   //   path: 'realNameAuth/2',
-  //   //   meta: {
-  //   //     icon: 'nested',
-  //   //     title: '企业实名认证审核'
-  //   //   }
-  //   // },
-  //   {
-  //     path: 'userDetails',
-  //     component: () => import('@/views/user/userDetails'), // Parent router-view
-  //     name: 'DserDetails',
-  //     hidden: true,
-  //     meta: {
-  //       title: '用户详情',
-  //       icon: 'nested',
-  //       roles: ['admin']
-  //     }
-  //   }
-  //   ]
-  // },
-
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

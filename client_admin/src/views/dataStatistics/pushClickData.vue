@@ -28,12 +28,12 @@
           <span>{{ scope.row.data[8]?scope.row.data[8]:0}}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="jp" label="过期3天" min-width="150" show-overflow-tooltip>
+      <el-table-column prop="jp" label="过期3天提示" min-width="150" show-overflow-tooltip>
         <template v-slot="scope">
           <span>{{ scope.row.data[13]?scope.row.data[13]:0}}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="jp" label="过期7天" min-width="150" show-overflow-tooltip>
+      <el-table-column prop="jp" label="过期7天提示" min-width="150" show-overflow-tooltip>
         <template v-slot="scope">
           <span>{{ scope.row.data[17]?scope.row.data[17]:0}}</span>
         </template>

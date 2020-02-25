@@ -1,29 +1,29 @@
 <template>
   <div id="main" v-loading="loading">
-    <div class="bigBox" :style="{height:fullHeight-80+'px'}">
-      <div class="title">会员卡续费配置</div>
-      <!--tabs-->
-      <el-tabs v-model="activeName" type="card" class="tabs" @tab-click="handleClick">
-        <el-tab-pane v-for="(item,index) in tabsData" :key="index" :label="item.name" :name="item.activeName">
-          <el-form ref="ruleForm" :model="ruleForm" label-width="80px" :rules="rules" style="margin-top: 10px">
-            <el-form-item label="原价:" class="form-item" prop="oldPriceDes">
-              <el-input v-model="ruleForm.oldPriceDes" placeholder="请输入原价" onpaste="return false;">
-                <template slot="append">元</template>
-              </el-input>
-            </el-form-item>
-            <el-form-item label="现价:" class="form-item" prop="priceDes">
-              <el-input v-model="ruleForm.priceDes" placeholder="请输入现价" onpaste="return false;">
-                <template slot="append">元</template></el-input>
-            </el-form-item>
-            <div class="tip">有效时间 ： {{ item.value }}天</div>
-            <el-form-item label="备注:" class="form-item">
-              <el-input v-model="ruleForm.cardMemo" type="textarea" placeholder="请输入备注" rows="4" />
-            </el-form-item>
-            <el-button type="primary" class="save" :loading="btnLoading" @click="submitForm('ruleForm',index)">保存</el-button>
-          </el-form>
-        </el-tab-pane>
-      </el-tabs>
-    </div>
+<!--    <div class="bigBox" :style="{height:fullHeight-80+'px'}">-->
+<!--      <div class="title">会员卡续费配置</div>-->
+<!--      &lt;!&ndash;tabs&ndash;&gt;-->
+<!--      <el-tabs v-model="activeName" type="card" class="tabs" @tab-click="handleClick">-->
+<!--        <el-tab-pane v-for="(item,index) in tabsData" :key="index" :label="item.name" :name="item.activeName">-->
+<!--          <el-form ref="ruleForm" :model="ruleForm" label-width="80px" :rules="rules" style="margin-top: 10px">-->
+<!--            <el-form-item label="原价:" class="form-item" prop="oldPriceDes">-->
+<!--              <el-input v-model="ruleForm.oldPriceDes" placeholder="请输入原价" onpaste="return false;">-->
+<!--                <template slot="append">元</template>-->
+<!--              </el-input>-->
+<!--            </el-form-item>-->
+<!--            <el-form-item label="现价:" class="form-item" prop="priceDes">-->
+<!--              <el-input v-model="ruleForm.priceDes" placeholder="请输入现价" onpaste="return false;">-->
+<!--                <template slot="append">元</template></el-input>-->
+<!--            </el-form-item>-->
+<!--            <div class="tip">有效时间 ： {{ item.value }}天</div>-->
+<!--            <el-form-item label="备注:" class="form-item">-->
+<!--              <el-input v-model="ruleForm.cardMemo" type="textarea" placeholder="请输入备注" rows="4" />-->
+<!--            </el-form-item>-->
+<!--            <el-button type="primary" class="save" :loading="btnLoading" @click="submitForm('ruleForm',index)">保存</el-button>-->
+<!--          </el-form>-->
+<!--        </el-tab-pane>-->
+<!--      </el-tabs>-->
+<!--    </div>-->
   </div>
 </template>
 
@@ -99,7 +99,7 @@ export default {
         that.fullHeight = window.fullHeight
       })()
     }
-    this.getData()
+    // this.getData()
   },
   methods: {
     // 保存
