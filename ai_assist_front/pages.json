@@ -645,6 +645,15 @@
 				}
 			}
         }
+        ,{
+            "path" : "pages/MinePage/AutomaticRenewal/AutomaticRenewal",
+            "style" : {
+				"navigationBarTitleText":"我的VIP",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

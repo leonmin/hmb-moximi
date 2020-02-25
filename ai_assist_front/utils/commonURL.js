@@ -6,14 +6,14 @@
 /*
 *	正式
 * */ 
-const mainURL = "https://m.checkshirt-ai.com"
-const shareURL = "https://m.checkshirt-ai.com/index.html#/pages/JumpLogin/JumpLogin"
+// const mainURL = "https://m.checkshirt-ai.com"
+// const shareURL = "https://m.checkshirt-ai.com/index.html#/pages/JumpLogin/JumpLogin"
 
 /*
 *	测试
 * */ 
-// const mainURL = "http://m.t.checkshirt-ai.com"
-// const shareURL = "http://m.t.checkshirt-ai.com/index.html#/pages/JumpLogin/JumpLogin"  
+const mainURL = "http://m.t.checkshirt-ai.com"
+const shareURL = "http://m.t.checkshirt-ai.com/index.html#/pages/JumpLogin/JumpLogin"  
 
 
 export default {

@@ -1,5 +1,5 @@
-const API = "";
-// const API = "/api";
+// const API = "";
+const API = "/api";
 // 测试
 export const TEST =API+"/getWangYiNews";
 // 绑定手机号
@@ -173,8 +173,8 @@ export const SETVOICEPROLOGUE = API+"/user/bysetting/setVoicePrologue"
 //设置回复
 export const SCENCESET = API+"/user/bysetting/sceneSet"
 
-// 绿色通道
 
+// 绿色通道
 
 // 任务进度
 export const TASKINFO = API+"/app/green/taskInfo"

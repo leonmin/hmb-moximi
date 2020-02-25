@@ -59,23 +59,37 @@
 				</view>
 			</view>
 		</view>
-<!-- 		<view class="shareBtn">
-			<button @click="share">分享给好友</button>
-		</view> -->
 		<view class="shareBtn">
-				<button v-clipboard:copy="infoData.inviteUrl2" v-clipboard:success="(type) => onCopyResult('success')"
-							 v-clipboard:error="(type) => onCopyResult('error')">复制链接</button>
+			<button @click="popShare">立即分享</button>
 		</view>
-		<view class="imageshadow" v-if="imageshow">
+	<!-- 	<view class="shareBtn">
+				<button v-clipboard:copy="infoData.inviteUrl2" v-clipboard:success="(type) => onCopyResult('success')"
+							 v-clipboard:error="(type) => onCopyResult('error')">立即分享</button>
+		</view> -->
+		<!-- 问号弹窗 -->
+		<uni-popup ref='share' type='bottom' style="z-index: 10000;" >
+			<view class="sharePop">
+				<view class="popText">可分享推广海报至微信朋友圈或微信好友也可复制推广链接，手动发放。</view>
+				<view class="popDeliver"></view>
+				<view class="popBtn">
+					<view class="popBtnLeft" @click="share">海报分享</view>
+					<button class="popBtnRight" v-clipboard:copy="infoData.inviteUrl2" v-clipboard:success="(type) => onCopyResult('success')"
+								 v-clipboard:error="(type) => onCopyResult('error')">复制链接</button>
+				</view>
+			</view>
+		</uni-popup>
+		<view class="imageshadow" v-if="imageshow" style="z-index: 11000;">
 			<view class="shadowItem">
 				<image src="../../static/invite/jiantou@2x.png" mode=""></image>
 				<image src="../../static/invite/wozhidao@2x.png" mode="" @click="close"></image>
+				<view class="imageView"></view>
 			</view>
 		</view>
 	</view>
 </template>
 
 <script>
+	import uniPopup from "../../components/uni-popup/uni-popup.vue"
 	import {
 		PARTNERINFO,
 		JSAPI
@@ -84,6 +98,7 @@
 	var token
 	var curToken
 	export default {
+		components:{uniPopup},
 		data() {
 			return {
 				infoData: '',
@@ -176,6 +191,10 @@
 						})
 				}, err => {})
 			},
+			// 分享按钮
+			popShare(){
+				this.$refs.share.open()
+			},
 			// 分享
 			share() {
 				console.log('合伙人分享的链接',this.infoData.inviteUrl)
@@ -193,6 +212,7 @@
 					success: function() {
 						// 用户点击了分享后执行的回调函数
 						that.imageshow = false
+						that.$refs.share.close()
 					}
 				})
 				//分享到朋友圈
@@ -203,6 +223,7 @@
 					success: function() {
 						// 用户点击了分享后执行的回调函数
 						that.imageshow = false
+						that.$refs.share.close()
 					}
 				})
 			},
@@ -214,9 +235,11 @@
 						icon: 'none',
 						duration: 1000
 					})
+					this.$refs.share.close()
 				} else {}
 			},
 			close() {
+				this.$refs.share.close()
 				this.imageshow = false
 			},
 			//  余额
@@ -385,7 +408,7 @@
 		width: 100%;
 		background-color: rgba(0, 0, 0, 0.8);
 		height: 100vh;
-		position: absolute;
+		position: fixed;
 		z-index: 999;
 		top: 0;
 		left: 0;
@@ -394,18 +417,69 @@
 		justify-content: flex-end;
 	}
 	.shadowItem{
-		padding: 50rpx;
+		padding:0 50rpx;
 	}
 	.shadowItem>image:nth-of-type(1){
-		width: 464rpx;
-		height: 304rpx;
+		width: 386rpx;
+		height: 253rpx;
 		display: block;
 	}
 	.shadowItem>image:nth-of-type(2){
-		width: 241rpx;
-		height: 86rpx;
+		width: 200rpx;
+		height: 71rpx;
 		display: block;
 		margin-top: 50rpx;
 		margin-left: 100rpx;
+	}
+	/* 分享pop */
+	.sharePop{
+		background: #FFFFFF;
+		padding: 40rpx 0;
+		border-radius:30rpx 30rpx 0rpx 0rpx;
+	}
+	.popText{
+		font-size: 34rpx;
+		color: #333333;
+		margin: 0 38rpx;
+		margin-top: 40rpx;
+	}
+	.popDeliver{
+		border-top: 1rpx solid #E9E9E9;
+		margin-top: 79rpx;
+	}
+	.popBtn{
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		margin-top: 40rpx;
+		justify-content: center;
+	}
+	button::after {
+		border: none;
+	}
+	.popBtnLeft,.popBtnRight{
+		border-radius:36rpx;
+		color: #FFFFFF;
+		text-align: center;
+		line-height: 72rpx;
+		margin: 0 30rpx;
+	}
+	.popBtnLeft{
+		color: #1C75FF;
+		width:281rpx;
+		height:72rpx;
+		border:1rpx solid rgba(50,150,250,1);
+	}
+	.popBtnRight{
+		width:281rpx;
+		height:72rpx;
+		background:linear-gradient(-90deg,rgba(28,117,255,1),rgba(87,153,255,1));
+	}
+	.imageView{
+		border: 2rpx solid #A99AA2;
+		width: 339rpx;
+		height: 697rpx;
+		border-radius: 10rpx;
+		margin-top: 40rpx;
 	}
 </style>
