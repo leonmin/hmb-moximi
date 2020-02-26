@@ -20,35 +20,35 @@
       :max-height="fullHeight-220+'px'"
       size="mini"
     >
-      <el-table-column prop="ofd" label="到期时间" min-width="150" show-overflow-tooltip />
-      <el-table-column prop="ofdUserCount" label="到期人数（周卡/付费）" min-width="150" show-overflow-tooltip>
+      <el-table-column prop="ofd" label="到期时间" min-width="120" show-overflow-tooltip />
+      <el-table-column prop="ofdUserCount" label="到期人数（周卡/付费/卡密）" min-width="140" show-overflow-tooltip>
         <template v-slot="scope">
-          <span>{{ scope.row.ofdUserCount + scope.row.ofdWeekUserCount }}（{{ scope.row.ofdWeekUserCount }} / {{ scope.row.ofdUserCount }}）</span>
+          <span>{{ scope.row.ofdUserCount + scope.row.ofdWeekUserCount }}（{{ scope.row.ofdWeekUserCount }} / {{ scope.row.ofdUserCount }} / {{ scope.row.ofdExCardUserCount | fixed }}）</span>
         </template>
       </el-table-column>
-      <el-table-column prop="chargeEarly" label="提前续费（周卡/付费）" min-width="140" show-overflow-tooltip>
+      <el-table-column prop="chargeEarly" label="提前续费（周卡/付费/卡密）" min-width="140" show-overflow-tooltip>
         <template v-slot="scope">
-          <span>{{ scope.row.chargeEarly }} （{{ scope.row.chargeEarlyWeek }} / {{ scope.row.chargeEarlyMonth + scope.row.chargeEarlySeason + scope.row.chargeEarlyYear }}）</span>
+          <span>{{ scope.row.chargeEarly }} （{{ scope.row.chargeEarlyWeek }} / {{ scope.row.chargeEarlyMonth + scope.row.chargeEarlySeason + scope.row.chargeEarlyYear }} / {{ scope.row.chargeEarlyExCard | fixed }}）</span>
         </template>
       </el-table-column>
-      <el-table-column prop="chargeToday" label="今日续费（周卡/付费）" min-width="140" show-overflow-tooltip>
+      <el-table-column prop="chargeToday" label="今日续费（周卡/付费/卡密）" min-width="140" show-overflow-tooltip>
         <template v-slot="scope">
-          <span>{{ scope.row.chargeToday }} （{{ scope.row.chargeTodayWeek }} / {{ scope.row.chargeTodayMonth + scope.row.chargeTodaySeason + scope.row.chargeTodayYear }}）</span>
+          <span>{{ scope.row.chargeToday }} （{{ scope.row.chargeTodayWeek }} / {{ scope.row.chargeTodayMonth + scope.row.chargeTodaySeason + scope.row.chargeTodayYear }} / {{ scope.row.chargeTodayExCard | fixed }}）</span>
         </template>
       </el-table-column>
-      <el-table-column prop="ofd2charge" label="过期1-3天（周卡/付费）" min-width="140" show-overflow-tooltip>
+      <el-table-column prop="ofd2charge" label="过期1-3天（周卡/付费/卡密）" min-width="150" show-overflow-tooltip>
         <template v-slot="scope">
-          <span>{{ scope.row.ofd2charge }} （{{ scope.row.ofd2chargeWeek }} / {{ scope.row.ofd2chargeMonth + scope.row.ofd2chargeSeason + scope.row.ofd2chargeYear }}）</span>
+          <span>{{ scope.row.ofd2charge }} （{{ scope.row.ofd2chargeWeek }} / {{ scope.row.ofd2chargeMonth + scope.row.ofd2chargeSeason + scope.row.ofd2chargeYear }} / {{ scope.row.ofd2chargeExCard | fixed }}）</span>
         </template>
       </el-table-column>
-      <el-table-column prop="ofd5charge" label="过期4-7天（周卡/付费）" min-width="140" show-overflow-tooltip>
+      <el-table-column prop="ofd5charge" label="过期4-7天（周卡/付费/卡密）" min-width="150" show-overflow-tooltip>
         <template v-slot="scope">
-          <span>{{ scope.row.ofd5charge }} （{{ scope.row.ofd5chargeWeek }} / {{ scope.row.ofd5chargeMonth + scope.row.ofd5chargeSeason + scope.row.ofd5chargeYear }}）</span>
+          <span>{{ scope.row.ofd5charge }} （{{ scope.row.ofd5chargeWeek }} / {{ scope.row.ofd5chargeMonth + scope.row.ofd5chargeSeason + scope.row.ofd5chargeYear }} {{ scope.row.ofd5chargeExCard | fixed }}）</span>
         </template>
       </el-table-column>
-      <el-table-column prop="ofd8charge" label="过期7天以上（周卡/付费）" min-width="140" show-overflow-tooltip>
+      <el-table-column prop="ofd8charge" label="过期7天以上（周卡/付费/卡密）" min-width="150" show-overflow-tooltip>
         <template v-slot="scope">
-          <span>{{ scope.row.ofd8charge }} （{{ scope.row.ofd8chargeWeek }} / {{ scope.row.ofd8chargeMonth + scope.row.ofd8chargeSeason + scope.row.ofd8chargeYear }}）</span>
+          <span>{{ scope.row.ofd8charge }} （{{ scope.row.ofd8chargeWeek }} / {{ scope.row.ofd8chargeMonth + scope.row.ofd8chargeSeason + scope.row.ofd8chargeYear }} {{ scope.row.ofd8chargeExCard | fixed }}）</span>
         </template>
       </el-table-column>
       <el-table-column prop="rateAll" label="总续费率（周卡续费率/付费续费率）" min-width="200" show-overflow-tooltip>
@@ -75,7 +75,9 @@ import { ofdCharge } from '../../api/userManage'
 export default {
   filters: {
     fixed: (value) => {
-      console.log(value)
+      if (value == null) {
+        return 0
+      }
     }
   },
   data() {
@@ -116,21 +118,33 @@ export default {
       var ofTotal
       var ofWeek
       var ofPay
+      var ofCard
+      // 提前续费
       var chargeEarly
       var chargeEarlyWeek
       var chargeEarlyPay
+      var chargeEarlyCard
+      // 今日续费
       var chargeToday
       var chargeTodayWeek
       var chargeTodayPay
+      var chargeTodayCard
+      // 过期1-3天续费
       var ofd2charge
       var ofd2chargeWeek
       var ofd2chargePay
+      var ofd2chargeCard
+      // 过期4-7天
       var ofd5charge
       var ofd5chargeWeek
       var ofd5chargePay
+      var ofd5chargeCard
+      // 过期7天以上
       var ofd8charge
       var ofd8chargeWeek
       var ofd8chargePay
+      var ofd8chargeCard
+
       var rateTotal
       var rateWeek
       var rateCharge
@@ -144,43 +158,49 @@ export default {
           ofTotal = data.map(item => Number(item.ofdUserCount + item.ofdWeekUserCount))
           ofWeek = data.map(item => Number(item.ofdWeekUserCount))
           ofPay = data.map(item => Number(item.ofdUserCount))
+          ofCard = data.map(item => Number(item.ofdExCardUserCount ? item.ofdExCardUserCount : 0))
           if (ofTotal) {
-            sums[index] = _this.qiuhe(ofTotal) + '（' + _this.qiuhe(ofWeek) + ' / ' + _this.qiuhe(ofPay) + '）'
+            sums[index] = _this.qiuhe(ofTotal) + '（' + _this.qiuhe(ofWeek) + ' / ' + _this.qiuhe(ofPay) + ' / ' + _this.qiuhe(ofCard) + '）'
           }
         } else if (column.property === 'chargeEarly') {
           chargeEarly = data.map(item => Number(item.chargeEarly))
           chargeEarlyWeek = data.map(item => Number(item.chargeEarlyWeek))
           chargeEarlyPay = data.map(item => Number(item.chargeEarlyMonth + item.chargeEarlySeason + item.chargeEarlyYear))
+          chargeEarlyCard = data.map(item => Number(item.chargeEarlyExCard ? item.chargeEarlyExCard : 0))
           if (chargeEarly) {
-            sums[index] = _this.qiuhe(chargeEarly) + '（' + _this.qiuhe(chargeEarlyWeek) + ' / ' + _this.qiuhe(chargeEarlyPay) + '）'
+            sums[index] = _this.qiuhe(chargeEarly) + '（' + _this.qiuhe(chargeEarlyWeek) + ' / ' + _this.qiuhe(chargeEarlyPay) + ' / ' + _this.qiuhe(chargeEarlyCard) + '）'
           }
         } else if (column.property === 'chargeToday') {
           chargeToday = data.map(item => Number(item.chargeToday))
           chargeTodayWeek = data.map(item => Number(item.chargeTodayWeek))
           chargeTodayPay = data.map(item => Number(item.chargeTodayMonth + item.chargeTodaySeason + item.chargeTodayYear))
+          chargeTodayCard = data.map(item => Number(item.chargeTodayExCard ? item.chargeTodayExCard : 0))
           if (chargeToday) {
-            sums[index] = _this.qiuhe(chargeToday) + '（' + _this.qiuhe(chargeTodayWeek) + ' / ' + _this.qiuhe(chargeTodayPay) + '）'
+            sums[index] = _this.qiuhe(chargeToday) + '（' + _this.qiuhe(chargeTodayWeek) + ' / ' + _this.qiuhe(chargeTodayPay) + ' / ' + _this.qiuhe(chargeTodayCard) + '）'
           }
         } else if (column.property === 'ofd2charge') {
           ofd2charge = data.map(item => Number(item.ofd2charge))
           ofd2chargeWeek = data.map(item => Number(item.ofd2chargeWeek))
           ofd2chargePay = data.map(item => Number(item.ofd2chargeMonth + item.ofd2chargeSeason + item.ofd2chargeYear))
+          ofd2chargeCard = data.map(item => Number(item.ofd2chargeExCard ? item.ofd2chargeExCard : 0))
           if (ofd2charge) {
-            sums[index] = _this.qiuhe(ofd2charge) + '（' + _this.qiuhe(ofd2chargeWeek) + ' / ' + _this.qiuhe(ofd2chargePay) + '）'
+            sums[index] = _this.qiuhe(ofd2charge) + '（' + _this.qiuhe(ofd2chargeWeek) + ' / ' + _this.qiuhe(ofd2chargePay) + ' / ' + _this.qiuhe(ofd2chargeCard) + '）'
           }
         } else if (column.property === 'ofd5charge') {
           ofd5charge = data.map(item => Number(item.ofd5charge))
           ofd5chargeWeek = data.map(item => Number(item.ofd5chargeWeek))
           ofd5chargePay = data.map(item => Number(item.ofd5chargeMonth + item.ofd5chargeSeason + item.ofd5chargeYear))
+          ofd5chargeCard = data.map(item => Number(item.ofd5chargeExCard ? item.ofd5chargeExCard : 0))
           if (ofd5charge) {
-            sums[index] = _this.qiuhe(ofd5charge) + '（' + _this.qiuhe(ofd5chargeWeek) + ' / ' + _this.qiuhe(ofd5chargePay) + '）'
+            sums[index] = _this.qiuhe(ofd5charge) + '（' + _this.qiuhe(ofd5chargeWeek) + ' / ' + _this.qiuhe(ofd5chargePay) + ' / ' + _this.qiuhe(ofd5chargeCard) + '）'
           }
         } else if (column.property === 'ofd8charge') {
           ofd8charge = data.map(item => Number(item.ofd8charge))
           ofd8chargeWeek = data.map(item => Number(item.ofd8chargeWeek))
           ofd8chargePay = data.map(item => Number(item.ofd8chargeMonth + item.ofd8chargeSeason + item.ofd8chargeYear))
+          ofd8chargeCard = data.map(item => Number(item.ofd8chargeExCard ? item.ofd8chargeExCard : 0))
           if (ofd8charge) {
-            sums[index] = _this.qiuhe(ofd8charge) + '（' + _this.qiuhe(ofd8chargeWeek) + ' / ' + _this.qiuhe(ofd8chargePay) + '）'
+            sums[index] = _this.qiuhe(ofd8charge) + '（' + _this.qiuhe(ofd8chargeWeek) + ' / ' + _this.qiuhe(ofd8chargePay) + ' / ' + _this.qiuhe(ofd8chargeCard) + '）'
           }
         } else if (column.property === 'rateAll') {
           rateWeek = (_this.qiuhe(chargeEarlyWeek) + _this.qiuhe(chargeTodayWeek) + _this.qiuhe(ofd2chargeWeek) + _this.qiuhe(ofd5chargeWeek) + _this.qiuhe(ofd8chargeWeek)) / _this.qiuhe(ofWeek)
@@ -195,7 +215,7 @@ export default {
     },
     qiuhe(arr) {
       // console.log(arr)
-      if (arr.length != 0) {
+      if (arr.length !== 0) {
         return arr.reduce((prev, curr, idx, arr) => {
           return prev + curr
         })

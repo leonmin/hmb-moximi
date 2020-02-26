@@ -454,6 +454,12 @@ export const asyncRoutes = [
         meta: { title: '续费分析' }
       },
       {
+        path: 'paySatistical',
+        name: 'paySatistical',
+        component: () => import('@/views/dataStatistics/paySatistical'),
+        meta: { title: '付费分析' }
+      },
+      {
         path: 'pushData',
         name: 'pushData',
         component: () => import('@/views/dataStatistics/pushData'),

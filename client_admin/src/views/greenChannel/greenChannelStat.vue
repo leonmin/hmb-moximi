@@ -14,11 +14,16 @@
     <el-table
       border
       :data="tableData"
+      :max-height="fullHeight-220+'px'"
       style="margin-top: 30px"
     >
-      <el-table-column label="日期" />
-      <el-table-column label="已完成人数" />
-      <el-table-column label="任务中人数" />
+      <el-table-column prop="day" label="日期" min-width="150" show-overflow-tooltip>
+        <template v-slot="scope">
+          <span>{{ scope.row.day.split(' ')[0] }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="completeCount" label="已完成人数" min-width="150" show-overflow-tooltip />
+      <el-table-column prop="processCount" label="任务中人数" min-width="150" show-overflow-tooltip />
     </el-table>
   </div>
 </template>
@@ -28,13 +33,33 @@ import { greenStats } from '../../api/userManage'
 export default {
   data() {
     return {
+      fullHeight: document.documentElement.clientHeight, // 页面高度
       tableData: [],
       loading: false,
       value: [],
       month: ''
     }
   },
+  watch: {
+    fullHeight(val) {
+      if (!this.timer) {
+        this.fullHeight = val
+        this.timer = true
+        const that = this
+        setTimeout(function() {
+          that.timer = false
+        }, 400)
+      }
+    }
+  },
   mounted() {
+    const that = this
+    window.onresize = () => {
+      return (() => {
+        window.fullHeight = document.documentElement.clientHeight
+        that.fullHeight = window.fullHeight
+      })()
+    }
     this.getTime()
     this.initData()
   },

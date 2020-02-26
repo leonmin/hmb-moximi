@@ -1,18 +1,22 @@
 <template>
   <div id="main" v-loading="loading" style="overflow: hidden">
-    <el-date-picker
-    v-model="value"
-    class="time"
-    format="yyyy-MM-dd HH:mm:ss"
-    value-format="yyyy-MM-dd HH:mm:ss"
-    type="datetimerange"
-    :picker-options="pickerOptions"
-    range-separator="至"
-    start-placeholder="开始日期"
-    end-placeholder="结束日期"
-    align="right"
-    @change="timeChange"
-  />
+    <div style="margin-left: 80px">
+      <span>选择时间：</span>
+      <el-date-picker
+        v-model="value"
+        class="time"
+        format="yyyy-MM-dd"
+        value-format="yyyy-MM-dd HH:mm:ss"
+        type="datetimerange"
+        :picker-options="pickerOptions"
+        range-separator="至"
+        start-placeholder="开始日期"
+        end-placeholder="结束日期"
+        align="right"
+        @change="timeChange"
+      />
+    </div>
+
     <div id="myChartPay" />
     <div id="myChartCard" />
     <!--    <div id="myChartRenewal" />-->
@@ -320,6 +324,15 @@ export default {
             saveAsImage: {}
           }
         },
+        dataZoom: {
+          type: 'slider',
+          show: true,
+          xAxisIndex: [0],
+          left: '4%',
+          bottom: -25,
+          start: 0,
+          end: 70
+        },
         xAxis: [
           {
             type: 'category',
@@ -333,9 +346,9 @@ export default {
         ],
         series: _this.paySeries
       })
-      window.onresize = function() {
-        myChartPay.resize()
-      }
+      // window.onresize = function() {
+      //   myChartPay.resize()
+      // }
       this.loading = false
     },
     //  绘制支付卡图表
@@ -344,6 +357,7 @@ export default {
       this.loading = true
       // 基于准备好的dom，初始化echarts实例
       const myChartCard = this.$echarts.init(document.getElementById('myChartCard'))
+      const myChartPay = this.$echarts.init(document.getElementById('myChartPay'))
       // 绘制图表
       myChartCard.setOption({
         tooltip: {
@@ -367,6 +381,15 @@ export default {
             saveAsImage: {}
           }
         },
+        dataZoom: {
+          type: 'slider',
+          show: true,
+          xAxisIndex: [0],
+          left: '4%',
+          bottom: -25,
+          start: 0,
+          end: 70
+        },
         xAxis: [
           {
             type: 'category',
@@ -382,6 +405,7 @@ export default {
       })
       window.onresize = function() {
         myChartCard.resize()
+        myChartPay.resize()
       }
       this.loading = false
     },
@@ -484,8 +508,10 @@ export default {
 </script>
 
 <style scoped>
+  #main{
+  }
   #myChartPay,#myChartCard,#myChartRenewal,#myChartWeekCard{
-    width: calc(100% - 60px);
+    width: calc(100% - 220px);
     margin:30px;
     height: 250px;
   }

@@ -1,18 +1,21 @@
 <template>
   <div id="main" v-loading="loading" style="overflow: hidden">
-    <el-date-picker
-      v-model="value"
-      class="time"
-      format="yyyy-MM-dd HH:mm:ss"
-      value-format="yyyy-MM-dd HH:mm:ss"
-      type="datetimerange"
-      :picker-options="pickerOptions"
-      range-separator="至"
-      start-placeholder="开始日期"
-      end-placeholder="结束日期"
-      align="right"
-      @change="timeChange"
-    />
+    <div style="margin-left: 80px">
+      <span>选择时间：</span>
+      <el-date-picker
+        v-model="value"
+        class="time"
+        format="yyyy-MM-dd HH:mm:ss"
+        value-format="yyyy-MM-dd HH:mm:ss"
+        type="datetimerange"
+        :picker-options="pickerOptions"
+        range-separator="至"
+        start-placeholder="开始日期"
+        end-placeholder="结束日期"
+        align="right"
+        @change="timeChange"
+      />
+    </div>
     <div id="myChart" />
   </div>
 </template>
@@ -74,11 +77,7 @@ export default {
       var year = myDate.getFullYear()
       var month = myDate.getMonth() + 1
       var date = myDate.getDate()
-      var Date7 = new Date(myDate.getTime() - 144 * 60 * 60 * 1000)
-      var year1 = Date7.getFullYear()
-      var month1 = Date7.getMonth() + 1
-      var date1 = Date7.getDate()
-      this.begin = year1 + '-' + this.conver(month1) + '-' + this.conver(date1) + ' ' + '00:00:00'
+      this.begin = year + '-' + this.conver(month) + '-' + '01' + ' ' + '00:00:00'
       this.end = year + '-' + this.conver(month) + '-' + this.conver(date) + ' ' + '00:00:00'
     },
     conver(s) {
@@ -175,6 +174,15 @@ export default {
             saveAsImage: {}
           }
         },
+        dataZoom: {
+          type: 'slider',
+          show: true,
+          xAxisIndex: [0],
+          left: '4%',
+          bottom: -20,
+          start: 0,
+          end: 50
+        },
         xAxis: [
           {
             type: 'category',
@@ -199,7 +207,7 @@ export default {
 
 <style scoped>
   #myChart{
-    width: calc(100% - 60px);
+    width: calc(100% - 180px);
     margin:30px;
     height: 600px;
   }
