@@ -45,7 +45,7 @@
       :max-height="400"
       style="width: 90%;margin:auto;margin-bottom: 40px"
     >
-      <el-table-column prop="begin" label="序号" min-width="120" show-overflow-tooltip>
+      <el-table-column prop="begin" label="日期" min-width="120" show-overflow-tooltip>
         <template v-slot="scope">
           <span>{{scope.row.begin.split(' ')[0]}}</span>
         </template>
