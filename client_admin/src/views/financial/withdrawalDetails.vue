@@ -21,10 +21,22 @@
           <el-table-column prop="orderId" label="订单编号" min-width="100" show-overflow-tooltip />
           <el-table-column prop="profitUserName" label="用户名" min-width="100" show-overflow-tooltip />
           <el-table-column prop="sku" label="会员卡续费种类" min-width="100" show-overflow-tooltip />
-          <el-table-column prop="price" label="会员卡续费金额" min-width="100" show-overflow-tooltip />
-          <el-table-column prop="payPrice" label="实际支付金额" min-width="100" show-overflow-tooltip />
+          <el-table-column prop="price" label="会员卡续费金额" min-width="100" show-overflow-tooltip >
+            <template v-slot="scope">
+              <span>{{ scope.row.price/100 }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="payPrice" label="实际支付金额" min-width="100" show-overflow-tooltip>
+            <template v-slot="scope">
+              <span>{{ scope.row.payPrice/100 }}</span>
+            </template>
+          </el-table-column>
           <el-table-column prop="scale" label="提成比例" min-width="100" show-overflow-tooltip />
-          <el-table-column prop="profit" label="提成金额" min-width="100" show-overflow-tooltip />
+          <el-table-column prop="profit" label="提成金额" min-width="100" show-overflow-tooltip>
+            <template v-slot="scope">
+              <span>{{ scope.row.profit/100 }}</span>
+            </template>
+          </el-table-column>
         </el-table>
         <el-pagination
           style="float: right;margin-top: 20px;margin-right: 40px"
@@ -100,7 +112,8 @@ export default {
               return prev
             }
           }, 0)
-          sums[index] += ' 元'
+          // sums[index] += ' 元'
+          sums[index] = sums[index] / 100 + ' 元'
         } else {
           sums[index] = '/'
         }
