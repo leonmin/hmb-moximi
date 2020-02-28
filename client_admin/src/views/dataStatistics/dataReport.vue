@@ -21,20 +21,36 @@
     <div id="myChartCard" />
     <!--    <div id="myChartRenewal" />-->
     <!--    <div id="myChartWeekCard" />-->
-    <div style="margin-left: 60px;margin-top: 40px;margin-bottom: 10px">合计</div>
+    <div style="margin-left: 75px;margin-top: 40px;margin-bottom: 10px;color: #6699FF">合计</div>
     <el-table
       :data="tableData"
       style="width: 90%;margin:auto;margin-bottom: 40px"
       border
       size="mini"
     >
-      <el-table-column prop="orderPayed" label="已支付" min-width="150" show-overflow-tooltip />
-      <el-table-column prop="orderWaitPay" label="等待支付" min-width="150" show-overflow-tooltip />
-      <el-table-column prop="orderWeekShare" label="免费周卡" min-width="150" show-overflow-tooltip />
-      <el-table-column prop="orderAllWeek" label="周卡" min-width="150" show-overflow-tooltip />
-      <el-table-column prop="orderPayedMonth" label="月卡" min-width="150" show-overflow-tooltip />
-      <el-table-column prop="orderPayedSeason" label="季卡" min-width="150" show-overflow-tooltip />
-      <el-table-column prop="orderPayedYear" label="年卡" min-width="150" show-overflow-tooltip />
+      <el-table-column prop="orderPayed" label="已支付" min-width="120" show-overflow-tooltip />
+      <el-table-column prop="orderWaitPay" label="等待支付" min-width="120" show-overflow-tooltip />
+      <el-table-column prop="orderWeekShare" label="免费周卡" min-width="120" show-overflow-tooltip />
+      <el-table-column prop="orderAllWeek" label="周卡" min-width="120" show-overflow-tooltip />
+      <el-table-column prop="orderPayedMonth" label="月卡" min-width="120" show-overflow-tooltip />
+      <el-table-column prop="orderPayedSeason" label="季卡" min-width="120" show-overflow-tooltip />
+      <el-table-column prop="orderPayedYear" label="年卡" min-width="120" show-overflow-tooltip />
+      <el-table-column prop="totalExCard" label="卡密" min-width="120" show-overflow-tooltip />
+    </el-table>
+    <el-table
+      :data="initTableData"
+      border
+      show-summary
+      size="mini"
+      :max-height="400"
+      style="width: 90%;margin:auto;margin-bottom: 40px"
+    >
+      <el-table-column prop="id" label="序号" min-width="120" show-overflow-tooltip />
+      <el-table-column prop="countPayUserOld" label="老用户支付数量" min-width="120" show-overflow-tooltip />
+      <el-table-column prop="countPayUserOldNormal" label="老用户正常支付数量" min-width="120" show-overflow-tooltip />
+      <el-table-column prop="countPayUserOldCoupon" label="老用户优惠券支付数量" min-width="120" show-overflow-tooltip />
+      <el-table-column prop="countPayUserOldGreen" label="老用户绿色通道支付数量" min-width="120" show-overflow-tooltip />
+      <el-table-column prop="countPayUserNew" label="新用户支付数量" min-width="120" show-overflow-tooltip />
     </el-table>
   </div>
 </template>
@@ -51,6 +67,7 @@ export default {
       begin: '',
       end: '',
       now: '',
+      initTableData: [],
       pickerOptions: {
         shortcuts: [{
           text: '最近一周',
@@ -125,14 +142,17 @@ export default {
         end: this.end
       }
       dataMonth(params).then(res => {
-        this.tableData = res.data
+        this.initTableData = res.data
         var payedData = []
         var notPay = []
+
         var weekShare = []
         var allWeek = []
         var monthCard = []
         var seasonCard = []
         var yearCard = []
+        var exCard = []
+
         var renewalDate = []
         var unrenewalDate = []
         var renewalNum = []
@@ -147,6 +167,7 @@ export default {
         var totalPayedMonth = 0
         var totalPayedSeason = 0
         var totalPayedYear = 0
+        var totalExCard = 0
 
         for (let i = 0; i < res.data.length; i++) {
           this.xAxis.push(this.dealDate(res.data[i].begin))
@@ -158,6 +179,7 @@ export default {
           monthCard.push(res.data[i].orderPayedMonth)
           seasonCard.push(res.data[i].orderPayedSeason)
           yearCard.push(res.data[i].orderPayedYear)
+          exCard.push(res.data[i].orderExCard ? res.data[i].orderExCard : 0)
           // 第三个图表
           renewalDate.push(res.data[i].ofdRenew)
           unrenewalDate.push(res.data[i].renew)
@@ -174,6 +196,7 @@ export default {
           totalPayedMonth = totalPayedMonth + res.data[i].orderPayedMonth
           totalPayedSeason = totalPayedSeason + res.data[i].orderPayedSeason
           totalPayedYear = totalPayedYear + res.data[i].orderPayedYear
+          totalExCard = totalExCard + res.data[i].orderExCard ? res.data[i].orderExCard : 0
           this.paySeries = [
             {
               name: '等待支付',
@@ -193,31 +216,38 @@ export default {
           ]
           this.cardSeries = [
             {
+              name: '卡密',
+              type: 'bar',
+              stack: '支付卡',
+              color: '#c9a91d',
+              data: exCard
+            },
+            {
               name: '年卡',
               type: 'bar',
               stack: '支付卡',
-              color: '#38E156',
+              color: '#74e10c',
               data: yearCard
             },
             {
               name: '季卡',
               type: 'bar',
               stack: '支付卡',
-              color: '#259238',
+              color: '#bcb2d7',
               data: seasonCard
             },
             {
               name: '月卡',
               type: 'bar',
               stack: '支付卡',
-              color: '#00AA72',
+              color: '#00b376',
               data: monthCard
             },
             {
               name: '周卡',
               type: 'bar',
               stack: '支付卡',
-              color: '#03899C',
+              color: '#124b9c',
               data: allWeek
             },
             {
@@ -225,7 +255,7 @@ export default {
               type: 'bar',
               stack: '支付卡',
               barMaxWidth: '60px',
-              color: '#36BBCE',
+              color: '#5fc7ce',
               data: weekShare
             }
           ]
@@ -284,7 +314,7 @@ export default {
         }
         this.tableData = [{ orderPayed: totalPayed, orderWaitPay: totalWaitPayed, orderWeekShare: totalWeekShare,
           orderAllWeek: totalAllWeek, orderPayedMonth: totalPayedMonth, orderPayedSeason: totalPayedSeason,
-          orderPayedYear: totalPayedYear }]
+          orderPayedYear: totalPayedYear, totalExCard: totalExCard }]
         // this.xAxis
         this.drawLinePay()
         this.drawLineCard()
@@ -367,7 +397,7 @@ export default {
           }
         },
         legend: {
-          data: ['免费周卡', '周卡', '月卡', '季卡', '年卡']
+          data: ['免费周卡', '周卡', '月卡', '季卡', '年卡', '卡密']
         },
         grid: {
           top: '12%',

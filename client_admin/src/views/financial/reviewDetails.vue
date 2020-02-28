@@ -246,8 +246,9 @@ export default {
           this.total = res.data.total
           this.historyData = res.data.records
           this.isPaging = false
-          this.loading = false
+          // this.loading = false
         }
+        this.loading = false
       })
     },
     // 初始化数据

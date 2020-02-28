@@ -14,9 +14,9 @@
         <div class="bigBox">
           <el-row :gutter="20">
             <el-col :span="6"><el-tag style="width: 100%">id : {{ row.id===null?'':row.id }}</el-tag></el-col>
-            <el-col :span="6"><el-tag style="width: 100%">userName : {{ row.userName===null?'':row.userName }}</el-tag></el-col>
+            <el-col :span="6"><el-tag style="width: 100%">用户名 : {{ row.userName===null?'':row.userName }}</el-tag></el-col>
             <el-col :span="6"><el-tag style="width: 100%">puserName : {{ row.puserName===null?'':row.puserName }}</el-tag></el-col>
-            <el-col :span="6"><el-tag style="width: 100%">isMember : {{ row.isMember===null?'':row.isMember }}</el-tag></el-col>
+            <el-col :span="6"><el-tag style="width: 100%">是否是会员 : {{ row.isMember===null?'':row.isMember }}</el-tag></el-col>
           </el-row>
           <el-row :gutter="20" style="margin-top: 20px">
             <el-col :span="6"><el-tag style="width: 100%">applyBalance : {{ data.applyBalance }}</el-tag></el-col>
