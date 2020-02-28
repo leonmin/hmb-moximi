@@ -45,7 +45,11 @@
       :max-height="400"
       style="width: 90%;margin:auto;margin-bottom: 40px"
     >
-      <el-table-column prop="id" label="序号" min-width="120" show-overflow-tooltip />
+      <el-table-column prop="begin" label="序号" min-width="120" show-overflow-tooltip>
+        <template v-slot="scope">
+          <span>{{scope.row.begin.split(' ')[0]}}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="countPayUserOld" label="老用户支付数量" min-width="120" show-overflow-tooltip />
       <el-table-column prop="countPayUserOldNormal" label="老用户正常支付数量" min-width="120" show-overflow-tooltip />
       <el-table-column prop="countPayUserOldCoupon" label="老用户优惠券支付数量" min-width="120" show-overflow-tooltip />

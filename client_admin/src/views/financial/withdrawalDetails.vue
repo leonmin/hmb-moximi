@@ -13,7 +13,9 @@
         <el-table
           :data="tableData"
           border
-          :height="fullHeight-340+'px'"
+          :max-height="fullHeight-340+'px'"
+          :summary-method="getSummaries"
+          show-summary
           style="margin-top: 30px"
         >
           <el-table-column prop="orderId" label="订单编号" min-width="100" show-overflow-tooltip />
@@ -78,6 +80,33 @@ export default {
         this.tableData = res.data.records
         this.total = res.data.total
       })
+    },
+    // 合计
+    getSummaries(param) {
+      const { columns, data } = param
+      const sums = []
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = '合计'
+          return
+        }
+        const values = data.map(item => Number(item[column.property]))
+        if (!values.every(value => isNaN(value)) && column.property == 'profit') {
+          sums[index] = values.reduce((prev, curr) => {
+            const value = Number(curr)
+            if (!isNaN(value)) {
+              return prev + curr
+            } else {
+              return prev
+            }
+          }, 0)
+          sums[index] += ' 元'
+        } else {
+          sums[index] = '/'
+        }
+      })
+
+      return sums
     },
     // 当前页码
     handleSizeChange(val) {
