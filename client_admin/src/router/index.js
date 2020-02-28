@@ -159,6 +159,13 @@ export const asyncRoutes = [
         hidden: true,
         component: () => import('@/views/financial/reviewDetails'),
         meta: { title: '提现审核详情' }
+      },
+      {
+        path: 'withdrawalDetails',
+        name: 'withdrawalDetails',
+        hidden: true,
+        component: () => import('@/views/financial/withdrawalDetails'),
+        meta: { title: '提现详情' }
       }
     ]
   },

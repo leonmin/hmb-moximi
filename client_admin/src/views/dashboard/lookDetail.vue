@@ -15,24 +15,24 @@
           <el-row :gutter="20">
             <el-col :span="6"><el-tag style="width: 100%">id : {{ row.id===null?'':row.id }}</el-tag></el-col>
             <el-col :span="6"><el-tag style="width: 100%">用户名 : {{ row.userName===null?'':row.userName }}</el-tag></el-col>
-            <el-col :span="6"><el-tag style="width: 100%">puserName : {{ row.puserName===null?'':row.puserName }}</el-tag></el-col>
-            <el-col :span="6"><el-tag style="width: 100%">是否是会员 : {{ row.isMember===null?'':row.isMember }}</el-tag></el-col>
+            <el-col :span="6"><el-tag style="width: 100%">上级用户 : {{ row.puserName===null?'':row.puserName }}</el-tag></el-col>
+            <el-col :span="6"><el-tag style="width: 100%">是否已成会员 : {{ row.isMember===null?'':row.isMember }}</el-tag></el-col>
           </el-row>
           <el-row :gutter="20" style="margin-top: 20px">
-            <el-col :span="6"><el-tag style="width: 100%">applyBalance : {{ data.applyBalance }}</el-tag></el-col>
-            <el-col :span="6"><el-tag style="width: 100%">balance : {{ data.balance }}</el-tag></el-col>
-            <el-col :span="6"><el-tag style="width: 100%">countRecharge : {{ data.countRecharge }}</el-tag></el-col>
-            <el-col :span="6"><el-tag style="width: 100%">partnerApplyBalance : {{ data.partnerApplyBalance }}</el-tag></el-col>
+            <el-col :span="6"><el-tag style="width: 100%">提现金额 : {{ data.applyBalance }}</el-tag></el-col>
+            <el-col :span="6"><el-tag style="width: 100%">当前余额 : {{ data.balance }}</el-tag></el-col>
+            <el-col :span="6"><el-tag style="width: 100%">申请提现次数 : {{ data.countRecharge }}</el-tag></el-col>
+            <el-col :span="6"><el-tag style="width: 100%">合伙人提现金额 : {{ data.partnerApplyBalance }}</el-tag></el-col>
           </el-row>
           <el-row :gutter="20" style="margin-top: 20px">
-            <el-col :span="6"><el-tag style="width: 100%">partnerBalance : {{ data.partnerBalance }}</el-tag></el-col>
-            <el-col :span="6"><el-tag style="width: 100%">score : {{ data.score }}</el-tag></el-col>
+            <el-col :span="6"><el-tag style="width: 100%">合伙人当前余额 : {{ data.partnerBalance }}</el-tag></el-col>
+            <el-col :span="6"><el-tag style="width: 100%">分数 : {{ data.score }}</el-tag></el-col>
             <el-col :span="6"><el-tag style="width: 100%">userId : {{ data.userId }}</el-tag></el-col>
-            <el-col :span="6"><el-tag style="width: 100%">version : {{ data.version }}</el-tag></el-col>
+            <el-col :span="6"><el-tag style="width: 100%">版本 : {{ data.version }}</el-tag></el-col>
           </el-row>
           <el-row :gutter="20" style="margin-top: 20px">
-            <el-col :span="6"><el-tag style="width: 100%">vipBeginTime : {{ data.vipBeginTime }}</el-tag></el-col>
-            <el-col :span="6"><el-tag style="width: 100%">vipEndTime : {{ data.vipEndTime }}</el-tag></el-col>
+            <el-col :span="6"><el-tag style="width: 100%">会员注册时间 : {{ data.vipBeginTime }}</el-tag></el-col>
+            <el-col :span="6"><el-tag style="width: 100%">会员到期日 : {{ data.vipEndTime }}</el-tag></el-col>
           </el-row>
         </div>
       </div>

@@ -295,3 +295,12 @@ export function greenStats(data) {
   })
 }
 
+
+// 提成明细
+export function profitList(data) {
+  return request({
+    url: '/admin/order/profitList',
+    method: 'get',
+    params: data
+  })
+}

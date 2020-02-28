@@ -24,8 +24,8 @@
           <div class="lineContent2">{{ checkData.cash }}</div>
         </div>
         <div class="line">
-          <div class="lineContent1">钱包余额(元)</div>
-          <div class="lineContent2">{{ checkData.balance |formatMoney }}</div>
+          <div class="lineContent1" @click="commission">钱包余额(元)</div>
+          <div class="lineContent2" @click="commission">{{ checkData.balance |formatMoney }}</div>
           <div class="lineContent1">审批状态</div>
           <div class="lineContent2">{{ checkStatus }}</div>
           <div class="lineContent1">打款状态</div>
@@ -235,6 +235,10 @@ export default {
     this.loadList()
   },
   methods: {
+    // 提成记录
+    commission() {
+      this.$router.push({ path: 'withdrawalDetails', query: { id: this.searchData.userId }})
+    },
     // 历史记录
     loadList() {
       this.loading = true
