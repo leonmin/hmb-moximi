@@ -200,7 +200,7 @@ export default {
           rateWeek = (_this.qiuhe(chargeEarlyWeek) + _this.qiuhe(chargeTodayWeek) + _this.qiuhe(ofd2chargeWeek) + _this.qiuhe(ofd5chargeWeek) + _this.qiuhe(ofd8chargeWeek)) / _this.qiuhe(ofWeek)
           rateCharge = (_this.qiuhe(chargeEarlyPay) + _this.qiuhe(chargeTodayPay) + _this.qiuhe(ofd2chargePay) + _this.qiuhe(ofd5chargePay) + _this.qiuhe(ofd8chargePay)) / _this.qiuhe(ofPay)
           rateTotal = (_this.qiuhe(chargeEarly) + _this.qiuhe(chargeToday) + _this.qiuhe(ofd2charge) + _this.qiuhe(ofd5charge) + _this.qiuhe(ofd8charge)) / _this.qiuhe(ofTotal)
-          rateExCard = (_this.qiuhe(chargeEarlyCard) + _this.qiuhe(chargeTodayCard) + _this.qiuhe(chargeTodayCard) + _this.qiuhe(ofd5chargeCard) + _this.qiuhe(ofd8chargeCard)) / _this.qiuhe(ofCard)
+          rateExCard = (_this.qiuhe(chargeEarlyCard) + _this.qiuhe(chargeTodayCard) + _this.qiuhe(ofd2chargeCard) + _this.qiuhe(ofd5chargeCard) + _this.qiuhe(ofd8chargeCard)) / _this.qiuhe(ofCard)
           rateWeek = Number.isNaN(rateWeek) ? 0 : rateWeek
           rateCharge = Number.isNaN(rateCharge) ? 0 : rateCharge
           rateTotal = Number.isNaN(rateTotal) ? 0 : rateTotal
