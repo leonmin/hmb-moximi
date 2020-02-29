@@ -23,7 +23,7 @@
       <el-table-column prop="ofd" label="到期时间" min-width="120" show-overflow-tooltip />
       <el-table-column prop="ofdUserCount" label="到期人数（周卡/付费/卡密）" min-width="140" show-overflow-tooltip>
         <template v-slot="scope">
-          <span>{{ scope.row.ofdUserCount + scope.row.ofdWeekUserCount }}（{{ scope.row.ofdWeekUserCount }} / {{ scope.row.ofdUserCount }} / {{ scope.row.ofdExCardUserCount?scope.row.ofdExCardUserCount:0 }}）</span>
+          <span>{{ scope.row.ofdUserCount + scope.row.ofdWeekUserCount + scope.row.ofdExCardUserCount }}（{{ scope.row.ofdWeekUserCount }} / {{ scope.row.ofdUserCount }} / {{ scope.row.ofdExCardUserCount?scope.row.ofdExCardUserCount:0 }}）</span>
         </template>
       </el-table-column>
       <el-table-column prop="chargeEarly" label="提前续费（周卡/付费/卡密）" min-width="140" show-overflow-tooltip>
@@ -53,7 +53,7 @@
       </el-table-column>
       <el-table-column prop="rateAll" label="总续费率（周卡续费率/付费续费率）" min-width="200" show-overflow-tooltip>
         <template v-slot="scope">
-          <span>{{ scope.row.rateAll }}（{{ scope.row.rateWeek }} / {{ scope.row.rateCharge }} / {{scope.row.rateExCard}}）</span>
+          <span>{{ scope.row.rateAll }}（{{ scope.row.rateWeek }} / {{ scope.row.rateCharge }} / {{ scope.row.rateExCard }}）</span>
         </template>
       </el-table-column>
     </el-table>
@@ -149,7 +149,7 @@ export default {
           return
         }
         if (column.property === 'ofdUserCount') {
-          ofTotal = data.map(item => Number(item.ofdUserCount + item.ofdWeekUserCount))
+          ofTotal = data.map(item => Number(item.ofdUserCount + item.ofdWeekUserCount + item.ofdExCardUserCount))
           ofWeek = data.map(item => Number(item.ofdWeekUserCount))
           ofPay = data.map(item => Number(item.ofdUserCount))
           ofCard = data.map(item => Number(item.ofdExCardUserCount ? item.ofdExCardUserCount : 0))
