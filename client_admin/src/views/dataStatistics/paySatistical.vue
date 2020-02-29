@@ -111,11 +111,11 @@ export default {
           // 正常付费 优惠券
           this.payCountCoupon.push(this.dataChart[i].countPayUserCoupon == null ? 0 : this.dataChart[i].countPayUserCoupon)
           //  付费金额 正常付费
-          this.payPriceNormal.push(this.dataChart[i].sumPayPriceNormal == null ? 0 : this.dataChart[i].sumPayPriceNormal)
+          this.payPriceNormal.push(this.dataChart[i].sumPayPriceNormal == null ? 0 : this.dataChart[i].sumPayPriceNormal / 100)
           //  付费金额 绿色通道
-          this.payPriceGreen.push(this.dataChart[i].sumPayPriceGreen == null ? 0 : this.dataChart[i].sumPayPriceGreen)
+          this.payPriceGreen.push(this.dataChart[i].sumPayPriceGreen == null ? 0 : this.dataChart[i].sumPayPriceGreen / 100)
           //  付费金额 优惠券
-          this.payPriceCoupon.push(this.dataChart[i].sumPayPriceCoupon == null ? 0 : this.dataChart[i].sumPayPriceCoupon)
+          this.payPriceCoupon.push(this.dataChart[i].sumPayPriceCoupon == null ? 0 : this.dataChart[i].sumPayPriceCoupon / 100)
         }
         this.drawPayCount()
         this.drawPriceCount()

@@ -23,37 +23,37 @@
       <el-table-column prop="ofd" label="到期时间" min-width="120" show-overflow-tooltip />
       <el-table-column prop="ofdUserCount" label="到期人数（周卡/付费/卡密）" min-width="140" show-overflow-tooltip>
         <template v-slot="scope">
-          <span>{{ scope.row.ofdUserCount + scope.row.ofdWeekUserCount }}（{{ scope.row.ofdWeekUserCount }} / {{ scope.row.ofdUserCount }} / {{ scope.row.ofdExCardUserCount | fixed }}）</span>
+          <span>{{ scope.row.ofdUserCount + scope.row.ofdWeekUserCount }}（{{ scope.row.ofdWeekUserCount }} / {{ scope.row.ofdUserCount }} / {{ scope.row.ofdExCardUserCount?scope.row.ofdExCardUserCount:0 }}）</span>
         </template>
       </el-table-column>
       <el-table-column prop="chargeEarly" label="提前续费（周卡/付费/卡密）" min-width="140" show-overflow-tooltip>
         <template v-slot="scope">
-          <span>{{ scope.row.chargeEarly }} （{{ scope.row.chargeEarlyWeek }} / {{ scope.row.chargeEarlyMonth + scope.row.chargeEarlySeason + scope.row.chargeEarlyYear }} / {{ scope.row.chargeEarlyExCard | fixed }}）</span>
+          <span>{{ scope.row.chargeEarly }} （{{ scope.row.chargeEarlyWeek }} / {{ scope.row.chargeEarlyMonth + scope.row.chargeEarlySeason + scope.row.chargeEarlyYear }} / {{ scope.row.chargeEarlyExCard?scope.row.chargeEarlyExCard:0 }}）</span>
         </template>
       </el-table-column>
       <el-table-column prop="chargeToday" label="今日续费（周卡/付费/卡密）" min-width="140" show-overflow-tooltip>
         <template v-slot="scope">
-          <span>{{ scope.row.chargeToday }} （{{ scope.row.chargeTodayWeek }} / {{ scope.row.chargeTodayMonth + scope.row.chargeTodaySeason + scope.row.chargeTodayYear }} / {{ scope.row.chargeTodayExCard | fixed }}）</span>
+          <span>{{ scope.row.chargeToday }} （{{ scope.row.chargeTodayWeek }} / {{ scope.row.chargeTodayMonth + scope.row.chargeTodaySeason + scope.row.chargeTodayYear }} / {{ scope.row.chargeTodayExCard?scope.row.chargeTodayExCard:0 }}）</span>
         </template>
       </el-table-column>
       <el-table-column prop="ofd2charge" label="过期1-3天（周卡/付费/卡密）" min-width="150" show-overflow-tooltip>
         <template v-slot="scope">
-          <span>{{ scope.row.ofd2charge }} （{{ scope.row.ofd2chargeWeek }} / {{ scope.row.ofd2chargeMonth + scope.row.ofd2chargeSeason + scope.row.ofd2chargeYear }} / {{ scope.row.ofd2chargeExCard | fixed }}）</span>
+          <span>{{ scope.row.ofd2charge }} （{{ scope.row.ofd2chargeWeek }} / {{ scope.row.ofd2chargeMonth + scope.row.ofd2chargeSeason + scope.row.ofd2chargeYear }} / {{ scope.row.ofd2chargeExCard?scope.row.ofd2chargeExCard:0 }}）</span>
         </template>
       </el-table-column>
       <el-table-column prop="ofd5charge" label="过期4-7天（周卡/付费/卡密）" min-width="150" show-overflow-tooltip>
         <template v-slot="scope">
-          <span>{{ scope.row.ofd5charge }} （{{ scope.row.ofd5chargeWeek }} / {{ scope.row.ofd5chargeMonth + scope.row.ofd5chargeSeason + scope.row.ofd5chargeYear }} {{ scope.row.ofd5chargeExCard | fixed }}）</span>
+          <span>{{ scope.row.ofd5charge }} （{{ scope.row.ofd5chargeWeek }} / {{ scope.row.ofd5chargeMonth + scope.row.ofd5chargeSeason + scope.row.ofd5chargeYear }} {{ scope.row.ofd5chargeExCard?scope.row.ofd5chargeExCard:0 }}）</span>
         </template>
       </el-table-column>
       <el-table-column prop="ofd8charge" label="过期7天以上（周卡/付费/卡密）" min-width="150" show-overflow-tooltip>
         <template v-slot="scope">
-          <span>{{ scope.row.ofd8charge }} （{{ scope.row.ofd8chargeWeek }} / {{ scope.row.ofd8chargeMonth + scope.row.ofd8chargeSeason + scope.row.ofd8chargeYear }} {{ scope.row.ofd8chargeExCard | fixed }}）</span>
+          <span>{{ scope.row.ofd8charge }} （{{ scope.row.ofd8chargeWeek }} / {{ scope.row.ofd8chargeMonth + scope.row.ofd8chargeSeason + scope.row.ofd8chargeYear }} {{ scope.row.ofd8chargeExCard?scope.row.ofd8chargeExCard:0 }}）</span>
         </template>
       </el-table-column>
       <el-table-column prop="rateAll" label="总续费率（周卡续费率/付费续费率）" min-width="200" show-overflow-tooltip>
         <template v-slot="scope">
-          <span>{{ scope.row.rateAll }}（{{ scope.row.rateWeek }} / {{ scope.row.rateCharge }} ）</span>
+          <span>{{ scope.row.rateAll }}（{{ scope.row.rateWeek }} / {{ scope.row.rateCharge }} / {{scope.row.rateExCard}}）</span>
         </template>
       </el-table-column>
     </el-table>
@@ -73,13 +73,6 @@
 <script>
 import { ofdCharge } from '../../api/userManage'
 export default {
-  filters: {
-    fixed: (value) => {
-      if (value == null) {
-        return 0
-      }
-    }
-  },
   data() {
     return {
       page: 1,
@@ -148,6 +141,7 @@ export default {
       var rateTotal
       var rateWeek
       var rateCharge
+      var rateExCard
       columns.forEach((column, index) => {
         // console.log(column)
         if (index === 0) {
@@ -206,8 +200,13 @@ export default {
           rateWeek = (_this.qiuhe(chargeEarlyWeek) + _this.qiuhe(chargeTodayWeek) + _this.qiuhe(ofd2chargeWeek) + _this.qiuhe(ofd5chargeWeek) + _this.qiuhe(ofd8chargeWeek)) / _this.qiuhe(ofWeek)
           rateCharge = (_this.qiuhe(chargeEarlyPay) + _this.qiuhe(chargeTodayPay) + _this.qiuhe(ofd2chargePay) + _this.qiuhe(ofd5chargePay) + _this.qiuhe(ofd8chargePay)) / _this.qiuhe(ofPay)
           rateTotal = (_this.qiuhe(chargeEarly) + _this.qiuhe(chargeToday) + _this.qiuhe(ofd2charge) + _this.qiuhe(ofd5charge) + _this.qiuhe(ofd8charge)) / _this.qiuhe(ofTotal)
-          if (!Number.isNaN(rateWeek)) {
-            sums[index] = _this.toPercent(rateTotal) + '（' + _this.toPercent(rateWeek) + ' / ' + _this.toPercent(rateCharge) + '）'
+          rateExCard = (_this.qiuhe(chargeEarlyCard) + _this.qiuhe(chargeTodayCard) + _this.qiuhe(chargeTodayCard) + _this.qiuhe(ofd5chargeCard) + _this.qiuhe(ofd8chargeCard)) / _this.qiuhe(ofCard)
+          rateWeek = Number.isNaN(rateWeek) ? 0 : rateWeek
+          rateCharge = Number.isNaN(rateCharge) ? 0 : rateCharge
+          rateTotal = Number.isNaN(rateTotal) ? 0 : rateTotal
+          rateExCard = Number.isNaN(rateExCard) ? 0 : rateExCard
+          if (!Number.isNaN(rateCharge)) {
+            sums[index] = _this.toPercent(rateTotal) + '（' + _this.toPercent(rateWeek) + ' / ' + _this.toPercent(rateCharge) + ' / ' + _this.toPercent(rateExCard) + '）'
           }
         }
       })
