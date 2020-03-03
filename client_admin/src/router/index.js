@@ -118,6 +118,34 @@ export const asyncRoutes = [
             hidden: true
           }
         ]
+      },
+      {
+        path: '/cardPassActivity',
+        name: 'cardPassActivity',
+        redirect: '/cardPassActivity/cardPassActivityList',
+        meta: { title: '活动卡密' },
+        component: () => import('@/views/promotion/cardPass-activity/cardPassActivity'),
+        children: [
+          {
+            path: 'cardPassActivityList',
+            name: 'cardPassActivityList',
+            component: () => import('@/views/promotion/cardPass-activity/cardPassActivityList'),
+            meta: { title: '活动卡密列表' }
+          },
+          {
+            path: 'cardPassActivityAdd',
+            name: 'cardPassActivityAdd',
+            component: () => import('@/views/promotion/cardPass-activity/cardPassActivityAdd'),
+            meta: { title: '活动卡密添加' }
+          },
+          {
+            path: 'cardPassActivityDetail',
+            name: 'cardPassActivityDetail',
+            component: () => import('@/views/promotion/cardPass-activity/cardPassActivityDetail'),
+            meta: { title: '活动卡密详情' },
+            hidden: true
+          }
+        ]
       }
     ]
   },
