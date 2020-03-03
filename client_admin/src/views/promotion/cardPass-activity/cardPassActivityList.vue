@@ -3,7 +3,7 @@
     <!--    <div class="title">卡密列表</div>-->
     <el-form :inline="true" :model="searchData" class="demo-form-inline" label-width="80px" style="margin-top: 30px">
       <el-form-item label="关键字" style="margin-left: 30px;">
-        <el-input v-model="searchData.title" placeholder="编号\卡密名称" style="width: 140px" />
+        <el-input v-model="searchData.title" placeholder="卡密名称" style="width: 140px" />
       </el-form-item>
       <el-form-item label="是否过期">
         <el-select v-model="searchData.isExpire" placeholder="请选择" clearable style="width: 140px">
