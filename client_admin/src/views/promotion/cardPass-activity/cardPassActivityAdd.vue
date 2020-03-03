@@ -15,8 +15,8 @@
       <el-form-item label="总发行量" prop="total" class="form-item">
         <el-input v-model="ruleForm.total" placeholder="请输入" oninput="this.value=this.value.replace(/\D/g,'')" />
       </el-form-item>
-      <el-form-item label="领取后有效时间" prop="total" class="form-item">
-        <el-input v-model="ruleForm.total" placeholder="请输入" oninput="this.value=this.value.replace(/\D/g,'')">
+      <el-form-item label="领取后有效时间" prop="ableDays" class="form-item">
+        <el-input v-model="ruleForm.ableDays" placeholder="请输入" oninput="this.value=this.value.replace(/\D/g,'')">
           <template slot="append">天</template>
         </el-input>
       </el-form-item>
@@ -40,12 +40,12 @@
         <el-radio v-model="ruleForm.cardType" label="2">年卡</el-radio>
       </el-form-item>
       <el-form-item label="绑定渠道" class="form-item" style="width: 700px;" prop="cardType">
-        <el-select v-model="ruleForm.partnerName" placeholder="请选择" clearable @change="select">
+        <el-select v-model="ruleForm.channel" placeholder="请选择" clearable>
           <el-option
             v-for="item in options"
             :key="item.id "
-            :label="item.userName"
-            :value="item "
+            :label="item.channelName"
+            :value="item.uuid"
           />
         </el-select>
       </el-form-item>
@@ -56,6 +56,7 @@
 
 <script>
 import { addExchangeCard, allPartner } from '@/api/cardPass'
+import { channelList } from '@/api/userManage'
 
 export default {
   name: 'CardPassAdd',
@@ -72,10 +73,12 @@ export default {
       ruleForm: {
         title: '', // 卡密名称
         cardType: '0',
+        total: '', // 总量
+        ableDays: '', // 有效天数
         beginDate: '',
         endDate: '',
-        partnerId: '', // 合伙人id
-        partnerName: ''// 合伙人名字
+        channel: '', // 渠道
+        activity: 1// 表示活动渠道
       },
       rules: { // 正则
         title: [
@@ -83,6 +86,9 @@ export default {
         ],
         total: [
           { required: true, message: '请输入总发行量', trigger: 'blur' }
+        ],
+        ableDays: [
+          { required: true, message: '请输入领取后有效天数', trigger: 'blur' }
         ],
         beginDate: [
           { required: true, message: '请选择有效期', trigger: 'blur' }
@@ -115,10 +121,14 @@ export default {
         that.fullHeight = window.fullHeight
       })()
     }
-    // 获取合伙人列表
-    allPartner().then(res => {
+    const params = {
+      pageNum: 1,
+      pageSize: 10000
+    }
+    // 获取渠道列表
+    channelList(params).then(res => {
       if (res.code === 0 || res.code === '0') {
-        this.options = res.data
+        this.options = res.data.records
       }
     })
   },
@@ -130,16 +140,6 @@ export default {
         this.ruleForm.endDate = value[1]
       }
     },
-    // 选择下拉框
-    select(item) {
-      if (item !== null) {
-        this.ruleForm.partnerId = item.id
-        this.ruleForm.partnerName = item.userName
-      } else {
-        this.ruleForm.partnerId = ''
-        this.ruleForm.partnerName = ''
-      }
-    },
     // 确定
     sure(formName) {
       this.$refs[formName].validate((valid) => {
@@ -149,7 +149,7 @@ export default {
             if (res.code === 0 || res.code === '0') {
               this.$message.success('操作成功!')
               this.$router.push({
-                path: 'cardPassList'
+                path: 'cardPassActivityList'
               })
             }
             this.loading = false

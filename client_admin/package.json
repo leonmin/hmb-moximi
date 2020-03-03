@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "vue-cli-service serve --open",
     "dep": "vue-cli-service serve --mode dep",
+    "local": "vue-cli-service serve --mode localhost",
     "build:prod": "vue-cli-service build",
     "build:dep": "vue-cli-service build --mode dep",
     "build:stage": "vue-cli-service build --mode staging",

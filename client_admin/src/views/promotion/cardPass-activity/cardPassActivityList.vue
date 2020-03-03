@@ -3,7 +3,7 @@
     <!--    <div class="title">卡密列表</div>-->
     <el-form :inline="true" :model="searchData" class="demo-form-inline" label-width="80px" style="margin-top: 30px">
       <el-form-item label="关键字" style="margin-left: 30px;">
-        <el-input v-model="searchData.title" placeholder="编号\优惠卷名称" style="width: 140px" />
+        <el-input v-model="searchData.title" placeholder="编号\卡密名称" style="width: 140px" />
       </el-form-item>
       <el-form-item label="是否过期">
         <el-select v-model="searchData.isExpire" placeholder="请选择" clearable style="width: 140px">
@@ -23,19 +23,26 @@
     <!--表格-->
     <el-table :data="tableData" style="width: 95%;margin-left: 40px;" border :height="fullHeight-220+'px'">
       <el-table-column prop="id" label="ID" min-width="80" show-overflow-tooltip />
-      <el-table-column prop="serialNumber" label="编号" min-width="140" show-overflow-tooltip />
+      <!--      <el-table-column prop="serialNumber" label="编号" min-width="140" show-overflow-tooltip />-->
       <el-table-column prop="title" label="卡密名称" min-width="150" show-overflow-tooltip />
-      <el-table-column prop="validity" label="有效期" min-width="180" show-overflow-tooltip />
+      <el-table-column prop="ableDays" label="有效期(天)" min-width="100" show-overflow-tooltip />
       <el-table-column prop="total" label="总发行量" min-width="100" show-overflow-tooltip />
       <el-table-column prop="outTime" label="是否过期" min-width="90" show-overflow-tooltip>
         <template slot-scope="scope">
-          <span>{{ scope.row.outTime | outTime }}</span>
+          <span>{{ scope.row.endDate | formatDate }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="partnerName" label="渠道" min-width="100" show-overflow-tooltip />
+      <el-table-column prop="channel" label="渠道" min-width="100" show-overflow-tooltip />
       <el-table-column prop="status" label="状态" min-width="100" show-overflow-tooltip>
         <template slot-scope="scope">
-          <el-switch v-model="scope.row.status" active-color="#13ce66" inactive-color="#ff4949" />
+          <el-switch
+            v-model="scope.row.status"
+            active-color="#13ce66"
+            :active-value="0"
+            :inactive-value="1"
+            inactive-color="#ff4949"
+            @change="startAndStop(scope.row)"
+          />
         </template>
       </el-table-column>
       <el-table-column prop="cardType" label="适用范围" min-width="80" show-overflow-tooltip>
@@ -127,7 +134,8 @@ export default {
         title: '', // 关键字
         isExpire: '', // 是否过期
         status: '', // 卡密名称
-        serialNumber: ''// 编号
+        serialNumber: '', // 编号
+        activity: 1 // 表示活动卡密
       },
       total: null, // 总数
       status: '启用',
@@ -157,6 +165,22 @@ export default {
     this.loadList()
   },
   methods: {
+    // 启用或停用
+    startAndStop(row) {
+      const data = {
+        status: row.status,
+        id: row.id,
+        activity: 1
+      }
+      startAndStopCard(data).then(res => {
+        if (res.code === 0 || res.code === '0') {
+          this.$message.success('操作成功!')
+          this.loadList()
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
+    },
     // 重置
     reset() {
       this.searchData = { // 筛选的数据
@@ -165,7 +189,8 @@ export default {
         title: '', // 关键字
         isExpire: '', // 是否过期
         status: '', // 卡密名称
-        serialNumber: ''// 编号
+        serialNumber: '', // 编号
+        activity: 1 // 表示活动卡密
       }
       this.loadList()
     },

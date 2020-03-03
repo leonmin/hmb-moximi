@@ -3,7 +3,7 @@
     <el-card class="box-card" shadow="hover">
       <div class="title">
         活动卡密详情
-        <span class="code">编号（{{ row.serialNumber }}）</span>
+        <!--        <span class="code">编号（{{ row.serialNumber }}）</span>-->
       </div>
       <div class="lineBox">
         <div class="line">
@@ -16,25 +16,25 @@
         </div>
         <div class="line">
           <div class="lineContent1">有效期</div>
-          <div class="lineContent2">{{ row.validity }}</div>
+          <div class="lineContent2">{{ row.endDate }}</div>
           <div class="lineContent1">是否过期</div>
-          <div class="lineContent2">{{ row.outTime | outTime }}</div>
+          <div class="lineContent2">{{ row.endDate | formatDate }}</div>
           <div class="lineContent1">状态</div>
           <div class="lineContent2">{{ row.status | status }}</div>
         </div>
         <div class="line">
           <div class="lineContent1">已领取数</div>
-          <div class="lineContent2" />
+          <div class="lineContent2">{{row.countReceive}}</div>
           <div class="lineContent1">已使用数</div>
           <div class="lineContent2">{{ row.usedCount }}</div>
           <div class="lineContent1">未使用数</div>
-          <div class="lineContent2">{{ row.unUseCount }}</div>
+          <div class="lineContent2">{{ parseInt(row.total-row.usedCount) }}</div>
         </div>
         <div class="line">
-          <div class="lineContent1">领取后有效时间</div>
-          <div class="lineContent2" />
+          <div class="lineContent1">领取后有效时间(天)</div>
+          <div class="lineContent2">{{ row.ableDays }}</div>
           <div class="lineContent1">渠道</div>
-          <div class="lineContent2" />
+          <div class="lineContent2">{{ row.channel }}</div>
           <div class="lineContent1" />
           <div class="lineContent2" />
         </div>
@@ -46,7 +46,7 @@
         <span>关键字</span>
         <el-input v-model="searchData.key" placeholder="用户名称\用户手机号\订单编号" style="width:200px;margin-left: 10px" clearable />
         <span style="margin-left: 20px">当前状态</span>
-        <el-select v-model="searchData.status" clearable placeholder="请选择">
+        <el-select v-model="searchData.status" clearable placeholder="请选择" style="margin-left: 10px">
           <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
         <el-button type="primary" class="search-btn" @click="loadList()">查询</el-button>
@@ -69,7 +69,7 @@
             <span>{{ scope.row.cardStatus | cardStatus }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="" label="领取时间" min-width="150" show-overflow-tooltip />
+        <el-table-column prop="addTime" label="领取时间" min-width="150" show-overflow-tooltip />
         <el-table-column prop="usedTime" label="使用时间" min-width="150" show-overflow-tooltip />
         <el-table-column prop="orderNum" label="订单编号" min-width="170" show-overflow-tooltip />
         <el-table-column label="操作" show-overflow-tooltip width="120">
@@ -93,7 +93,7 @@
 </template>
 
 <script>
-import { pageList } from '@/api/cardPass'
+import { pageList, activityExchangeCard } from '@/api/cardPass'
 export default {
   name: 'CardPassDetail',
   filters: {
@@ -146,14 +146,15 @@ export default {
         pageSize: 10,
         key: '',
         cardId: '',
-        status: ''
+        status: '',
+        activity: 1
       },
       tableData: [],
       total: null,
       isPaging: false, // 是否是分页
       options: [
-        { value: 0, label: '已使用' },
-        { value: 1, label: '未使用' }
+        { value: 1, label: '已使用' },
+        { value: 0, label: '未使用' }
       ]
     }
   },
@@ -184,6 +185,7 @@ export default {
     }
     this.searchData.cardId = this.row.id
     this.loadList()
+    this.getInfo()
   },
   methods: {
     // 复制卡密
@@ -200,6 +202,15 @@ export default {
       this.isPaging = true
       this.searchData.pageNum = val
       this.loadList()
+    },
+    /* 获取顶部详情*/
+    getInfo() {
+      const data = {
+        cardId: this.row.id
+      }
+      activityExchangeCard(data).then(res => {
+        this.row.countReceive = res.data.countReceive
+      })
     },
     // 获取表格数据
     loadList() {
