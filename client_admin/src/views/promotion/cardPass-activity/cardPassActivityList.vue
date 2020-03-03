@@ -133,8 +133,7 @@ export default {
         pageSize: 10,
         title: '', // 关键字
         isExpire: '', // 是否过期
-        status: '', // 卡密名称
-        serialNumber: '', // 编号
+        status: '', // 状态
         activity: 1 // 表示活动卡密
       },
       total: null, // 总数
@@ -172,6 +171,7 @@ export default {
         id: row.id,
         activity: 1
       }
+      this.isPaging = true
       startAndStopCard(data).then(res => {
         if (res.code === 0 || res.code === '0') {
           this.$message.success('操作成功!')
@@ -189,7 +189,6 @@ export default {
         title: '', // 关键字
         isExpire: '', // 是否过期
         status: '', // 卡密名称
-        serialNumber: '', // 编号
         activity: 1 // 表示活动卡密
       }
       this.loadList()
