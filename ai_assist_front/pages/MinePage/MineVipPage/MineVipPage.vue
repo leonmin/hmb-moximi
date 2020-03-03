@@ -16,7 +16,7 @@
 					</view>
 				</view>
 			</view>
-			<view class="topHeadRight" @click="AutomaticRenewal">自动续费管理</view>
+			<!-- <view class="topHeadRight" @click="AutomaticRenewal">自动续费管理</view> -->
 		</view>
 
 		<!-- 限时特惠 -->

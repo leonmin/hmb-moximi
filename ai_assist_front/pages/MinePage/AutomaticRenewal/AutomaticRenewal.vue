@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view v-if="infoData">
 		<view class="topHead">
 			<view class="topHeadBox">
 				<view class="headImage">
@@ -7,7 +7,10 @@
 				</view>
 				<view class="userInfo">
 					<view class="userInfoName">{{infoData.userName}}</view>
-					<view class="userInfoTime">到期时间：  {{getDueTime}}</view>
+					<view class="userTime" v-if="now > infoData.vipEndTime">
+						您的会员已到期，请立即续费
+					</view>
+					<view class="userInfoTime" v-else>到期时间：  {{getDueTime}}</view>
 				</view>
 			</view>
 
@@ -118,7 +121,8 @@
 		components:{uniPopup},
 		data() {
 			return {
-				infoData: ''
+				infoData: '',
+				now: "",
 			}
 		},
 		computed: {
@@ -136,6 +140,7 @@
 			})
 			// 我的信息
 			this.getMyInfo()
+			this.getTime()
 		},
 		methods: {
 			// 我的信息
@@ -145,6 +150,21 @@
 					this.infoData = JSON.parse(res.data).data
 					uni.hideToast()
 				}, err => {})
+			},
+			getTime() {
+				var myDate = new Date();
+				var year = myDate.getFullYear();
+				var month = myDate.getMonth() + 1;
+				var date = myDate.getDate();
+				var h = myDate.getHours();
+				var m = myDate.getMinutes();
+				var s = myDate.getSeconds();
+				this.now = year + '-' + this.conver(month) + "-" + this.conver(date) + " " + this.conver(h) + ':' + this.conver(m) +
+					":" + this.conver(s);
+				console.log(this.now)
+			},
+			conver(s) {
+				return s < 10 ? '0' + s : s;
 			},
 			// 关闭续费
 			closeRenewal(){
@@ -400,4 +420,11 @@
 	/* line-height: 87rpx; */
 	margin-top: 66rpx;
 }
+	/* 顶部信息 */
+	.userTime {
+		font-size: 26rpx;
+		color: #F3D9AF;
+		margin-top: 10rpx;
+		max-width: 300rpx;
+	}
 </style>

@@ -1,38 +1,9 @@
 <template>
 	<view class="editOpen">
 		<view class="editOpenContain shadowE7">
-<!-- 			<view class="flexDisplay">
-				<text class="fontStyle30">名称</text>
-				<text class="fontStyle30">录音</text>
-			</view>
-			<view class="line"></view> -->
 			<view class="flexDisplay">
 				<view>
 					<text class="fontStyle30">开场白</text>
-					<!-- 录音播放效果 -->
-					<!-- 					<view v-if="recComplete" class="clear innerDisplay">
-						<view class="playContainer leftFloat">
-							<view class="one"></view>
-							<view class="two"></view>
-							<view class="three"></view>
-							<view class="four"></view>
-							<view class="five"></view>
-						</view>
-						<view class="playContainer leftFloat">
-							<view class="one"></view>
-							<view class="two"></view>
-							<view class="three"></view>
-							<view class="four"></view>
-							<view class="five"></view>
-						</view>
-						<view class="playContainer leftFloat">
-							<view class="one"></view>
-							<view class="two"></view>
-							<view class="three"></view>
-							<view class="four"></view>
-							<view class="five"></view>
-						</view>
-					</view> -->
 				</view>
 				<text class="cuIcon-notification iconSize" v-if="isleft"></text>
 				<!-- <text class="greyTextXs" v-if="recComplete">00:03</text> -->

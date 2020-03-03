@@ -1,12 +1,12 @@
-// const API = "";
-const API = "/api";
+const API = "";
+// const API = "/api";
 // 测试
 export const TEST =API+"/getWangYiNews";
 // 绑定手机号
 export const LOGIN =API+"/app/bindMobile";
-//发送验证码
-export const SENDCODE =API+"/app/sendVerifyCodeS";
 //发送验证码加密
+export const SENDCODE =API+"/app/sendVerifyCodeS";
+//发送验证码
 export const SENDCODE2 =API+"/app/sendVerifyCode";
 // 通话列表
 export const CALLRECORDLISTTODAY =API+"/app/chat/callRecordListToday";

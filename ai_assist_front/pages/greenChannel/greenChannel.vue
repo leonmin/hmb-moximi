@@ -403,7 +403,7 @@
 		background-image: url('~@/static/welcome/yuka-wei@2x.png');
 	}
 	.oldcheckedBg {
-		background-image: url('~@/static/greenChannel/zhihui-xuanz@2x.png');
+		background-image: url('~@/static/greenChannel/zhekou-xuanz@2x.png');
 		position: relative;
 	}
 
