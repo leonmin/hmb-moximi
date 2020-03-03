@@ -33,7 +33,13 @@
         </template>
       </el-table-column>
       <el-table-column prop="channel" label="渠道" min-width="100" show-overflow-tooltip />
-      <el-table-column prop="status" label="状态" min-width="100" show-overflow-tooltip>
+      <el-table-column prop="rurl" label="链接" min-width="200" show-overflow-tooltip />
+      <el-table-column prop="cardType" label="适用范围" min-width="80" show-overflow-tooltip>
+        <template slot-scope="scope">
+          <span>{{ scope.row.cardType | cardType }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="status" label="状态" min-width="100" show-overflow-tooltip fixed="right">
         <template slot-scope="scope">
           <el-switch
             v-model="scope.row.status"
@@ -45,14 +51,10 @@
           />
         </template>
       </el-table-column>
-      <el-table-column prop="cardType" label="适用范围" min-width="80" show-overflow-tooltip>
+      <el-table-column label="操作" show-overflow-tooltip width="150" fixed="right">
         <template slot-scope="scope">
-          <span>{{ scope.row.cardType | cardType }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="操作" show-overflow-tooltip width="120">
-        <template slot-scope="scope">
-          <span style="cursor: pointer;color: #409EFF;margin-right: 15px" @click="lookDetail(scope.row)">查看</span>
+          <el-button type="text" v-clipboard:copy="scope.row.rurl" v-clipboard:success="copy">复制链接</el-button>
+          <span style="cursor: pointer;color: #409EFF;margin-right: 15px;margin-left: 10px" @click="lookDetail(scope.row)">查看</span>
           <!--          <span style="cursor: pointer;color: #409EFF" @click="startAndStop(scope.row)">{{ scope.row.status===0?'停用':'启用' }}</span>-->
         </template>
       </el-table-column>
@@ -164,6 +166,10 @@ export default {
     this.loadList()
   },
   methods: {
+    // 复制卡密
+    copy() {
+      this.$message.success('已复制到粘贴板')
+    },
     // 启用或停用
     startAndStop(row) {
       const data = {

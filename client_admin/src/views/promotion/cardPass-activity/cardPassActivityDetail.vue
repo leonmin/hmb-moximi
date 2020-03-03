@@ -69,8 +69,8 @@
             <span>{{ scope.row.cardStatus | cardStatus }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="addTime" label="领取时间" min-width="150" show-overflow-tooltip />
-        <el-table-column prop="usedTime" label="使用时间" min-width="150" show-overflow-tooltip />
+        <el-table-column prop="receiveTime" label="领取时间" min-width="170" show-overflow-tooltip />
+        <el-table-column prop="usedTime" label="使用时间" min-width="170" show-overflow-tooltip />
         <el-table-column prop="orderNum" label="订单编号" min-width="170" show-overflow-tooltip />
         <el-table-column label="操作" show-overflow-tooltip width="120">
           <template slot-scope="scope">
