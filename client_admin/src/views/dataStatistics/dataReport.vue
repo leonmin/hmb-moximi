@@ -31,7 +31,8 @@
       <el-table-column prop="orderPayed" label="已支付" min-width="120" show-overflow-tooltip />
       <el-table-column prop="orderWaitPay" label="等待支付" min-width="120" show-overflow-tooltip />
       <el-table-column prop="orderWeekShare" label="免费周卡" min-width="120" show-overflow-tooltip />
-      <el-table-column prop="orderAllWeek" label="周卡" min-width="120" show-overflow-tooltip />
+      <el-table-column prop="orderWeekPay" label="付费周卡" min-width="120" show-overflow-tooltip />
+      <el-table-column prop="orderAllWeek" label="周卡(免费+付费)" min-width="120" show-overflow-tooltip />
       <el-table-column prop="orderPayedMonth" label="月卡" min-width="120" show-overflow-tooltip />
       <el-table-column prop="orderPayedSeason" label="季卡" min-width="120" show-overflow-tooltip />
       <el-table-column prop="orderPayedYear" label="年卡" min-width="120" show-overflow-tooltip />
@@ -47,7 +48,7 @@
     >
       <el-table-column prop="begin" label="日期" min-width="120" show-overflow-tooltip>
         <template v-slot="scope">
-          <span>{{scope.row.begin.split(' ')[0]}}</span>
+          <span>{{ scope.row.begin.split(' ')[0] }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="countPayUserOld" label="老用户支付数量" min-width="120" show-overflow-tooltip />
@@ -172,6 +173,7 @@ export default {
         var totalPayedSeason = 0
         var totalPayedYear = 0
         var totalExCard = 0
+        var totalWeekPay = 0
 
         for (let i = 0; i < res.data.length; i++) {
           this.xAxis.push(this.dealDate(res.data[i].begin))
@@ -197,6 +199,7 @@ export default {
           totalWaitPayed = totalWaitPayed + res.data[i].orderWaitPay
           totalWeekShare = totalWeekShare + res.data[i].orderWeekShare
           totalAllWeek = totalAllWeek + res.data[i].orderAllWeek
+          totalWeekPay = totalAllWeek - totalWeekShare
           totalPayedMonth = totalPayedMonth + res.data[i].orderPayedMonth
           totalPayedSeason = totalPayedSeason + res.data[i].orderPayedSeason
           totalPayedYear = totalPayedYear + res.data[i].orderPayedYear
@@ -317,7 +320,7 @@ export default {
           ]
         }
         this.tableData = [{ orderPayed: totalPayed, orderWaitPay: totalWaitPayed, orderWeekShare: totalWeekShare,
-          orderAllWeek: totalAllWeek, orderPayedMonth: totalPayedMonth, orderPayedSeason: totalPayedSeason,
+          orderAllWeek: totalAllWeek, orderWeekPay: totalWeekPay, orderPayedMonth: totalPayedMonth, orderPayedSeason: totalPayedSeason,
           orderPayedYear: totalPayedYear, totalExCard: totalExCard }]
         // this.xAxis
         this.drawLinePay()
