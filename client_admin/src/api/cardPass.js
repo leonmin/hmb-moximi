@@ -52,3 +52,12 @@ export function activityExchangeCard(data) {
     params: data
   })
 }
+
+/* 活动卡密-增加发行量*/
+export function increaseExchangeCard(data) {
+  return request({
+    url: '/admin/exchangeCard/increaseExchangeCard',
+    method: 'post',
+    params: data
+  })
+}

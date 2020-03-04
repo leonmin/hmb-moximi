@@ -33,7 +33,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="channel" label="渠道" min-width="100" show-overflow-tooltip />
-      <el-table-column prop="rurl" label="链接" min-width="200" show-overflow-tooltip />
+      <el-table-column prop="rurl" label="链接" min-width="100" show-overflow-tooltip />
       <el-table-column prop="cardType" label="适用范围" min-width="80" show-overflow-tooltip>
         <template slot-scope="scope">
           <span>{{ scope.row.cardType | cardType }}</span>
@@ -51,9 +51,10 @@
           />
         </template>
       </el-table-column>
-      <el-table-column label="操作" show-overflow-tooltip width="150" fixed="right">
+      <el-table-column label="操作" show-overflow-tooltip width="240" fixed="right">
         <template slot-scope="scope">
-          <el-button type="text" v-clipboard:copy="scope.row.rurl" v-clipboard:success="copy">复制链接</el-button>
+          <el-button v-clipboard:copy="scope.row.rurl" v-clipboard:success="copy" type="text">复制链接</el-button>
+          <el-button type="text" @click="addNum(scope.row)">增加发行量</el-button>
           <span style="cursor: pointer;color: #409EFF;margin-right: 15px;margin-left: 10px" @click="lookDetail(scope.row)">查看</span>
           <!--          <span style="cursor: pointer;color: #409EFF" @click="startAndStop(scope.row)">{{ scope.row.status===0?'停用':'启用' }}</span>-->
         </template>
@@ -73,7 +74,7 @@
 </template>
 
 <script>
-import { listExchangeCard, startAndStopCard } from '@/api/cardPass'
+import { listExchangeCard, startAndStopCard, increaseExchangeCard } from '@/api/cardPass'
 export default {
   name: 'CardPassList',
   filters: {
@@ -166,6 +167,33 @@ export default {
     this.loadList()
   },
   methods: {
+    /* 增加发行量*/
+    addNum(row) {
+      this.$prompt('请输入增加的数量', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        inputPattern: /^[1-9]\d*$/,
+        inputErrorMessage: '请填写大于0的正整数'
+      }).then(({ value }) => {
+        const data = {
+          cardId: row.id,
+          count: value
+        }
+        increaseExchangeCard(data).then(res => {
+          if (res.code == 0) {
+            this.$message.success('操作成功!')
+            this.loadList()
+          } else {
+            this.$message.error(res.msg)
+          }
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '取消输入'
+        })
+      })
+    },
     // 复制卡密
     copy() {
       this.$message.success('已复制到粘贴板')
