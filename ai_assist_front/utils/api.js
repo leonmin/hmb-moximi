@@ -1,5 +1,5 @@
-const API = "";
-// const API = "/api";
+// const API = "";	
+const API = "/api";
 // 测试
 export const TEST =API+"/getWangYiNews";
 // 绑定手机号
@@ -122,6 +122,8 @@ export const PARTNERCASHLIST =API+"/app/chat/partnerCashList";
 export const CARDPACK =API+"/app/chat/cardPack";
 // 合伙人卡密列表详情
 export const CARDPACKDETAILS =API+"/app/chat/cardPackDetails";
+// 合伙人二维码
+export const QRCODE = API + '/app/chat/partnerPoster'
 
 // 接听配置
 
