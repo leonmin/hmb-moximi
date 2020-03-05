@@ -39,7 +39,7 @@
         <el-radio v-model="ruleForm.cardType" label="1">季卡</el-radio>
         <el-radio v-model="ruleForm.cardType" label="2">年卡</el-radio>
       </el-form-item>
-      <el-form-item label="绑定渠道" class="form-item" style="width: 700px;" prop="cardType">
+      <el-form-item label="绑定渠道" class="form-item" style="width: 700px;" prop="channel">
         <el-select v-model="ruleForm.channel" placeholder="请选择" clearable>
           <el-option
             v-for="item in options"
@@ -95,6 +95,9 @@ export default {
         ],
         cardType: [
           { required: true, message: '请选择适用范围', trigger: 'blur' }
+        ],
+        channel: [
+          { required: true, message: '请选择渠道', trigger: 'blur' }
         ]
       },
       options: [],
