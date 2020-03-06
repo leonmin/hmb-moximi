@@ -68,12 +68,12 @@
 					<view class="loginInput">
 						<view class="loginInputItem">
 							<view class="mobileInput">
-								<input type="text" :value="inputValue" v-model="bindmobile" name="mobile" placeholder="请输入绑定的手机号" />
+								<input type="text" :value="inputValue" v-model="bindmobile" name="mobile" @blur="pickupKeyboard" placeholder="请输入绑定的手机号" />
 							</view>
 						</view>
 						<view class="loginInputItem">
 							<view class="smsCode">
-								<input type="text" value="" name="smsCode" v-model="smsCode" placeholder="请输入验证码" />
+								<input type="text" @blur="pickupKeyboard" value="" name="smsCode" v-model="smsCode" placeholder="请输入验证码" />
 								<text class="code" @click="getMobileCode">{{mobileCode}}</text>
 							</view>
 						</view>
@@ -101,7 +101,8 @@
 	import uniPopup from "../../components/uni-popup/uni-popup.vue"
 	import {
 		LOGIN,
-		SENDCODE
+		SENDCODE,
+		MYINFO
 	} from "../../utils/api.js"
 	var curToken
 	export default {
@@ -182,7 +183,8 @@
 				isDisable: false,
 				bindmobile: '',
 				isCheck: false,
-				checked: 'agree'
+				checked: 'agree',
+				vip: ''
 
 			}
 		},
@@ -337,9 +339,19 @@
 					var _this = this
 					this.$request.url_request(LOGIN, params, "POST", res => {
 						if (JSON.parse(res.data).code == 0) {
-							uni.navigateTo({
-								url: '../Welcome/Welcome'
-							})
+							const params1 = {}
+							_this.$request.url_request(MYINFO,params1,'GET',res=>{
+								_this.vip = JSON.parse(res.data).data.vip
+								if(_this.vip){
+									uni.reLaunch({
+										url:'../IncomeHome/IncomeHome'
+									})
+								} else{
+									uni.navigateTo({
+										url: '../Welcome/Welcome'
+									})
+								}			
+							},err=>{})
 						} else {
 							if (JSON.parse(res.data).msg) {
 								uni.showToast({
@@ -366,6 +378,13 @@
 			},
 			checkboxChange(value) {
 				this.isCheck = !this.isCheck
+			},
+			// 收起键盘
+			pickupKeyboard() {
+				uni.pageScrollTo({
+					scrollTop: 0,
+					duration: 0
+				})
 			}
 		}
 	}

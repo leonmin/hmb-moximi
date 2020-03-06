@@ -33,11 +33,6 @@
 
 <style>
 	page{
-		/* background-color: #f3d3a0; */
-/* 		background: linear-gradient(top, #f3d3a0 0%, #f3d3a0 10%, #f3d3a0  85%, transparent 100%);
-		background: -ms-linear-gradient(top #f3d3a0 0%, #f3d3a0 10%, #f3d3a0  85%, transparent 100%);
-		background: -webkit-linear-gradient(top, #f3d3a0 0%, #f3d3a0 10%, #f3d3a0  85%, transparent 100%);
-		background: -moz-linear-gradient(top, #f3d3a0 0%, #f3d3a0 10%, #f3d3a0  85%, transparent 100%); */
 	}
 .registerSucc{
 	width: 750rpx;
@@ -51,8 +46,6 @@
 	margin: auto;
 	margin-top: 860rpx;
 	position: relative;
-	/* box-shadow: 0 1rpx 10rpx #E29B28; */
-	/* padding: 0 30rpx; */
 }
 .coupons>image:nth-of-type(1){
 	width: 479rpx;

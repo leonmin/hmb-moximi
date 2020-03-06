@@ -142,7 +142,8 @@
 		BANNER,
 		SHOWINDEXTIP,
 		INDEXCOUPON,
-		JSAPI
+		JSAPI,
+		PUSHCLICK
 	} from '../../utils/api.js'
 	import uniLoadMore from '../../components/uni-load-more/uni-load-more.vue'
 	import uniNoticeBar from '../../components/uni-notice-bar/uni-notice-bar.vue'
@@ -207,7 +208,8 @@
 				isfocus: '',
 				imageshow: false,
 				dueData: '',
-				jp: ''
+				jp: '',
+				pp: ''
 			}
 		},
 		onLoad(options) {
@@ -251,24 +253,44 @@
 		methods: {
 			// 获取jp
 			getjp(){
-				console.log('进入jp')
+				console.log('进入跳转判断')
 				this.jp = uni.getStorageSync('myjp')
+				this.pp = uni.getStorageSync('mypp')
 				console.log('storage中的jp',this.jp)
+				console.log('storage中的pp',this.pp)
+				const params = {
+					jp: this.jp
+				}
 				if(this.jp !== ''){
+					this.$request.url_request(PUSHCLICK,params,'GET',res=>{},err=>{})
+					// 支付页面
 					if(this.jp == 13 || this.jp == 17 || this.jp == 9 || this.jp == 10){
 						uni.navigateTo({
 							url:'../MinePage/MineVipPage/MineVipPage'
 						})
 					} else if(this.jp == 8){
+						// 配置页面
 						uni.reLaunch({
 							url:'../SettingPage/Setting/Setting'
 						})
 					} else if(this.jp == 1){
+						// 通话详情
+						if(this.pp !== ''){
+							uni.navigateTo({
+								url:'callDetails/callDetails?id='+this.pp
+							})
+						} else{
+							uni.navigateTo({
+								url:'callList'
+							})
+						}
+					} else if(this.jp == 10001){
 						uni.navigateTo({
-							url:'callList'
+							url:'../greenChannel/greenChannel'
 						})
 					}
 					uni.removeStorageSync('myjp')
+					uni.removeStorageSync('mypp')
 				}
 			},
 			changeIndicatorDots(e) {
@@ -381,14 +403,18 @@
 			},
 			// 跳转banner链接
 			bannerView(url, type,id) {
+				console.log('点击banner')
 				uni.report('homeBanner'+id, 'banner点击')
 				if (type == 1) {
+					// type 为1时跳转链接
 					if (url) {
 						window.location.href = url
 					}
 				} else if(type == 2){
+					// type 为2时 打开领取优惠券
 					this.$refs.bannerPop.open()
-				} else if(type == 'lvsetongdao'){
+				} else if(type == 10002){
+					// type 为10002时跳转到绿色通道
 					uni.navigateTo({
 						url:greenChannel
 					})

@@ -2,46 +2,50 @@
 	<view v-if="infoData">
 		<!-- 顶部信息 -->
 		<view class="topHeader">
-			<image class="userHeader" src="../../../static/logoHead.png" mode="" style="border-radius: 150rpx;"></image>
-			<view class="userInfo">
-				<view class="userName">
-					{{infoData.userName}}
+			<view class="topHeadLeft">
+				<image class="userHeader" src="../../../static/logoHead.png" mode="" style="border-radius: 150rpx;"></image>
+				<view class="userInfo">
+					<view class="userName">
+						{{infoData.userName}}
+					</view>
+					<view class="userTime" v-if="now > infoData.vipEndTime">
+						您的会员已到期，请立即续费
+					</view>
+					<view class="userTime1" v-else>
+						到期时间 {{getDueTime}}
+					</view>
 				</view>
-				<view class="userTime" v-if="now > infoData.vipEndTime">
-					立即续费	
-				</view>
-				<view class="userTime1" v-else>
-					到期时间      {{getDueTime}}
+			</view>
+			<!-- <view class="topHeadRight" @click="AutomaticRenewal">自动续费管理</view> -->
+		</view>
+
+		<!-- 限时特惠 -->
+		<view class="limitSale">
+			<view class="saleTile">
+				<text class="fontStyle32 weight">限时特惠</text>
+				<text @click="camolo">卡密激活</text>
+			</view>
+			<view class="saleContain">
+				<view v-for="(item,index) in goodslist" :key="index" class="saleItem checkedBg" :class="saleItem == index?'checkedBg':'uncheckedBg'"
+				 @click="checkSaleItem(index,item.sku,item.priceDes,item.price)">
+					<text class="fontStyle30">{{item.cardTitle}}</text>
+					<view class="price">
+						<text style="font-size: 30rpx;">￥</text>
+						<text>{{item.priceDes}}</text>
+					</view>
+					<s :class="saleItem == index?'orignalPrice':'orignalPrice1'">
+						<view>
+							<text style="font-size: 20rpx;">￥</text>
+							<text style="font-size: 28rpx;">{{item.oldPriceDes}}</text>
+						</view>
+					</s>
 				</view>
 			</view>
 		</view>
 
-			<!-- 限时特惠 -->
-			<view class="limitSale">
-				<view class="saleTile">
-					<text class="fontStyle32 weight">限时特惠</text>
-					<text @click="camolo">卡密激活</text>
-				</view>
-				<view class="saleContain">
-					<view v-for="(item,index) in goodslist" :key="index" class="saleItem checkedBg" :class="saleItem == index?'checkedBg':'uncheckedBg'" @click="checkSaleItem(index,item.sku,item.priceDes,item.price)">
-						<text class="fontStyle30">{{item.cardTitle}}</text>
-						<view class="price">
-							<text style="font-size: 30rpx;">￥</text>
-							<text>{{item.priceDes}}</text>
-						</view>
-						<s :class="saleItem == index?'orignalPrice':'orignalPrice1'">
-							<view>
-								<text style="font-size: 20rpx;">￥</text>
-								<text style="font-size: 28rpx;">{{item.oldPriceDes}}</text>
-							</view>
-						</s>
-					</view>
-				</view>
-			</view>
 
 
 
-	
 		<!-- 权益列表 -->
 		<view class="levelEquity-list">
 			<view class="levelPage-list-header">
@@ -90,7 +94,7 @@
 				<view class="vip-itemFooterTitle">
 					微信支付
 				</view>
-		<!-- 		<image style="height: 23rpx; width: 15rpx; margin-left: 15rpx;" src="../../../static/mine/VIPPage/jinru@2x.png"
+				<!-- 		<image style="height: 23rpx; width: 15rpx; margin-left: 15rpx;" src="../../../static/mine/VIPPage/jinru@2x.png"
 				 mode=""></image> -->
 			</view>
 		</view>
@@ -112,7 +116,7 @@
 			<view class="bto-bar-commit" @click="vipPay">
 				立即支付
 			</view>
-		<!-- 	<view class="bto-bar-commit" @click="toastTip">
+			<!-- 	<view class="bto-bar-commit" @click="toastTip">
 				立即支付
 			</view> -->
 		</view>
@@ -143,7 +147,13 @@
 </template>
 
 <script>
-	import {GOODSLIST,BEFORODER,CREATEORDER,MYINFO,COUPONLIST} from "../../../utils/api.js"
+	import {
+		GOODSLIST,
+		BEFORODER,
+		CREATEORDER,
+		MYINFO,
+		COUPONLIST
+	} from "../../../utils/api.js"
 	export default {
 		data() {
 			return {
@@ -152,8 +162,8 @@
 				levelModel: null,
 				gridBorder: false,
 				gridCol: 4,
-				vipSku:"100001",
-				goodslist:"",
+				vipSku: "100001",
+				goodslist: "",
 				topCate: [{
 						title: "智能代接",
 						icon: "../../../static/mine/VIPPage/daijie@2x.png"
@@ -171,35 +181,35 @@
 						icon: "../../../static/mine/VIPPage/fugai@2x.png"
 					}
 				],
-				modalData:[{
-					title: '智能代接',
-					content: '骚扰来电、飞行、无服务、无网络模式开会、睡觉、玩游戏等不方便接听'
-				},
-				{
-					title: '智能识别',
-					content: '房产推销、股票推荐、贷款推销、教育推销、保险推销智能识别，一键拒接。'
-				},
-				{
-					title: '个性回应',
-					content: '自定开场白、回复音色；快递、外卖场景自定义回复'
-				},
-				{
-					title: '场景覆盖',
-					content: '快递、外卖、推销、广告、金融、催收'
-				}
+				modalData: [{
+						title: '智能代接',
+						content: '骚扰来电、飞行、无服务、无网络模式开会、睡觉、玩游戏等不方便接听'
+					},
+					{
+						title: '智能识别',
+						content: '房产推销、股票推荐、贷款推销、教育推销、保险推销智能识别，一键拒接。'
+					},
+					{
+						title: '个性回应',
+						content: '自定开场白、回复音色；快递、外卖场景自定义回复'
+					},
+					{
+						title: '场景覆盖',
+						content: '快递、外卖、推销、广告、金融、催收'
+					}
 				],
 				payPrice: '',
 				savePrice: '',
-				infoData:'',
+				infoData: '',
 				couponData: '',
 				imageIndex: 0,
 				couponId: '',
-				now:"",
+				now: "",
 				couponList: '',
-				transferData: ''//传递回来的数据
+				transferData: '' //传递回来的数据
 			}
 		},
-		computed:{
+		computed: {
 			getDueTime: function() {
 				var time = this.infoData.vipEndTime
 				var result = String(time).split(" ")[0]
@@ -208,16 +218,16 @@
 		},
 		onLoad(options) {
 			uni.showToast({
-				title:'加载中...',
-				icon:'none',
-				mask:true
+				title: '加载中...',
+				icon: 'none',
+				mask: true
 			})
-			if(options.data){
+			if (options.data) {
 				this.transferData = JSON.parse(options.data)
 				this.couponId = this.transferData.id
 				this.saleItem = this.transferData.item
 				this.vipSku = this.transferData.sku
-				console.log('是否有数据',this.transferData)
+				console.log('是否有数据', this.transferData)
 			}
 			//卡列表
 			this.getCard()
@@ -230,18 +240,18 @@
 		},
 		methods: {
 			// 卡列表
-			getCard(){
+			getCard() {
 				const params = {}
-				this.$request.url_request(GOODSLIST,params,"GET",res =>{
+				this.$request.url_request(GOODSLIST, params, "GET", res => {
 					this.goodslist = JSON.parse(res.data).data
 					this.payPrice = JSON.parse(res.data).data[0].priceDes
 					this.savePrice = JSON.parse(res.data).data[0].price
-				},err =>{})
+				}, err => {})
 			},
 			// 卡密激活
 			camolo() {
 				uni.navigateTo({
-					url:'../../camilo/camilo?type=2'
+					url: '../../camilo/camilo?type=2'
 				})
 			},
 			// getTime
@@ -261,12 +271,12 @@
 				return s < 10 ? '0' + s : s;
 			},
 			// 获取我的信息
-			getMyInfo(){
+			getMyInfo() {
 				const params = {}
-				this.$request.url_request(MYINFO,params,"GET",res=>{
+				this.$request.url_request(MYINFO, params, "GET", res => {
 					this.infoData = JSON.parse(res.data).data
 					uni.hideToast()
-				},err=>{})
+				}, err => {})
 			},
 			gridClick(index) {
 				this.imageIndex = index
@@ -275,7 +285,7 @@
 			tipsCloseClick() {
 				this.modalName = "";
 			},
-			checkSaleItem(index,sku,priceD,total) {
+			checkSaleItem(index, sku, priceD, total) {
 				console.log(sku)
 				this.saleItem = index;
 				this.vipSku = sku
@@ -284,70 +294,70 @@
 				this.getCoupons()
 				this.payPrice = priceD
 				this.savePrice = total
-				
+
 			},
 			// 
-			getCoupons1(){
+			getCoupons1() {
 				const params = {
 					sku: this.vipSku
 				}
-				this.$request.url_request(COUPONLIST,params,'GET',res =>{
+				this.$request.url_request(COUPONLIST, params, 'GET', res => {
 					this.couponList = JSON.parse(res.data).data
-				},err =>{})
+				}, err => {})
 			},
 			// 获取优惠券信息
-			getCoupons(){
+			getCoupons() {
 				const params = {
-					sku:this.vipSku,
+					sku: this.vipSku,
 					couponId: this.couponId
 				}
-				this.$request.url_request(BEFORODER,params,"POST",res =>{
+				this.$request.url_request(BEFORODER, params, "POST", res => {
 					this.couponData = JSON.parse(res.data).data
 					console.log(this.couponData)
-					if(this.couponData.userCoupon !== null){
+					if (this.couponData.userCoupon !== null) {
 						this.couponId = JSON.parse(res.data).data.userCoupon.id
 					}
-				},err =>{})
+				}, err => {})
 			},
-			goback(){
+			goback() {
 				uni.navigateBack({
-					delta:1
+					delta: 1
 				})
 			},
 			// 优惠券详情
-			couponsDetail(){
-				var data ={
+			couponsDetail() {
+				var data = {
 					sku: this.vipSku,
 					item: this.saleItem
 				}
 				uni.navigateTo({
-					url:"../Coupons/Coupons?data="+JSON.stringify(data)
+					url: "../Coupons/Coupons?data=" + JSON.stringify(data)
 				})
 			},
 			// 支付
 			vipPay() {
-				console.log("优惠券id",this.couponId)
+				console.log("优惠券id", this.couponId)
 				const params = {
 					sku: this.vipSku,
 					couponId: this.couponId
 				}
 				this.$request.url_request(CREATEORDER, params, "POST", res => {
 					this.payData = JSON.parse(res.data)
-					if (typeof WeixinJSBridge == "undefined"){
-					   if( document.addEventListener ){
-					       document.addEventListener('WeixinJSBridgeReady', this.onBridgeReady, false);
-					   }else if (document.attachEvent){
-					       document.attachEvent('WeixinJSBridgeReady', this.onBridgeReady); 
-					       document.attachEvent('onWeixinJSBridgeReady', this.onBridgeReady);
-					   }
-					}else{
-					   this.onBridgeReady();
+					if (typeof WeixinJSBridge == "undefined") {
+						if (document.addEventListener) {
+							document.addEventListener('WeixinJSBridgeReady', this.onBridgeReady, false);
+						} else if (document.attachEvent) {
+							document.attachEvent('WeixinJSBridgeReady', this.onBridgeReady);
+							document.attachEvent('onWeixinJSBridgeReady', this.onBridgeReady);
+						}
+					} else {
+						this.onBridgeReady();
 					}
-					
+
 				}, err => {})
 			},
 			//  支付
-			onBridgeReady(){
+			onBridgeReady() {
 				WeixinJSBridge.invoke(
 					'getBrandWCPayRequest', {
 						"appId": this.payData.appId, //公众号名称，由商户传入     
@@ -359,25 +369,30 @@
 					},
 					function(res) {
 						if (res.err_msg == "get_brand_wcpay_request:ok") {
-								uni.reLaunch({
-									url:'../MinePage'
-								})
+							uni.reLaunch({
+								url: '../MinePage'
+							})
 							// 使用以上方式判断前端返回,微信团队郑重提示：
 							//res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
 						}
 					}
 				)
 			},
-			toastTip(){
+			toastTip() {
 				uni.showModal({
 					content: '太火爆啦！魔小秘今日注册名额已超限！优惠将于明日00:00重新开启！',
 					showCancel: false
 				});
 			},
-			greenChannel(){
+			greenChannel() {
 				uni.report('vipGreen', '支付页面绿色通道')
 				uni.navigateTo({
-					url:'../../greenChannel/greenChannel'
+					url: '../../greenChannel/greenChannel'
+				})
+			},
+			AutomaticRenewal(){
+				uni.navigateTo({
+					url:'../AutomaticRenewal/AutomaticRenewal'
 				})
 			}
 		}
@@ -385,31 +400,32 @@
 </script>
 
 <style>
-	page{
+	page {
 		background-color: #FFFFFF;
 	}
+
 	.limitSale {
 		margin: 30rpx 30rpx 30rpx 30rpx;
 	}
-	
+
 	.saleTile {
 		margin: 30rpx 0;
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
 	}
-	
+
 	.saleTile>text:nth-of-type(2) {
 		font-size: 26rpx;
 		color: #333333;
 	}
-	
+
 	.saleContain {
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
 	}
-	
+
 	.saleItem {
 		/* flex-shrink:0; */
 		background-size: cover;
@@ -423,6 +439,7 @@
 		background-image: url('~@/static/welcome/yueka@2x.png');
 		position: relative;
 	}
+
 	.uncheckedBg {
 		background-image: url('~@/static/welcome/yuka-wei@2x.png');
 	}
@@ -432,20 +449,20 @@
 		font-size: 40rpx;
 		color: #111111;
 	}
-	
+
 	.orignalPrice {
 		font-size: 20rpx;
 		color: #FFFFFF;
 	}
-	
+
 	.orignalPrice1 {
 		font-size: 20rpx;
 		color: #C3C3C3;
 	}
-	
-	
-	
-	
+
+
+
+
 	/* 弹窗 */
 	.tipsClose {
 		width: 150rpx;
@@ -454,12 +471,12 @@
 		border-radius: 30rpx;
 		background: linear-gradient(0deg, rgba(233, 197, 162, 1), rgba(227, 190, 153, 1));
 		box-shadow: 0px 3rpx 9rpx 0px rgba(212, 177, 141, 0.6);
-		
+
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		color: #FFFFFF;
-		
+
 		margin-top: 40rpx;
 	}
 
@@ -487,15 +504,17 @@
 
 		margin-left: 160rpx;
 		margin-right: 160rpx;
-		
+
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 	}
-	.block{
+
+	.block {
 		/* border: 1rpx solid #4CD964; */
 		height: 120rpx;
 	}
+
 	/* 底部Bar */
 	.bto-bar-commit {
 		font-size: 26rpx;
@@ -582,9 +601,11 @@
 	/* 顶部信息 */
 	.userTime {
 		font-size: 26rpx;
-		color: #CB9D50;
+		color: #F3D9AF;
 		margin-top: 10rpx;
+		max-width: 300rpx;
 	}
+
 	.userTime1 {
 		font-size: 26rpx;
 		color: #B3B3B3;
@@ -606,6 +627,19 @@
 		margin-left: 50rpx;
 	}
 
+	.topHeadLeft {
+		display: flex;
+		align-items: center;
+	}
+	.topHeadRight{
+		padding: 11rpx 14rpx;
+		background:linear-gradient(-90deg,rgba(109,94,71,1),rgba(163,141,106,1));
+		border-radius:23rpx;
+		color: #FFFFFF;
+		margin-right: 30rpx;
+		font-size: 24rpx;
+	}
+
 	.topHeader {
 		margin-top: 20rpx;
 		margin-left: 30rpx;
@@ -613,11 +647,12 @@
 		height: 235rpx;
 		background-image: url(~@/static/mine/VIPPage/kapian@2x.png);
 		background-size: cover;
-	/* 	border-radius: 20rpx;
+		/* 	border-radius: 20rpx;
 		background-color: #282827; */
 		display: flex;
 		align-items: center;
 		color: #FFFFFF;
+		justify-content: space-between;
 	}
 
 
@@ -725,7 +760,8 @@
 		padding-left: 30rpx;
 		margin-top: -5rpx;
 	}
-	.suspensionBox{
+
+	.suspensionBox {
 		width: 112rpx;
 		height: 112rpx;
 		border-radius: 112rpx;
@@ -733,7 +769,8 @@
 		right: 20rpx;
 		top: 900rpx;
 	}
-	.suspensionBox>image{
+
+	.suspensionBox>image {
 		width: 107rpx;
 		height: 112rpx;
 	}

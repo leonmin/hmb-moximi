@@ -11,6 +11,7 @@
 			}
 		},
 		onLoad() {
+			console.log('进入了index页面')
 			this.getAuth()
 		},
 		methods: {
