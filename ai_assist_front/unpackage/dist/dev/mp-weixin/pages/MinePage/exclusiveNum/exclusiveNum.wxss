@@ -1,0 +1,101 @@
+
+page{
+		background: #F3F6F7;
+}
+.title{
+	background: #FFFFFF;
+	font-size: 32rpx;
+	color: #111111;
+	padding: 30rpx;
+}
+.transferNumber{
+	background: #FFFFFF;
+	padding: 20rpx 30rpx 50rpx 30rpx;
+}
+.numItem{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	        flex-direction: row;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+}
+.numInput{
+	border: 1rpx solid #1C75FF;
+	border-radius: 10rpx;
+	width: 541rpx;
+	padding: 27rpx;
+	color: #111111;
+	font-size: 36rpx;
+}
+.copy{
+	display: block;
+	margin-left: 33rpx;
+	color: #1C75FF;
+	size: 30rpx;
+}
+.tip{
+	color: #333333;
+	font-size: 28rpx;
+	margin-top: 26rpx;
+}
+.listItem-footerTitle {
+		font-size: 26rpx;
+		color: #999999;
+}
+.listItem-headerTitle {
+		color: #222222;
+		font-size: 32rpx;
+		margin-left: 18rpx;
+}
+.listItem-footer {
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: flex;
+		-webkit-box-orient: horizontal;
+		-webkit-box-direction: normal;
+		-webkit-flex-direction: row;
+		        flex-direction: row;
+		-webkit-box-align: center;
+		-webkit-align-items: center;
+		        align-items: center;
+}
+.listItem-header {
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: flex;
+		-webkit-box-orient: horizontal;
+		-webkit-box-direction: normal;
+		-webkit-flex-direction: row;
+		        flex-direction: row;
+		-webkit-box-align: center;
+		-webkit-align-items: center;
+		        align-items: center;
+}
+.mineList-item {
+		height: 112rpx;
+		width: 100%;
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: flex;
+		-webkit-box-orient: horizontal;
+		-webkit-box-direction: normal;
+		-webkit-flex-direction: row;
+		        flex-direction: row;
+		-webkit-box-pack: justify;
+		-webkit-justify-content: space-between;
+		        justify-content: space-between;
+
+		padding-left: 40rpx;
+		padding-right: 38rpx;
+}
+.mineList {
+		background-color: #FFFFFF;
+		margin-top: 20rpx;
+		margin-bottom: 20rpx;
+}
+

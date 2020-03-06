@@ -1,0 +1,100 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			// 个人中心分享
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "魔小秘",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+		}
+	    ,{
+			// 周卡分享
+            "path" : "pages/week/week",
+            "style" : {
+				"navigationBarTitleText": "魔小秘",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
+        ,{
+			// banner中折扣分享
+            "path" : "pages/banner/banner",
+            "style" : {
+				"navigationBarTitleText": "魔小秘",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
+        ,{
+			// 蘑菇信服
+            "path" : "pages/MgConviction/MgConviction",
+            "style" : {
+				"navigationBarTitleText": "魔小秘",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
+        ,{
+			// 蘑菇信用
+            "path" : "pages/MgCredit/MgCredit",
+            "style" : {
+				"navigationBarTitleText": "魔小秘",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
+        ,{
+			// 蘑菇信用报告检查
+            "path" : "pages/MgCreditReport/MgCreditReport",
+            "style" : {
+				"navigationBarTitleText": "魔小秘",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
+        ,{
+			// 信小呆
+            "path" : "pages/MgLetter/MgLetter",
+            "style" : {
+				"navigationBarTitleText": "魔小秘",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
+        ,{
+			// 蘑菇信用服务号
+            "path" : "pages/MgCreditService/MgCreditService",
+            "style" : {
+				"navigationBarTitleText": "魔小秘",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
+		// 魔小秘PC端图片
+        ,{
+            "path" : "pages/pcMoxiaomi/pcMoxiaomi",
+            "style" : {
+				"navigationBarTitleText": "魔小秘",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
+    ],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	}
+}

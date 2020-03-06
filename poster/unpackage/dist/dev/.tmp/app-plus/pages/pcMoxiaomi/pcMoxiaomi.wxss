@@ -1,0 +1,10 @@
+
+page{
+/* 		background-image: url("../../static/moxiaomi.png");
+		background-size: cover; */
+}
+.moxiami{
+	width: 100%;
+	height: 100%;
+}
+

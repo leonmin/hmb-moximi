@@ -1,0 +1,54 @@
+
+page{
+	background-color: #FFFFFF;
+}
+.search {
+	margin-top: 15rpx 0;
+	background: #FFFFFF;
+}
+.searchBar {
+	border-radius: 15rpx;
+}
+.displayItem{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	        flex-direction: row;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+}
+/* 添加联系人 */
+.addContact {
+	background-color: #FFFFFF;
+	padding: 30rpx 30rpx 0 30rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+}
+.addContact image {
+	width: 80rpx;
+	height: 80rpx;
+}
+.addContact text {
+	color: #111111;
+	font-size: 32rpx;
+	margin-top: -10rpx;
+	margin-left: 10rpx;
+}
+.letterStyle{
+	color: #1C75FF;
+	font-size: 32rpx;
+}
+/* 分割线 */
+.divider {
+	border-top: 1rpx solid #F0F0F0;
+	margin: 40rpx 30rpx;
+}
+

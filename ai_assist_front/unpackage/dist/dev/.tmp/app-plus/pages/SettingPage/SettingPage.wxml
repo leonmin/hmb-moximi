@@ -1,0 +1,1 @@
+<view><block wx:if="{{settingUrl.length!=0}}"><web-view webview-styles="{{webviewStyles}}" src="{{settingUrl}}"></web-view></block></view>

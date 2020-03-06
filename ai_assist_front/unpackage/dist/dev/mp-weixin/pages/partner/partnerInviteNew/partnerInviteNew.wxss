@@ -1,0 +1,104 @@
+
+page {
+	background: #5E88FD;
+	margin-bottom: 30rpx;
+}
+.topHead {
+	overflow: hidden;
+	width: 750rpx;
+	height: 1206rpx;
+	background-size: cover;
+	background-image: url(../../static/img/laxin@2x.0378f509.png);
+}
+.Boxtitle{
+	font-size: 40rpx;
+	color: #FFFFFF;
+	text-shadow: 5rpx 8rpx 6rpx #00359E;
+	text-align: right;
+	font-weight: 600;
+	margin-right: 100rpx;
+	margin-top: 100rpx;
+}
+.Boxtitle>view{
+	margin-top: 30rpx;
+	 font-size: 48rpx;
+}
+.register {
+	margin: 520rpx 30rpx 30rpx 30rpx;
+	padding: 40rpx 30rpx;
+	border-radius: 20rpx;
+	background-color: #FFFFFF;
+}
+.register .title {
+	color: #111111;
+	font-size: 30rpx;
+	/* margin-bottom: 28rpx; */
+	text-align: center;
+}
+
+/* 绑定手机表单 */
+.loginInputItem {
+	margin: 25rpx 0;
+	overflow: hidden;
+}
+.inputTip {
+	color: red;
+	font-size: 20rpx;
+	display: block;
+	margin-top: 5rpx;
+}
+.mobileInput>input {
+	width: 538rpx;
+	margin: auto;
+}
+.loginInput input {
+	outline: none;
+	border-radius: 10rpx;
+	border: 1px solid #1C75FF;
+	height: 78rpx;
+	padding: 10rpx 36rpx;
+	margin: auto;
+}
+.loginInput>view {
+	/* 		display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between; */
+}
+.smsCode {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	        flex-direction: row;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	-webkit-box-pack: start;
+	-webkit-justify-content: flex-start;
+	        justify-content: flex-start;
+	padding:0 40rpx;
+}
+.smsCode>input {
+	width: 381rpx;
+	margin: auto;
+}
+.code {
+	color: #1C75FF;
+	font-size: 26rpx;
+	margin-left: 30rpx;
+}
+.registerBtn {
+	margin-top: 30rpx;
+}
+.registerBtn>button {
+	width: 100%;
+	padding: 40rpx 0;
+	font-size: 30rpx;
+	background: linear-gradient(left, #1c75ff 0%, #1c75ff 10%, #5799ff 80%, #5799ff 100%);
+	background: -webkit-linear-gradient(left, #1c75ff 0%, #1c75ff 10%, #5799ff 80%, #5799ff 100%);
+	background: -moz-linear-gradient(left, #1c75ff 0%, #1c75ff 10%, #5799ff 80%, #5799ff 100%);
+}
+

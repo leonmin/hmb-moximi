@@ -1,0 +1,65 @@
+
+page{
+	background: #F3F6F7;
+}
+.serviceBox{
+	background: #FFFFFF;
+	margin-top: 20rpx;
+	padding: 20rpx 30rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	        flex-direction: row;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+}
+.serviceItem{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	        flex-direction: column;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+}
+.imagebox{
+	width: 216rpx;
+	height: 216rpx;
+}
+.imagebox>image{
+	width: 216rpx;
+	height: 216rpx;
+	box-shadow: 0rpx 5rpx 25rpx #D0DAE3;
+}
+.name{
+	color: #111111;
+	font-size: 30rpx;
+	margin-top: 20rpx;
+}
+.wxnum{
+	color: #333333;
+	font-size: 28rpx;
+	margin-top: 12rpx;
+}
+.copy{
+	border: 1rpx solid #1C75FF;
+	border-radius: 100rpx;
+	padding: 5rpx 17rpx;
+	color: #1C75FF;
+	margin-top: 12rpx;
+}
+.tipbox{
+	padding: 50rpx 30rpx 20rpx 30rpx;
+	font-size: 26rpx;
+	color: #999999;
+	text-align: center;
+	background: #FFFFFF;
+}
+

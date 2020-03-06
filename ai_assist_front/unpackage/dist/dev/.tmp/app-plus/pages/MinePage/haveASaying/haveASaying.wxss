@@ -1,0 +1,79 @@
+
+.word {
+	margin: 0 30rpx;
+}
+.headText {
+	margin: 30rpx 0;
+	font-size: 30rpx;
+	color: #111111;
+}
+.evaluation {
+	border: 1rpx solid #EEEEEE;
+	padding: 40rpx 50rpx;
+	border-radius: 20rpx;
+	margin-bottom: 20rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	        flex-direction: row;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+}
+.discribe {
+	border: 1rpx solid #EEEEEE;
+	border-radius: 20rpx;
+	padding: 20rpx 20rpx;
+}
+textarea {
+	width: 100%;
+	/* border: 1rpx solid #F0AD4E; */
+}
+.discribeText {
+	float: right;
+	display: inline-block;
+	margin-top: 10rpx;
+	font-size: 24rpx;
+	color: #222222;
+	margin-right: 40rpx;
+}
+.tip {
+	color: #666666;
+	font-size: 26rpx;
+	margin-left: 20rpx;
+}
+.evaluationItem {
+	/* border: 1rpx solid #F0AD4E; */
+	text-align: center;
+}
+.evaluationItem>image {
+	width: 60rpx;
+	height: 60rpx;
+}
+.evaluationItem>item>text {
+	font-size: 26rpx;
+	color: #111111;
+}
+.uploadImg {
+	margin-top: 20rpx;
+}
+button::after {
+	border: none;
+}
+.submitBtn>button {
+	/* margin-top: 10rpx; */
+	color: #FFFFFF;
+	font-size: 30rpx;
+	padding: 8rpx 0;
+	border-radius: 100rpx;
+	box-shadow: 0 2rpx 2rpx #1C75FF;
+	background-color: #1C75FF;
+	/* 不支持线性的时候显示 */
+	background-image: -webkit-linear-gradient(left, #5799FF, #1C75FF);
+	background-image: linear-gradient(to right, #5799FF, #1C75FF);
+	background-image: -webkit-linear-gradient(to right, #5799FF, #1C75FF);
+}
+

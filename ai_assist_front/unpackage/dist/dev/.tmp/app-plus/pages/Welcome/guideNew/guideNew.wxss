@@ -1,0 +1,117 @@
+
+page {
+	background-color: #FFFFFF;
+}
+.imgBox {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	        flex-direction: row;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
+	padding: 70rpx 0 50rpx 0;
+}
+.imgBox>image {
+	width: 683rpx;
+	height: 463rpx;
+}
+.callNum {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	        flex-direction: column;
+	padding: 0 47rpx;
+}
+.callNum>text:nth-of-type(1) {
+	color: #111111;
+	font-size: 36rpx;
+	font-weight: 600;
+}
+.callNum>text:nth-of-type(2) {
+	color: #1c75ff;
+	margin-top: 10rpx;
+	font-size: 26rpx;
+}
+.telDisplay {
+	padding: 50rpx 47rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	        flex-direction: column;
+}
+.telDisplay>text:nth-of-type(1) {
+	color: #111111;
+	font-size: 38rpx;
+	font-weight: 600;
+}
+.telDisplay>text:nth-of-type(2) {
+	color: #111111;
+	font-size: 26rpx;
+}
+.deliver {
+	border-top: 1rpx solid #DDDDDD;
+	margin: 30rpx 0;
+}
+.callBtn {
+	margin: 37rpx 47rpx 17rpx 47rpx;
+}
+.callBtn>button,
+.confirmBtn>button {
+	font-size: 30rpx;
+	color: #FFFFFF;
+	border-radius: 100rpx;
+	box-shadow: 1rpx 1rpx 5rpx #1C75FF;
+	background: linear-gradient(left, #1c75ff 0%, #1c75ff 60%, #5799ff 90%, #5799ff 100%);
+	background: -webkit-linear-gradient(left, #1c75ff 0%, #1c75ff 60%, #5799ff 90%, #5799ff 100%);
+	background: -moz-linear-gradient(left, #1c75ff 0%, #1c75ff 60%, #5799ff 90%, #5799ff 100%);
+}
+.tips {
+	text-align: center;
+	fill: 26rpx;
+	color: #999999;
+	margin-top: 20rpx;
+}
+.eoTipText {
+	color: #111111;
+	font-size: 34rpx;
+	font-weight: 600;
+	display: inline-block;
+	margin: 30rpx;
+}
+.telTip{
+	font-size: 24rpx;
+	color: #666666;
+}
+.confirmBtn {
+	border: 1rpx solid red;
+	/* margin: 50rpx 76rpx; */
+}
+.reset {
+	margin-top: 40rpx;
+}
+button::after {
+	border: none;
+}
+.padding-xl {
+	padding: 50rpx 30rpx !important;
+}
+.eoTipBtn{
+	margin-top: 50rpx;
+}
+.failTip{
+	text-align: center;
+	margin-top: 20rpx;
+	font-size: 26rpx;
+	color: #999999;
+}
+

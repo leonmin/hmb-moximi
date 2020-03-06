@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "接听配置",
+  "titleNView": false,
+  "usingComponents": {
+    "uni-popup": "/components/uni-popup/uni-popup"
+  }
+}
