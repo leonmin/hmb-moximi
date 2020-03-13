@@ -1,11 +1,5 @@
 <template>
 	<view>
-		<!-- 顶部操作条 -->
-<!-- 		<view class="cu-bar bg-white">
-			<view class="content topBar">
-				 搜索
-			</view>
-		</view> -->
 		<view class="cu-bar search" style="margin-top: 10rpx;">
 			<view class="search-form searchBar">
 				<text class="cuIcon-search"></text>
@@ -139,7 +133,10 @@
 	}
 </script>
 
-<style scoped>
+<style>
+	page{
+		background-color: #FFFFFF;
+	}
 	.searchBar {
 		border-radius: 15rpx;
 	}

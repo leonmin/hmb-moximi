@@ -55,7 +55,7 @@
 				<view class="customReply" @click="rejectionBlacklist">
 					<view class="replyLeft">
 						<view class="replyIcon"><image src="../../../static/setting/jujie@2x.png" mode=""></image></view>
-						<text class="customReplytext">拒接黑名单</text>
+						<text class="customReplytext">拒接白名单</text>
 					</view>
 					<view class="replyRight">
 						<text>设置号码，小秘不接听</text>
@@ -619,6 +619,9 @@
 </script>
 
 <style>
+	page{
+		background: #FFFFFF;
+	}
 	.topHead{
 		display: flex;
 		flex-direction: row;

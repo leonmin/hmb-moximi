@@ -532,8 +532,8 @@
 	.saleItem {
 		flex-shrink: 0;
 		background-size: cover;
-		width: 193rpx;
-		height: 252rpx;
+		width: 200rpx;
+		height: 262rpx;
 		text-align: center;
 		padding: 30rpx;
 		margin: 0 10rpx;

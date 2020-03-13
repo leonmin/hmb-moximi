@@ -392,6 +392,9 @@
 </script>
 
 <style>
+	page{
+		background: #FFFFFF;
+	}
 	/* 绑定手机表单 */
 	.check {
 		display: flex;

@@ -1,13 +1,6 @@
 <template>
 	<view>
 		<view class="addressBook" v-if="list">
-			<!-- 搜索联系人 -->
-<!-- 			<view class="cu-bar search">
-				<view class="search-form searchBar">
-					<text class="cuIcon-search"></text>
-					<input type="text" v-model="searchInput" placeholder="请输入手机号" confirm-type="search" @confirm="search"></input>
-				</view>
-			</view> -->
 			<!-- 添加联系人 -->
 			<view class="addContact" @click="addContact">
 				<image src="../../../static/addressBook/tianjia-@2x.png" mode=""></image>
@@ -209,5 +202,68 @@
 	.divider {
 		border-top: 1rpx solid #F0F0F0;
 		margin: 40rpx 30rpx;
+	}
+	.indexBar {
+		position: fixed;
+		right: 0rpx;
+		top: 30rpx;
+		padding: 20rpx 20rpx 20rpx 60rpx;
+		display: flex;
+		align-items: center;
+	}
+	
+	.indexBar .indexBar-box {
+		width: 50rpx;
+		height: auto;
+		background: #fff;
+		display: flex;
+		flex-direction: column;
+		box-shadow: 0 0 20rpx rgba(0, 0, 0, 0.1);
+		border-radius: 10rpx;
+	}
+	
+	.indexBar-item {
+		flex: 1;
+		width: 50rpx;
+		height: 50rpx;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 24rpx;
+		color: #888;
+	}
+	
+	movable-view.indexBar-item {
+		width: 40rpx;
+		height: 40rpx;
+		z-index: 9;
+		position: relative;
+	}
+	
+	movable-view.indexBar-item::before {
+		content: "";
+		display: block;
+		position: absolute;
+		left: 0;
+		top: 10rpx;
+		height: 20rpx;
+		width: 4rpx;
+		background-color: #f37b1d;
+	}
+	
+	.indexToast {
+		position: fixed;
+		top: 0;
+		right: 80rpx;
+		bottom: 0;
+		background: rgba(0, 0, 0, 0.5);
+		width: 100rpx;
+		height: 100rpx;
+		border-radius: 10rpx;
+		margin: auto;
+		color: #fff;
+		line-height: 100rpx;
+		text-align: center;
+		font-size: 48rpx;
 	}
 </style>
