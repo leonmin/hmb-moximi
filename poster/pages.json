@@ -90,6 +90,15 @@
 				}
 			}
         }
+        ,{
+            "path" : "pages/AppDownLoad/AppDownLoad",
+            "style" : {
+				"navigationBarTitleText": "魔小秘",
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
