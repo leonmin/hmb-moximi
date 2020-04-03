@@ -1,0 +1,78 @@
+
+.guide {
+}
+.title {
+	font-size: 38rpx;
+	font-weight: 600;
+	text-align: center;
+	color: #111111;
+	padding: 20rpx 0;
+}
+.setting {
+	margin: 44rpx 30rpx;
+	font-size: 30rpx;
+	color: #111111;
+}
+.myVideoBox{
+	margin: 0 30rpx;
+}
+.myVideo {
+	width: 100%;
+	height: 350rpx;
+	border-radius: 20rpx;
+	margin: 40rpx 0;
+}
+.foot1 {
+	margin: 0 30rpx;
+	color: #111111;
+	font-size: 30rpx;
+	margin-top: 48rpx;
+}
+button::after {
+	border: none;
+}
+.btn {
+	/* margin-top: 190rpx; */
+}
+.btn>button {
+	width: 100%;
+	border-radius: 100rpx;
+	color: #FFFFFF;
+	box-shadow: 1rpx 1rpx 10rpx #1C75FF;
+	font-size: 30rpx;
+	background: linear-gradient(left, #1c75ff 0%, #1c75ff 10%, #5799ff 80%, #5799ff 100%);
+	background: -webkit-linear-gradient(left, #1c75ff 0%, #1c75ff 10%, #5799ff 80%, #5799ff 100%);
+	background: -moz-linear-gradient(left, #1c75ff 0%, #1c75ff 10%, #5799ff 80%, #5799ff 100%);
+}
+.tips {
+	text-align: center;
+	font-size: 28rpx;
+	color: #BEBEBE;
+	margin: 10rpx;
+}
+.erweima {
+	margin-top: 50rpx;
+	font-size: 20rpx;
+	color: #999999;
+	text-align: center;
+}
+.erweima>image {
+	width: 180rpx;
+	height: 180rpx;
+}
+.btnFoot{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	        flex-direction: row;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
+}
+.tipBottom{
+	padding: 10rpx 0;
+}
+

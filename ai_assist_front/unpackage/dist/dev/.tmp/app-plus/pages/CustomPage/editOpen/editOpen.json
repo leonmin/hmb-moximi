@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "编辑开场白",
+  "titleNView": false,
+  "usingComponents": {
+    "uni-icons": "/components/uni-icons/uni-icons",
+    "mpopup": "/components/xuan-popup/xuan-popup"
+  }
+}

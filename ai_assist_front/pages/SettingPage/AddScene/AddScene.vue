@@ -51,7 +51,8 @@
 					<!-- 进度条 -->
 					<!-- <view class="progerss" v-show="progerssShow"></view> -->
 					<view class="jishi" v-if="isJishi"><text>正在录音{{jishi}}秒</text></view>
-					<view class="recordTip" :style="recordTipShow">按住我开始录音</view>
+					<!-- <view class="recordTip" :style="recordTipShow">按住我开始录音</view> -->
+					<view :class="recordTipShow?'recordTip':'recordTip1'"><text v-if="recordTipShow">按住我开始录音</text></view>
 
 					<view class="container" :class="isRec?'isRec':''">
 						<view class="wave ripple danger">
@@ -142,9 +143,7 @@
 				isleft: true,
 				isRight: false,
 				progerssShow: false,
-				recordTipShow: {
-					opacity: "1"
-				},
+				recordTipShow:true,
 				isRec: false,
 				ttsScene: '',
 				isSave: false,
@@ -306,7 +305,7 @@
 				this.jishi = 0
 				this.startTime = new Date().getTime()
 				this.progerssShow = true,
-					this.recordTipShow.opacity = "0",
+					this.recordTipShow = false,
 					this.isRec = true,
 					this.recStatus = "放开我停止录音",
 					this.isPlay = true,
@@ -350,7 +349,7 @@
 				}
 
 				this.progerssShow = false,
-					this.recordTipShow.opacity = "1",
+					this.recordTipShow = true
 					this.isRec = false,
 					this.recStatus = "按住我开始录音",
 					this.isPlay = false
@@ -744,7 +743,16 @@
 		text-align: center;
 		margin-bottom: 20rpx;
 	}
-
+	.recordTip1{
+		color: #EBF2FF;
+		width: 280rpx;
+		margin: auto;
+		font-size: 26rpx;
+		border-radius: 14rpx;
+		padding: 10rpx 0;
+		text-align: center;
+		position: relative;
+	}
 	.selfRec {
 		/* position: absolute; */
 		bottom: 0;

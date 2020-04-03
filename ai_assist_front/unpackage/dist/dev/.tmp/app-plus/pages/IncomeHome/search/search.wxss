@@ -1,0 +1,85 @@
+
+.searchBar.data-v-4db7a0b4 {
+	border-radius: 15rpx;
+}
+.imageHead.data-v-4db7a0b4 {
+	width: 100rpx;
+	height: 100rpx;
+	border-radius: 100rpx;
+}
+.tel.data-v-4db7a0b4 {
+	font-size: 40rpx;
+}
+.telTitle.data-v-4db7a0b4 {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	        flex-direction: row;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+}
+.duration.data-v-4db7a0b4 {
+	font-size: 30rpx;
+	line-height: 40rpx;
+	color: #B9B9B9;
+}
+.duration>text.data-v-4db7a0b4 {
+	margin-right: 12rpx;
+}
+.itemRight.data-v-4db7a0b4 {
+	width: 700rpx;
+	margin-left: 30rpx;
+	overflow: hidden;
+}
+.tip.data-v-4db7a0b4 {
+	color: #A3A3A3;
+	margin-top: 10px;
+}
+.contact.data-v-4db7a0b4 {
+	background-color: #F3F6F7;
+	padding-top: 20rpx;
+}
+.tipTel.data-v-4db7a0b4 {
+	color: #A3A3A3;
+	margin-top: 8rpx;
+}
+.callRecordItem>text.data-v-4db7a0b4 {
+	margin-right: 10rpx;
+}
+.large.data-v-4db7a0b4 {
+	width: 100rpx;
+	height: 100rpx;
+	background-color: transparent;
+}
+.noDataBox.data-v-4db7a0b4{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	        flex-direction: row;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
+	margin-top: 330rpx;
+}
+.noData.data-v-4db7a0b4{
+	text-align: center;
+}
+.noData>image.data-v-4db7a0b4{
+	width: 265rpx;
+	height: 204rpx;
+}
+.noData>view.data-v-4db7a0b4>{
+	margin-top: 20rpx;
+}
+.noData>view>text.data-v-4db7a0b4{
+	color: #CBDCFE;
+	font-size: 28rpx;
+}
+

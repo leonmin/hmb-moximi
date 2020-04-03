@@ -559,7 +559,7 @@
 	}
 </script>
 
-<style scoped>
+<style>
 	page {
 		/* background-color: #F3F6F7; */
 		background-color: #FFFFFF;

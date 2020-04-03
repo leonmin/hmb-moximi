@@ -1,0 +1,93 @@
+
+.outBox{
+	padding: 40rpx 30rpx;
+}
+.title{
+	font-size: 34rpx;
+	color: #111111;
+	font-weight: 600;
+}
+.deliver{
+	border-top: 1rpx solid #E9E9E9;
+	margin: 40rpx 0;
+}
+.why{
+}
+.subTitle{
+	font-size: 32rpx;
+	color: #111111;
+	font-weight: 600;
+}
+.content{
+	margin-top: 10rpx;
+}
+.contenItem{
+	margin-top: 30rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	        flex-direction: row;
+}
+.dot{
+	width: 30rpx;
+	height: 30rpx;
+	overflow: hidden;
+}
+.dot>view{
+	width: 12rpx;
+	height: 12rpx;
+	margin-top: 8rpx;
+	border-radius: 100rpx;
+	background: #111111;
+}
+.context{
+	margin-left: 20rpx;
+	color: 666666;
+}
+.tipStyle{
+	color: 666666;
+	font-weight: 600;
+}
+.how{
+	margin-top: 40rpx;
+}
+.tel{
+	font-size: 26rpx;
+	color: #666666;
+	margin: 30rpx 0;
+}
+.setMethod{
+	color: #111111;
+	font-size: 30rpx;
+	font-weight: 600;
+}
+.imgContent{
+	margin-top: 40rpx;
+}
+.imgContentTitle{
+	font-size: 28rpx;
+	color: #212121;
+}
+.imgBox{
+	margin-top: 40rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	        flex-direction: row;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
+}
+.mtop{
+	margin: 50rpx 0;
+}
+.tips{
+	margin-top: 50rpx;
+}
+

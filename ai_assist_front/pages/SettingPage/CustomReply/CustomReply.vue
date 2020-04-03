@@ -11,7 +11,7 @@
 					<view class="Courier-img"><image src="../../../static/setting/kuaidi@2x.png" mode=""></image></view>
 					<view class="Courier-des">
 						<text>{{courierData.name}}</text>
-						<text>{{courierData.notice}}</text>
+						<text>快递到了告诉魔小秘怎么说</text>
 					</view>
 				</view>
 				<view :class="courierSwitch?'arrowIcon1':'arrowIcon'" @click="arrowChange(1)"><text class="cuIcon-unfold"></text></view>
@@ -33,7 +33,7 @@
 					<view class="Courier-img1"><image src="../../../static/setting/waimai@2x.png" mode=""></image></view>
 					<view class="Courier-des">
 						<text>{{takeoutData.name}}</text>
-						<text>{{takeoutData.notice}}</text>
+						<text>外卖到了告诉魔小秘怎么说</text>
 					</view>
 				</view>
 					<view :class="takeOut?'arrowIcon1':'arrowIcon'" @click="arrowChange(2)"><text class="cuIcon-unfold"></text></view>

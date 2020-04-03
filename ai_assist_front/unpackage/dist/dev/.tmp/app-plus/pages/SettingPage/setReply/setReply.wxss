@@ -1,0 +1,154 @@
+
+page{
+		background: #FFFFFF;
+}
+.topDeliver{
+	width:100%;
+	height:20rpx;
+	background:rgba(243,246,247,1);
+}
+.contain{
+	padding: 50rpx 30rpx;
+}
+.title{
+	font-size: 30rpx;
+	color: #333333;
+}
+.containDeliver{
+	margin: 30rpx 0;
+	border-top: 1rpx solid #E9E9E9;
+}
+.containInput{
+	padding: 30rpx 0;
+}
+.repyText{
+	width: 100%;
+	height: 200rpx;
+	padding: 10rpx;
+}
+.bottomTip{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	        flex-direction: row;
+	-webkit-box-pack: end;
+	-webkit-justify-content: flex-end;
+	        justify-content: flex-end;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+}
+.bottomTipContain{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	        flex-direction: row;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+}
+.bottomTipContain>text:nth-of-type(1){
+	color: #999999;
+	font-size: 26rpx;
+}
+.bottomTipContain>text:nth-of-type(2){
+	margin-left: 20rpx;
+	color: #999999;
+	font-size: 36rpx;
+}
+.sureBtn{
+	padding: 0 30rpx;
+	margin-top: 500rpx;
+}
+.btnCommit{
+	width: 100%;
+	padding: 25rpx;
+	text-align: center;
+	color: #FFFFFF;
+	border-radius: 100rpx;
+	box-shadow: 0 0 10rpx #B3C2DB;
+	background: linear-gradient(left, #1c75ff 0%, #1c75ff 10%, #5799ff 80%, #5799ff 100%);
+	background: -webkit-linear-gradient(left, #1c75ff 0%, #1c75ff 10%, #5799ff 80%, #5799ff 100%);
+	background: -moz-linear-gradient(left, #1c75ff 0%, #1c75ff 10%, #5799ff 80%, #5799ff 100%);
+}
+/* 音乐播放 */
+.music {
+		width:200rpx;
+		height:200rpx;
+		position:relative;
+		background: #FFFFFF;
+		border-radius: 25rpx;
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: flex;
+		-webkit-box-orient: horizontal;
+		-webkit-box-direction: normal;
+		-webkit-flex-direction: row;
+		        flex-direction: row;
+		-webkit-box-pack: center;
+		-webkit-justify-content: center;
+		        justify-content: center;
+		-webkit-box-align: center;
+		-webkit-align-items: center;
+		        align-items: center;
+}
+.music ._i {
+		width:10rpx;
+		height:5rpx;
+		margin: 0 5rpx;
+		background-color:#1C75FF;
+}
+.music.active ._i:nth-of-type(1) {
+		-webkit-animation:wave 0.76s linear infinite;
+		animation:wave 0.76s linear infinite;
+		background-color:#1C75FF;
+}
+.music.active ._i:nth-of-type(2) {
+		-webkit-animation:wave 0.9s linear infinite;
+		animation:wave 0.9s linear infinite;
+		background-color:#1C75FF;
+}
+.music.active ._i:nth-of-type(3) {
+		-webkit-animation:wave 0.8s linear infinite;
+		animation:wave 0.8s linear infinite;
+		background-color:#1C75FF;
+}
+.music.active ._i:nth-of-type(4) {
+		-webkit-animation:wave 0.6s linear infinite;
+		animation:wave 0.6s linear infinite;
+		background-color:#1C75FF;
+}
+.music.active ._i:nth-of-type(5) {
+		-webkit-animation:wave 1s linear infinite;
+		animation:wave 1s linear infinite;
+		background-color:#1C75FF;
+}
+@-webkit-keyframes wave {
+0% {
+		height:7rpx
+}
+50% {
+		height:50rpx
+}
+100% {
+		height:10rpx
+}
+}
+@keyframes wave {
+0% {
+		height:7rpx
+}
+50% {
+		height:50rpx
+}
+100% {
+		height:10rpx
+}
+}
+

@@ -1,0 +1,76 @@
+
+.addContact {
+	margin: 0 30rpx;
+}
+.addName {
+	margin-top: 40rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+}
+.addName image {
+	width: 100rpx;
+	height: 100rpx;
+}
+.addName input {
+	margin-left: 20rpx;
+	padding: 10rpx 20rpx;
+	height: 78rpx;
+}
+.divider {
+	border: 1rpx solid #F0F0F0;
+	margin: 40rpx 0;
+}
+.addTel {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	        flex-direction: row;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+}
+.addTel view text {
+	font-size: 32rpx;
+	color: #444444;
+}
+.addTel view {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+}
+.addTel view input {
+	margin-left: 20rpx;
+	padding: 10rpx 20rpx;
+	height: 78rpx;
+}
+.inputRight {
+	font-size: 26rpx;
+	color: #999999;
+}
+.addButton {
+	font-size: 30rpx;
+	margin-top: 690rpx;
+}
+.addButton>button{
+	background: linear-gradient(left, #1c75ff 0%, #1c75ff 10%, #5799ff 80%, #5799ff 100%);
+	background: -webkit-linear-gradient(left, #1c75ff 0%, #1c75ff 10%, #5799ff 80%, #5799ff 100%);
+	background: -moz-linear-gradient(left, #1c75ff 0%, #1c75ff 10%, #5799ff 80%, #5799ff 100%);
+}
+.addBtn {
+	width: 100%;
+	padding: 40rpx 0;
+}
+

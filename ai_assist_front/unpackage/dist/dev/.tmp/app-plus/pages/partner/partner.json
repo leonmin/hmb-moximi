@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "合伙人",
+  "enablePullDownRefresh": true,
+  "backgroundTextStyle": "dark",
+  "titleNView": false,
+  "usingComponents": {
+    "uni-popup": "/components/uni-popup/uni-popup"
+  }
+}

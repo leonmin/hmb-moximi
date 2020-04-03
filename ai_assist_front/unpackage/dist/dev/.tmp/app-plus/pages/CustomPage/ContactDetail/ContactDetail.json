@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "通讯录详情",
+  "enablePullDownRefresh": true,
+  "backgroundTextStyle": "dark",
+  "titleNView": false,
+  "usingComponents": {
+    "uni-popup": "/components/uni-popup/uni-popup"
+  }
+}

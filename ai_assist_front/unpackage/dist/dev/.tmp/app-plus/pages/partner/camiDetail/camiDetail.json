@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "卡密详情",
+  "enablePullDownRefresh": true,
+  "backgroundTextStyle": "dark",
+  "titleNView": false,
+  "usingComponents": {
+    "uni-load-more": "/components/uni-load-more/uni-load-more"
+  }
+}

@@ -330,6 +330,7 @@
 								innerAudioContext.onEnded(function() {
 									console.log('自然播放结束')
 									that.playIcon = false
+									that.totalPlay = false
 								})
 							}
 						})
