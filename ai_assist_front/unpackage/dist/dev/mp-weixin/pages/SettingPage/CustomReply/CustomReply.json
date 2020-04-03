@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "自定义回复",
+  "usingComponents": {
+    "evan-switch": "/components/evan-switch/evan-switch"
+  }
+}

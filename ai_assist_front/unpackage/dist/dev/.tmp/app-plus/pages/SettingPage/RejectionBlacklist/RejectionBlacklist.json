@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "拒接黑名单",
+  "titleNView": false,
+  "usingComponents": {
+    "evan-switch": "/components/evan-switch/evan-switch",
+    "uni-popup": "/components/uni-popup/uni-popup"
+  }
+}

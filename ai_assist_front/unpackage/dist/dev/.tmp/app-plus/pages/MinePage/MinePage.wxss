@@ -1,0 +1,372 @@
+
+page {
+	background-color: #F1F4F6;
+}
+
+/* 底部菜单 */
+.listItem-footerTitle {
+	font-size: 22rpx;
+	color: #999999;
+}
+.listItem-headerTitle {
+	color: #222222;
+	font-size: 28rpx;
+	margin-left: 18rpx;
+}
+.listItem-footer {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	        flex-direction: row;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+}
+.listItem-header {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	        flex-direction: row;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+}
+.mineList-item {
+	height: 112rpx;
+	width: 100%;
+
+	display: -webkit-box;
+
+	display: -webkit-flex;
+
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	        flex-direction: row;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+
+	padding-left: 40rpx;
+	padding-right: 38rpx;
+}
+.mineList {
+	background-color: #FFFFFF;
+	margin-left: 30rpx;
+	margin-right: 30rpx;
+	margin-top: 20rpx;
+	margin-bottom: 20rpx;
+	border-radius: 20rpx;
+}
+
+/* 周使用简介 */
+.mineTraduce-Share {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	        flex-direction: row;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+
+	height: 61rpx;
+}
+.mineTraduce {
+	border-radius: 20rpx;
+	background-color: #FFFFFF;
+	height: 126rpx;
+	margin-left: 30rpx;
+	margin-right: 30rpx;
+	margin-top: 20rpx;
+
+	display: -webkit-box;
+
+	display: -webkit-flex;
+
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	        flex-direction: row;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+
+	padding-left: 40rpx;
+	padding-right: 38rpx;
+
+	font-size: 24rpx;
+	color: #111111;
+}
+
+/* 使用简介 */
+.mineHeader-userInterSubTitle {
+	font-size: 22rpx;
+	font-weight: normal;
+}
+.mineHeader-userInterTitle {
+	font-size: 40rpx;
+	color: #1C75FF;
+	font-weight: 400;
+}
+.mineHeader-userInterDesc {
+	font-size: 22rpx;
+	color: #999999;
+}
+.mineHeader-userInterSub {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	        flex-direction: column;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+}
+.mineHeader-useInter {
+	margin-top: 50rpx;
+	height: 110rpx;
+	width: 100%;
+	/* margin-left: 30rpx; */
+	/* margin-right: 30rpx; */
+
+	display: -webkit-box;
+
+	display: -webkit-flex;
+
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	        flex-direction: row;
+}
+
+/* 会员信息 */
+.vip-desc {
+	margin-left: 15rpx;
+	font-size: 32rpx;
+	font-weight: bold;
+}
+.vip-header {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	        flex-direction: row;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+}
+.vip-logo {
+	width: 39rpx;
+	height: 37rpx;
+}
+.mineHeader-vipHeader {
+	position: relative;
+
+	display: -webkit-box;
+
+	display: -webkit-flex;
+
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	        flex-direction: row;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	color: rgba(228, 192, 133, 1);
+	font-size: 26rpx;
+
+	padding-left: 40rpx;
+	padding-right: 40rpx;
+
+	height: 110rpx;
+	width: 100%;
+	background-color: #3D3D40;
+	/* margin-left: 30rpx; */
+	/* margin-right: 30rpx; */
+	border-radius: 20rpx;
+}
+
+/* 用户信息 */
+.mineHeader-phone {
+	color: #333333;
+	font-size: 26rpx;
+}
+.mineHeader-userName {
+	color: #333333;
+	font-size: 34rpx;
+	font-weight: bold;
+	margin-top: 25rpx;
+}
+.mineHeader-userInfo {
+	position: absolute;
+	width: 100%;
+	top: -75rpx;
+
+	display: -webkit-box;
+
+	display: -webkit-flex;
+
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	        flex-direction: column;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+}
+.mineHeader-userHeader {
+	/* position: absolute; */
+	height: 148rpx;
+	width: 148rpx;
+
+	border-radius: 74rpx;
+	border: 4px solid rgba(255, 255, 255, 0.6);
+}
+
+/* 头部视图 */
+.mineHeader-image {
+	position: absolute;
+	top: 148rpx;
+	height: 433rpx;
+	width: calc(100% - 60rpx);
+	background-color: #FFFFFF;
+
+	margin-left: 30rpx;
+	margin-right: 30rpx;
+
+	border-radius: 20rpx;
+	/* filter: blur(1px); */
+}
+.mineHeader {
+	width: 100%;
+	height: 330rpx;
+	/* background-image: url('../../static/mine/bj@2x.png'); */
+	/* background-color: #007AFF; */
+	/* padding: 130rpx 5% 40rpx; */
+	position: relative;
+}
+.imageshadow {
+	width: 100%;
+	background-color: rgba(0, 0, 0, 0.8);
+	height: 100vh;
+	position: fixed;
+	z-index: 999;
+	top: 0;
+	left: 0;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	        flex-direction: row;
+	-webkit-box-pack: end;
+	-webkit-justify-content: flex-end;
+	        justify-content: flex-end;
+}
+.shadowItem {
+	padding: 50rpx;
+}
+.shadowItem>image:nth-of-type(1) {
+	width: 464rpx;
+	height: 304rpx;
+	display: block;
+}
+.shadowItem>image:nth-of-type(2) {
+	width: 241rpx;
+	height: 86rpx;
+	display: block;
+	margin-top: 50rpx;
+	margin-left: 100rpx;
+}
+.module {
+	margin: 20rpx 30rpx 0 30rpx;
+	border-radius: 25rpx;
+	background: #FFFFFF;
+	padding: 45rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	        flex-direction: row;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+}
+.moduleItem {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	        flex-direction: column;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+}
+.moduleText {
+	display: block;
+	margin-top: 20rpx;
+	size: 26rpx;
+	color: #111111;
+}
+
+/* 绿色通道 */
+.greenBox{
+	margin: 0 30rpx;
+	margin-top: 258rpx;
+	position: relative;
+}
+.greenBox>image:nth-of-type(1){
+	width: 709rpx;
+	height: 123rpx;
+}
+.greenImage{
+	width: 61rpx;
+	height: 61rpx;
+	position: absolute;
+	right: 25rpx;
+	top: 46rpx;
+}
+.dot{
+	width: 8rpx;
+	height: 8rpx;
+	border-radius: 100rpx;
+	margin:0 5rpx 0 10rpx;
+	background: #CB9D50;
+}
+

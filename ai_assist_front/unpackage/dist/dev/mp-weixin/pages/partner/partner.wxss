@@ -1,0 +1,268 @@
+
+page {
+	background-color: #FFFFFF;
+}
+.partner {}
+.ddd {
+	width: 100%;
+	height: 100vh;
+	/* height: 200rpx; */
+	/* background-color: #ffffff; */
+}
+
+/* 合伙人顶部 */
+.partnerHeader {
+	width: 750rpx;
+	height: 749rpx;
+	padding: 40rpx 30rpx;
+	color: #FFFFFF;
+	background-size: cover;
+	background-image: url(../../static/img/beijing@2x.9f55dc07.jpg);
+}
+.titleBox {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	        flex-direction: row;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+}
+.title {
+	font-size: 36rpx;
+}
+.exitBtn {
+	font-size: 26rpx;
+	outline: none;
+	width: 160rpx;
+	height: 63rpx;
+	color: #FFFFFF;
+	border-radius: 10rpx;
+	border: 1px solid #FFFFFF;
+	background-color: transparent;
+}
+
+/* 当前y余额 */
+.balance {
+	margin-top: 65rpx;
+	text-align: center;
+}
+.balance>text:nth-of-type(1) {
+	font-size: 26rpx;
+}
+.cash {
+	margin-top: 34rpx;
+}
+.cash>text:nth-of-type(1) {
+	font-size: 34rpx;
+}
+.cash>text:nth-of-type(2) {
+	font-size: 40rpx;
+	margin-left: 8rpx;
+}
+.balanceBtn {
+	margin-top: 47rpx;
+	font-size: 28rpx;
+}
+.balanceBtn>text:nth-of-type(2) {
+	margin: 0 33rpx;
+}
+
+/* 合伙人邀请人数 */
+.partnerInvite {
+	/* margin: 20rpx 0; */
+	padding: 20rpx 0;
+}
+.content {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	        flex-direction: row;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+}
+.menu {
+	/* margin: 0 30rpx; */
+}
+.inviteNum {
+	color: #E01212;
+	font-size: 30rpx;
+}
+.inviteUrl {
+	max-width: 400rpx;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	-webkit-line-clamp: 1;
+	color: #000000;
+	font-size: 30rpx;
+}
+.deliver {
+	border-top: 1rpx solid #F4F4F4;
+	margin: 30rpx 30rpx;
+}
+.invite {
+	margin-top: 20rpx !important;
+}
+.right {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	        flex-direction: column;
+	text-align: right
+}
+.copy {
+	color: #1C75FF;
+	font-size: 28rpx;
+}
+.shareBtn {
+	background: #FFFFFF;
+}
+.shareBtn>button {
+	/* width: 100%; */
+	color: #FFFFFF;
+	border-radius: 100rpx;
+	font-size: 30rpx;
+	margin: 0 30rpx;
+	background: linear-gradient(left, #1c75ff 0%, #1c75ff 10%, #5799ff 80%, #5799ff 100%);
+	background: -webkit-linear-gradient(left, #1c75ff 0%, #1c75ff 10%, #5799ff 80%, #5799ff 100%);
+	background: -moz-linear-gradient(left, #1c75ff 0%, #1c75ff 10%, #5799ff 80%, #5799ff 100%);
+}
+.imageshadow {
+	width: 100%;
+	background-color: rgba(0, 0, 0, 0.8);
+	height: 100vh;
+	position: fixed;
+	z-index: 999;
+	top: 0;
+	left: 0;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	        flex-direction: column;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+}
+.shadowItem {
+	padding: 0 50rpx;
+	margin-top: 30rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	        flex-direction: column;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+}
+.shadowItem>image:nth-of-type(1) {
+	width: 276rpx;
+	height: 93rpx;
+	display: block;
+}
+.shadowItem>image:nth-of-type(2) {
+	width: 42rpx;
+	height: 55rpx;
+	display: block;
+	margin-top: 30rpx;
+}
+
+/* 分享pop */
+.sharePop {
+	background: #FFFFFF;
+	padding: 40rpx 0;
+	border-radius: 30rpx 30rpx 0rpx 0rpx;
+}
+.popText {
+	font-size: 34rpx;
+	color: #333333;
+	margin: 0 38rpx;
+	margin-top: 40rpx;
+}
+.popDeliver {
+	border-top: 1rpx solid #E9E9E9;
+	margin-top: 79rpx;
+}
+.popBtn {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	        flex-direction: row;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	margin-top: 40rpx;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
+}
+button::after {
+	border: none;
+}
+.popBtnLeft,
+.popBtnRight {
+	border-radius: 36rpx;
+	color: #FFFFFF;
+	text-align: center;
+	line-height: 72rpx;
+	margin: 0 30rpx;
+}
+.popBtnLeft {
+	color: #1C75FF;
+	width: 281rpx;
+	height: 72rpx;
+	border: 1rpx solid rgba(50, 150, 250, 1);
+}
+.popBtnRight {
+	width: 281rpx;
+	height: 72rpx;
+	background: -webkit-linear-gradient(right, rgba(28, 117, 255, 1), rgba(87, 153, 255, 1));
+	background: linear-gradient(-90deg, rgba(28, 117, 255, 1), rgba(87, 153, 255, 1));
+}
+.shareImgae {
+	position: relative;
+}
+.imageView {
+	width: 481rpx;
+	height: 841rpx;
+	border-radius: 10rpx;
+	margin-top: 38rpx;
+}
+.imageView>image {
+	border-radius: 10rpx;
+	width: 481rpx;
+	height: 841rpx;
+}
+.closeIcon{
+	width: 50rpx;
+	height: 50rpx;
+	margin-top: 33rpx;
+}
+.closeIcon>image{
+	width: 50rpx;
+	height: 50rpx;
+}
+
+

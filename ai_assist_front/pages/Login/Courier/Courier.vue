@@ -83,7 +83,8 @@
 					<view class="loginInput">
 						<view class="loginInputItem">
 							<view class="mobileInput">
-								<input type="text" :value="inputValue" v-model="bindmobile" name="mobile" placeholder="请输入绑定的手机号" />
+								<!-- <input type="text" :value="inputValue" v-model="bindmobile" name="mobile" placeholder="请输入绑定的手机号" /> -->
+								<input type="text"  v-model="bindmobile" name="mobile" placeholder="请输入绑定的手机号" />
 							</view>
 						</view>
 						<view class="loginInputItem">

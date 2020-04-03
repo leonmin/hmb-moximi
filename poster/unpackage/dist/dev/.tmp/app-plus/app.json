@@ -1,0 +1,28 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/week/week",
+    "pages/banner/banner",
+    "pages/MgConviction/MgConviction",
+    "pages/MgCredit/MgCredit",
+    "pages/MgCreditReport/MgCreditReport",
+    "pages/MgLetter/MgLetter",
+    "pages/MgCreditService/MgCreditService",
+    "pages/pcMoxiaomi/pcMoxiaomi"
+  ],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "nvueCompiler": "uni-app",
+  "renderer": "auto",
+  "splashscreen": {
+    "alwaysShowBeforeRender": true,
+    "autoclose": false
+  },
+  "appname": "魔小秘",
+  "compilerVersion": "2.6.1",
+  "usingComponents": {}
+}

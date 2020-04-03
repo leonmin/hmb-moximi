@@ -1,0 +1,162 @@
+
+page {
+	background-color: #FFFFFF;
+}
+.invitation {
+	position: relative;
+}
+page {
+	padding-bottom: 20rpx;
+}
+.topHead {
+	width: 750rpx;
+	height: 701rpx;
+	background-size: cover;
+	background-image: url(../../static/img/bj@2x.aeb642ad.jpg);
+	z-index: -20;
+}
+.itemNum {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	        flex-direction: column;
+	color: #FFFFFF;
+	text-align: center;
+	width: 250rpx;
+	margin-top: 100rpx;
+}
+.inviteCash{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	        flex-direction: row;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+}
+.info {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	overflow: hidden;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	        flex-direction: row;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+}
+.itemNum>text:nth-of-type(1) {
+	font-size: 30rpx;
+}
+.itemNum>view:nth-of-type(1) {
+	font-size: 64rpx;
+	margin-top: 20rpx;
+}
+.divider {
+	width: 3rpx;
+	height: 79rpx;
+	background-color: #FFFFFF;
+	margin-top: 100rpx;
+}
+.btn>button {
+	background: transparent;
+	border: 2rpx solid #FFFFFF;
+	color: #FFFFFF;
+	font-size: 28rpx;
+	width: 177rpx;
+	height: 60rpx;
+	line-height: 60rpx;
+	border-radius: 100rpx;
+	margin-top: 50rpx;
+}
+button::after {
+	border: none;
+}
+.introduce {
+	border: 1rpx solid #FFFFFF;
+	margin: 30rpx;
+	box-shadow: 2rpx 2rpx 15rpx #e4e7eb;
+	padding: 0 34rpx;
+	border-radius: 20rpx;
+	padding-bottom: 40rpx;
+	z-index: -30;
+}
+.item {
+	margin: 30rpx 0;
+}
+.title {
+	color: #333333;
+	font-size: 32rpx;
+	font-weight: 600;
+}
+.item>view {
+	margin-top: 20rpx;
+}
+.item>view>image {
+	width: 22rpx;
+	height: 22rpx;
+	margin: 0 10rpx;
+}
+.item>view>text {
+	color: #333333;
+	font-size: 32rpx;
+}
+.shareBtn>button {
+	width: 100%;
+	color: #FFFFFF;
+	border-radius: 100rpx;
+	font-size: 30rpx;
+	background: linear-gradient(left, #1c75ff 0%, #1c75ff 10%, #5799ff 80%, #5799ff 100%);
+	background: -webkit-linear-gradient(left, #1c75ff 0%, #1c75ff 10%, #5799ff 80%, #5799ff 100%);
+	background: -moz-linear-gradient(left, #1c75ff 0%, #1c75ff 10%, #5799ff 80%, #5799ff 100%);
+}
+.inviteContain {}
+.imageshadow {
+	width: 100%;
+	background-color: rgba(0, 0, 0, 0.8);
+	height: 100vh;
+	position: absolute;
+	z-index: 999;
+	top: 0;
+	left: 0;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	        flex-direction: row;
+	-webkit-box-pack: end;
+	-webkit-justify-content: flex-end;
+	        justify-content: flex-end;
+}
+.shadowItem{
+	padding: 50rpx;
+}
+.shadowItem>image:nth-of-type(1){
+	width: 464rpx;
+	height: 304rpx;
+	display: block;
+}
+.shadowItem>image:nth-of-type(2){
+	width: 241rpx;
+	height: 86rpx;
+	display: block;
+	margin-top: 50rpx;
+	margin-left: 100rpx;
+}
+

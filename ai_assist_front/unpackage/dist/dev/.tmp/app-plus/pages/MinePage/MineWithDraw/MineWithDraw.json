@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "提现",
+  "titleNView": false,
+  "usingComponents": {
+    "mpopup": "/components/xuan-popup/xuan-popup"
+  }
+}

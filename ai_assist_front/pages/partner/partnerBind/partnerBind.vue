@@ -9,7 +9,8 @@
 				<view class="loginInput">
 					<view class="loginInputItem">
 						<view class="mobileInput">
-							<input type="text" @blur="pickupKeyboard" :value="inputValue" v-model="bindmobile" name="mobile" placeholder="请输入绑定的手机号" />
+							<!-- <input type="text" @blur="pickupKeyboard" :value="inputValue" v-model="bindmobile" name="mobile" placeholder="请输入绑定的手机号" /> -->
+							<input type="text" @blur="pickupKeyboard" v-model="bindmobile" name="mobile" placeholder="请输入绑定的手机号" />
 						</view>
 					</view>
 					<view class="loginInputItem">
@@ -117,108 +118,6 @@
 					if (this.mobileCode == '获取验证码') {
 						this.time = 60
 						this.timer()
-						const params = {
-							mobile: this.bindmobile
-						}
-						console.log(this.bindmobile)
-						this.$request.url_request(SENDCODE, params, 'POST', res => {
-							uni.showToast({
-								title: '验证码发送成功',
-								icon: 'none',
-								duration: 1000
-							})
-						}, err => {})
-					}
-
-				} else {
-					uni.showToast({
-						title: '号码不能为空',
-						icon: 'none',
-						duration: 1000
-					})
-				}
-			},
-			timer() {
-				if (this.time > 0) {
-					this.time--;
-					this.mobileCode = "还剩" + this.time + "s"
-					setTimeout(this.timer, 1000);
-				} else {
-					this.time = 0;
-					this.mobileCode = "获取验证码";
-				}
-			},
-			// 截取
-			getQueryString(name) {
-				var after = window.location.search
-				if (after.indexOf('?') === -1) {}
-				after = window.location.href.split("?")[1] || after.substr(1);
-				if (after) {
-					var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-					var r = after.match(reg)
-					if (r !== null) {
-						return decodeURIComponent(r[2]);
-					} else {
-						return null
-					}
-				}
-			},
-			// 获取当前保存token
-			getUrlToken() {
-				curToken = this.getQueryString('token')
-				if (!curToken) {
-					uni.navigateTo({
-						url: "../partnerJumpLogin/partnerJumpLogin"
-					})
-				} else {
-					try {
-						uni.setStorageSync('myToken', curToken)
-					} catch (e) {
-						//TODO handle the exception
-						uni.showModal({
-							content: e,
-							showCancel: false
-						});
-					}
-				}
-			},
-<<<<<<< HEAD
-			// 收起键盘
-			pickupKeyboard(){
-				uni.pageScrollTo({
-					scrollTop:0,
-					duration:0
-				})
-=======
-			// 规则校验
-			initValidate() {
-				// 规则
-				const rules = {
-					mobile: {
-						required: true,
-						tel:true
-					},
-					smsCode: {
-						required: true
-					}
-				}
-				// 提示
-				const messages = {
-					mobile: {
-						required: "请输入手机号！"
-					},
-					smsCode: {
-						required: "请输入验证码"
-					}
-				}
-				this.WxValidate = new WxValidate(rules, messages)
-			},
-			// 获取验证码
-			getMobileCode() {
-				if (this.bindmobile) {
-					if (this.mobileCode == '获取验证码') {
-						this.time = 60
-						this.timer()
 						var jiamiMobile = this.$encruption(this.bindmobile)
 						const params = {
 							mobile:this.bindmobile,
@@ -292,7 +191,6 @@
 					scrollTop:0,
 					duration:0
 				})
->>>>>>> c7298413766c2db2a0a695b659b83b6ee64d0f29
 			}
 		}
 	}

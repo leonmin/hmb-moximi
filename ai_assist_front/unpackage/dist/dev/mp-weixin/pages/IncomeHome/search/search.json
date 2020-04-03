@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "搜索来电",
+  "usingComponents": {
+    "uni-search-bar": "/components/uni-icons/uni-icons",
+    "uni-list": "/components/uni-icons/uni-icons",
+    "uni-list-item": "/components/uni-icons/uni-icons"
+  }
+}

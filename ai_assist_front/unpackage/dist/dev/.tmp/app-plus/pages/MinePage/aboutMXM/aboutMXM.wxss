@@ -1,0 +1,39 @@
+
+.logoDisplay{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	        flex-direction: row;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
+	padding-top: 191rpx;
+}
+.logoDisplay>image{
+	width: 165rpx;
+	height: 175rpx;
+}
+.logoTitle{
+	text-align: center;
+	margin:44rpx 0;
+	font-weight: 600;
+	color: #111111;
+	font-size: 34rpx;
+}
+.tips{
+	padding: 0 30rpx;
+	text-align: center;
+	font-size: 26rpx;
+	color: #555555;
+	line-height: 40rpx;
+}
+.version{
+	color: #555555;
+	font-size: 30rpx;
+	text-align: center;
+	margin-top: 36rpx;
+}
+

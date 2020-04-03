@@ -1,0 +1,1 @@
+<view><view class="logoDisplay"><image src="../../../static/aboutMXM/moxiaomi@2x.png" mode></image></view><view class="logoTitle"><text>魔小秘</text></view><view class="tips"><text>「魔小秘」是新一代的人工智能接听小助手，在您不想、不能、不方便接听来电的时候，小秘将会帮您接听～</text></view><view class="version"><text>V1.0.0</text></view></view>

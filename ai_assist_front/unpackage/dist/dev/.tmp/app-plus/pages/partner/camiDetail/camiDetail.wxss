@@ -1,0 +1,131 @@
+
+page {
+	background: #F3F6F7;
+}
+.topBox {
+	width: 100%;
+	height: 400rpx;
+	background: linear-gradient(top, #2584FF 0%, #2584FF 10%, #F3F6F7 85%, #F3F6F7 100%);
+	background: -webkit-linear-gradient(top, #2584FF 0%, #2584FF 10%, #F3F6F7 85%, #F3F6F7 100%);
+	background: -moz-linear-gradient(top, #2584FF 0%, #2584FF 10%, #F3F6F7 85%, #F3F6F7 100%);
+}
+.topTitle {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	        flex-direction: row;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	padding: 50rpx 30rpx 0 30rpx;
+	color: #FFFFFF;
+	font-size: 30rpx;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	font-weight: 600;
+}
+.cardInfo {
+	background: #FFFFFF;
+	height: 279rpx;
+	padding: 40rpx 30rpx;
+	margin: 0 30rpx;
+	margin-top: 30rpx;
+	border-radius: 15rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	        flex-direction: column;
+}
+.titleName {
+	display: inline-block;
+	width: 150rpx;
+	text-align-last: justify;
+}
+.infoItem {
+	font-size: 28rpx;
+	color: #333333;
+}
+.infoList {
+	background: #FFFFFF;
+	margin: 20rpx 30rpx;
+	padding: 40rpx 30rpx;
+	border-radius: 15rpx;
+}
+.cardInfoItem {
+	/* border: 1rpx solid #F0AD4E; */
+}
+.firstLine {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	        flex-direction: row;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+}
+.firstText {
+	font-size: 30rpx;
+	color: #333333;
+}
+.copy {
+	border: 1rpx solid #1C75FF;
+	color: #1C75FF;
+	padding: 10rpx 22rpx;
+	border-radius: 100rpx;
+}
+.copy1 {
+	border: 1rpx solid #D3D3D3;
+	color: #AFAFAF;
+	padding: 10rpx 20rpx;
+	border-radius: 100rpx;
+}
+.unuse {
+	color: #1C75FF;
+}
+.used {
+	color: #666666;
+}
+.secondLine {
+	margin-top: 20rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	        flex-direction: row;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+}
+.nameStyle {
+	/* border: 1rpx solid #D2F1F0; */
+	max-width: 450rpx;
+	overflow:hidden; /*超出的部分隐藏起来。*/ 
+	white-space:nowrap;/*不换行*/
+	text-overflow:ellipsis;/*超出文本以省略号显示 */
+}
+.deliver {
+	border-top: 1rpx solid #F1F1F1;
+	margin: 30rpx 0;
+}
+

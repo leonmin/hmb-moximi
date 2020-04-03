@@ -1,5 +1,5 @@
-// const API = "";	
-const API = "/api";
+const API = "";	
+// const API = "/api";
 // 测试
 export const TEST =API+"/getWangYiNews";
 // 绑定手机号
