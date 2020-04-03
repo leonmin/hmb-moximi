@@ -77,7 +77,8 @@ export default {
       payCountCoupon: [],
       payPriceNormal: [],
       payPriceGreen: [],
-      payPriceCoupon: []
+      payPriceCoupon: [],
+      isDatazoom: false
     }
   },
   mounted() {
@@ -123,6 +124,21 @@ export default {
     },
     // 付费人数统计表
     drawPayCount() {
+      console.log(this.payCountxAxis)
+      if (this.payCountxAxis.length <= 4) {
+        this.isDatazoom = null
+      } else {
+        this.isDatazoom = {
+          type: 'slider',
+          show: true,
+          xAxisIndex: [0],
+          height: 20,
+          left: '9%',
+          bottom: -5,
+          start: 0,
+          end: 40
+        }
+      }
       var that = this
       const payCountChart = this.$echarts.init(document.getElementById('payCountChart'))
       var app = {}
@@ -223,16 +239,7 @@ export default {
             saveAsImage: {}
           }
         },
-        dataZoom: {
-          type: 'slider',
-          show: true,
-          xAxisIndex: [0],
-          height: 20,
-          left: '9%',
-          bottom: -5,
-          start: 0,
-          end: 40
-        },
+        dataZoom: that.isDatazoom,
         xAxis: [
           {
             type: 'category',
@@ -271,6 +278,20 @@ export default {
     },
     // 付费人数统计表
     drawPriceCount() {
+      if (this.payCountxAxis.length <= 4) {
+        this.isDatazoom = null
+      } else {
+        this.isDatazoom = {
+          type: 'slider',
+          show: true,
+          xAxisIndex: [0],
+          height: 20,
+          left: '9%',
+          bottom: -5,
+          start: 0,
+          end: 40
+        }
+      }
       var that = this
       const payCountChart = this.$echarts.init(document.getElementById('payCountChart'))
       const payPriceChart = this.$echarts.init(document.getElementById('payPriceChart'))
@@ -372,16 +393,7 @@ export default {
             saveAsImage: {}
           }
         },
-        dataZoom: {
-          type: 'slider',
-          show: true,
-          xAxisIndex: [0],
-          height: 20,
-          left: '9%',
-          bottom: -5,
-          start: 0,
-          end: 40
-        },
+        dataZoom:that.isDatazoom,
         xAxis: [
           {
             type: 'category',

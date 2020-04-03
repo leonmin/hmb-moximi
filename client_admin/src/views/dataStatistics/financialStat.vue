@@ -64,7 +64,8 @@ export default {
       },
       legend: ['收入', '返佣', '提现'],
       xAxis: [],
-      series: []
+      series: [],
+      isDatazoom: false
     }
   },
   mounted() {
@@ -148,6 +149,20 @@ export default {
     },
     // 绘制图表
     drawLine() {
+      console.log('x长度', this.xAxis)
+      if (this.xAxis.length <= 6) {
+        this.isDatazoom = null
+      } else {
+        this.isDatazoom = {
+          type: 'slider',
+          show: true,
+          xAxisIndex: [0],
+          left: '4%',
+          bottom: -20,
+          start: 0,
+          end: 50
+        }
+      }
       var _this = this
       this.loading = true
       // 基于准备好的dom，初始化echarts实例
@@ -174,15 +189,7 @@ export default {
             saveAsImage: {}
           }
         },
-        dataZoom: {
-          type: 'slider',
-          show: true,
-          xAxisIndex: [0],
-          left: '4%',
-          bottom: -20,
-          start: 0,
-          end: 50
-        },
+        dataZoom: _this.isDatazoom,
         xAxis: [
           {
             type: 'category',

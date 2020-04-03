@@ -108,7 +108,8 @@ export default {
       paySeries: [],
       cardSeries: [],
       renewalSeries: [],
-      tableData: []
+      tableData: [],
+      isdataZoom: false
     }
   },
   mounted() {
@@ -334,6 +335,20 @@ export default {
     },
     // 绘制图表支付
     drawLinePay() {
+      console.log('x的长度0', this.xAxis.length)
+      if (this.xAxis.length <= 6) {
+        this.isdataZoom = null
+      } else {
+        this.isdataZoom = {
+          type: 'slider',
+          show: true,
+          xAxisIndex: [0],
+          left: '4%',
+          bottom: -25,
+          start: 0,
+          end: 70
+        }
+      }
       var _this = this
       this.loading = true
       // 基于准备好的dom，初始化echarts实例
@@ -361,15 +376,7 @@ export default {
             saveAsImage: {}
           }
         },
-        dataZoom: {
-          type: 'slider',
-          show: true,
-          xAxisIndex: [0],
-          left: '4%',
-          bottom: -25,
-          start: 0,
-          end: 70
-        },
+        dataZoom: _this.isdataZoom,
         xAxis: [
           {
             type: 'category',
@@ -390,6 +397,20 @@ export default {
     },
     //  绘制支付卡图表
     drawLineCard() {
+      console.log('x的长度1', this.xAxis.length)
+      if (this.xAxis.length <= 6) {
+        this.isdataZoom = null
+      } else {
+        this.isdataZoom = {
+          type: 'slider',
+          show: true,
+          xAxisIndex: [0],
+          left: '4%',
+          bottom: -25,
+          start: 0,
+          end: 70
+        }
+      }
       var _this = this
       this.loading = true
       // 基于准备好的dom，初始化echarts实例
@@ -418,15 +439,7 @@ export default {
             saveAsImage: {}
           }
         },
-        dataZoom: {
-          type: 'slider',
-          show: true,
-          xAxisIndex: [0],
-          left: '4%',
-          bottom: -25,
-          start: 0,
-          end: 70
-        },
+        dataZoom: _this.isdataZoom,
         xAxis: [
           {
             type: 'category',
