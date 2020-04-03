@@ -18,7 +18,7 @@
           <div class="lineContent1">有效期</div>
           <div class="lineContent2">{{ row.validity }}</div>
           <div class="lineContent1">是否过期</div>
-          <div class="lineContent2">{{ row.outTime | outTime }}</div>
+          <div class="lineContent2">{{ row.endDate | formatDate }}</div>
           <div class="lineContent1">状态</div>
           <div class="lineContent2">{{ row.status | status }}</div>
         </div>

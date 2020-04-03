@@ -1,12 +1,12 @@
-// const API = "";
+// const API = "";	
 const API = "/api";
 // 测试
 export const TEST =API+"/getWangYiNews";
 // 绑定手机号
 export const LOGIN =API+"/app/bindMobile";
-//发送验证码
-export const SENDCODE =API+"/app/sendVerifyCodeS";
 //发送验证码加密
+export const SENDCODE =API+"/app/sendVerifyCodeS";
+//发送验证码
 export const SENDCODE2 =API+"/app/sendVerifyCode";
 // 通话列表
 export const CALLRECORDLISTTODAY =API+"/app/chat/callRecordListToday";
@@ -122,6 +122,8 @@ export const PARTNERCASHLIST =API+"/app/chat/partnerCashList";
 export const CARDPACK =API+"/app/chat/cardPack";
 // 合伙人卡密列表详情
 export const CARDPACKDETAILS =API+"/app/chat/cardPackDetails";
+// 合伙人二维码
+export const QRCODE = API + '/app/chat/partnerPoster'
 
 // 接听配置
 
@@ -173,8 +175,8 @@ export const SETVOICEPROLOGUE = API+"/user/bysetting/setVoicePrologue"
 //设置回复
 export const SCENCESET = API+"/user/bysetting/sceneSet"
 
-// 绿色通道
 
+// 绿色通道
 
 // 任务进度
 export const TASKINFO = API+"/app/green/taskInfo"
@@ -182,3 +184,5 @@ export const TASKINFO = API+"/app/green/taskInfo"
 export const GREENCARDLIST = API+"/app/green/cardList"
 // 绿色通道列表
 export const GREENCREATEORDER = API+"/app/green/createOrder"
+//推送统计
+export const PUSHCLICK = API+"/push_stats/click"

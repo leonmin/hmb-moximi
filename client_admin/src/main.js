@@ -32,6 +32,43 @@ Vue.filter('formatMoney', function(number) {
   return isNaN(number) ? 0.00 : parseFloat((number / 100).toFixed(2))
 })
 
+/* 判断是否过期*/
+Vue.filter('formatDate', function(endTime) {
+  const date = new Date()
+  const y = date.getFullYear()
+  let m = date.getMonth() + 1
+  let d = date.getDate()
+  let h = date.getHours()
+  let f = date.getMinutes()
+  let s = date.getSeconds()
+  m = m + ''
+  d = d + ''
+  h = h + ''
+  f = f + ''
+  s = s + ''
+  if (m.length < 2) {
+    m = '0' + m
+  }
+  if (d.length < 2) {
+    d = '0' + d
+  }
+  if (h.length < 2) {
+    h = '0' + h
+  }
+  if (f.length < 2) {
+    f = '0' + f
+  }
+  if (s.length < 2) {
+    s = '0' + s
+  }
+  const nowDate = y + '-' + m + '-' + d + ' ' + h + ':' + f + ':' + s
+  if (nowDate > endTime) {
+    return '已过期'
+  } else {
+    return '未过期'
+  }
+})
+
 // 引入echarts
 import echarts from 'echarts'
 Vue.prototype.$echarts = echarts

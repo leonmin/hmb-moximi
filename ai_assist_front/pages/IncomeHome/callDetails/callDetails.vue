@@ -671,7 +671,7 @@
 		width: 100rpx;
 		height: 100rpx;
 		position: fixed;
-		right: 30rpx;
+		right: 25rpx;
 		top: 660rpx;
 	}
 
@@ -679,7 +679,7 @@
 		width: 100rpx;
 		height: 100rpx;
 		position: fixed;
-		right: 30rpx;
+		right: 25rpx;
 		top: 790rpx;
 	}
 

@@ -43,3 +43,21 @@ export function pageList(data) {
     params: data
   })
 }
+
+/* 活动卡密详情*/
+export function activityExchangeCard(data) {
+  return request({
+    url: '/admin/exchangeCard/activityExchangeCard',
+    method: 'get',
+    params: data
+  })
+}
+
+/* 活动卡密-增加发行量*/
+export function increaseExchangeCard(data) {
+  return request({
+    url: '/admin/exchangeCard/increaseExchangeCard',
+    method: 'post',
+    params: data
+  })
+}

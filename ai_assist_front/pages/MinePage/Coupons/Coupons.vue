@@ -14,7 +14,7 @@
 				</view>
 			</view>
 		</view>
-		<view  v-if="couponsData.userCoupon === null">
+		<view  v-if="couponsData.length == 0">
 			<view class="noDataBox">
 				<view class="noData">
 					<image src="../../../static/quexing/wuquan@2x.png" mode=""></image>
@@ -75,6 +75,7 @@
 				}
 				this.$request.url_request(COUPONLIST,params,'GET',res =>{
 					this.couponsData = JSON.parse(res.data).data
+					console.log('优惠券列表',this.couponsData)
 					uni.hideToast()
 				},err =>{})
 			},

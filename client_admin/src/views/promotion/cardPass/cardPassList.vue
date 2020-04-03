@@ -32,7 +32,7 @@
       <el-table-column prop="total" label="总发行量" min-width="100" show-overflow-tooltip />
       <el-table-column prop="outTime" label="是否过期" min-width="90" show-overflow-tooltip>
         <template slot-scope="scope">
-          <span>{{ scope.row.outTime | outTime }}</span>
+          <span>{{ scope.row.endDate | formatDate }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="partnerName" label="合伙人" min-width="100" show-overflow-tooltip />

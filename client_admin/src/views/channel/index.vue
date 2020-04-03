@@ -27,12 +27,20 @@
       </el-table-column>
     </el-table>
     <!--  二维码弹窗 -->
-    <el-dialog title="二维码" :visible.sync="dialogTableVisible" class="Qrimg" width="30%"">
+    <el-dialog title="二维码" :visible.sync="dialogTableVisible" class="Qrimg" width="30%">
       <img :src="src" alt="" style="width:100%;max-width: 400px">
-<!--      <p class="downloadQr" @click="startTrans(src)">下载二维码</p>-->
-<!--      <a :href="base" download="png"></a>-->
+      <!--      <p class="downloadQr" @click="startTrans(src)">下载二维码</p>-->
+      <!--      <a :href="base" download="png"></a>-->
     </el-dialog>
     <!--    分页-->
+    <el-pagination
+      style="float: right;margin-top: 20px"
+      :current-page.sync="listData.pageNum"
+      :page-size="listData.pageSize"
+      layout="total, prev, pager, next"
+      :total="total"
+      @current-change="handleCurrentChange"
+    />
   </div>
 </template>
 <script>
@@ -45,7 +53,12 @@ export default {
       channelList: [],
       src: '',
       dialogTableVisible: false,
-      base: ''
+      base: '',
+      total: 0,
+      listData: {
+        pageNum: 1,
+        pageSize: 10
+      }
     }
   },
   created() {
@@ -53,14 +66,21 @@ export default {
     this.getChannelList()
   },
   methods: {
+    /* 分页*/
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`)
+      this.listData.pageNum = val
+      this.getChannelList()
+    },
     //  初始化数据
     getChannelList() {
-      const params = {
-        pageNum: this.pageNum,
-        pageSize: this.pageSize
-      }
-      channelList(params).then(res => {
+      // const params = {
+      //   pageNum: this.pageNum,
+      //   pageSize: this.pageSize
+      // }
+      channelList(this.listData).then(res => {
         this.channelList = res.data.records
+        this.total = res.data.total
       })
     },
     // 数据
