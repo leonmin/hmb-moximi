@@ -211,6 +211,7 @@ export default {
               type: 'bar',
               stack: '支付',
               color: '#D0917A',
+              barWidth: 30,
               data: notPay
             },
             {
@@ -218,7 +219,7 @@ export default {
               type: 'bar',
               stack: '支付',
               color: '#C25552',
-              barMaxWidth: '60px',
+              barWidth: 30,
               data: payedData
             }
           ]
@@ -228,6 +229,7 @@ export default {
               type: 'bar',
               stack: '支付卡',
               color: '#c9a91d',
+              barWidth: 30,
               data: exCard
             },
             {
@@ -561,7 +563,7 @@ export default {
   #main{
   }
   #myChartPay,#myChartCard,#myChartRenewal,#myChartWeekCard{
-    width: calc(100% - 220px);
+    /*width: calc(100% - 220px);*/
     margin:30px;
     height: 250px;
   }

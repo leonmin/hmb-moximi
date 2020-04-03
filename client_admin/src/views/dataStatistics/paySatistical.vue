@@ -256,18 +256,21 @@ export default {
           name: '正常付费',
           type: 'bar',
           barGap: 0,
+          barWidth: 20,
           label: labelOption,
           data: that.payCountNormal
         },
         {
           name: '绿色通道',
           type: 'bar',
+          barWidth: 20,
           label: labelOption,
           data: that.payCountGreen
         },
         {
           name: '优惠券',
           type: 'bar',
+          barWidth: 20,
           label: labelOption,
           data: that.payCountCoupon
         }]
@@ -393,7 +396,7 @@ export default {
             saveAsImage: {}
           }
         },
-        dataZoom:that.isDatazoom,
+        dataZoom: that.isDatazoom,
         xAxis: [
           {
             type: 'category',
@@ -410,18 +413,21 @@ export default {
           name: '正常付费',
           type: 'bar',
           barGap: 0,
+          barWidth:20,
           label: labelOption,
           data: that.payPriceNormal
         },
         {
           name: '绿色通道',
           type: 'bar',
+          barWidth:20,
           label: labelOption,
           data: that.payPriceGreen
         },
         {
           name: '优惠券',
           type: 'bar',
+          barWidth:20,
           label: labelOption,
           data: that.payPriceCoupon
         }]

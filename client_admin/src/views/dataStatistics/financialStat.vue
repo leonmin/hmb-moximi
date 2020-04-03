@@ -118,18 +118,21 @@ export default {
               name: '收入',
               type: 'bar',
               color: '#C25552',
+              barWidth: 20,
               data: income
             },
             {
               name: '返佣',
               type: 'bar',
               color: '#36BBCE',
+              barWidth: 20,
               data: commission
             },
             {
               name: '提现',
               type: 'bar',
               color: '#00AA72',
+              barWidth: 20,
               data: withdrawal
             }
             // {
