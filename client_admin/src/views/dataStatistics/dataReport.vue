@@ -203,7 +203,7 @@ export default {
           totalPayedMonth = totalPayedMonth + res.data[i].orderPayedMonth
           totalPayedSeason = totalPayedSeason + res.data[i].orderPayedSeason
           totalPayedYear = totalPayedYear + res.data[i].orderPayedYear
-          totalExCard = totalExCard + res.data[i].orderExCard ? res.data[i].orderExCard : 0
+          totalExCard = totalExCard + res.data[i].orderExCard
           this.paySeries = [
             {
               name: '等待支付',
