@@ -23,7 +23,7 @@ export const constantRoutes = [
     path: '/',
     component: Layout,
     redirect: '/ofdInfo',
-    meta: { title: '用户中心', icon: 'dashboard' },
+    meta: { title: '用户中心', icon: 'user' },
     children: [
       {
         path: '/ofdInfo',
@@ -61,7 +61,7 @@ export const asyncRoutes = [
     component: Layout,
     redirect: '/promotion/coupon/couponList',
     name: 'promotion',
-    meta: { title: '促销', icon: 'nested', roles: ['admin'] },
+    meta: { title: '促销', icon: 'sale', roles: ['admin'] },
     children: [
       {
         path: 'coupon',
@@ -155,7 +155,7 @@ export const asyncRoutes = [
     component: Layout,
     redirect: '/order/list',
     name: 'oder',
-    meta: { title: '订单中心', icon: 'table' },
+    meta: { title: '订单中心', icon: 'order' },
     children: [
       {
         path: 'list',
@@ -173,7 +173,7 @@ export const asyncRoutes = [
     component: Layout,
     redirect: '/api/applyWithdraw',
     name: 'Api',
-    meta: { title: '财务审核', icon: 'example' },
+    meta: { title: '财务审核', icon: 'financial' },
     children: [
       {
         path: 'applyWithdraw',
@@ -235,7 +235,7 @@ export const asyncRoutes = [
     name: 'configCentre',
     meta: {
       title: '配置中心',
-      icon: 'nested',
+      icon: 'config',
       roles: ['admin']
     },
     children: [
@@ -267,7 +267,7 @@ export const asyncRoutes = [
     name: 'Greenchannel',
     meta: {
       title: '绿色通道管理',
-      icon: 'nested',
+      icon: 'green',
       roles: ['admin']
     },
     children: [
@@ -294,7 +294,7 @@ export const asyncRoutes = [
     name: 'channel',
     meta: {
       title: '渠道管理',
-      icon: 'nested',
+      icon: 'channel',
       roles: ['admin']
     },
     children: [
@@ -333,7 +333,7 @@ export const asyncRoutes = [
     name: 'partner',
     meta: {
       title: '合伙人中心',
-      icon: 'nested',
+      icon: 'partner',
       roles: ['admin']
     },
     children: [
@@ -380,7 +380,7 @@ export const asyncRoutes = [
     name: 'operation',
     meta: {
       title: '运营',
-      icon: 'example',
+      icon: 'yunying',
       roles: ['admin']
     },
     children: [
@@ -407,7 +407,7 @@ export const asyncRoutes = [
     name: 'userFeedback',
     meta: {
       title: '用户反馈',
-      icon: 'nested',
+      icon: 'feedback',
       roles: ['admin']
     },
     children: [
@@ -434,7 +434,7 @@ export const asyncRoutes = [
     name: 'banner',
     meta: {
       title: 'banner管理',
-      icon: 'dashboard',
+      icon: 'banner',
       roles: ['admin']
     },
     children: [
@@ -454,7 +454,7 @@ export const asyncRoutes = [
     name: 'dataStatistics',
     meta: {
       title: '数据统计',
-      icon: 'dashboard',
+      icon: 'data',
       roles: ['admin']
     },
     children: [
@@ -481,6 +481,12 @@ export const asyncRoutes = [
         name: 'financialStat',
         component: () => import('@/views/dataStatistics/financialStat'),
         meta: { title: '财务报表' }
+      },
+      {
+        path: 'VirtualStatistics',
+        name: 'VirtualStatistics',
+        component: () => import('@/views/dataStatistics/VirtualStatistics'),
+        meta: { title: '虚拟通讯录统计' }
       },
       {
         path: 'dataChart',

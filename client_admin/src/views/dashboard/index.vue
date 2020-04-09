@@ -24,21 +24,22 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column prop="id" label="ID" min-width="80" show-overflow-tooltip />
+      <el-table-column prop="id" label="ID" min-width="60" show-overflow-tooltip />
       <el-table-column prop="userName" label="用户名称" min-width="100" show-overflow-tooltip />
       <el-table-column prop="mobile" label="用户手机号" min-width="100" show-overflow-tooltip>
         <template v-slot="scope">
           <span>{{ scope.row.mobile | formatTel }}</span>
         </template>
       </el-table-column>
+      <el-table-column prop="platform" :formatter="platformFormate" label="平台渠道" min-width="80" show-overflow-tooltip />
       <el-table-column prop="isMember" label="是否已成会员" min-width="60" show-overflow-tooltip>
         <template v-slot="scope">
           <span>{{ scope.row.isMember?'是':'否' }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="memberEndTime" label="会员到期日" min-width="160" show-overflow-tooltip />
+      <el-table-column prop="memberEndTime" label="会员到期日" min-width="150" show-overflow-tooltip />
       <el-table-column prop="addTime" label="注册时间" min-width="160" show-overflow-tooltip />
-      <el-table-column prop="pchannel" label="渠道" min-width="120" show-overflow-tooltip>
+      <el-table-column prop="pchannel" label="注册方式" min-width="110" show-overflow-tooltip>
         <template v-slot="scope">
           <span>{{ scope.row.pchannel | pchannel }}</span>
         </template>
@@ -59,7 +60,7 @@
           <span style="cursor: pointer;color: #409EFF;" @click="look(scope.row)">{{ scope.row.inviteUserCount }}</span>
         </template>
       </el-table-column>
-<!--      <el-table-column prop="inviteUserCount" label="下级用户数" min-width="150" show-overflow-tooltip></el-table-column>-->
+      <!--      <el-table-column prop="inviteUserCount" label="下级用户数" min-width="150" show-overflow-tooltip></el-table-column>-->
       <el-table-column prop="inviteUserCount" label="设置用户类型" min-width="110" show-overflow-tooltip>
         <template v-slot="scope">
           <span style="cursor: pointer;color: #409EFF;" @click="setPartner(scope.row)">{{ scope.row.partner===0 || scope.row.partner===null?'设置为合伙人':'取消合伙人' }}</span>
@@ -189,6 +190,15 @@ export default {
     // 修改合伙人配置成功回调
     success() {
       this.loadList()
+    },
+    // 注册渠道
+    platformFormate(row, column, cellValue) {
+      console.log(cellValue)
+      if (cellValue == 'platform_app_mobile') {
+        return 'APP注册'
+      } else {
+        return '公众号注册'
+      }
     },
     // 修改合伙人配置
     changePartner(row) {

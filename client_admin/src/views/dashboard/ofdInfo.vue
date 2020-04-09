@@ -1,43 +1,47 @@
 <template>
-  <div class="ofdInfo">
+  <div class="ofdInfo" v-loading="loading">
     <el-card  class="box-card">
-      <div slot="header" class="clearfix">
-        <span>用户总数</span>
-      </div>
       <div>
-        <el-input
-          v-model="ofdInfoData.userTotalCount"
-          :disabled="true"/>
+        <el-table
+          :data="userCount"
+          border>
+          <el-table-column label="用户总数" prop="userTotalCount"></el-table-column>
+          <el-table-column label="APP用户数" prop="appUserCount"></el-table-column>
+          <el-table-column label="公众号用户数" prop="gzhUserCount"></el-table-column>
+        </el-table>
       </div>
     </el-card>
     <el-card  class="box-card" style="margin-top: 40px">
-      <div slot="header" class="clearfix">
-        <span>会员数量</span>
-      </div>
       <div>
-        <el-input
-          v-model="ofdInfoData.vipCount"
-          :disabled="true"/>
+        <el-table
+          :data="VIPCount"
+          border>
+          <el-table-column label="会员总数" prop="vipCount"></el-table-column>
+          <el-table-column label="APP会员数" prop="appVipUserCount"></el-table-column>
+          <el-table-column label="公众号会员数" prop="gzhVipUserCount"></el-table-column>
+        </el-table>
       </div>
     </el-card>
     <el-card  class="box-card" style="margin-top: 40px">
-      <div slot="header" class="clearfix">
-        <span>正常用户</span>
-      </div>
       <div>
-        <el-input
-          v-model="ofdInfoData.vipNormalCount"
-          :disabled="true"/>
+        <el-table
+          :data="normalConut"
+          border>
+          <el-table-column label="正常会员数" prop="vipNormalCount"></el-table-column>
+          <el-table-column label="APP正常会员数" prop="vipWXNormalCount"></el-table-column>
+          <el-table-column label="公众号正常会员数" prop="appAPPVipUserCount"></el-table-column>
+        </el-table>
       </div>
     </el-card>
     <el-card  class="box-card" style="margin-top: 40px">
-      <div slot="header" class="clearfix">
-        <span>过期用户</span>
-      </div>
       <div>
-        <el-input
-          v-model="ofdInfoData.vipOfdCount"
-          :disabled="true"/>
+        <el-table
+          :data="ofdUserCount"
+          border>
+          <el-table-column label="会员过期总人数" prop="vipOfdCount"></el-table-column>
+          <el-table-column label="APP会员过期人数数" prop="appOfdUserCount"></el-table-column>
+          <el-table-column label="公众号会员过期人数" prop="gzhOfdUserCount"></el-table-column>
+        </el-table>
       </div>
     </el-card>
   </div>
@@ -48,7 +52,12 @@ import { ofdInfo } from '../../api/userManage'
 export default {
   data() {
     return {
-      ofdInfoData: ''
+      ofdInfoData: '',
+      userCount: [],
+      VIPCount: [],
+      normalConut: [],
+      ofdUserCount:[],
+      loading: true
     }
   },
   created() {
@@ -58,6 +67,27 @@ export default {
     initData() {
       ofdInfo().then(res => {
         this.ofdInfoData = res.data
+        this.userCount = [{
+          gzhUserCount: this.ofdInfoData.gzhUserCount,
+          appUserCount: this.ofdInfoData.appUserCount,
+          userTotalCount: this.ofdInfoData.userTotalCount
+        }]
+        this.VIPCount = [{
+          vipCount: this.ofdInfoData.vipCount,
+          gzhVipUserCount: this.ofdInfoData.gzhVipUserCount,
+          appVipUserCount: this.ofdInfoData.appVipUserCount
+        }]
+        this.normalConut = [{
+          vipNormalCount: this.ofdInfoData.vipNormalCount,
+          vipWXNormalCount: this.ofdInfoData.gzhVipUserCount - this.ofdInfoData.appOfdUserCount,
+          appAPPVipUserCount:  this.ofdInfoData.appVipUserCount - this.ofdInfoData.gzhOfdUserCount
+        }]
+        this.ofdUserCount = [{
+          vipOfdCount: this.ofdInfoData.vipOfdCount,
+          appOfdUserCount: this.ofdInfoData.appOfdUserCount,
+          gzhOfdUserCount: this.ofdInfoData.gzhOfdUserCount
+        }]
+        this.loading = false
       })
     }
   }

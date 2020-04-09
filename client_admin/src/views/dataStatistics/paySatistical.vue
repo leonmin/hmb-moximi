@@ -413,7 +413,7 @@ export default {
           name: '正常付费',
           type: 'bar',
           barGap: 0,
-          barWidth:20,
+          barWidth: 20,
           label: labelOption,
           data: that.payPriceNormal
         },
@@ -467,10 +467,10 @@ export default {
 
 <style scoped>
 #main{
-  margin: 40px 0;
+  /*margin: 40px 0;*/
 }
 #payCountChart,#payPriceChart{
-  width: calc(100% - 180px);
+  /*width: calc(100% - 180px);*/
   margin:30px 0;
   height: 300px;
 }

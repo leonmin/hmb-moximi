@@ -338,7 +338,7 @@ export default {
     // 绘制图表支付
     drawLinePay() {
       console.log('x的长度0', this.xAxis.length)
-      if (this.xAxis.length <= 6) {
+      if (this.xAxis.length <= 30) {
         this.isdataZoom = null
       } else {
         this.isdataZoom = {
@@ -346,9 +346,9 @@ export default {
           show: true,
           xAxisIndex: [0],
           left: '4%',
-          bottom: -25,
+          bottom: -20,
           start: 0,
-          end: 70
+          end: 50
         }
       }
       var _this = this
@@ -400,7 +400,7 @@ export default {
     //  绘制支付卡图表
     drawLineCard() {
       console.log('x的长度1', this.xAxis.length)
-      if (this.xAxis.length <= 6) {
+      if (this.xAxis.length <= 30) {
         this.isdataZoom = null
       } else {
         this.isdataZoom = {
@@ -408,9 +408,9 @@ export default {
           show: true,
           xAxisIndex: [0],
           left: '4%',
-          bottom: -25,
+          bottom: -20,
           start: 0,
-          end: 70
+          end: 50
         }
       }
       var _this = this
@@ -481,8 +481,8 @@ export default {
         grid: {
           top: '12%',
           left: '3%',
-          right: '4%',
-          bottom: '3%',
+          right: '0%',
+          bottom: '1%',
           containLabel: true
         },
         toolbox: {
@@ -565,7 +565,7 @@ export default {
   #myChartPay,#myChartCard,#myChartRenewal,#myChartWeekCard{
     /*width: calc(100% - 220px);*/
     margin:30px;
-    height: 250px;
+    height: 260px;
   }
   .time{
     margin-top: 30px;

@@ -16,7 +16,27 @@
         @change="timeChange"
       />
     </div>
+    <!--    收入 返佣 提现图标-->
     <div id="myChart" />
+    <!--    支付渠道统计-->
+    <el-table
+      :data="tableData"
+      style="width: 90%;margin:auto;margin-bottom: 40px;margin-top: 50px"
+      border
+      size="mini"
+    >
+      <el-table-column prop="begin" label="时间" min-width="120" show-overflow-tooltip>
+        <template v-slot="scope">
+          <span>{{ scope.row.begin.split(' ')[0] }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="countOrderPayWxgzh" :formatter="dataFormate" label="公众号支付数" min-width="120" show-overflow-tooltip />
+      <el-table-column prop="sumOrderPayWxgzh" :formatter="dataFormate" label="公众号支付金额" min-width="120" show-overflow-tooltip />
+      <el-table-column prop="countOrderPayWxApp" :formatter="dataFormate" label="APP微信支付数" min-width="120" show-overflow-tooltip />
+      <el-table-column prop="sumOrderPayWxApp" :formatter="dataFormate" label="APP微信支付金额" min-width="120" show-overflow-tooltip />
+      <el-table-column prop="countOrderPayAliApp" :formatter="dataFormate" label="APP支付宝支付数" min-width="120" show-overflow-tooltip />
+      <el-table-column prop="sumOrderPayAliApp" :formatter="dataFormate" label="APP支付宝支付金额" min-width="120" show-overflow-tooltip />
+    </el-table>
   </div>
 </template>
 
@@ -65,7 +85,8 @@ export default {
       legend: ['收入', '返佣', '提现'],
       xAxis: [],
       series: [],
-      isDatazoom: false
+      isDatazoom: false,
+      tableData:[]
     }
   },
   mounted() {
@@ -94,15 +115,26 @@ export default {
       }
       this.initData()
     },
+    dataFormate(row, column, cellValue) {
+      console.log(cellValue)
+      if (cellValue == null) {
+        cellValue = 0
+        return cellValue
+      } else {
+        return cellValue
+      }
+    },
     // 初始化数据
     initData() {
       this.xAxis = []
       this.series = []
+      this.channelSeries = []
       const params = {
         begin: this.begin,
         end: this.end
       }
       dataMonth(params).then(res => {
+        this.tableData = res.data
         var income = [] // 收入
         var commission = [] // 返佣
         var withdrawal = [] // 提现
@@ -153,7 +185,7 @@ export default {
     // 绘制图表
     drawLine() {
       console.log('x长度', this.xAxis)
-      if (this.xAxis.length <= 6) {
+      if (this.xAxis.length <= 8) {
         this.isDatazoom = null
       } else {
         this.isDatazoom = {
@@ -216,10 +248,13 @@ export default {
 </script>
 
 <style scoped>
-  #myChart{
-    width: calc(100% - 180px);
-    margin:30px;
+  #myChart,#channelChart{
+    /*width: calc(100% - 180px);*/
+    /*margin:30px;*/
     height: 600px;
+  }
+  #channelChart{
+    margin-top: 30px;
   }
   .time{
     margin-top: 30px;

@@ -10,6 +10,14 @@
           style="width: 220px"
           clearable
         />
+        <el-select v-model="selectValue" clearable placeholder="请选择支付渠道" @change="selectChange">
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
       </div>
       <el-button type="primary" class="searchBtn" @click="seachList">查询</el-button>
     </div>
@@ -59,6 +67,13 @@
         min-width="80"
         show-overflow-tooltip
         :formatter="changeMobile"
+      />
+      <el-table-column
+        prop="payChannel"
+        label="支付渠道"
+        min-width="80"
+        :formatter="payChannelFormate"
+        show-overflow-tooltip
       />
       <el-table-column
         prop="couponPrice"
@@ -151,7 +166,24 @@ export default {
       pageSize: 10, // 每页的数据条数
       orderInput: '',
       totalPage: 1, // 总页数
-      loading: false
+      loading: false,
+      selectValue: '',
+      options: [
+        {
+          value: '',
+          label: '全部'
+        },
+        {
+          value: 'pay_app_gzh',
+          label: '公众号支付'
+        }, {
+          value: 'pay_app_wx',
+          label: 'APP微信支付'
+        }, {
+          value: 'pay_app_ali',
+          label: 'APP支付宝支付'
+        }],
+      payChannel: ''
     }
   },
   mounted() {
@@ -159,12 +191,29 @@ export default {
     this.initData()
   },
   methods: {
-  //  初始化数据
+  //  表格渠道
+    payChannelFormate(row, column, cellValue) {
+      if (cellValue == 'pay_app_ali') {
+        return '支付宝支付'
+      } else if (cellValue == 'pay_app_wx') {
+        return '微信APP支付'
+      } else if (cellValue == 'pay_app_gzh') {
+        return '微信公众号支付'
+      }
+    },
+    //  渠道衩裙
+    selectChange(value) {
+      console.log(value)
+      this.payChannel = value
+      this.initData()
+    },
+    //  初始化数据
     initData() {
       this.loading = true
       const params = {
         page: this.currentPage,
-        searchKey: this.orderInput
+        searchKey: this.orderInput,
+        payChannel: this.payChannel
       }
       orderList(params).then(res => {
         this.tableData = res.data.records

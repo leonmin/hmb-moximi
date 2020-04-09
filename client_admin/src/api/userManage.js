@@ -304,3 +304,12 @@ export function profitList(data) {
     params: data
   })
 }
+
+// 提成明细
+export function addressBookStats(data) {
+  return request({
+    url: '/admin/statistics/phoneBak/stats',
+    method: 'get',
+    params: data
+  })
+}
