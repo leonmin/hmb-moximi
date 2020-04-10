@@ -1,46 +1,41 @@
 <template>
-  <div class="ofdInfo" v-loading="loading">
-    <el-card  class="box-card">
+  <div v-loading="loading" class="ofdInfo">
+    <el-card class="box-card">
       <div>
         <el-table
           :data="userCount"
-          border>
-          <el-table-column label="用户总数" prop="userTotalCount"></el-table-column>
-          <el-table-column label="APP用户数" prop="appUserCount"></el-table-column>
-          <el-table-column label="公众号用户数" prop="gzhUserCount"></el-table-column>
+          border
+        >
+          <el-table-column label="用户总数" prop="userTotalCount" />
+          <el-table-column label="会员总数" prop="vipCount" />
+          <el-table-column label="正常会员总数" prop="vipNormalCount" />
+          <el-table-column label="会员过期总数" prop="vipOfdCount" />
         </el-table>
       </div>
     </el-card>
-    <el-card  class="box-card" style="margin-top: 40px">
+    <el-card class="box-card" style="margin-top: 40px">
       <div>
         <el-table
-          :data="VIPCount"
-          border>
-          <el-table-column label="会员总数" prop="vipCount"></el-table-column>
-          <el-table-column label="APP会员数" prop="appVipUserCount"></el-table-column>
-          <el-table-column label="公众号会员数" prop="gzhVipUserCount"></el-table-column>
+          :data="AppCount"
+          border
+        >
+          <el-table-column label="APP用户总数" prop="appUserCount" />
+          <el-table-column label="APP会员数" prop="appVipUserCount" />
+          <el-table-column label="APP正常会员数" prop="appAPPVipUserCount" />
+          <el-table-column label="APP过期会员数" prop="appOfdUserCount" />
         </el-table>
       </div>
     </el-card>
-    <el-card  class="box-card" style="margin-top: 40px">
+    <el-card class="box-card" style="margin-top: 40px">
       <div>
         <el-table
-          :data="normalConut"
-          border>
-          <el-table-column label="正常会员数" prop="vipNormalCount"></el-table-column>
-          <el-table-column label="APP正常会员数" prop="vipWXNormalCount"></el-table-column>
-          <el-table-column label="公众号正常会员数" prop="appAPPVipUserCount"></el-table-column>
-        </el-table>
-      </div>
-    </el-card>
-    <el-card  class="box-card" style="margin-top: 40px">
-      <div>
-        <el-table
-          :data="ofdUserCount"
-          border>
-          <el-table-column label="会员过期总人数" prop="vipOfdCount"></el-table-column>
-          <el-table-column label="APP会员过期人数数" prop="appOfdUserCount"></el-table-column>
-          <el-table-column label="公众号会员过期人数" prop="gzhOfdUserCount"></el-table-column>
+          :data="WxCount"
+          border
+        >
+          <el-table-column label="公众号用户总数" prop="gzhUserCount" />
+          <el-table-column label="公众号会员数" prop="gzhVipUserCount" />
+          <el-table-column label="公众号正常会员数" prop="gzhNormalVipUserCount" />
+          <el-table-column label="公众号过期会员数" prop="gzhOfdUserCount" />
         </el-table>
       </div>
     </el-card>
@@ -54,9 +49,8 @@ export default {
     return {
       ofdInfoData: '',
       userCount: [],
-      VIPCount: [],
-      normalConut: [],
-      ofdUserCount:[],
+      AppCount: [],
+      WxCount: [],
       loading: true
     }
   },
@@ -68,23 +62,21 @@ export default {
       ofdInfo().then(res => {
         this.ofdInfoData = res.data
         this.userCount = [{
+          userTotalCount: this.ofdInfoData.userTotalCount, // 用户总数
+          vipCount: this.ofdInfoData.vipCount, // 会员总数
+          vipNormalCount: this.ofdInfoData.vipNormalCount, // 正常会员总数
+          vipOfdCount: this.ofdInfoData.vipOfdCount// 会员过期总数
+        }]
+        this.AppCount = [{
+          appUserCount: this.ofdInfoData.appUserCount, // APP用户总数
+          appVipUserCount: this.ofdInfoData.appVipUserCount, // APP会员数
+          appAPPVipUserCount: this.ofdInfoData.appVipUserCount - this.ofdInfoData.appOfdUserCount, // APP正常会员数
+          appOfdUserCount: this.ofdInfoData.appOfdUserCount// APP过期会员数
+        }]
+        this.WxCount = [{
           gzhUserCount: this.ofdInfoData.gzhUserCount,
-          appUserCount: this.ofdInfoData.appUserCount,
-          userTotalCount: this.ofdInfoData.userTotalCount
-        }]
-        this.VIPCount = [{
-          vipCount: this.ofdInfoData.vipCount,
           gzhVipUserCount: this.ofdInfoData.gzhVipUserCount,
-          appVipUserCount: this.ofdInfoData.appVipUserCount
-        }]
-        this.normalConut = [{
-          vipNormalCount: this.ofdInfoData.vipNormalCount,
-          vipWXNormalCount: this.ofdInfoData.gzhVipUserCount - this.ofdInfoData.gzhOfdUserCount,
-          appAPPVipUserCount: this.ofdInfoData.appVipUserCount - this.ofdInfoData.appOfdUserCount
-        }]
-        this.ofdUserCount = [{
-          vipOfdCount: this.ofdInfoData.vipOfdCount,
-          appOfdUserCount: this.ofdInfoData.appOfdUserCount,
+          gzhNormalVipUserCount: this.ofdInfoData.gzhVipUserCount - this.ofdInfoData.gzhOfdUserCount,
           gzhOfdUserCount: this.ofdInfoData.gzhOfdUserCount
         }]
         this.loading = false
