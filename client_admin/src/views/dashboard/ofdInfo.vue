@@ -79,8 +79,8 @@ export default {
         }]
         this.normalConut = [{
           vipNormalCount: this.ofdInfoData.vipNormalCount,
-          vipWXNormalCount: this.ofdInfoData.gzhVipUserCount - this.ofdInfoData.appOfdUserCount,
-          appAPPVipUserCount:  this.ofdInfoData.appVipUserCount - this.ofdInfoData.gzhOfdUserCount
+          vipWXNormalCount: this.ofdInfoData.gzhVipUserCount - this.ofdInfoData.gzhOfdUserCount,
+          appAPPVipUserCount: this.ofdInfoData.appVipUserCount - this.ofdInfoData.appOfdUserCount
         }]
         this.ofdUserCount = [{
           vipOfdCount: this.ofdInfoData.vipOfdCount,
