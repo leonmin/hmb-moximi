@@ -31,11 +31,23 @@
         </template>
       </el-table-column>
       <el-table-column prop="countOrderPayWxgzh" :formatter="dataFormate" label="公众号支付数" min-width="120" show-overflow-tooltip />
-      <el-table-column prop="sumOrderPayWxgzh" :formatter="dataFormate" label="公众号支付金额" min-width="120" show-overflow-tooltip />
+      <el-table-column prop="sumOrderPayWxgzh" label="公众号支付金额" min-width="120" show-overflow-tooltip>
+        <template v-slot="scope">
+          <span>{{ scope.row.sumOrderPayWxgzh/100}}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="countOrderPayWxApp" :formatter="dataFormate" label="APP微信支付数" min-width="120" show-overflow-tooltip />
-      <el-table-column prop="sumOrderPayWxApp" :formatter="dataFormate" label="APP微信支付金额" min-width="120" show-overflow-tooltip />
+      <el-table-column prop="sumOrderPayWxApp" label="APP微信支付金额" min-width="120" show-overflow-tooltip>
+        <template v-slot="scope">
+          <span>{{ scope.row.sumOrderPayWxApp/100}}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="countOrderPayAliApp" :formatter="dataFormate" label="APP支付宝支付数" min-width="120" show-overflow-tooltip />
-      <el-table-column prop="sumOrderPayAliApp" :formatter="dataFormate" label="APP支付宝支付金额" min-width="120" show-overflow-tooltip />
+      <el-table-column prop="sumOrderPayAliApp" label="APP支付宝支付金额" min-width="120" show-overflow-tooltip>
+        <template v-slot="scope">
+          <span>{{ scope.row.sumOrderPayAliApp/100}}</span>
+        </template>
+      </el-table-column>
     </el-table>
   </div>
 </template>
@@ -185,7 +197,7 @@ export default {
     // 绘制图表
     drawLine() {
       console.log('x长度', this.xAxis)
-      if (this.xAxis.length <= 8) {
+      if (this.xAxis.length <= 15) {
         this.isDatazoom = null
       } else {
         this.isDatazoom = {
