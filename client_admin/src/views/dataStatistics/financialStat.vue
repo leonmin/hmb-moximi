@@ -23,6 +23,7 @@
       :data="tableData"
       style="width: 90%;margin:auto;margin-bottom: 40px;margin-top: 50px"
       border
+      show-summary
       size="mini"
     >
       <el-table-column prop="begin" label="时间" min-width="120" show-overflow-tooltip>
@@ -30,6 +31,7 @@
           <span>{{ scope.row.begin.split(' ')[0] }}</span>
         </template>
       </el-table-column>
+      <el-table-column prop="orderWeekShare" label="周卡订单数" min-width="120" show-overflow-tooltip />
       <el-table-column prop="countOrderPayWxgzh" :formatter="dataFormate" label="公众号支付数" min-width="120" show-overflow-tooltip />
       <el-table-column prop="sumOrderPayWxgzh" label="公众号支付金额" min-width="120" show-overflow-tooltip>
         <template v-slot="scope">
