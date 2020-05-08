@@ -28,7 +28,7 @@
           <div class="lineContent1">未使用数</div>
           <div class="lineContent2">{{ row.unUseCount }}</div>
           <div class="lineContent1">合伙人</div>
-          <div class="lineContent2">{{ row.partnerName }}</div>
+          <div class="lineContent2">{{ row.partnerName | formateName }}</div>
         </div>
       </div>
     </el-card>
@@ -48,6 +48,11 @@
           </template>
         </el-table-column>
         <el-table-column prop="username" label="使用用户" min-width="100" show-overflow-tooltip />
+        <el-table-column prop="username" label="使用用户" min-width="120" show-overflow-tooltip>
+          <template slot-scope="scope">
+            <span>{{ scope.row.username | formateName }}</span>
+          </template>
+        </el-table-column>
         <el-table-column prop="mobile" label="用户手机号" min-width="120" show-overflow-tooltip>
           <template slot-scope="scope">
             <span>{{ scope.row.mobile | formatTel }}</span>

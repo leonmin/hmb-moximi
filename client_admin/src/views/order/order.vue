@@ -55,12 +55,11 @@
         min-width="120"
         show-overflow-tooltip
       />
-      <el-table-column
-        prop="userName"
-        label="支付用户名"
-        min-width="80"
-        show-overflow-tooltip
-      />
+      <el-table-column prop="userName" label="支付用户名" min-width="90">
+        <template slot-scope="scope">
+          <span>{{scope.row.userName | formateName}}</span>
+        </template>
+      </el-table-column>
       <el-table-column
         prop="mobile"
         label="支付手机号"

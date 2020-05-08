@@ -67,10 +67,18 @@
               border
               :data="usedData"
             >
+<!--              <el-table-column-->
+<!--                prop="userName"-->
+<!--                label="领取用户"-->
+<!--              />-->
               <el-table-column
                 prop="userName"
                 label="领取用户"
-              />
+              >
+                <template v-slot="scope">
+                  <span>{{ scope.row.userName | formateName }}</span>
+                </template>
+              </el-table-column>
               <el-table-column
                 prop="mobile"
                 label="用户手机号"

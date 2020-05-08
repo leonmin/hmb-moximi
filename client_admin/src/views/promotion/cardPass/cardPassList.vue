@@ -35,7 +35,12 @@
           <span>{{ scope.row.endDate | formatDate }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="partnerName" label="合伙人" min-width="100" show-overflow-tooltip />
+<!--      <el-table-column prop="partnerName" label="合伙人" min-width="100" show-overflow-tooltip />-->
+      <el-table-column prop="partnerName" label="合伙人" min-width="90" show-overflow-tooltip>
+        <template slot-scope="scope">
+          <span>{{ scope.row.partnerName | formateName }}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="status" label="状态" min-width="100" show-overflow-tooltip>
         <template slot-scope="scope">
           <span>{{ scope.row.status | status }}</span>

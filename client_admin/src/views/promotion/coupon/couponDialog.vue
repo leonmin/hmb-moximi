@@ -20,7 +20,12 @@
           <div style="font-weight: bold;margin-bottom: 10px;float: right;margin-top: -30px;margin-right: 365px">已选列表</div>
           <el-table ref="multipleTable" border :row-key="getRowKeys" :data="tableData" tooltip-effect="dark" class="table" :height="550" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55" :reserve-selection="true" />
-            <el-table-column prop="userName" label="用户名" show-overflow-tooltip min-width="120" />
+<!--            <el-table-column prop="userName" label="用户名" show-overflow-tooltip min-width="120" />-->
+            <el-table-column prop="userName" label="用户名" show-overflow-tooltip min-width="120">
+              <template v-slot="scope">
+                <span>{{ scope.row.userName | formateName }}</span>
+              </template>
+            </el-table-column>
             <el-table-column prop="mobile" label="用户手机号" show-overflow-tooltip min-width="120">
               <template v-slot="scope">
                 <span>{{ scope.row.mobile | formatTel }}</span>
