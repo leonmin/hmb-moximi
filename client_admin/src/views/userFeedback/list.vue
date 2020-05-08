@@ -12,7 +12,12 @@
     </el-form>
     <!--表格-->
     <el-table :data="tableData" style="width: 95%;margin-left: 40px;" border :height="fullHeight-220+'px'">
-      <el-table-column prop="username" label="用户名" min-width="150" show-overflow-tooltip />
+<!--      <el-table-column prop="username" label="用户名" min-width="150" show-overflow-tooltip />-->
+      <el-table-column prop="username" label="用户名" min-width="150" show-overflow-tooltip>
+        <template v-slot="scope">
+          <span>{{ scope.row.username | formateName }}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="mobile" label="用户手机号" min-width="150" show-overflow-tooltip>
         <template v-slot="scope">
           <span>{{ scope.row.mobile | formatTel }}</span>

@@ -31,12 +31,16 @@ Vue.filter('formateName', function(value) {
   if (!value) return ''
   value = value.toString()
   var result
-  if (value.length <= 6) {
-    result = value.substr(0, 1) + '****' + value.substr(5)
-  } else if( value.length >= 11){
+  var star = ''
+  if (value.length < 6) {
+    for (let i = 0; i < value.length - 1; i++) {
+      star = star + '*'
+    }
+    result = value.substr(0, 1) + star
+  } else if (value.length >= 11) {
     result = value.substr(0, 5) + '****' + value.substr(9)
-  }else {
-    result = value.substr(0, 2) + '****' + value.substr(5)
+  } else {
+    result = value.substr(0, 1) + '****' + value.substr(5)
   }
   return result
 })

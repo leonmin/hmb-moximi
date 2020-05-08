@@ -8,7 +8,7 @@
       <el-row class="el-row">
         <el-col :span="6">
           <span class="left-font">用户名:</span>
-          <span class="right-font">{{ row.username }}</span>
+          <span class="right-font">{{ row.username |formateName }}</span>
         </el-col>
         <el-col :span="6">
           <span class="left-font">用户手机号:</span>

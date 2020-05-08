@@ -13,7 +13,12 @@
     <!--表格-->
     <el-table :data="tableData" style="width: 95%;margin-left: 40px;" border :height="fullHeight-220+'px'">
       <el-table-column prop="id" label="序号" min-width="150" show-overflow-tooltip />
-      <el-table-column prop="userName" label="合伙人用户名" min-width="150" show-overflow-tooltip />
+<!--      <el-table-column prop="userName" label="合伙人用户名" min-width="150" show-overflow-tooltip />-->
+      <el-table-column prop="userName" label="合伙人用户名" min-width="180" show-overflow-tooltip>
+        <template slot-scope="scope">
+          <span>{{ scope.row.userName | formateName }}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="mobile" label="合伙人手机号" min-width="180" show-overflow-tooltip>
         <template slot-scope="scope">
           <span>{{ scope.row.mobile | formatTel }}</span>
