@@ -34,3 +34,30 @@ export function updateTicheng(data) {
     data
   })
 }
+
+// 敏感词列表
+export function SENLIST(data) {
+  return request({
+    url: '/admin/sensitive/list',
+    method: 'get',
+    params: data
+  })
+}
+
+// 敏感词列表
+export function SENdelete(data) {
+  return request({
+    url: '/admin/sensitive/delete',
+    method: 'get',
+    params: data
+  })
+}
+
+// 敏感词列表
+export function SENadd(data) {
+  return request({
+    url: '/admin/sensitive/add',
+    method: 'get',
+    params: data
+  })
+}

@@ -256,6 +256,12 @@ export const asyncRoutes = [
         name: 'couponGiveOut',
         component: () => import('@/views/configCentre/couponGiveOut'),
         meta: { title: '优惠券发放配置' }
+      },
+      {
+        path: 'sensitiveConfig',
+        name: 'sensitiveConfig',
+        component: () => import('@/views/configCentre/sensitiveConfig'),
+        meta: { title: '敏感词配置' }
       }
     ]
   },
