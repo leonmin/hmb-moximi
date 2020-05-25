@@ -35,19 +35,24 @@
       <el-table-column prop="countOrderPayWxgzh" :formatter="dataFormate" label="公众号支付数" min-width="120" show-overflow-tooltip />
       <el-table-column prop="sumOrderPayWxgzh" label="公众号支付金额" min-width="120" show-overflow-tooltip>
         <template v-slot="scope">
-          <span>{{ scope.row.sumOrderPayWxgzh/100}}</span>
+          <span>{{ scope.row.sumOrderPayWxgzh }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="countOrderPayWxApp" :formatter="dataFormate" label="APP微信支付数" min-width="120" show-overflow-tooltip />
       <el-table-column prop="sumOrderPayWxApp" label="APP微信支付金额" min-width="120" show-overflow-tooltip>
         <template v-slot="scope">
-          <span>{{ scope.row.sumOrderPayWxApp/100}}</span>
+          <span>{{ scope.row.sumOrderPayWxApp }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="countOrderPayAliApp" :formatter="dataFormate" label="APP支付宝支付数" min-width="120" show-overflow-tooltip />
       <el-table-column prop="sumOrderPayAliApp" label="APP支付宝支付金额" min-width="120" show-overflow-tooltip>
         <template v-slot="scope">
-          <span>{{ scope.row.sumOrderPayAliApp/100}}</span>
+          <span>{{ scope.row.sumOrderPayAliApp }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="sumPayProfit" label="提成" min-width="120" show-overflow-tooltip>
+        <template v-slot="scope">
+          <span>{{ scope.row.sumPayProfit }}</span>
         </template>
       </el-table-column>
     </el-table>
@@ -100,7 +105,7 @@ export default {
       xAxis: [],
       series: [],
       isDatazoom: false,
-      tableData:[]
+      tableData: []
     }
   },
   mounted() {
@@ -130,7 +135,6 @@ export default {
       this.initData()
     },
     dataFormate(row, column, cellValue) {
-      console.log(cellValue)
       if (cellValue == null) {
         cellValue = 0
         return cellValue
@@ -149,6 +153,12 @@ export default {
       }
       dataMonth(params).then(res => {
         this.tableData = res.data
+        this.tableData.forEach((item, index) => {
+          this.tableData[index].sumPayProfit = item.sumPayProfit / 100
+          this.tableData[index].sumOrderPayWxgzh = item.sumOrderPayWxgzh / 100
+          this.tableData[index].sumOrderPayWxApp = item.sumOrderPayWxApp / 100
+          this.tableData[index].sumOrderPayAliApp = item.sumOrderPayAliApp / 100
+        })
         var income = [] // 收入
         var commission = [] // 返佣
         var withdrawal = [] // 提现
@@ -158,6 +168,7 @@ export default {
           income.push(res.data[i].sumPayPrice / 100)
           commission.push(res.data[i].sumPayProfit / 100)
           withdrawal.push(res.data[i].sumCashOut / 100)
+
           // spending.push(res.data[i].orderAllWeek - res.data[i].orderWeekShare)
           this.series = [
             {
@@ -198,7 +209,6 @@ export default {
     },
     // 绘制图表
     drawLine() {
-      console.log('x长度', this.xAxis)
       if (this.xAxis.length <= 15) {
         this.isDatazoom = null
       } else {

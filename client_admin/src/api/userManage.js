@@ -313,3 +313,10 @@ export function addressBookStats(data) {
     params: data
   })
 }
+export function regUserInfo(data) {
+  return request({
+    url: '/admin/statistics/regUserInfo',
+    method: 'get',
+    params: data
+  })
+}
