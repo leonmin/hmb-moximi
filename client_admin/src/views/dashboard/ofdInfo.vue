@@ -57,8 +57,8 @@
           border
           style="margin-top: 20px"
         >
+          <el-table-column label="注册用户" prop="countRegUser" />
           <el-table-column label="注册并绑定手机号" prop="countRegUserMobile" />
-          <el-table-column label="注册未绑定手机号" prop="countRegUser" />
 <!--          <el-table-column label="公众号正常会员数" prop="gzhNormalVipUserCount" />-->
 <!--          <el-table-column label="公众号过期会员数" prop="gzhOfdUserCount" />-->
         </el-table>
@@ -112,10 +112,10 @@ export default {
       }
       regUserInfo(params).then(res => {
         this.infoArr = [{
-          countRegUserMobile: res.countRegUserMobile,
-          countRegUserSubscribe: res.countRegUserSubscribe,
-          countRegUserPay: res.countRegUserPay,
-          countRegUser: res.countRegUser
+          countRegUserMobile: res.data.countRegUserMobile,
+          countRegUserSubscribe: res.data.countRegUserSubscribe,
+          countRegUserPay: res.data.countRegUserPay,
+          countRegUser: res.data.countRegUser
         }]
       })
     },
