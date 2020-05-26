@@ -166,7 +166,7 @@ export default {
         for (let i = 0; i < res.data.length; i++) {
           this.xAxis.push(this.dealDate(res.data[i].begin))
           income.push(res.data[i].sumPayPrice / 100)
-          commission.push(res.data[i].sumPayProfit / 100)
+          commission.push(res.data[i].sumPayProfit)
           withdrawal.push(res.data[i].sumCashOut / 100)
 
           // spending.push(res.data[i].orderAllWeek - res.data[i].orderWeekShare)
