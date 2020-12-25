@@ -5,6 +5,7 @@ import 'normalize.css/normalize.css' // A modern alternative to CSS resets
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import locale from 'element-ui/lib/locale/lang/zh-CN' // lang i18n
+import './components/global/index'
 
 import '@/styles/index.scss' // global css
 import App from './App'
@@ -47,8 +48,8 @@ Vue.filter('formateName', function(value) {
 
 // 分转元
 Vue.filter('formatMoney', function(number) {
-//     var number = +val.replace(/[^\d.]/g, '');
-  return isNaN(number) ? 0.00 : parseFloat((number / 100).toFixed(2))
+  //     var number = +val.replace(/[^\d.]/g, '');
+  return isNaN(number) ? 0.0 : parseFloat((number / 100).toFixed(2))
 })
 
 /* 判断是否过期*/
@@ -91,6 +92,9 @@ Vue.filter('formatDate', function(endTime) {
 // 引入echarts
 import echarts from 'echarts'
 Vue.prototype.$echarts = echarts
+
+import config from './config'
+Vue.prototype.$config = config
 
 /**
  * If you don't want to use mock-server

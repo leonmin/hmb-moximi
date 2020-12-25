@@ -8,6 +8,7 @@
     "dev": "vue-cli-service serve --open",
     "dep": "vue-cli-service serve --mode dep",
     "local": "vue-cli-service serve --mode localhost",
+    "build:dev": "vue-cli-service build --mode development",
     "build:prod": "vue-cli-service build",
     "build:dep": "vue-cli-service build --mode dep",
     "build:stage": "vue-cli-service build --mode staging",
@@ -22,6 +23,8 @@
     "clipboard": "^2.0.4",
     "echarts": "^4.6.0",
     "element-ui": "2.13.0",
+    "exceljs": "^4.2.0",
+    "file-saver": "^2.0.5",
     "js-cookie": "2.2.0",
     "lodash": "^4.17.15",
     "normalize.css": "7.0.0",
@@ -30,7 +33,8 @@
     "vue": "2.6.10",
     "vue-clipboard2": "^0.3.1",
     "vue-router": "3.0.6",
-    "vuex": "3.1.0"
+    "vuex": "3.1.0",
+    "xlsx": "^0.16.9"
   },
   "devDependencies": {
     "@babel/core": "7.0.0",

@@ -1,0 +1,77 @@
+.page {
+  padding: 20px;
+}
+.mo-form {
+  width: 80%;
+  margin: 0 auto;
+}
+.mo-form-item {
+  display: flex;
+  align-items: center;
+  .mo-select {
+    margin-right: 10px;
+  }
+}
+.mo-form-empty {
+  text-align: center;
+}
+.mo-dialog {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mo-rowcol {
+  border: 1px solid #ebeef5;
+}
+.mo-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  &:last-child .mo-col {
+    border-bottom: none;
+  }
+}
+.mo-th {
+  .mo-col {
+    color: #909399;
+    font-weight: 700;
+  }
+}
+.mo-col {
+  flex: 1;
+  font-size: 14px;
+  color: #606266;
+  height: 100%;
+  min-height: 50px;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  border-right: 1px solid #ebeef5;
+  border-bottom: 1px solid #ebeef5;
+  &:last-child {
+    border-right: none;
+  }
+}
+.mo-task {
+  display: flex;
+  flex-wrap: wrap;
+  .mo-task-item {
+    width: 50%;
+    padding: 0 20px 0 10px;
+  }
+}
+.mo-split {
+  width: 15px;
+  height: 2px;
+  background: #ccc;
+  margin: 0 10px;
+}
+.el-popconfirm {
+  .el-button--primary {
+    border-radius: 99px;
+  }
+}
+.el-loading-parent--relative {
+  min-height: 150px;
+}
