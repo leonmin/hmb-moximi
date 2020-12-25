@@ -160,6 +160,8 @@ export default {
         if (res && res.code === 0) {
           this.$message.success('保存成功')
           this.handleQuery()
+        } else {
+          this.$message.error('操作失败')
         }
       })
     },
