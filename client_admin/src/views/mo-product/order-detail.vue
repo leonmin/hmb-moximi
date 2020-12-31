@@ -21,8 +21,8 @@
   </div>
 </template>
 <script>
-import { json2excel } from '@/utils/excel'
-import { parseTime } from '@/utils'
+// import { json2excel } from '@/utils/excel'
+// import { parseTime } from '@/utils'
 import { orderList } from '@/api/mo-product'
 import { orderTypes } from '@/config'
 export default {
@@ -41,11 +41,11 @@ export default {
         data: [],
         columns: [
           { prop: 'no', label: '订单编号', minWidth: 100 },
-          { prop: 'prop2', label: '会员卡续费时间', minWidth: 100 },
+          { prop: 'days', label: '会员卡续费时间(天)', minWidth: 100 },
           { prop: 'price', label: '会员卡续费金额', minWidth: 100 },
           { prop: 'payTime', label: '支付时间', minWidth: 150 },
-          { prop: 'prop5', label: '支付用户名', minWidth: 100 },
-          { prop: 'prop6', label: '支付手机号', minWidth: 100 },
+          { prop: 'userName', label: '支付用户名', minWidth: 130 },
+          { prop: 'mobile', label: '支付手机号', minWidth: 120 },
           {
             prop: 'payChannel',
             label: '支付渠道',
@@ -106,29 +106,34 @@ export default {
           this.table.size = size
         }
       })
-    },
-    async handleExport() {
-      const name =
-        '提现统计_' + parseTime(new Date(), '{y}_{m}_{d}_{h}_{i}') + '.xlsx'
-      await json2excel(
-        name,
-        [
-          { header: '日期', key: 'no' },
-          { header: '会员卡续费时间', key: 'prop2' },
-          { header: '会员卡续费金额', key: 'price' },
-          { header: '支付时间', key: 'payTime' },
-          { header: '支付用户名', key: 'prop5' },
-          { header: '支付手机号', key: 'prop6' },
-          { header: '支付渠道', key: 'payChannel' },
-          { header: '是否使用优惠券', key: 'couponPrice' },
-          { header: '优惠券抵扣金额', key: 'couponPrice' },
-          { header: '实际支付金额', key: 'payPrice' },
-          { header: '提成金额', key: 'profit' },
-          { header: '订单状态', key: 'orderStatus' }
-        ],
-        this.table.data
-      )
     }
+    // async handleExport() {
+    //   const name =
+    //     '提现统计_' + parseTime(new Date(), '{y}_{m}_{d}_{h}_{i}') + '.xlsx'
+    //   const data = JSON.parse(JSON.stringify(this.table.data))
+    //   data.map(d => {
+    //     d.couponPrice1 = (d.couponPrice || 0) > 0 ? '是' : '否'
+    //     d.payChannel = (this.channel || {})[d.payChannel] || ''
+    //   })
+    //   await json2excel(
+    //     name,
+    //     [
+    //       { header: '日期', key: 'no' },
+    //       { header: '会员卡续费时间', key: 'days' },
+    //       { header: '会员卡续费金额', key: 'price' },
+    //       { header: '支付时间', key: 'payTime' },
+    //       { header: '支付用户名', key: 'userName' },
+    //       { header: '支付手机号', key: 'mobile' },
+    //       { header: '支付渠道', key: 'payChannel' },
+    //       { header: '是否使用优惠券', key: 'couponPrice1' },
+    //       { header: '优惠券抵扣金额', key: 'couponPrice' },
+    //       { header: '实际支付金额', key: 'payPrice' },
+    //       { header: '提成金额', key: 'profit' },
+    //       { header: '订单状态', key: 'orderStatus' }
+    //     ],
+    //     data
+    //   )
+    // }
   }
 }
 </script>

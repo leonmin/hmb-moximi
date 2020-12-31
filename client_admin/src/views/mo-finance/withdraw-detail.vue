@@ -47,8 +47,8 @@ export default {
           { prop: 'userName', label: '用户名', minWidth: 100 },
           { prop: 'mobile', label: '用户手机号', minWidth: 120 },
           { prop: 'fromChannel', label: '用户来源', minWidth: 100 },
-          { prop: 'cashAmount', label: '提现金额', minWidth: 100 },
-          { prop: 'fee', label: '手续费', minWidth: 100 },
+          { prop: 'fee', label: '提现金额', minWidth: 100 },
+          { prop: 'cashAmount', label: '手续费', minWidth: 100 },
           {
             prop: 'withdraw',
             label: '提现方式',
@@ -57,7 +57,15 @@ export default {
               return '微信'
             }
           },
-          { prop: 'aichatStatus', label: '是否开通魔小秘', minWidth: 100 },
+          {
+            prop: 'aichatStatus',
+            label: '是否开通魔小秘',
+            minWidth: 100,
+            render: (h, { row }) => {
+              const s = { '0': '否', '1': '是' }
+              return s[row.aichatStatus] || ''
+            }
+          },
           { prop: 'totalActive', label: '累计活跃天数', minWidth: 100 },
           { prop: 'mbBalance', label: '魔币余额', minWidth: 100 },
           { prop: 'applyStatus', label: '审核状态', minWidth: 100 },

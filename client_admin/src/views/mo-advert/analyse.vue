@@ -59,7 +59,7 @@ export default {
         data: [],
         columns: [
           { prop: 'day', label: '日期', minWidth: 100 },
-          { prop: 'adType', label: '广告类型', minWidth: 100 },
+          { prop: 'adTypeStr', label: '广告类型', minWidth: 100 },
           { prop: 'advertName', label: '广告主名称', minWidth: 100 },
           { prop: 'income', label: '收入', minWidth: 100 },
           {

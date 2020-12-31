@@ -26,8 +26,9 @@
         <div class="mo-form">
           <el-form-item label="广告类型:" prop="adType">
             <mc-select-type
-              disabled
+              :disabled="disabled"
               :value.sync="advertiser.adType"
+              :style="{ width: '100%' }"
             ></mc-select-type>
           </el-form-item>
           <el-form-item label="广告主名称:" prop="advertName">
@@ -76,6 +77,7 @@ export default {
       loading: false,
       show: false,
       showType: '0', // 0 新增 1 编辑
+      disabled: false,
       advertiser: {
         adType: null
       },
@@ -150,11 +152,13 @@ export default {
       }
     },
     handleAdAdd() {
+      this.disabled = false
       this.handleAdReset()
       this.show = true
       this.showType = '0'
     },
     handleEdit(row) {
+      this.disabled = true
       this.handleAdReset()
       this.advertiser = { ...row }
       this.show = true

@@ -19,6 +19,8 @@
       <el-dialog
         :visible.sync="show"
         :title="task.id ? 'ID: ' + task.id : '添加任务'"
+        top="30px"
+        width="780px"
         @close="show = false"
       >
         <el-form ref="task" :model="task" :rules="rules" label-width="100px">
@@ -87,11 +89,25 @@
               ></el-input>
             </el-form-item>
             <el-form-item label="是否次日刷新">
-              <el-switch
-                v-model="task.flushTomorrow"
-                :active-value="1"
-                :inactive-value="0"
-              ></el-switch>
+              <div class="mo-form-item">
+                <el-switch
+                  v-model="task.flushTomorrow"
+                  :active-value="1"
+                  :inactive-value="0"
+                ></el-switch>
+                <span class="mo-form-item-label">是否可以翻倍领取</span>
+                <el-switch
+                  v-model="task.doubleReceive"
+                  :active-value="1"
+                  :inactive-value="0"
+                ></el-switch>
+                <span class="mo-form-item-label">是否自动发放奖励</span>
+                <el-switch
+                  v-model="task.awardWay"
+                  :active-value="2"
+                  :inactive-value="1"
+                ></el-switch>
+              </div>
             </el-form-item>
           </div>
         </el-form>
